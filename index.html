@@ -127,18 +127,18 @@
      stitilo ni od cega stvarnog. */
   html, body { height: auto !important; min-height: 100dvh !important; overflow-x: visible !important; overflow-y: visible !important; }
 </style>
-<title>O novcu: kalkulator plaće, kredita i inflacije za Hrvatsku (2026.)</title>
-<meta name="description" content="Besplatni hrvatski kalkulatori plaće, kredita, složene kamate i inflacije po propisima za 2026. Podaci sinkronizirani s HNB.hr i DZS.hr. Edukacije o financijskoj pismenosti za tvrtke.">
+<title>O novcu: kalkulator plaće, kredita i inflacije (2026.)</title>
+<meta name="description" content="Hrvatski portal za osobne financije. Besplatni kalkulatori plaće, kredita, ulaganja i inflacije te aktualni pokazatelji HNB-a i DZS-a. Bez registracije.">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
-<meta property="og:title" content="O novcu: financijska pismenost bez fraza">
-<meta property="og:description" content="Kalkulatori plaće, kredita, štednje i inflacije za Hrvatsku. Bez registracije.">
+<meta property="og:title" content="O novcu: kalkulator plaće, kredita i inflacije (2026.)">
+<meta property="og:description" content="Hrvatski portal za osobne financije. Besplatni kalkulatori plaće, kredita, ulaganja i inflacije te aktualni pokazatelji HNB-a i DZS-a. Bez registracije.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="hr_HR">
 <meta property="og:url" content="https://onovcu.hr/">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="O novcu: financijska pismenost bez fraza">
-<meta name="twitter:description" content="Kalkulatori plaće, kredita, štednje i inflacije za Hrvatsku. Bez registracije.">
+<meta name="twitter:title" content="O novcu: kalkulator plaće, kredita i inflacije (2026.)">
+<meta name="twitter:description" content="Hrvatski portal za osobne financije. Besplatni kalkulatori plaće, kredita, ulaganja i inflacije te aktualni pokazatelji HNB-a i DZS-a. Bez registracije.">
 <!-- 1200x630, portretna fotografija autora s naslovom "Sve o osobnim financijama na jednom mjestu" i logotipom. -->
 <meta property="og:image" content="https://onovcu.hr/assets/og-image.jpg">
 <meta property="og:image:width" content="1200">
@@ -5505,7 +5505,7 @@ const OBJAVE = [
     opis: 'Cijene nekretnina u Hrvatskoj u zadnjih pet godina rasle su među najbrže u Europi, skoro 80 posto. Nema jednog krivca, nego se poklopilo više faktora: mala ponuda stanova, skuplja gradnja, rast plaća, niske kamate, kupnja u gotovini, bijeg od inflacije, strani kupci i državne subvencije.',
     istaknuto: 'Sedamdeset posto stanova kupuje se bez kredita, i to mijenja cijelu igru.' },
   { yt: 'OAnOgyGFIfg', kat: 'Navike', datum: '24. travnja 2026.', slug: 'lazi-o-novcu',
-    naslov: '5 laži o novcu koje su te ograničavaju',
+    naslov: '5 laži o novcu koje te ograničavaju',
     opis: 'Većinu stavova o novcu pokupili smo od roditelja, u školi ili iz okoline i nikad ih nismo doveli u pitanje. Problem je što neki od njih danas više nisu točni i zapravo te koštaju.',
     istaknuto: 'Pravo pitanje nije koliko zarađuješ, nego koliko od te zarade zadržiš.' },
   { yt: 'FPCtRmeMZ8s', kat: 'Investiranje', datum: '3. travnja 2026.', slug: '50-eura-mjesecno-u-etf',
@@ -6266,6 +6266,81 @@ const nf = (d) => new Intl.NumberFormat('hr-HR', { minimumFractionDigits: d, max
 const eur = (n, d) => nf(d === undefined ? 2 : d).format(isFinite(n) ? n : 0) + ' €';
 const pct = (n, d) => nf(d === undefined ? 1 : d).format(isFinite(n) ? n : 0) + ' %';
 
+// ───────────────────────────────────────────────────────────────
+// SEO: title + description po ruti. Statične vrijednosti za fiksne
+// tabove, izvedene za kalkulatore/pokazatelje/blog. Naslovi blog
+// članaka dolaze iz OBJAVE (jedan izvor istine), description je
+// ručno napisan po stranici jer je OBJAVE.opis predugačak i previše
+// pripovjedan za meta description. Primjenjuje ih _applyMeta() iz
+// _syncUrl(), na svaku promjenu rute - vidi NOTES.md §3 i §6.
+// ───────────────────────────────────────────────────────────────
+const SUFIKS = ' | O novcu';
+
+const META_CALC = {
+  hub: { title: 'Besplatni financijski kalkulatori' + SUFIKS, desc: 'Kalkulatori plaće, kredita, ulaganja i inflacije za Hrvatsku u 2026., prilagođeni važećim propisima. Bez registracije, izračun ostaje u pregledniku.' },
+  placa: { title: 'Kalkulator plaće 2026: bruto u neto' + SUFIKS, desc: 'Izračunaj neto plaću iz bruta ili obratno po propisima za 2026., s doprinosima, osobnim odbitkom i poreznim stopama tvog grada ili općine.' },
+  kredit: { title: 'Kalkulator kredita: anuiteti i otplatni plan' + SUFIKS, desc: 'Izračunaj mjesečnu ratu, ukupnu kamatu i otplatni plan za stambeni ili gotovinski kredit, uz mogućnost prijevremene otplate i uštede na kamati.' },
+  kamata: { title: 'Kalkulator ulaganja i složene kamate' + SUFIKS, desc: 'Projiciraj rast redovnog mjesečnog ulaganja uz složenu kamatu, izračunaj potrebnu uplatu za cilj ili koliko dugo traje ušteđevina u isplati.' },
+  inflacija: { title: 'Kalkulator inflacije za Hrvatsku' + SUFIKS, desc: 'Izračunaj koliko je tvoj novac izgubio na vrijednosti zbog inflacije u Hrvatskoj, za bilo koje razdoblje, početni iznos i stopu inflacije.' },
+  // Pod-scenariji unutar kreditnog kalkulatora (nisu u sitemapu, ali su
+  // stvarne rute preko _pathFor/goCalc) - meta izvedena iz postojećih
+  // naslov/opis vrijednosti kartica na hub stranici, radi konzistentnosti.
+  refi: { title: 'Refinanciranje kredita: isplati li se?' + SUFIKS, desc: 'Izračunaj koliko novca i vremena možeš uštedjeti refinanciranjem postojećeg kredita, uz uračunate troškove novog ugovora.' },
+  opcije: { title: 'Kraći ili duži rok otplate kredita' + SUFIKS, desc: 'Usporedba mjesečnog opterećenja kod kraćeg i duljeg roka otplate kredita, uz opciju ulaganja razlike u ratama.' },
+  zatvoriti: { title: 'Zatvoriti kredit prije roka ili ne' + SUFIKS, desc: 'Izračunaj koliko kamate izbjegavaš prijevremenim zatvaranjem kredita i isplati li ti se to u tvojoj fazi otplate.' },
+};
+
+const META_POK_INDEX = { title: 'Hrvatska u brojkama: plaće, kamate, inflacija' + SUFIKS, desc: 'Pregled ključnih ekonomskih pokazatelja Hrvatske: inflacija, plaće, mirovine, nekretnine i kamatne stope na kredite, iz podataka DZS-a i HNB-a.' };
+const META_POK = {
+  inflacija: { title: 'Inflacija u Hrvatskoj: aktualni podaci' + SUFIKS, desc: 'Godišnja i mjesečna stopa inflacije u Hrvatskoj po indeksu potrošačkih cijena (CPI) Državnog zavoda za statistiku, kroz posljednjih nekoliko godina.' },
+  place: { title: 'Plaće u Hrvatskoj: prosjek i medijan' + SUFIKS, desc: 'Prosječna i medijalna neto i bruto plaća u Hrvatskoj, zakonska minimalna plaća za 2026. i kretanje plaća kroz vrijeme, po podacima DZS-a.' },
+  krediti: { title: 'Kamatne stope na kredite u Hrvatskoj' + SUFIKS, desc: 'Prosječne kamatne stope na nove stambene i gotovinske kredite u Hrvatskoj te ukupan iznos novoodobrenih kredita, po podacima HNB-a svaki mjesec.' },
+  nekretnine: { title: 'Cijene nekretnina u Hrvatskoj' + SUFIKS, desc: 'Godišnji rast cijena stambenih nekretnina u Hrvatskoj, prosječna cijena kvadrata u Zagrebu i Splitu te broj kupoprodaja stanova po podacima DZS-a.' },
+  mirovine: { title: 'Mirovinski sustav Hrvatske u brojkama' + SUFIKS, desc: 'Prosječna starosna mirovina, omjer zaposlenih i umirovljenika te raspodjela članova drugog mirovinskog stupa po kategorijama rizika ulaganja.' },
+};
+
+const META_BLOG_INDEX = { title: 'Blog i videi o osobnim financijama' + SUFIKS, desc: 'Članci i videi o plaćama, kreditima, ulaganju, mirovinama i financijskim navikama u Hrvatskoj, napisani jasno i bez financijskog žargona.' };
+const META_BLOG_DESC = {
+  'hrvatski-investicijski-racun-2027': 'Objašnjenje hrvatskog investicijskog računa koji od 2027. omogućuje ulaganje u dionice i ETF-ove bez poreza na zaradu, uz uvjet o domaćem tržištu.',
+  'fiksna-ili-kombinirana-kamatna-stopa': 'Razlika između fiksne i kombinirane kamatne stope na stambeni kredit i zašto niža početna rata zapravo znači prijenos rizika s banke na tebe.',
+  'zasto-kupujes-stvari-koje-ne-trebas': 'Tri psihološka mehanizma, dopamin, bol plaćanja i strah od oskudice, kojima marketing danas potiče kupnju stvari koje ti zapravo ne trebaju.',
+  'stambeni-kredit-rok-otplate': 'Zašto najkraći rok otplate stambenog kredita nosi najnižu kamatu, ali i najmanje financijskog manevarskog prostora ako dođe do neplaniranog troška.',
+  'zasto-cijene-nekretnina-rastu': 'Pet razloga zašto su cijene nekretnina u Hrvatskoj u pet godina porasle skoro 80 posto: ponuda, gradnja, plaće, kamate i kupnja u gotovini.',
+  'lazi-o-novcu': 'Pet uvriježenih uvjerenja o novcu, naslijeđenih od roditelja i iz okoline, koja više nisu točna i danas te stvarno koštaju novca.',
+  '50-eura-mjesecno-u-etf': 'Dvije godine ulaganja 50 eura mjesečno u ETF-ove kroz Genius, s rezultatima po portfelju, kao dokaz da ne moraš biti bogat da bi počeo ulagati.',
+  'sto-je-ipo-javna-ponuda-dionica': 'Što je IPO, kako funkcionira javna ponuda dionica i zašto je prospekt jedini dokument koji mali ulagatelj mora pročitati prije ulaganja.',
+  'odlazak-u-mirovinu-drugi-stup-mod': 'Objašnjenje uloge mirovinskog osiguravajućeg društva (MOD) koje pri odlasku u mirovinu isplaćuje ušteđevinu iz drugog stupa, uz mogućnost isplate do 20 %.',
+  'financije-u-red-u-8-tjedana': 'Plan od osam tjedana s po jednim ili dva konkretna zadatka tjedno za izlazak iz života od plaće do plaće, bez potrebe za drastičnim rezovima.',
+  'zivimo-li-bolje-nego-2013': 'Usporedba plaća, kamata na stambene kredite i kupovne moći u Hrvatskoj prije ulaska u EU i danas, s razlikom ovisno o imovini pojedinca.',
+  'drugi-mirovinski-stup-fond': 'Zašto izbor mirovinskog fonda i kategorije u drugom stupu utječe na konačnu mirovinu više nego razlika u plaći tijekom cijelog radnog vijeka.',
+  'navike-zbog-kojih-nemas-novca': 'Dvanaest čestih financijskih navika, od potrošnje za status do zaboravljenih pretplata, zbog kojih na kraju mjeseca ne znaš kamo je novac otišao.',
+  'besplatni-bankovni-racun-2026': 'Što donosi zakonska obveza besplatnog osnovnog bankovnog računa od 2026. i kome se stvarno isplati u odnosu na postojeći paket usluga banke.',
+};
+
+const META_STATIC = {
+  home: { title: 'O novcu: kalkulator plaće, kredita i inflacije (2026.)', desc: 'Hrvatski portal za osobne financije. Besplatni kalkulatori plaće, kredita, ulaganja i inflacije te aktualni pokazatelji HNB-a i DZS-a. Bez registracije.' },
+  proj: { title: 'Javni investicijski eksperimenti' + SUFIKS, desc: 'Pratim uživo vlastito ulaganje u ETF-ove kroz nekoliko portfelja, s otvorenim brojkama i rezultatima.' },
+  b2b: { title: 'Financijska edukacija za tvrtke' + SUFIKS, desc: 'Radionice o osobnim financijama za zaposlenike, uživo ili online, prilagođene veličini tvrtke, formatu i temi koju tvrtka sama odabere.' },
+  autor: { title: 'Marko Bogdan' + SUFIKS, desc: 'Autor portala O novcu piše o plaćama, kreditima i ulaganju u Hrvatskoj, nakon 18 godina u financijskoj industriji.' },
+  faq: { title: 'Česta pitanja o novcu' + SUFIKS, desc: 'Odgovori na najčešća pitanja o obračunu plaće, prijevremenoj otplati kredita i utjecaju inflacije na štednju u Hrvatskoj, kratko i jasno.' },
+  priv: { title: 'Politika privatnosti' + SUFIKS, desc: 'Koje podatke portal O novcu prikuplja, kako se obrađuju izračuni i mailovi te koja prava imaš kao ispitanik prema europskoj uredbi GDPR.' },
+  kontakt: { title: 'Kontakt' + SUFIKS, desc: 'Kontaktiraj autora portala O novcu za suradnju, pitanja o kalkulatorima i pokazateljima ili prijedloge tema za blog i edukacije za tvrtke.' },
+};
+
+// Vraća { title, desc } za trenutno stanje rute. Nepoznat calcTab/pokKat/slug
+// pada na indeks te sekcije, nikad na prazan naslov.
+function getMeta(s) {
+  if (s.tab === 'calc') return META_CALC[s.calcTab] || META_CALC.placa;
+  if (s.tab === 'pok') return (s.pokKat && META_POK[s.pokKat]) || META_POK_INDEX;
+  if (s.tab === 'blog') {
+    if (!s.blogOpen) return META_BLOG_INDEX;
+    const o = OBJAVE.find((x) => x.slug === s.blogOpen);
+    if (!o) return META_BLOG_INDEX;
+    return { title: o.naslov + SUFIKS, desc: META_BLOG_DESC[s.blogOpen] || META_BLOG_INDEX.desc };
+  }
+  return META_STATIC[s.tab] || META_STATIC.home;
+}
+
 class Component extends DCLogic {
   _socialRef = React.createRef();
   state = {
@@ -6373,7 +6448,10 @@ class Component extends DCLogic {
         try { window.history.replaceState({}, '', '/'); } catch (e) {}
       }
     }
-    this._onPopState = () => this.setState(this._stateFromPath(window.location.pathname));
+    // Callback (_syncUrl) je nuzan i ovdje, ne samo na go()/goCalc() pozivima -
+    // inace title/meta/canonical ostaju sa stranice koju je korisnik napustio
+    // nakon pritiska na "natrag"/"naprijed" u pregledniku.
+    this._onPopState = () => this.setState(this._stateFromPath(window.location.pathname), () => this._syncUrl());
     window.addEventListener('popstate', this._onPopState);
     window.addEventListener('resize', this._onResize);
     this.loadMarket();
@@ -6524,10 +6602,43 @@ class Component extends DCLogic {
     // try/catch: preglednici odbijaju pushState na file:// URL-ove (npr. lokalno
     // otvorena kopija za pregled) - u tom slucaju samo se ne mijenja URL prikaza.
     if (window.location.pathname !== path) { try { window.history.pushState({}, '', path); } catch (e) {} }
-    if (typeof document !== 'undefined') {
-      const canon = document.querySelector('link[rel="canonical"]');
-      if (canon) canon.setAttribute('href', 'https://onovcu.hr' + path);
-    }
+    this._applyMeta(path);
+  }
+  // document.title + meta tagovi (description, og:*, twitter:*) i canonical,
+  // po ruti - vidi getMeta(). Napomena: ovo pomaze Googleu (izvrsava JS pri
+  // indeksiranju), ali NE social-share crawlerima (Slack/WhatsApp/LinkedIn/X
+  // ne izvrsavaju JS) - oni i dalje vide staticke og: vrijednosti iz <head>-a
+  // za bilo koju rutu. Rjesivo tek migracijom na SSR, vidi NOTES.md §6.
+  _applyMeta(path) {
+    if (typeof document === 'undefined') return;
+    const m = getMeta(this.state);
+    document.title = m.title;
+    this._guardTitle(m.title);
+    const setMeta = (sel, val) => { const el = document.querySelector(sel); if (el) el.setAttribute('content', val); };
+    setMeta('meta[name="description"]', m.desc);
+    setMeta('meta[property="og:title"]', m.title);
+    setMeta('meta[property="og:description"]', m.desc);
+    setMeta('meta[name="twitter:title"]', m.title);
+    setMeta('meta[name="twitter:description"]', m.desc);
+    setMeta('meta[property="og:url"]', 'https://onovcu.hr' + path);
+    const canon = document.querySelector('link[rel="canonical"]');
+    if (canon) canon.setAttribute('href', 'https://onovcu.hr' + path);
+  }
+  // support.js (vendored, NE DIRATI - NOTES.md §2) na svaki re-render vraća
+  // <title> na statički tekst iz izvornog <helmet> bloka (potvrđeno mjerenjem:
+  // ostatak meta/og/canonical se ne dira nakon prvog mounta, ali <title> se
+  // resinkronizira periodički, npr. uz interval rotacije pokazatelja). Umjesto
+  // izmjene support.js, željeni naslov branimo promatračem koji ga odmah vrati
+  // čim se promijeni - postavljen jednom, ponovno iskorišten na svaku rutu.
+  _guardTitle(title) {
+    this._wantedTitle = title;
+    if (typeof document === 'undefined' || this._titleGuard) return;
+    const titleEl = document.querySelector('title');
+    if (!titleEl) return;
+    this._titleGuard = new MutationObserver(() => {
+      if (document.title !== this._wantedTitle) document.title = this._wantedTitle;
+    });
+    this._titleGuard.observe(titleEl, { childList: true, characterData: true, subtree: true });
   }
   // Zajednički hover za sve stupičaste grafove: isti obrazac kao na grafu
   // inflacije (oznaka iznad stupca, ostali stupci prigušeni).

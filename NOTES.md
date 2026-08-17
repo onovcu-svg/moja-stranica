@@ -72,6 +72,24 @@ Zadnje ažuriranje: 17. 8. 2026.
   remeti. `screen and` u uvjetu jamči da se pravilo nikad ne aktivira pri
   `@media print`. (Napomena: `calc()` nazivnik mora biti duljina, npr. `794px`,
   ne goli broj — inače preglednik tiho odbaci cijelu `zoom` deklaraciju.)
+- **Dinamički title/description po ruti** (`getMeta()`, poziva se iz `_syncUrl()`
+  na svaku promjenu rute, uključivo popstate). Naslovi kalkulatora/pokazatelja/
+  statičnih stranica su ručno pisani, blog naslov dolazi iz `OBJAVE[].naslov`
+  (jedan izvor istine), blog description je ručno pisan po članku jer je
+  `OBJAVE[].opis` predugačak i pripovjedan za meta description. `og:*` i
+  `twitter:*` ažuriraju se istom logikom. **Poznato ograničenje:** ovo je čisto
+  klijentska izmjena (nema SSR-a) — pomaže Googleu (izvršava JS pri indeksiranju)
+  ali NE social-share crawlerima (Slack/WhatsApp/LinkedIn/X ne izvršavaju JS),
+  koji i dalje vide statičke `og:` vrijednosti iz `<head>`-a bez obzira na rutu.
+  Vidi §6, poslijelansirna migracija.
+  **`<title>` treba poseban tretman, `document.title = ...` nije dovoljno:**
+  support.js-ov interni "helmet" mehanizam (vidi §2, NE DIRATI) na svaki
+  re-render vraća `<title>` na statički tekst iz izvornog `<helmet>` bloka u
+  `index.html` (potvrđeno mjerenjem — dogodi se već unutar par sekundi, npr. uz
+  interval rotacije pokazatelja). Meta/og/canonical se ne diraju nakon prvog
+  mounta pa njih nije trebalo braniti. `<title>` jest, pa `_guardTitle()` drži
+  `MutationObserver` na `<title>` elementu koji odmah vrati željenu vrijednost
+  čim je support.js prepiše — bez izmjene same `support.js` datoteke.
 - **Publication ID ostaje u git historyju** — nije eksploatabilan bez API ključa,
   rewrite historyja nije vrijedan rizika.
 - **GitHub Pages ugašen** (17.8.) — bila je druga živa kopija na
@@ -145,7 +163,7 @@ obrada. Testirati na pravom uređaju.
 
 ### Prije lansiranja
 - [x] PDF pregled — cijeli list stane u širinu ekrana na mobilnom (CSS `zoom`, vidi §3)
-- [ ] Dinamički naslovi i description po ruti
+- [x] Dinamički naslovi i description po ruti (svih 30 URL-ova + og:/twitter:, vidi §3)
 - [ ] Layout provjera cijele stranice na 430px
 - [ ] Funkcionalna provjera cijele stranice (što izgleda da radi a ne radi)
 - [ ] Provjera da logika izračuna nije dotaknuta: `git diff 580b606 HEAD -- index.html`
@@ -161,6 +179,9 @@ obrada. Testirati na pravom uređaju.
 - [ ] **Migracija na build** (Vite/Astro). Rješava: Babel u pregledniku,
       `{{ }}` u sirovom HTML-u, prerender po ruti, SVG placeholder greške.
       Procjena: dan do tjedan. **Raditi na Opusu.**
+      Dodatni razlog: per-route `og:` tagovi ne rade za social preview dok
+      nema SSR-a — svaki podijeljeni blog članak na LinkedInu/WhatsAppu
+      pokazuje meta naslovnice. Jedan od glavnih razloga za migraciju.
 - [ ] **Headless CMS** (Sanity / Payload / Contentful) — ide s migracijom.
       Trenutno se članci i videi dodaju ručno u `index.html`.
 - [ ] Živi podaci HNB/DZS — scraping ruta + cache
