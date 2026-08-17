@@ -85,7 +85,11 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="O novcu: financijska pismenost bez fraza">
 <meta name="twitter:description" content="Kalkulatori plaće, kredita, štednje i inflacije za Hrvatsku. Bez registracije.">
-<!-- og:image namjerno izostavljen: u assets/ nema slike prikladnih dimenzija (1200x630) za OG karticu -->
+<!-- 1200x630, portretna fotografija autora s naslovom "Sve o osobnim financijama na jednom mjestu" i logotipom. -->
+<meta property="og:image" content="https://onovcu.hr/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://onovcu.hr/assets/og-image.jpg">
 <link rel="canonical" href="https://onovcu.hr/">
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon="{&quot;token&quot;: &quot;0457a2ae0c0e4c36b230c7b27e72a45b&quot;}"></script>
 <script type="application/ld+json">
@@ -543,6 +547,7 @@
           </div>
           <button sc-camel-on-click="{{ on.mailZatvori }}" title="Zatvori" sc-camel-tab-index="-1" style="background:none;border:none;padding:4px;cursor:pointer;font-weight:400;font-size:18px;line-height:1;color:var(--soft);flex-shrink:0" style-hover="color:var(--acc)">×</button>
         </div>
+        <input type="text" tabindex="-1" autocomplete="off" value="{{ mailHp }}" sc-camel-on-change="{{ on.mailHp }}" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none">
         <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-start">
           <input type="email" value="{{ mailAdr }}" sc-camel-on-change="{{ on.mailAdr }}" placeholder="tvoj@email.com" style="flex:1;min-width:220px;border:1px solid var(--line);border-radius:12px;padding:13px 15px;font-weight:500;font-size:15px;background:var(--field);outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
           <button sc-camel-on-click="{{ on.mailPosalji }}" style="background:var(--acc);color:#FFF;border:none;border-radius:12px;padding:13px 22px;cursor:pointer;font-weight:600;font-size:14px;flex-shrink:0;transition:opacity .2s" style-hover="opacity:.9">{{ mailCta }}</button>
@@ -2526,6 +2531,7 @@
         <div>
           <h3 style="font-weight:700;font-size:22px;letter-spacing:-.03em;margin:0 0 6px">Zatraži ponudu</h3>
           <p style="font-weight:300;font-size:13.5px;color:var(--soft);margin:0 0 16px;line-height:1.5">Ponudu s cijenom i terminima dobivaš u roku od jednog radnog dana.</p>
+          <input type="text" tabindex="-1" autocomplete="off" value="{{ b2bHp }}" sc-camel-on-change="{{ on.b2bHp }}" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none">
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:10px">
             <div>
               <label style="display:block;font-weight:500;font-size:12px;color:var(--soft);margin-bottom:5px">Tvrtka *</label>
@@ -2900,6 +2906,7 @@
         <sc-if value="{{ ktOpen }}" hint-placeholder-val="{{ true }}">
         <div>
           <h3 style="font-weight:700;font-size:24px;letter-spacing:-.03em;margin:0 0 22px">Pošalji poruku</h3>
+          <input type="text" tabindex="-1" autocomplete="off" value="{{ ktHp }}" sc-camel-on-change="{{ on.ktHp }}" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none">
           <div style="margin-bottom:16px">
             <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:9px">Tema</label>
             <div style="display:flex;gap:8px;flex-wrap:wrap">
@@ -4143,6 +4150,7 @@
         <sc-if value="{{ ktOpen }}" hint-placeholder-val="{{ true }}">
         <div>
           <h3 style="font-weight:700;font-size:22px;letter-spacing:-.03em;margin:0 0 20px">Pošalji poruku</h3>
+          <input type="text" tabindex="-1" autocomplete="off" value="{{ ktHp }}" sc-camel-on-change="{{ on.ktHp }}" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none">
           <div style="margin-bottom:16px">
             <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:9px">Tema</label>
             <div style="display:flex;gap:8px;flex-wrap:wrap">
@@ -6234,7 +6242,8 @@ class Component extends DCLogic {
     kTip: 'anuitet', kMod: 'fiks', kExtra: 0, kExtraMj: 12, kAll: false,
     kUsporedi: false, kInfOpen: false, kInfStopa: 2.5, kIzvor: '', pojamOpen: '',
     rSlobOpen: false, rSlobodno: 20, dRastOpen: false, dRast: 2, dRjesenje: 'isplata', dGodine: null,
-    mailOpen: false, mailAdr: '', mailNews: true, mailErr: '', mailSent: false, mailBurst: false, mailSlanje: false, mailSentNaslov: '',
+    // mailNews defaultno false: GDPR - privola za newsletter mora biti eksplicitna, nikad podrazumijevana.
+    mailOpen: false, mailAdr: '', mailNews: false, mailHp: '', mailErr: '', mailSent: false, mailBurst: false, mailSlanje: false, mailSentNaslov: '',
     ikOpen: false, ikIsplata: '2026-09-15', ikPrvi: '2026-11-01',
     pvGodina: 2015,
     kExtraOpen: false, kExtraFreq: 'godisnje', kExtraStart: 12, kEfekt: 'skrati',
@@ -6244,8 +6253,10 @@ class Component extends DCLogic {
     sInflOn: false, sLifecycle: false, sIsplata: 1500, sIsplataRast: 2, sIsplGodine: 25, sIsplPrinos: null,
     gMode: 'rast', gDodatno: false, gInflOn: false, gInflacija: 2.5, gRjesenje: 'uplata',
     odabrani: ['01', '02'],
-    f: { tvrtka: '', osoba: '', email: '', velicina: '21-100', format: 'zivo', poruka: '' }, b2bSent: false, b2bBurst: false, b2bErr: '',
-    c: { ime: '', email: '', poruka: '', tema: 'suradnja' }, ktSent: false, ktBurst: false, ktErr: '',
+    f: { tvrtka: '', osoba: '', email: '', velicina: '21-100', format: 'zivo', poruka: '' }, b2bSent: false, b2bBurst: false, b2bErr: '', b2bHp: '', b2bSlanje: false,
+    c: { ime: '', email: '', poruka: '', tema: 'suradnja' }, ktSent: false, ktBurst: false, ktErr: '', ktHp: '', ktSlanje: false,
+    // Vrijeme montiranja aplikacije - forme koriste ovo za "prebrzo poslano" provjeru (isti princip kao honeypot).
+    formLoadedAt: Date.now(),
     nlEmail: '', nlSent: false, nlBurst: false, nlPrivola: false, nlErr: '', nlSlanje: false, nlHp: '', blogOpen: null, filter: 'Sve', vrstaF: 'Sve', faqOpen: 0, pokFaqOpen: 0, pokOd: 2010, pokDo: 2026, mirStup: '1', mirKat: 0, mirScenView: 'iznos', plOd: 2010, plDo: 2026, nekOd: 2015, nekDo: 2026, nekHover: -1, nekSort: 'cijena', nekSmjer: 'desc', nekAkt: 'dozvole', nekVrsta: 'stanovi', nekAktHover: -1, ksOd: 2019, ksDo: 2026, ksVrsta: 'stambeni', ksHover: -1, ksIznos: 'stambeni', ksIznosHover: -1, sekSort: 'placa', sekSmjer: 'desc', kosMode: 'udio', kosSort: 'auto', kosSmjer: 'desc', kosHover: -1, placaHover: -1, kamoHover: -1, gh: {}, povHover: -1, placeMode: 'neto', placeHover: -1, faqSveOpen: 'a0', calcFaqOpen: 0, pokKat: 'inflacija', pokPer: 5, projPort: 'uk', projPer: 'sve',
     // Najnoviji podatak na portalu; pojedini pokazatelji nose vlastiti datum.
     trziste: TRZISTE, trzisteMjesec: ZADNJE_RAZDOBLJE, trzisteIzvor: 'HNB · DZS · HANFA', trzisteStatus: 'fallback',
@@ -6634,36 +6645,35 @@ class Component extends DCLogic {
   pick(o, k, v) { return () => this.setState((s) => { const n = Object.assign({}, s[o]); n[k] = v; return { [o]: n }; }); }
 
   // Slanje izvještaja na mail. Frontend samo prosljeđuje podatke vlastitom
-  // endpointu (prop mailEndpoint): on generira mail i, ako je označeno,
-  // dodaje adresu u beehiiv publikaciju. API ključ nikad ne ide u preglednik.
+  // endpointu (/api/report): on generira mail i, ako je oznaceno i uz
+  // eksplicitnu privolu, dodaje adresu u beehiiv publikaciju. API kljucevi
+  // nikad ne idu u preglednik. "Preuzmi PDF" (pdfPrint/window.print) je
+  // potpuno odvojena, nedirana funkcija - ovo je dodatni kanal, ne zamjena.
   posaljiIzvjestaj() {
     const adr = String(this.state.mailAdr || '').trim();
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(adr)) {
       return this.setState({ mailErr: 'Upiši ispravnu e-mail adresu.' });
     }
+    if (this.state.mailSlanje) return;
+    // Isti pdf-objekt koji puni ekran i "Preuzmi PDF" prikaz (renderVals -> buildPdf),
+    // pa mail nikad ne moze prikazati drugacije brojke ili izostaviti parametar.
+    const pdf = this.renderVals().pdf || {};
     const payload = {
       email: adr,
       newsletter: !!this.state.mailNews,
       kalkulator: this.state.calcTab === 'kamata' ? 'kamata-' + this.state.gMode : this.state.calcTab,
-      izvor: 'kalkulator',
-      // Šalju se samo polja aktivnog kalkulatora; endpoint iz njih sastavi
-      // isti izvještaj kao PDF.
-      parametri: (() => {
-        const kljuc = this.state.calcTab === 'kamata' ? this.state.gMode : this.state.calcTab;
-        const polja = RESET[kljuc] || {};
-        return Object.keys(polja).reduce((acc, k) => { acc[k] = this.state[k]; return acc; }, {});
-      })()
+      naslov: pdf.naslov || '', sazetak: pdf.sazetak || '',
+      rataLabel: pdf.rataLabel || '', rata: pdf.rata || '',
+      male: pdf.male || [], rez: pdf.rez || [], param: pdf.param || [],
+      hp: this.state.mailHp, t0: this.state.formLoadedAt,
     };
-    const kljucN = this.state.calcTab === 'kamata' && this.state.gMode !== 'rast'
-      ? 'kamata-' + this.state.gMode : this.state.calcTab;
-    const naslov = String((CALC_NASLOV[kljucN] || CALC_NASLOV[this.state.calcTab] || CALC_NASLOV.hub)[0]).replace(/\.$/, '');
     this.setState({ mailSlanje: true, mailErr: '' });
-    const url = this.props.mailEndpoint || '';
-    const done = () => { this.setState({ mailSent: true, mailSlanje: false, mailSentNaslov: naslov, mailBurst: true }); setTimeout(() => this.setState({ mailBurst: false }), 750); };
-    if (!url) return setTimeout(done, 400);
-    fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+    fetch('/api/report', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
       .then((r) => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json().catch(() => ({})); })
-      .then(done)
+      .then(() => {
+        this.setState({ mailSent: true, mailSlanje: false, mailSentNaslov: pdf.naslov || '', mailBurst: true });
+        setTimeout(() => this.setState({ mailBurst: false }), 750);
+      })
       .catch(() => this.setState({ mailSlanje: false, mailErr: 'Slanje nije uspjelo. Pokušaj ponovno ili preuzmi PDF.' }));
   }
 
@@ -9498,7 +9508,9 @@ class Component extends DCLogic {
         mailOtvori: () => this.setState((st) => ({ mailOpen: !st.mailOpen, mailSent: false, mailErr: '' })),
         mailZatvori: () => this.setState({ mailOpen: false, mailErr: '' }),
         mailAdr: (e) => this.setState({ mailAdr: e.target.value, mailErr: '' }),
+        // mailNews: eksplicitan checkbox, samo !!checked - nikad se ne pretpostavlja.
         mailNews: (e) => this.setState({ mailNews: !!e.target.checked }),
+        mailHp: this.setS('mailHp'),
         mailPosalji: () => this.posaljiIzvjestaj(),
         pdfOtvori: () => this.setState({ pdfOpen: 1, pdfTs: Date.now() }),
         pdfClose: () => this.setState({ pdfOpen: null }),
@@ -9585,21 +9597,55 @@ class Component extends DCLogic {
         fTvrtka: this.setObj('f', 'tvrtka'), fOsoba: this.setObj('f', 'osoba'), fEmail: this.setObj('f', 'email'),
         fVelicina: this.setObj('f', 'velicina'), fPoruka: this.setObj('f', 'poruka'),
         fmtZivo: this.pick('f', 'format', 'zivo'), fmtOnline: this.pick('f', 'format', 'online'), fmtHibrid: this.pick('f', 'format', 'hibrid'),
+        b2bHp: this.setS('b2bHp'),
+        // b2bHp je honeypot (skriveno polje, botovi ga popune, ljudi ga ne vide);
+        // formLoadedAt sluzi za "prebrzo poslano" provjeru - oboje se salju na server,
+        // gdje se stvarno provjeravaju (klijentska provjera je samo brzi izlaz).
         b2bSubmit: () => {
           const f = this.state.f;
           if (!f.tvrtka.trim() || !f.osoba.trim() || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.email)) { this.setState({ b2bErr: 'Popuni tvrtku, kontakt osobu i ispravan e-mail.' }); return; }
-          this.setState({ b2bSent: true, b2bErr: '', b2bBurst: true });
-          setTimeout(() => this.setState({ b2bBurst: false }), 750);
+          if (this.state.b2bSlanje) return;
+          this.setState({ b2bSlanje: true, b2bErr: '' });
+          fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              tip: 'edukacija', tvrtka: f.tvrtka, osoba: f.osoba, email: f.email,
+              velicina: f.velicina, format: f.format, poruka: f.poruka,
+              hp: this.state.b2bHp, t0: this.state.formLoadedAt,
+            }),
+          })
+            .then((r) => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json().catch(() => ({})); })
+            .then(() => {
+              this.setState({ b2bSent: true, b2bErr: '', b2bBurst: true, b2bSlanje: false });
+              setTimeout(() => this.setState({ b2bBurst: false }), 750);
+            })
+            .catch(() => this.setState({ b2bSlanje: false, b2bErr: 'Slanje nije uspjelo. Pokušaj ponovno ili piši na kontakt@onovcu.hr.' }));
         },
         b2bReset: () => this.setState({ b2bSent: false, f: { tvrtka: '', osoba: '', email: '', velicina: '21-100', format: 'zivo', poruka: '' } }),
         cIme: this.setObj('c', 'ime'), cEmail: this.setObj('c', 'email'), cPoruka: this.setObj('c', 'poruka'),
         temaSuradnja: this.pick('c', 'tema', 'suradnja'), temaRadionica: this.pick('c', 'tema', 'radionica'),
         temaSponzorstvo: this.pick('c', 'tema', 'sponzorstvo'), temaPitanje: this.pick('c', 'tema', 'pitanje'),
+        ktHp: this.setS('ktHp'),
         ktSubmit: () => {
           const c = this.state.c;
           if (!c.ime.trim() || !c.poruka.trim() || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(c.email)) { this.setState({ ktErr: 'Popuni ime, ispravan e-mail i poruku.' }); return; }
-          this.setState({ ktSent: true, ktErr: '', ktBurst: true });
-          setTimeout(() => this.setState({ ktBurst: false }), 750);
+          if (this.state.ktSlanje) return;
+          this.setState({ ktSlanje: true, ktErr: '' });
+          fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              tip: 'kontakt', ime: c.ime, email: c.email, poruka: c.poruka, tema: c.tema,
+              hp: this.state.ktHp, t0: this.state.formLoadedAt,
+            }),
+          })
+            .then((r) => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json().catch(() => ({})); })
+            .then(() => {
+              this.setState({ ktSent: true, ktErr: '', ktBurst: true, ktSlanje: false });
+              setTimeout(() => this.setState({ ktBurst: false }), 750);
+            })
+            .catch(() => this.setState({ ktSlanje: false, ktErr: 'Slanje nije uspjelo. Pokušaj ponovno ili piši na kontakt@onovcu.hr.' }));
         },
         ktReset: () => this.setState({ ktSent: false, c: { ime: '', email: '', poruka: '', tema: 'suradnja' } }),
         nlEmail: this.setS('nlEmail'),
@@ -9614,7 +9660,7 @@ class Component extends DCLogic {
           if (!okMail) return this.setState({ nlErr: 'Upiši ispravnu e-mail adresu.' });
           if (!this.state.nlPrivola) return this.setState({ nlErr: 'Za prijavu je potrebna privola za primanje newslettera.' });
           this.setState({ nlSlanje: true, nlErr: '' });
-          fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: this.state.nlEmail }) })
+          fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: this.state.nlEmail, hp: this.state.nlHp, t0: this.state.formLoadedAt }) })
             .then((r) => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json().catch(() => ({})); })
             .then(() => {
               this.setState({ nlSent: true, nlSlanje: false, nlErr: '', nlBurst: true });

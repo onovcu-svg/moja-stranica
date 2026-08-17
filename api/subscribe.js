@@ -4,6 +4,7 @@
 //   BEEHIIV_PUBLICATION_ID   (beehiiv → Settings → Integrations → API)
 
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+const MIN_MS_DO_SLANJA = 3000; // isto obrazloženje kao honeypot: brzina odaje bota
 
 // Vrlo jednostavan in-memory rate limit po IP-u (5 zahtjeva / 10 min).
 // Na serverless-u se memorija ne dijeli između instanci/hladnih startova,
@@ -34,6 +35,21 @@ module.exports = async function handler(req, res) {
   if (typeof body === 'string') {
     try { body = JSON.parse(body); } catch { body = {}; }
   }
+  body = body || {};
+
+  // Honeypot ("hp") i vremenska provjera ("t0" = ms kad je forma prikazana):
+  // pravi korisnik ne popunjava skriveno polje niti pošalje formu brže od
+  // MIN_MS_DO_SLANJA. Oboje tiho odbijamo kao uspjeh, bez traga botu.
+  if (String(body.hp || '').trim()) {
+    res.status(200).json({ ok: true });
+    return;
+  }
+  const t0 = Number(body.t0);
+  if (Number.isFinite(t0) && Date.now() - t0 < MIN_MS_DO_SLANJA) {
+    res.status(200).json({ ok: true });
+    return;
+  }
+
   const email = String((body && body.email) || '').trim().toLowerCase();
   if (!EMAIL_RE.test(email)) {
     res.status(400).json({ error: 'invalid_email' });
