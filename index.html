@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./support.js"></script>
+<script src="/support.js"></script>
 </head>
 <body>
 <x-dc>
@@ -28,7 +28,7 @@
     font-weight: 300 700;
     font-stretch: 100%;
     font-display: swap;
-    src: url('./assets/fonts/saira-latin.woff2') format('woff2');
+    src: url('/assets/fonts/saira-latin.woff2') format('woff2');
     unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
   }
   @font-face {
@@ -37,7 +37,7 @@
     font-weight: 300 700;
     font-stretch: 100%;
     font-display: swap;
-    src: url('./assets/fonts/saira-latin-ext.woff2') format('woff2');
+    src: url('/assets/fonts/saira-latin-ext.woff2') format('woff2');
     unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
   }
   * { box-sizing: border-box; }
@@ -75,8 +75,8 @@
 </style>
 <title>O novcu: kalkulator plaće, kredita i inflacije za Hrvatsku (2026.)</title>
 <meta name="description" content="Besplatni hrvatski kalkulatori plaće, kredita, složene kamate i inflacije po propisima za 2026. Podaci sinkronizirani s HNB.hr i DZS.hr. Edukacije o financijskoj pismenosti za tvrtke.">
-<link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32.png">
-<link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
 <meta property="og:title" content="O novcu: financijska pismenost bez fraza">
 <meta property="og:description" content="Kalkulatori plaće, kredita, štednje i inflacije za Hrvatsku. Bez registracije.">
 <meta property="og:type" content="website">
@@ -110,8 +110,8 @@
   <header style="position:sticky;top:0;z-index:80;background:var(--bg);border-bottom:1px solid var(--line);transition:background .35s ease">
     <div style="max-width:1180px;margin:0 auto;padding:0 clamp(18px,4vw,36px);height:60px;display:flex;align-items:center;justify-content:space-between;gap:20px">
       <div sc-camel-on-click="{{ on.goHome }}" style="display:flex;align-items:center;gap:9px;cursor:pointer;flex-shrink:0">
-        <sc-if value="{{ isLight }}" hint-placeholder-val="{{ true }}"><img src="./assets/mark-on-light.png" alt="O novcu" style="height:32px;width:auto;display:block"></sc-if>
-        <sc-if value="{{ isDark }}"><img src="./assets/mark-on-dark.png" alt="O novcu" style="height:32px;width:auto;display:block"></sc-if>
+        <sc-if value="{{ isLight }}" hint-placeholder-val="{{ true }}"><img src="/assets/mark-on-light.png" alt="O novcu" style="height:32px;width:auto;display:block"></sc-if>
+        <sc-if value="{{ isDark }}"><img src="/assets/mark-on-dark.png" alt="O novcu" style="height:32px;width:auto;display:block"></sc-if>
         <span style="font-weight:700;font-size:20px;letter-spacing:-.035em">O novcu</span>
       </div>
 
@@ -364,7 +364,7 @@
         </div>
         <div style="grid-column:span 2;display:flex;flex-wrap:wrap;gap:10px;min-width:0">
           <sc-for list="{{ sponLogos }}" as="sp" hint-placeholder-count="1">
-            <a href="{{ sp.href }}" target="_blank" rel="noopener" style="flex:0 1 190px;max-width:190px;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:12px;aspect-ratio:3/2;overflow:hidden;padding:16px;box-sizing:border-box"><img src="./assets/intercapital-logo.png" alt="InterCapital" style="width:100%;height:100%;object-fit:contain"></a>
+            <a href="{{ sp.href }}" target="_blank" rel="noopener" style="flex:0 1 190px;max-width:190px;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:12px;aspect-ratio:3/2;overflow:hidden;padding:16px;box-sizing:border-box"><img src="/assets/intercapital-logo.png" alt="InterCapital" style="width:100%;height:100%;object-fit:contain"></a>
           </sc-for>
 </div>
       </div>
@@ -4068,7 +4068,7 @@
           </div>
           <div style="display:flex;flex-wrap:wrap;gap:10px">
             <sc-for list="{{ sponLogos }}" as="sp" hint-placeholder-count="1">
-              <a href="{{ sp.href }}" target="_blank" rel="noopener" style="flex:0 1 190px;max-width:190px;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:12px;aspect-ratio:3/2;overflow:hidden;padding:16px;box-sizing:border-box"><img src="./assets/intercapital-logo.png" alt="InterCapital" style="width:100%;height:100%;object-fit:contain"></a>
+              <a href="{{ sp.href }}" target="_blank" rel="noopener" style="flex:0 1 190px;max-width:190px;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:12px;aspect-ratio:3/2;overflow:hidden;padding:16px;box-sizing:border-box"><img src="/assets/intercapital-logo.png" alt="InterCapital" style="width:100%;height:100%;object-fit:contain"></a>
             </sc-for>
           </div>
         </div>
@@ -4310,8 +4310,8 @@
 
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:clamp(22px,3vw,40px);padding:clamp(30px,4.5vh,44px) 0;border-bottom:1px solid var(--line)">
         <div>
-          <sc-if value="{{ isLight }}" hint-placeholder-val="{{ true }}"><img src="./assets/logotype-on-light.png" alt="O novcu" style="height:66px;width:auto;display:block;margin-bottom:16px"></sc-if>
-          <sc-if value="{{ isDark }}"><img src="./assets/logotype-on-dark.png" alt="O novcu" style="height:66px;width:auto;display:block;margin-bottom:16px"></sc-if>
+          <sc-if value="{{ isLight }}" hint-placeholder-val="{{ true }}"><img src="/assets/logotype-on-light.png" alt="O novcu" style="height:66px;width:auto;display:block;margin-bottom:16px"></sc-if>
+          <sc-if value="{{ isDark }}"><img src="/assets/logotype-on-dark.png" alt="O novcu" style="height:66px;width:auto;display:block;margin-bottom:16px"></sc-if>
           <p style="font-weight:300;font-size:14px;color:var(--soft);line-height:1.6;max-width:30ch;margin:0 0 20px">Financijska edukacija za ljude koji žele donijeti informiranu odluku.</p>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
             <a href="https://www.youtube.com/@onovcu?sub_confirmation=1" target="_blank" rel="noopener" title="YouTube" style="width:36px;height:36px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink);transition:all .2s" style-hover="border-color:var(--acc);color:var(--acc)"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 12s0-3.9-.5-5.8a3 3 0 0 0-2.1-2.1C18.5 3.6 12 3.6 12 3.6s-6.5 0-8.4.5A3 3 0 0 0 1.5 6.2C1 8.1 1 12 1 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 8.4.5 8.4.5s6.5 0 8.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8zM9.8 15.6V8.4l6.2 3.6-6.2 3.6z"></path></svg></a>
@@ -4367,14 +4367,14 @@
         <div aria-hidden="true" style="position:absolute;inset:0;overflow:hidden;pointer-events:none;display:flex;flex-direction:column">
           <sc-for list="{{ pdf.zigovi }}" as="w" hint-placeholder-count="6">
             <div style="height:1040px;flex-shrink:0;display:flex;align-items:center;justify-content:center">
-              <img src="./assets/logotype-on-light.png" alt="" style="width:430px;max-width:none;opacity:.055;transform:rotate(-24deg)">
+              <img src="/assets/logotype-on-light.png" alt="" style="width:430px;max-width:none;opacity:.055;transform:rotate(-24deg)">
             </div>
           </sc-for>
         </div>
         <div style="position:relative">
 
           <div class="on-pdf-block" style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding-bottom:16px;border-bottom:2px solid #09090B">
-            <img src="./assets/logotype-on-light.png" alt="O novcu" style="height:42px;width:auto;display:block">
+            <img src="/assets/logotype-on-light.png" alt="O novcu" style="height:42px;width:auto;display:block">
             <div style="text-align:right">
               <div style="font-weight:700;font-size:19px;letter-spacing:-.03em">{{ pdf.naslov }}</div>
               <div style="font-weight:400;font-size:11px;color:#71717A;margin-top:4px">Izrađeno {{ pdf.kad }}</div>
