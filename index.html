@@ -72,6 +72,26 @@
     .on-pdf-block { break-inside: avoid; page-break-inside: avoid; }
     * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
   }
+  /* PDF pregled na uskim ekranima: .on-pdf-sheet ostaje width:794px (isti layout
+     kao ispis), ali se cijeli list smanji da stane u sirinu ekrana umjesto da
+     korisnik mora skrolati bocno. "screen and" u uvjetu jamci da ovo pravilo
+     nikad ne vrijedi za @media print, cak i ako bi papir bio uzak.
+     794px lista + 2x10px vodoravnog padda iz .on-pdf-pad = 814px stvarno
+     potreban prostor - to je breakpoint, ne proizvoljnih 830px.
+     Koristimo zoom, ne transform:scale: transform ne mijenja prostor koji
+     element zauzima u layoutu (po specifikaciji), pa bi .on-pdf-pad ostao
+     visok kao neskalirani list i ostavio praznu prugu ispod njega. zoom
+     stvarno smanjuje i layout kutiju, pa nema viska prostora niti dodatnog
+     JS-a za rucno podesavanje visine wrappera. Centriranje ostaje kroz vec
+     postojeci margin:0 auto na .on-pdf-sheet - zoom ga ne remeti (za razliku
+     od transform-origina koji bi trebalo rucno saceljivati).
+     Nazivnik MORA biti duljina (794px), ne goli broj (794): duljina/duljina
+     u calc()-u daje bezjedinicni broj kakav zoom trazi, a duljina/broj i dalje
+     ostaje duljina pa preglednik cijelu deklaraciju tiho odbaci (provjereno). */
+  @media screen and (max-width: 814px) {
+    .on-pdf-sheet { zoom: calc((100vw - 20px) / 794px); }
+    .on-pdf-overlay { overflow-x: hidden !important; }
+  }
   /* iOS auto-zoom: inputi/selecti ispod 16px zumiraju cijelu stranicu pri fokusu
      na malim ekranima, a zoom se ne vrati ispravno na 1.0. data-fs="sm" je
      oznaka na poljima koja su izvorno bila ispod 16px; pravilo je namjerno
