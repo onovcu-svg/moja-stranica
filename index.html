@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="hr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,8 +17,29 @@
 </template>
 <helmet>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://fonts.googleapis.com/css2?family=Saira:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 <style>
+  /* Saira je varijabilni font (jedna datoteka po subsetu pokriva sve težine),
+     self-hosted iz assets/fonts/ umjesto s fonts.googleapis.com. Subsetovi i
+     unicode-range preuzeti su doslovno iz Google Fontsa: latin-ext se skida
+     samo kad preglednik naiđe na hrvatske dijakritike (č/ć/š/ž/đ). */
+  @font-face {
+    font-family: 'Saira';
+    font-style: normal;
+    font-weight: 300 700;
+    font-stretch: 100%;
+    font-display: swap;
+    src: url('./assets/fonts/saira-latin.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+  @font-face {
+    font-family: 'Saira';
+    font-style: normal;
+    font-weight: 300 700;
+    font-stretch: 100%;
+    font-display: swap;
+    src: url('./assets/fonts/saira-latin-ext.woff2') format('woff2');
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; max-width: 100%; overflow-x: hidden; }
   body { background: #FFF; color: #09090B; font-family: "Saira", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
@@ -54,10 +75,17 @@
 </style>
 <title>O novcu: kalkulator plaće, kredita i inflacije za Hrvatsku (2026.)</title>
 <meta name="description" content="Besplatni hrvatski kalkulatori plaće, kredita, složene kamate i inflacije po propisima za 2026. Podaci sinkronizirani s HNB.hr i DZS.hr. Edukacije o financijskoj pismenosti za tvrtke.">
+<link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon.png">
 <meta property="og:title" content="O novcu: financijska pismenost bez fraza">
 <meta property="og:description" content="Kalkulatori plaće, kredita, štednje i inflacije za Hrvatsku. Bez registracije.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="hr_HR">
+<meta property="og:url" content="https://onovcu.hr/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="O novcu: financijska pismenost bez fraza">
+<meta name="twitter:description" content="Kalkulatori plaće, kredita, štednje i inflacije za Hrvatsku. Bez registracije.">
+<!-- og:image namjerno izostavljen: u assets/ nema slike prikladnih dimenzija (1200x630) za OG karticu -->
 <link rel="canonical" href="https://onovcu.hr/">
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon="{&quot;token&quot;: &quot;0457a2ae0c0e4c36b230c7b27e72a45b&quot;}"></script>
 <script type="application/ld+json">

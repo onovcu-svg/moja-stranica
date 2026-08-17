@@ -1,7 +1,7 @@
 // Vercel serverless funkcija: čuva beehiiv API ključ na serveru, nikad u pregledniku.
 // Env varijable (Vercel → Project Settings → Environment Variables):
 //   BEEHIIV_API_KEY          Bearer token (beehiiv → Settings → Integrations → API)
-//   BEEHIIV_PUBLICATION_ID   pub_996e8b39-bb16-4b32-85c3-816edf3b2b8a
+//   BEEHIIV_PUBLICATION_ID   (beehiiv → Settings → Integrations → API)
 
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
