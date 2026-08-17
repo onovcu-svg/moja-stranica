@@ -1,0 +1,198 @@
+# NOTES.md — O novcu / moja-stranica
+
+Radni dnevnik projekta. Odluke, ograničenja i otvorene stavke.
+**Claude Code: pročitaj ovaj file prije svakog većeg zadatka.**
+
+Zadnje ažuriranje: 17. 8. 2026.
+
+---
+
+## 1. Arhitektura — što je ovo
+
+- Statični projekt, **bez build koraka**. Vercel servira datoteke izravno.
+- Jedan `index.html` (~9700 linija). React 18 + Babel Standalone učitani s
+  **unpkg CDN-a**, JSX se transpilira **u pregledniku** pri svakom učitavanju.
+- `support.js` je vendored runtime ("dc-runtime") iz vizualnog buildera kojim je
+  stranica izvorno građena. Sadrži `sc-for` / `sc-if` interpreter i `<helmet>`
+  premještanje u `document.head`.
+- `data-props` JSON blok u `<script type="text/x-dc">` je ostatak istog buildera.
+- Serverless rute u `api/`: `subscribe.js` (beehiiv), `contact.js` (Resend),
+  `report.js` (Resend + opcionalni beehiiv opt-in), `yt-subs.js` (YouTube API).
+- SPA rutiranje: `_pathFor()`, `_stateFromPath()`, `_syncUrl()`, `go(tab)`.
+  `vercel.json` ima generički rewrite `/(.*)` → `/index.html`.
+
+---
+
+## 2. NE DIRATI
+
+- **`support.js`** — vendored runtime. Njegov `FULL_PAGE_CSS` se nadjačava iz
+  stranicinog vlastitog `<style>` bloka, ne mijenja se u samoj datoteci.
+- **Gumb "Preuzmi PDF"** (`pdfPrint`, `window.print()`) — radi ispravno, ostaje.
+- **`@media print` pravila** — odvojena od ekranskog prikaza, ispravna.
+- **"Sponzorstvo" kao tema u kontakt formi** — ostaje, smislen kanal.
+- **Tvrdnje koje su i dalje točne** i ne smiju se brisati kao "prototip tekst":
+  - da se izračuni izvršavaju u pregledniku
+  - da su EURIBOR, inflacija i prinos korisnikove *pretpostavke*, ne objavljeni podaci
+  - disclaimeri da izračun nije financijski savjet
+  - napomene o metodama obračuna pojedinih banaka
+
+---
+
+## 3. Donesene odluke
+
+### Privatnost i podaci
+- **PDF izvještaj i HTML mail moraju biti svijetli, uvijek**, neovisno od teme.
+  (Provjereno 17.8. — već je tako, sve boje hardkodirane, ništa nije trebalo mijenjati.)
+- **BCC** (`CONTACT_BCC_EMAIL`) ide samo na `contact.js` (kontakt + edukacija).
+  **NIKAD na `report.js`** — taj mail sadrži korisnikove financijske podatke i
+  kopija trećoj strani bila bi u sukobu s politikom privatnosti.
+- **Privola mora biti eksplicitna, nikad podrazumijevana.** `mailNews` je bio
+  `true` po defaultu — ispravljeno na `false`.
+- Double opt-in na beehiivu je **uključen i ostaje tako**.
+
+### Tehničke odluke
+- **Sve putanje moraju biti apsolutne** (`/support.js`, `/assets/...`).
+  Relativne (`./`) lome deep-linkove na rutama s dva segmenta — vidi §5.
+- **Ne koristiti `maximum-scale` ni `user-scalable=no`** u viewport tagu.
+  Rješenje iOS auto-zooma su inputi na 16px, unutar media querya za mobilni.
+- **Inputi 16px samo na mobilnom** (`data-fs="sm"` + `@media (max-width: 767px)`).
+  Desktop ostaje netaknut.
+- **`html, body { height: auto; min-height: 100dvh; overflow: visible }`** —
+  `body` više nije scroll container. `overflow-x:hidden` uklonjen jer je
+  promocija `overflow-y` na `auto` lomila sticky header. Provjereno da nije
+  štitio od stvarnog horizontalnog overflowa (1024/1440/1920px).
+- **PDF pregled na mobilnom koristi CSS `zoom`, ne `transform: scale()`.**
+  Breakpoint `@media screen and (max-width: 814px)` — stvarni potreban prostor
+  je 794px list + 2×10px vodoravnog padda `.on-pdf-pad`-a, ne proizvoljnih
+  830px. `transform` po specifikaciji ne mijenja prostor koji element
+  zauzima u layoutu, pa bi `.on-pdf-pad` ostao visok kao neskalirani list i
+  ostavio prazninu ispod lista; `zoom` stvarno smanjuje i layout kutiju, pa
+  nema viška prostora niti dodatnog JS-a za ručno podešavanje visine
+  wrappera. Centriranje ide kroz postojeći `margin:0 auto`, `zoom` ga ne
+  remeti. `screen and` u uvjetu jamči da se pravilo nikad ne aktivira pri
+  `@media print`. (Napomena: `calc()` nazivnik mora biti duljina, npr. `794px`,
+  ne goli broj — inače preglednik tiho odbaci cijelu `zoom` deklaraciju.)
+- **Publication ID ostaje u git historyju** — nije eksploatabilan bez API ključa,
+  rewrite historyja nije vrijedan rizika.
+- **GitHub Pages ugašen** (17.8.) — bila je druga živa kopija na
+  `onovcu-svg.github.io/moja-stranica/` gdje API rute ne mogu raditi.
+  Nikad nije bila indeksirana.
+
+### Sadržaj
+- Kontakt uklonjen iz mobilnog izbornika, radi simetrije s desktopom. Forma
+  dostupna preko footera, "O meni", FAQ CTA-a i politike privatnosti.
+- Sekcija `/sponzori` i linkovi "Uvjeti sponzorstva" / "Kako funkcionira
+  sponzorstvo" uklonjeni. Naslovi, opisi i logotipi sponzora **ostaju**.
+- Regija Resenda: **EU (Irska, eu-west-1)**. Metapodaci se ipak obrađuju u
+  SAD-u pod DPF-om — tako i piše u politici privatnosti.
+
+---
+
+## 4. Env varijable (Vercel, Production + Preview)
+
+| Varijabla | Svrha |
+|---|---|
+| `RESEND_API_KEY` | Resend, slanje mailova |
+| `CONTACT_TO_EMAIL` | primatelj upita — `kontakt@onovcu.hr` |
+| `CONTACT_FROM_EMAIL` | pošiljatelj, mora biti na verificiranoj domeni |
+| `CONTACT_BCC_EMAIL` | rezervni primatelj (opcionalno) |
+| `BEEHIIV_API_KEY` | newsletter |
+| `BEEHIIV_PUBLICATION_ID` | newsletter |
+| `YOUTUBE_API_KEY` | broj pretplatnika |
+| `YOUTUBE_CHANNEL_ID` | broj pretplatnika |
+
+Development okruženje je zaključano na Hobby planu — ne treba.
+**Ključevi se postavljaju isključivo kroz Vercel dashboard, nikad u terminal ni chat.**
+
+---
+
+## 5. Poznati problemi i njihova povijest
+
+### Riješeno 17. 8. 2026.
+- **Deep-linkovi slomljeni na 23/30 URL-ova.** `./support.js` na ruti s dva
+  segmenta postajao `/kalkulatori/support.js`, Vercel rewrite vraćao HTML umjesto
+  JS-a, runtime se nije pokretao, stranica ostajala nehidrirana sa sirovim
+  `{{ }}` i zaglavljenim PDF modalom. **Popravak: apsolutne putanje (13 mjesta).**
+- **Forme lažirale uspjeh.** Kontakt, B2B i "Pošalji izvještaj na mail"
+  prikazivale su potvrdu bez ikakvog slanja (`setTimeout` + `Sent: true`).
+  Spojene s Resendom.
+- **Newsletter honeypot bio samo klijentski** — `nlHp` se nikad nije šalo
+  serveru. Sad se provjerava server-side.
+- **Reset skrola** — `window.scrollTo(0,0)` nije radio jer je `body` bio scroll
+  container. Popravljeno na 8 mjesta + `resetHScroll()` za horizontalne kontejnere.
+- **Bijeli prostor ispod footera na mobilnom** — vidi §3.
+
+### Poznato, namjerno neriješeno
+- **`{{ a.d }}` i slični placeholderi u SVG atributima** (`index.html:766, 3753,
+  3573, 3580`). Preglednik parsira sirovi `d="{{ a.d }}"` prije hidracije, javi
+  grešku, pa runtime prepiše ispravnom vrijednošću. **Grafovi rade** — provjereno
+  uživo. Konzola ima 4 poznate greške po učitavanju. Nestat će s migracijom na
+  build. Filter u DevToolsu: `-a.d -nek.kuca`
+- **Statični `<title>` i `description` za sve rute** — u planu dinamički naslovi.
+- **Nema prave 404 stranice** — nepoznata ruta preusmjerava na `/` preko
+  `history.replaceState`.
+- **Kamatne stope, plaće i ostali podaci u Pokazateljima su hardkodirani**
+  (`TRZISTE` konstanta). `marketApiUrl` prop postoji ali je prazan — mehanizam
+  za povlačenje nikad nije spojen. Ažurira se ručno.
+
+### iOS-specifično — ne može se reproducirati u Chromeu
+Auto-zoom na inpute, ponašanje visual viewporta pri tipkovnici, `height:100%`
+obrada. Testirati na pravom uređaju.
+
+---
+
+## 6. Otvorene stavke
+
+### Prije lansiranja
+- [x] PDF pregled — cijeli list stane u širinu ekrana na mobilnom (CSS `zoom`, vidi §3)
+- [ ] Dinamički naslovi i description po ruti
+- [ ] Layout provjera cijele stranice na 430px
+- [ ] Funkcionalna provjera cijele stranice (što izgleda da radi a ne radi)
+- [ ] Provjera da logika izračuna nije dotaknuta: `git diff 580b606 HEAD -- index.html`
+- [ ] Provjera izvora svih podataka u Pokazateljima (izvor + razdoblje za svaku brojku)
+- [ ] beehiiv i EGP u politici privatnosti — tvrdnja o obradi u EGP-u je vjerojatno netočna
+- [ ] InterCapital disclosure u sekciji Projekti (tekst §7)
+- [ ] `"O novcu"` u navodnike na naslovnici (samo tamo)
+- [ ] Provjera sitemapa i svih ruta
+- [ ] Finalni test svih formi
+- [ ] **Povezati `onovcu.hr` u Vercel Domains — ZADNJA STAVKA**
+
+### Poslije lansiranja
+- [ ] **Migracija na build** (Vite/Astro). Rješava: Babel u pregledniku,
+      `{{ }}` u sirovom HTML-u, prerender po ruti, SVG placeholder greške.
+      Procjena: dan do tjedan. **Raditi na Opusu.**
+- [ ] **Headless CMS** (Sanity / Payload / Contentful) — ide s migracijom.
+      Trenutno se članci i videi dodaju ručno u `index.html`.
+- [ ] Živi podaci HNB/DZS — scraping ruta + cache
+- [ ] PDF u prilogu maila — odgođeno, HTML u tijelu ostaje
+
+### Sporedno
+- Domena `onovcu.hr` istječe **13. 11. 2026.** (registrar: Hrvatski Telekom /
+  Regica.net, DNS: Cloudflare)
+- Mail na domeni ide preko **iCloud Custom Email Domain** — Resend koristi
+  subdomenu `send`, nema konflikta sa SPF-om
+- iCloud **tiho odbacuje** mailove (Delivered u Resendu, ali nema ih ni u spamu).
+  Zato postoji BCC.
+
+---
+
+## 7. InterCapital disclosure — tekst
+
+Ide u sekciju Projekti, unutar kartice "Investiram svaki mjesec", **nakon** opisa
+četiriju portfelja i **prije** grafa i brojki. Diskretno izdvojeno (sivi okvir ili
+tanka linija lijevo), manji font, neutralne boje, **ne** stil alerta.
+
+> Dugogodišnji sam zaposlenik InterCapitala i trenutačno Growth Strategist u
+> Geniusu. Ova objava i projekt nisu plaćeni oglas ni suradnja.
+
+---
+
+## 8. Radni proces
+
+- **Nikad ne commitati bez potvrde.** Nikad ne pushati bez izričitog odobrenja.
+- **Nalaz prvo, izmjena poslije** kod svega što nije trivijalno.
+- **Odvojeni commitovi** za izmjene koje diraju temeljni layout.
+- **Regresijska provjera na desktopu** (1024/1440/1920px) nakon svake layout izmjene.
+- Git remote: SSH (`git@github.com:onovcu-svg/moja-stranica.git`).
+  Autor: `Marko Bogdan <kontakt@onovcu.hr>`.
+- Testiranje isključivo na Vercel URL-u. **Ne** na GitHub Pages (ugašen).
