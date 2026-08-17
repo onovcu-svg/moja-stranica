@@ -81,12 +81,31 @@
     [data-fs="sm"] { font-size: 16px !important; }
   }
   /* Visual viewport na iOS-u: html,body{height:100%} iz support.js (FULL_PAGE_CSS)
-     ne prati smanjenje vidljivog prostora kad se otvori tipkovnica - ostaje
-     vezano za layout viewport pa nastaje prazan bijeli prostor. 100dvh prati
-     stvarni vidljivi viewport. Ne diramo support.js; ovo pravilo dolazi kasnije
-     u izvoru i koristi !important pa sigurno pobjedi bez obzira na redoslijed
-     ubrizgavanja. body ostaje scroll-container, isto kao prije ovog pravila. */
-  html, body { height: 100dvh !important; }
+     zajedno s nasim vlastitim overflow-x:hidden (koji po CSS specifikaciji
+     automatski promovira overflow-y u auto) cini body internim scroll-
+     containerom fiksne visine. Kad se na iOS-u otvori tipkovnica, ta fiksna
+     visina se jednom preracuna na vecu vrijednost i ostane takva i nakon
+     zatvaranja tipkovnice - dokument ostaje trajno visi od sadrzaja, sto
+     ostavlja prazninu ispod footera. height:auto ukida fiksnu visinu (nema
+     vise cega da "zaostane"), min-height:100dvh i dalje jamci da kratke
+     stranice ispunjavaju barem jedan ekran. Body time prestaje biti scroll
+     container - dokument/window prirodno raste i scrolla po visini sadrzaja,
+     kako i inace radi obican HTML dokument. Ne diramo support.js; ovo pravilo
+     dolazi kasnije u izvoru i koristi !important pa sigurno pobjedi bez obzira
+     na redoslijed ubrizgavanja.
+     overflow-x:hidden mora ici s njim: dok god je overflow-x razlicit od
+     "visible", CSS specifikacija prisilno pretvara overflow-y u "auto" (cak i
+     ako se overflow-y eksplicitno postavi na "visible" - provjereno, promocija
+     se ne moze zaobici dok je overflow-x != visible). To auto na overflow-y
+     cini body/html "scroll containerom" u smislu specifikacije, cak i kad
+     nikad stvarno ne treba interno scrollati - a position:sticky elementi
+     (header, ticker) tad se lijepe za taj (nikad-scrollani) kontejner umjesto
+     za pravi viewport, pa izgledaju kao da uopce nisu sticky. Provjerio cijelu
+     stranicu (grafovi, tablice, cip redovi) - stvarnog horizontalnog overflowa
+     nema (scrollWidth==clientWidth posvuda), sve sirokosadrzajne tablice/redove
+     vec imaju vlastiti overflow-x:auto wrapper, pa ovo hidden na html/body nije
+     stitilo ni od cega stvarnog. */
+  html, body { height: auto !important; min-height: 100dvh !important; overflow-x: visible !important; overflow-y: visible !important; }
 </style>
 <title>O novcu: kalkulator plaće, kredita i inflacije za Hrvatsku (2026.)</title>
 <meta name="description" content="Besplatni hrvatski kalkulatori plaće, kredita, složene kamate i inflacije po propisima za 2026. Podaci sinkronizirani s HNB.hr i DZS.hr. Edukacije o financijskoj pismenosti za tvrtke.">
