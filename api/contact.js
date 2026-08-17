@@ -4,6 +4,8 @@
 //   RESEND_API_KEY       Resend API ključ (resend.com → API Keys)
 //   CONTACT_TO_EMAIL     adresa na koju stižu upiti (npr. kontakt@onovcu.hr)
 //   CONTACT_FROM_EMAIL   pošiljatelj, mora biti na verificiranoj domeni u Resendu
+//   CONTACT_BCC_EMAIL    opcionalno - rezervni primatelj (BCC) na kontakt/edukacija mailove.
+//                        Ako nije postavljena, mail ide bez BCC-a - ništa se ne blokira.
 
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 const MIN_MS_DO_SLANJA = 3000; // isto obrazloženje kao honeypot: brzina odaje bota
@@ -128,6 +130,8 @@ module.exports = async function handler(req, res) {
     res.status(500).json({ error: 'not_configured' });
     return;
   }
+  // Opcionalni rezervni primatelj - odsutnost varijable ne smije rusiti slanje.
+  const bccEmail = String(process.env.CONTACT_BCC_EMAIL || '').trim();
 
   const zaprimljeno = new Date().toLocaleString('hr-HR', { timeZone: 'Europe/Zagreb', dateStyle: 'medium', timeStyle: 'medium' });
   const redciHtml = polja.redci
@@ -145,6 +149,7 @@ module.exports = async function handler(req, res) {
       body: JSON.stringify({
         from: fromEmail,
         to: [toEmail],
+        ...(bccEmail ? { bcc: [bccEmail] } : {}),
         reply_to: [polja.email],
         subject: polja.subject,
         html,
