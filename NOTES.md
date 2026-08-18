@@ -304,19 +304,15 @@ obrada. Testirati na pravom uređaju.
 - [ ] Layout provjera cijele stranice na 430px
 - [ ] Funkcionalna provjera cijele stranice (što izgleda da radi a ne radi)
 - [ ] Provjera da logika izračuna nije dotaknuta: `git diff 580b606 HEAD -- index.html`
-- [x] Provjera izvora svih podataka u Pokazateljima (izvor + razdoblje za svaku brojku).
-      Interna konzistentnost je provjerena i popravljena (`d71eb73`).
-      **Ostaje neprovjereno: je li ijedna brojka TOČNA** prema HNB / DZS / HZMO /
-      HANFA / eNekretnine. Za svaku metriku treba izvor, razdoblje i potvrda da se
-      navedeno poklapa sa stvarnim.
-      Dodatno otvoreno: banner za Nekretnine tvrdi jedan datum, a kategorija ima
-      tri (`ZADNJE_HPI`, `ZADNJE_DOZVOLE`, `ZADNJE_NEK` = 2025.). Sad pokazuje
-      `ZADNJE_HPI`; treba urednička odluka o formulaciji.
-      **Svi izvori, linkovi i ritam objava su sad zapisani u `IZVORI.md`.**
-      Provjereno 18.8.2026: 12 od 13 provjerivih brojki točno prema DZS/HNB/
-      HZMO/HANFA. Ispravljeno (`1d74c37`). Cijena m² po gradu uklonjena
-      umjesto ispravljanja (`4ffd793`) — vidi `IZVORI.md`. Time je ova
-      stavka zatvorena.
+- [x] **Provjera izvora i točnosti svih podataka u Pokazateljima.**
+      Interna konzistentnost popravljena (`d71eb73`), točnost provjerena prema
+      DZS / HNB / HZMO / HANFA / MPGI — 12 od 13 provjerivih brojki bilo je
+      točno. Rast cijena nekretnina ispravljen s 11,0 % na 14,3 % (`1d74c37`).
+      Tablica cijena po m² po gradovima uklonjena umjesto ispravljanja
+      (`4ffd793`) — nije imala potvrdiv izvor. Banner za Nekretnine sad kaže
+      "Indeks cijena: prvo tromjesečje 2026." jer kategorija ima tri razdoblja.
+      **Svi izvori, linkovi i ritam objava zapisani su u `IZVORI.md`** — prije
+      svake buduće izmjene brojke otvoriti link odande.
 - [ ] beehiiv i EGP u politici privatnosti — tvrdnja o obradi u EGP-u je vjerojatno netočna
 - [ ] InterCapital disclosure u sekciji Projekti (tekst §7)
 - [ ] `"O novcu"` u navodnike na naslovnici (samo tamo)
