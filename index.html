@@ -4165,7 +4165,7 @@
             <div style="display:flex;gap:8px;flex-wrap:wrap">
               <button sc-camel-on-click="{{ on.temaSuradnja }}" style="background:{{ tema.suradnja.bg }};color:{{ tema.suradnja.c }};border:1px solid {{ tema.suradnja.bd }};border-radius:980px;padding:9px 16px;cursor:pointer;font-weight:500;font-size:13.5px;transition:all .2s">Suradnja</button>
               <button sc-camel-on-click="{{ on.temaRadionica }}" style="background:{{ tema.radionica.bg }};color:{{ tema.radionica.c }};border:1px solid {{ tema.radionica.bd }};border-radius:980px;padding:9px 16px;cursor:pointer;font-weight:500;font-size:13.5px;transition:all .2s">Radionica</button>
-              <button sc-camel-on-click="{{ on.temaSponzorstvo }}" style="background:{{ tema.sponzorstvo.bg }};color:{{ tema.sponzorstvo.c }};border:1px solid {{ tema.sponzorstvo.bd }};border-radius:980px;padding:9px 16px;cursor:pointer;font-weight:500;font-size:13.5px;transition:all .2s">Mediji</button>
+              <button sc-camel-on-click="{{ on.temaMediji }}" style="background:{{ tema.mediji.bg }};color:{{ tema.mediji.c }};border:1px solid {{ tema.mediji.bd }};border-radius:980px;padding:9px 16px;cursor:pointer;font-weight:500;font-size:13.5px;transition:all .2s">Mediji</button>
               <button sc-camel-on-click="{{ on.temaPitanje }}" style="background:{{ tema.pitanje.bg }};color:{{ tema.pitanje.c }};border:1px solid {{ tema.pitanje.bd }};border-radius:980px;padding:9px 16px;cursor:pointer;font-weight:500;font-size:13.5px;transition:all .2s">Pitanje</button>
             </div>
           </div>
@@ -6243,6 +6243,7 @@ const META_CALC = {
   kredit: { title: 'Kalkulator kredita: anuiteti i otplatni plan' + SUFIKS, desc: 'Izračunaj mjesečnu ratu, ukupnu kamatu i otplatni plan za stambeni ili gotovinski kredit, uz mogućnost prijevremene otplate i uštede na kamati.' },
   kamata: { title: 'Kalkulator ulaganja i složene kamate' + SUFIKS, desc: 'Projiciraj rast redovnog mjesečnog ulaganja uz složenu kamatu, izračunaj potrebnu uplatu za cilj ili koliko dugo traje ušteđevina u isplati.' },
   inflacija: { title: 'Kalkulator inflacije za Hrvatsku' + SUFIKS, desc: 'Izračunaj koliko je tvoj novac izgubio na vrijednosti zbog inflacije u Hrvatskoj, za bilo koje razdoblje, početni iznos i stopu inflacije.' },
+  povijest: { title: 'Koliko je novac izgubio na vrijednosti' + SUFIKS, desc: 'Izračunaj koliko je iznos iz prošlosti izgubio na kupovnoj moći do danas, po stvarnim godišnjim stopama inflacije Državnog zavoda za statistiku.' },
   // Pod-scenariji unutar kreditnog kalkulatora (nisu u sitemapu, ali su
   // stvarne rute preko _pathFor/goCalc) - meta izvedena iz postojećih
   // naslov/opis vrijednosti kartica na hub stranici, radi konzistentnosti.
@@ -6289,7 +6290,8 @@ const META_STATIC = {
 };
 
 // Vraća { title, desc } za trenutno stanje rute. Nepoznat calcTab/pokKat/slug
-// pada na indeks te sekcije, nikad na prazan naslov.
+// pada na kalkulator plaće (META_CALC.placa), pokazatelje inflacije
+// (META_POK_INDEX) odnosno indeks bloga - nikad na prazan naslov.
 function getMeta(s) {
   if (s.tab === 'calc') return META_CALC[s.calcTab] || META_CALC.placa;
   if (s.tab === 'pok') return (s.pokKat && META_POK[s.pokKat]) || META_POK_INDEX;
@@ -6382,13 +6384,17 @@ class Component extends DCLogic {
 
   applyStopa(id, v) {
     return () => {
-      if (id === 'placaProsjek' || id === 'placaMedijan') this.setState({ tab: 'calc', calcTab: 'placa', smjer: 'neto', iznos: Math.round(v), menuOpen: false });
-      else if (id === 'inflacija') this.setState({ tab: 'calc', calcTab: 'inflacija', iStopa: v, sInflacija: v, menuOpen: false }, () => this._syncUrl());
-      else if (id === 'depozit') this.setState({ tab: 'calc', calcTab: 'kamata', sStopa: v, menuOpen: false }, () => this._syncUrl());
-      else if (id === 'mirovina') this.setState({ tab: 'pok', pokKat: 'mirovine', mirStup: '1', menuOpen: false }, () => this._syncUrl());
-      else if (id === 'hpi') this.setState({ tab: 'pok', pokKat: 'nekretnine', menuOpen: false }, () => this._syncUrl());
-      else if (id === 'stambeni') this.setState({ tab: 'calc', calcTab: 'kredit', kStopa: v, kGodine: 25, kIznos: 150000, menuOpen: false }, () => this._syncUrl());
-      else this.setState({ tab: 'calc', calcTab: 'kredit', kStopa: v, kGodine: 7, kIznos: 15000, menuOpen: false }, () => this._syncUrl());
+      // Sve grane: isti obrazac kao go()/goCalc() - _syncUrl PA scrollTo(0,0) PA
+      // resetHScroll(). Prije je svih 5 imalo _syncUrl, ali nijedna nije vracala
+      // skrol na vrh (NOTES.md §3: svaka navigacija, bez iznimke).
+      const posaljiNaVrh = () => { if (typeof window !== 'undefined') { window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; } this.resetHScroll(); };
+      if (id === 'placaProsjek' || id === 'placaMedijan') { this.setState({ tab: 'calc', calcTab: 'placa', smjer: 'neto', iznos: Math.round(v), menuOpen: false }, () => this._syncUrl()); posaljiNaVrh(); }
+      else if (id === 'inflacija') { this.setState({ tab: 'calc', calcTab: 'inflacija', iStopa: v, sInflacija: v, menuOpen: false }, () => this._syncUrl()); posaljiNaVrh(); }
+      else if (id === 'depozit') { this.setState({ tab: 'calc', calcTab: 'kamata', sStopa: v, menuOpen: false }, () => this._syncUrl()); posaljiNaVrh(); }
+      else if (id === 'mirovina') { this.setState({ tab: 'pok', pokKat: 'mirovine', mirStup: '1', menuOpen: false }, () => this._syncUrl()); posaljiNaVrh(); }
+      else if (id === 'hpi') { this.setState({ tab: 'pok', pokKat: 'nekretnine', menuOpen: false }, () => this._syncUrl()); posaljiNaVrh(); }
+      else if (id === 'stambeni') { this.setState({ tab: 'calc', calcTab: 'kredit', kStopa: v, kGodine: 25, kIznos: 150000, menuOpen: false }, () => this._syncUrl()); posaljiNaVrh(); }
+      else { this.setState({ tab: 'calc', calcTab: 'kredit', kStopa: v, kGodine: 7, kIznos: 15000, menuOpen: false }, () => this._syncUrl()); posaljiNaVrh(); }
     };
   }
 
@@ -6420,7 +6426,10 @@ class Component extends DCLogic {
     // skrol na vrh - "natrag"/"naprijed" ne smije ostaviti korisnika usred
     // stranice, kao ni bilo koja druga navigacija.
     this._onPopState = () => {
-      this.setState(this._stateFromPath(window.location.pathname), () => this._syncUrl());
+      // menuOpen: false - _stateFromPath ni u jednoj grani ne gasi mobilni
+      // meni (za razliku od go()/goCalc()/blogVeza()/applyStopa()), pa je
+      // ostajao otvoren nakon Natrag/Naprijed dok se ruta ispod njega mijenjala.
+      this.setState(Object.assign({}, this._stateFromPath(window.location.pathname), { menuOpen: false }), () => this._syncUrl());
       window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0;
       this.resetHScroll();
     };
@@ -6673,7 +6682,7 @@ class Component extends DCLogic {
   _stateFromPath(pathname) {
     const parts = pathname.split('/').filter(Boolean);
     if (parts.length === 0) return { tab: 'home', blogOpen: null };
-    if (parts[0] === 'kalkulatori') return { tab: 'calc', calcTab: parts[1] || 'placa', blogOpen: null };
+    if (parts[0] === 'kalkulatori') return { tab: 'calc', calcTab: parts[1] || 'hub', blogOpen: null };
     if (parts[0] === 'pokazatelji') return { tab: 'pok', pokKat: parts[1] || 'inflacija', blogOpen: null };
     if (parts[0] === 'blog') return { tab: 'blog', blogOpen: parts[1] || null };
     if (parts[0] === 'projekti') return { tab: 'proj', blogOpen: null };
@@ -7991,15 +8000,30 @@ class Component extends DCLogic {
       bd: x.najbolji ? ACC : LINE, oznaka: x.najbolji ? 'najveća ušteda' : '',
       // Prijenos u kreditni kalkulator: refinancirani kredit je nova glavnica,
       // nova stopa i rok odabranog scenarija.
-      prenesi: () => this.setState({
-        tab: 'calc', calcTab: 'kredit', calcFaqOpen: 0, menuOpen: false,
-        kTip: 'anuitet', kUsporedi: false, kExtraOpen: false, ikOpen: false,
-        kIznos: Math.round(rBal * 100) / 100,
-        kStopa: rNovaS,
-        kGodine: Math.round(scenMj[ix] / 12),
-        editKey: '', editTxt: '',
-        kIzvor: 'Parametri su preneseni iz refinanciranja, scenarij „' + x.naslov.toLowerCase() + '”: preostala glavnica ' + eur(rBal, 2) + ', nova stopa ' + pct(rNovaS, 2) + ', rok ' + Math.round(scenMj[ix] / 12) + ' godina.'
-      })
+      prenesi: () => {
+        // kIzvor NIJE u ovom prvom setState - calcTab se ovdje mijenja
+        // 'refi' -> 'kredit', pa componentDidUpdate (vidi _calcIdent) odmah
+        // nakon commita prepoznaje promjenu identiteta kalkulatora i briše
+        // kIzvor kroz zajednicku reset-listu, u ISTOM ciklusu (banner se
+        // nikad nije stigao prikazati). Zato se kIzvor postavlja tek u
+        // callbacku, koji se izvrsava NAKON sto je componentDidUpdate vec
+        // obradio promjenu identiteta i azurirao _prevCalcIdent - taj drugi
+        // setState vise ne pogadja granu za reset. Reset-lista i _calcIdent
+        // mehanizam ostaju netaknuti.
+        this.setState({
+          tab: 'calc', calcTab: 'kredit', calcFaqOpen: 0, menuOpen: false,
+          kTip: 'anuitet', kUsporedi: false, kExtraOpen: false, ikOpen: false,
+          kIznos: Math.round(rBal * 100) / 100,
+          kStopa: rNovaS,
+          kGodine: Math.round(scenMj[ix] / 12),
+          editKey: '', editTxt: '',
+        }, () => {
+          this._syncUrl();
+          this.setState({ kIzvor: 'Parametri su preneseni iz refinanciranja, scenarij „' + x.naslov.toLowerCase() + '”: preostala glavnica ' + eur(rBal, 2) + ', nova stopa ' + pct(rNovaS, 2) + ', rok ' + Math.round(scenMj[ix] / 12) + ' godina.' });
+        });
+        if (typeof window !== 'undefined') { window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; }
+        this.resetHScroll();
+      }
     })).filter((x) => !x.slobodan || s.rSlobOpen);
 
     // ── KRAĆI ILI DUŽI ROK + INVESTIRANJE RAZLIKE ────────────
@@ -8667,7 +8691,7 @@ class Component extends DCLogic {
       km: { fiks: seg(s.kMod === 'fiks'), komb: seg(s.kMod === 'komb') },
       jeKomb: s.kMod === 'komb', jeFiks: s.kMod !== 'komb',
       fmt: { zivo: chip(s.f.format === 'zivo'), online: chip(s.f.format === 'online'), hibrid: chip(s.f.format === 'hibrid') },
-      tema: { suradnja: chip(s.c.tema === 'suradnja'), radionica: chip(s.c.tema === 'radionica'), sponzorstvo: chip(s.c.tema === 'sponzorstvo'), pitanje: chip(s.c.tema === 'pitanje') },
+      tema: { suradnja: chip(s.c.tema === 'suradnja'), radionica: chip(s.c.tema === 'radionica'), sponzorstvo: chip(s.c.tema === 'sponzorstvo'), mediji: chip(s.c.tema === 'mediji'), pitanje: chip(s.c.tema === 'pitanje') },
       isDark: s.dark, isLight: !s.dark,
       ytSubs: nf(0).format(s.ytShown || 0),
       // NAPOMENA: hero <img> na početnoj ima ovaj thumb hardkodiran u templateu
@@ -9297,9 +9321,9 @@ class Component extends DCLogic {
         {
           naslov: 'Ulaganje', opis: 'Rast portfelja i put do konkretnog cilja',
           kartice: [
-            { naslov: 'Rezultat ulaganja', opis: 'Rast tvoje investicije, ne samo redovne mjesečne uštede.', sto: 'Projicira rast tvoje investicije i koliko dugo izdrži faza isplate.', go: () => this.setState({ tab: 'calc', calcTab: 'kamata', gMode: 'rast', menuOpen: false }) },
-            { naslov: 'Kako do cilja', opis: 'Zadaš cilj i rok, a kalkulator daje potrebnu uplatu ili prinos.', sto: 'Iz cilja i roka računa potrebnu uplatu ili potreban prinos.', go: () => this.setState({ tab: 'calc', calcTab: 'kamata', gMode: 'cilj', menuOpen: false }) },
-            { naslov: 'Koliko traje ušteđevina', opis: 'Koliko dugo izdrži ušteđevina iz koje isplaćuješ, a ostatak je uložen.', sto: 'Za zadanu mjesečnu isplatu i prinos, izračunava za koliko godina ušteđevina padne na nulu.', go: () => this.setState({ tab: 'calc', calcTab: 'kamata', gMode: 'renta', menuOpen: false }) }
+            { naslov: 'Rezultat ulaganja', opis: 'Rast tvoje investicije, ne samo redovne mjesečne uštede.', sto: 'Projicira rast tvoje investicije i koliko dugo izdrži faza isplate.', go: () => { this.setState({ tab: 'calc', calcTab: 'kamata', gMode: 'rast', menuOpen: false }, () => this._syncUrl()); if (typeof window !== 'undefined') { window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; } this.resetHScroll(); } },
+            { naslov: 'Kako do cilja', opis: 'Zadaš cilj i rok, a kalkulator daje potrebnu uplatu ili prinos.', sto: 'Iz cilja i roka računa potrebnu uplatu ili potreban prinos.', go: () => { this.setState({ tab: 'calc', calcTab: 'kamata', gMode: 'cilj', menuOpen: false }, () => this._syncUrl()); if (typeof window !== 'undefined') { window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; } this.resetHScroll(); } },
+            { naslov: 'Koliko traje ušteđevina', opis: 'Koliko dugo izdrži ušteđevina iz koje isplaćuješ, a ostatak je uložen.', sto: 'Za zadanu mjesečnu isplatu i prinos, izračunava za koliko godina ušteđevina padne na nulu.', go: () => { this.setState({ tab: 'calc', calcTab: 'kamata', gMode: 'renta', menuOpen: false }, () => this._syncUrl()); if (typeof window !== 'undefined') { window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; } this.resetHScroll(); } }
           ]
         },
         {
@@ -9809,7 +9833,7 @@ class Component extends DCLogic {
         toggleUsporedi: () => this.setState((st) => ({ kUsporedi: !st.kUsporedi })),
         zatvoriIzvor: () => this.setState({ kIzvor: '' }),
         // calcFaqOpen/kIzvor gasi centralno componentDidUpdate() (calcTab se ovdje mijenja).
-        natragRefi: () => this.setState({ tab: 'calc', calcTab: 'refi' }),
+        natragRefi: () => { this.setState({ tab: 'calc', calcTab: 'refi', menuOpen: false }, () => this._syncUrl()); if (typeof window !== 'undefined') { window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; } this.resetHScroll(); },
         toggleKInf: () => this.setState((st) => ({ kInfOpen: !st.kInfOpen })),
         kInfStopa: this.setNumT('kInfStopa', 0), kInfStopaS: this.setN('kInfStopa', 0),
         ikIsplata: this.setS('ikIsplata'), ikPrvi: this.setS('ikPrvi'),
@@ -9859,8 +9883,8 @@ class Component extends DCLogic {
         gRast: () => this.setState({ gMode: 'rast' }), gCiljMode: () => this.setState({ gMode: 'cilj' }),
         plOd: (e) => { const v = parseInt(e.target.value, 10); this.setState((st) => ({ plOd: v, plDo: Math.max(v, this.num(st.plDo, 2026)) })); },
         plDo: (e) => { const v = parseInt(e.target.value, 10); this.setState((st) => ({ plDo: v, plOd: Math.min(v, this.num(st.plOd, 2010)) })); },
-        pokOd: (e) => this.setState({ pokOd: parseInt(e.target.value, 10) }),
-        pokDo: (e) => this.setState({ pokDo: parseInt(e.target.value, 10) }),
+        pokOd: (e) => { const v = parseInt(e.target.value, 10); this.setState((st) => ({ pokOd: v, pokDo: Math.max(v, this.num(st.pokDo, 2026)) })); },
+        pokDo: (e) => { const v = parseInt(e.target.value, 10); this.setState((st) => ({ pokDo: v, pokOd: Math.min(v, this.num(st.pokOd, 2010)) })); },
         // Klik na isti stupac okreće smjer; novi stupac kreće od očekivanog
         // smjera (naziv uzlazno, brojke silazno).
         nekOd: (e) => { const v = parseInt(e.target.value, 10); this.setState((st) => ({ nekOd: v, nekDo: Math.max(v, this.num(st.nekDo, 2026)) })); },
@@ -9942,7 +9966,7 @@ class Component extends DCLogic {
         b2bReset: () => this.setState({ b2bSent: false, f: { tvrtka: '', osoba: '', email: '', velicina: '21-100', format: 'zivo', poruka: '' } }),
         cIme: this.setObj('c', 'ime'), cEmail: this.setObj('c', 'email'), cPoruka: this.setObj('c', 'poruka'),
         temaSuradnja: this.pick('c', 'tema', 'suradnja'), temaRadionica: this.pick('c', 'tema', 'radionica'),
-        temaSponzorstvo: this.pick('c', 'tema', 'sponzorstvo'), temaPitanje: this.pick('c', 'tema', 'pitanje'),
+        temaSponzorstvo: this.pick('c', 'tema', 'sponzorstvo'), temaMediji: this.pick('c', 'tema', 'mediji'), temaPitanje: this.pick('c', 'tema', 'pitanje'),
         ktHp: this.setS('ktHp'),
         ktSubmit: () => {
           const c = this.state.c;

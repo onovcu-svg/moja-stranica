@@ -10,7 +10,7 @@
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 const MIN_MS_DO_SLANJA = 3000; // isto obrazloženje kao honeypot: brzina odaje bota
 
-const TEMA_LABEL = { suradnja: 'Suradnja', radionica: 'Radionica', sponzorstvo: 'Sponzorstvo', pitanje: 'Pitanje' };
+const TEMA_LABEL = { suradnja: 'Suradnja', radionica: 'Radionica', sponzorstvo: 'Sponzorstvo', mediji: 'Mediji', pitanje: 'Pitanje' };
 const FORMAT_LABEL = { zivo: 'Uživo', online: 'Online', hibrid: 'Hibridno' };
 
 // Vrlo jednostavan in-memory rate limit po IP-u (5 zahtjeva / 10 min).
