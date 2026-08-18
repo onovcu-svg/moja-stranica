@@ -5755,7 +5755,7 @@ const KS_IZNOSREVOLVING = [1550.96,1497.27,1408.08,1603.66,1598.24,1592.95,1573.
 const POK_KAT = {
   inflacija: {
     naslov: 'Inflacija', izvor: 'DZS · indeks potrošačkih cijena (CPI)',
-    bluf: 'Godišnja inflacija u Hrvatskoj mjerena indeksom potrošačkih cijena (CPI) iznosi {CPI}, što znači da je košarica koja je prije godinu dana koštala 100,00 € danas više. Inflacija se mjeri indeksom potrošačkih cijena koji DZS objavljuje mjesečno.',
+    bluf: 'Godišnja inflacija u Hrvatskoj mjerena indeksom potrošačkih cijena (CPI) iznosi {CPI}, što znači da košarica koja je prije godinu dana koštala 100,00 € danas košta {KOSARICA_100}. Inflacija se mjeri indeksom potrošačkih cijena koji DZS objavljuje mjesečno.',
     stat: [
       { val: '4,50 %', label: 'Godišnja stopa inflacije', sub: 'CPI · lipanj 2026.', d: -0.7 },
       { val: '__KUM5__', label: 'Kumulativna inflacija, 5 godina', sub: '__KUM5SUB__', d: 1 },
@@ -8203,6 +8203,14 @@ class Component extends DCLogic {
     // Tokeni za brojke unutar FAQ/sažetka teksta pokazatelja, tako da se
     // ažuriraju zajedno s podacima umjesto da ostanu upisani ručno.
     const _anuFaq = (iznos, godStopa, god) => { const i = godStopa / 100 / 12, n = god * 12; const rata = i === 0 ? iznos / n : iznos * i / (1 - Math.pow(1 + i, -n)); return rata * n - iznos; };
+    // TRZISTE je niz (ne objekt) - dohvat po id-u, isti obrazac kao ispravan
+    // pristup na liniji 7445. Bez ovoga npr. "TRZISTE.inflacija" vraca
+    // undefined pa pct()/eur() tiho padnu na 0 (vidi NOTES.md §3).
+    const tz = (id) => {
+      const t = TRZISTE.find((x) => x.id === id);
+      if (!t) { console.error('tz(): nepoznat TRZISTE id "' + id + '"'); return NaN; }
+      return t.val;
+    };
     const _kNS = KS_SER.STAMBENI[ZI], _kES = KS_SER.EKSSTAMBENI[ZI], _kNG = KS_SER.GOTOVINSKI[ZI], _kEG = KS_SER.EKSGOTOVINSKI[ZI], _kNP = KS_SER.PREKORACENJE[ZI], _kNK = KS_SER.KARTICE[ZI];
     const faqTokens = {
       '{PL_MEDIJAN}': eur(plZadnji[2], 2), '{PL_PROSJEK}': eur(plZadnji[1], 2), '{PL_RAZLIKA}': eur(plZadnji[1] - plZadnji[2], 2),
@@ -8212,10 +8220,11 @@ class Component extends DCLogic {
       '{KR_STAMB_GOD}': pct(KS_SER.STAMBENI[ZI - 12], 2), '{KR_GOTOV_GOD}': pct(KS_SER.GOTOVINSKI[ZI - 12], 2),
       '{KR_DIFF_20K7G}': eur(_anuFaq(20000, _kNG, 7) - _anuFaq(20000, _kNS, 7), 0),
       '{STUP3_CLANOVI}': nf(0).format(STUP3.clanovi),
-      '{CPI}': pct(TRZISTE.inflacija, 1), '{HPI_RAST}': pct(TRZISTE.hpi, 1),
+      '{CPI}': pct(tz('inflacija'), 2), '{HPI_RAST}': pct(tz('hpi'), 1),
+      '{KOSARICA_100}': eur(100 * (1 + tz('inflacija') / 100), 2),
       '{NEK_ZG_M2}': eur(NEK_GRAD.find((g) => g[0] === 'Zagreb')[1], 0), '{NEK_ST_M2}': eur(NEK_GRAD.find((g) => g[0] === 'Split')[1], 0),
       '{NEK_GOD}': NEK_AKT[NEK_AKT.length - 1][0] + '.', '{NEK_DOZVOLE}': nf(0).format(NEK_AKT[NEK_AKT.length - 1][1]), '{NEK_KUPOPROD}': nf(0).format(NEK_AKT[NEK_AKT.length - 1][2]),
-      '{MIROVINA}': eur(TRZISTE.mirovina, 2), '{MIR_RATIO}': pct(TRZISTE.mirovina / TRZISTE.placaProsjek * 100, 1),
+      '{MIROVINA}': eur(tz('mirovina'), 2), '{MIR_RATIO}': pct(tz('mirovina') / tz('placaProsjek') * 100, 1),
       '{STUP2_CLANOVI_MIL}': nf(2).format(STUP2_UK / 1e6) + ' milijuna', '{STUP2_B_PCT}': pct(STUP2[1].clanova / STUP2_UK * 100, 2),
       '{KR_IZNOSSTAMB}': nf(1).format(KS_IZNOSSTAMBENI[ZI]) + ' milijuna eura', '{KR_IZNOSGOTOV}': nf(1).format(KS_IZNOSGOTOVINSKI[ZI]) + ' milijuna eura'
     };
@@ -8334,6 +8343,23 @@ class Component extends DCLogic {
 
     // ── POKAZATELJI ──────────────────────────────────────────
     const pk = POK_KAT[s.pokKat] || POK_KAT.inflacija;
+    // Zadnji objavljeni datum po kategoriji - jedini izvor istine za banner
+    // ("Zadnje ažuriranje") i src.kategorija (fusnota ispod grafa), da ne
+    // postoje dvije usporedne mape koje mogu razici. Prije je ovo pisalo samo
+    // unutar src.kategorija; ta vrijednost se nikad nije prikazivala (imaGraf
+    // je hardkodiran na false), pa banner nije imao odakle citati - vidi
+    // NOTES.md §3.
+    const pokDatum = (() => {
+      if (s.pokKat === 'place') return ZADNJE_PLACE;
+      if (s.pokKat === 'mirovine') return ZADNJE_HANFA;
+      if (s.pokKat === 'krediti') return ZADNJE_HNB;
+      if (s.pokKat === 'nekretnine') return ZADNJE_HPI;
+      if (s.pokKat === 'inflacija') return ZADNJE_RAZDOBLJE;
+      // Nepoznat pokKat - isti obrazac kao tz(): fallback ostaje ZADNJE_RAZDOBLJE,
+      // ali greska ide u konzolu umjesto da tiho izgleda kao ispravan datum.
+      console.error('pokDatum: nepoznat s.pokKat "' + s.pokKat + '"');
+      return ZADNJE_RAZDOBLJE;
+    })();
     const nPts = s.pokPer === 1 ? 4 : (s.pokPer === 3 ? 12 : 20);
     const gKey = pk.graf.key, gDec = pk.graf.dec, gJed = pk.graf.jed;
     const serija = SERIJE[gKey].slice(-nPts);
@@ -9030,7 +9056,10 @@ class Component extends DCLogic {
       },
 
       trziste: tickList,
-      trzisteMjesec: s.trzisteMjesec,
+      // Banner "Zadnje ažuriranje" na Pokazateljima - po kategoriji, ne
+      // opcenito za sve (vidi pokDatum). Ticker (trzistePotpis, dolje) i dalje
+      // cita s.trzisteMjesec izravno iz state-a, nedirano.
+      trzisteMjesec: pokDatum,
 
       mirStup: { s1: s.mirStup === '1', s2: s.mirStup === '2', s3: s.mirStup === '3' },
       mirChips: [['1', '1. stup'], ['2', '2. stup'], ['3', '3. stup']].map((x) => {
@@ -9211,7 +9240,7 @@ class Component extends DCLogic {
         enekGrad: 'Izvor: eNekretnine, Ministarstvo prostornoga uređenja · cijene bez PDV-a · zadnji podatak: ' + ZADNJE_NEK,
         dzsDozvole: 'Izvor: DZS, izdane građevinske dozvole · zadnji podatak: ' + ZADNJE_DOZVOLE,
         enekAkt: 'Izvor: eNekretnine, evidentirane kupoprodaje · zadnji podatak: ' + ZADNJE_NEK,
-        kategorija: 'Izvor: ' + pk.izvor + ' · zadnji podatak: ' + (s.pokKat === 'place' ? ZADNJE_PLACE : s.pokKat === 'mirovine' ? ZADNJE_HANFA : s.pokKat === 'krediti' ? ZADNJE_HNB : s.pokKat === 'nekretnine' ? ZADNJE_HPI : ZADNJE_RAZDOBLJE),
+        kategorija: 'Izvor: ' + pk.izvor + ' · zadnji podatak: ' + pokDatum,
         projekt: 'Izvor: vlastita evidencija projekta · stanje: ' + PROJ_STANJE
       },
       isHub: s.calcTab === 'hub', nijeHub: s.calcTab !== 'hub',
