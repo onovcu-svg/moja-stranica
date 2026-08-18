@@ -465,7 +465,7 @@
       </div>
       </sc-if>
 
-      <div data-seg="calc" style="position:relative;display:inline-flex;padding:4px;background:var(--sec);border-radius:980px;gap:2px;justify-content:center;max-width:100%;overflow-x:auto">
+      <div data-seg="calc" style="position:relative;display:inline-flex;padding:4px;background:var(--sec);border-radius:980px;gap:2px;max-width:100%;overflow-x:auto">
         <span data-seg-ind="1" style="position:absolute;top:4px;bottom:4px;left:4px;width:0;background:var(--acc);border-radius:980px;box-shadow:0 1px 6px rgba(220,38,38,.35);transition:left .32s cubic-bezier(.4,0,.2,1),width .32s cubic-bezier(.4,0,.2,1);pointer-events:none"></span>
         <sc-for list="{{ obitelji }}" as="ob" hint-placeholder-count="4">
           <button sc-camel-on-click="{{ ob.go }}" data-seg-active="{{ ob.act }}" style="position:relative;z-index:1;background:none;color:{{ ob.c }};border:none;border-radius:980px;padding:11px 22px;cursor:pointer;font-weight:600;font-size:14px;white-space:nowrap;transition:color .25s">{{ ob.label }}</button>
@@ -2996,7 +2996,7 @@
 
     <section style="max-width:1180px;margin:0 auto;padding:0 clamp(18px,4vw,36px) clamp(52px,8vh,96px)">
       <div style="display:flex;justify-content:center;margin-bottom:clamp(24px,3.5vh,36px)">
-        <div data-seg="pok" style="position:relative;display:inline-flex;padding:4px;background:var(--sec);border-radius:980px;gap:2px;justify-content:center;max-width:100%;overflow-x:auto">
+        <div data-seg="pok" style="position:relative;display:inline-flex;padding:4px;background:var(--sec);border-radius:980px;gap:2px;max-width:100%;overflow-x:auto">
           <span data-seg-ind="1" style="position:absolute;top:4px;bottom:4px;left:4px;width:0;background:var(--acc);border-radius:980px;box-shadow:0 1px 6px rgba(220,38,38,.35);transition:left .32s cubic-bezier(.4,0,.2,1),width .32s cubic-bezier(.4,0,.2,1);pointer-events:none"></span>
           <sc-for list="{{ pokChips }}" as="ch" hint-placeholder-count="4">
             <button sc-camel-on-click="{{ ch.go }}" data-seg-active="{{ ch.act }}" style="position:relative;z-index:1;background:none;color:{{ ch.c }};border:none;border-radius:980px;padding:11px 22px;cursor:pointer;font-weight:600;font-size:14px;white-space:nowrap;transition:color .25s">{{ ch.label }}</button>
@@ -3025,7 +3025,7 @@
 
       <sc-if value="{{ jeMirovine }}">
       <div style="display:flex;justify-content:center;margin-bottom:clamp(18px,2.6vh,24px)">
-        <div data-seg="mir" style="position:relative;display:inline-flex;padding:4px;background:var(--sec);border-radius:980px;gap:2px;justify-content:center;max-width:100%;overflow-x:auto">
+        <div data-seg="mir" style="position:relative;display:inline-flex;padding:4px;background:var(--sec);border-radius:980px;gap:2px;max-width:100%;overflow-x:auto">
           <span data-seg-ind="1" style="position:absolute;top:4px;bottom:4px;left:4px;width:0;background:var(--acc);border-radius:980px;box-shadow:0 1px 6px rgba(220,38,38,.35);transition:left .32s cubic-bezier(.4,0,.2,1),width .32s cubic-bezier(.4,0,.2,1)"></span>
           <sc-for list="{{ mirChips }}" as="mc" hint-placeholder-count="3">
             <button sc-camel-on-click="{{ mc.go }}" data-seg-active="{{ mc.act }}" style="position:relative;z-index:1;background:none;color:{{ mc.c }};border:none;border-radius:980px;padding:10px 22px;cursor:pointer;font-weight:600;font-size:14px;transition:color .25s;white-space:nowrap">{{ mc.label }}</button>
@@ -6457,11 +6457,15 @@ class Component extends DCLogic {
     this.loadMarket();
     this.loadYt();
     setTimeout(() => this.watchSocial(), 60);
-    this.syncSegs();
-    setTimeout(() => this.syncSegs(), 120);
-    setTimeout(() => this.syncSegs(), 600);
-    window.addEventListener('load', () => this.syncSegs());
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => this.syncSegs());
+    // scrollActiveChipsIntoView() ovdje (ne u resize listeneru ispod) - pokriva
+    // izravno otvaranje rute čiji aktivni cip nije prvi u traci (npr. deep-link
+    // na /pokazatelji/krediti). Ponovljeno na istim checkpointima kao syncSegs()
+    // jer sirina cipova ovisi o ucitanom fontu.
+    this.syncSegs(); this.scrollActiveChipsIntoView();
+    setTimeout(() => { this.syncSegs(); this.scrollActiveChipsIntoView(); }, 120);
+    setTimeout(() => { this.syncSegs(); this.scrollActiveChipsIntoView(); }, 600);
+    window.addEventListener('load', () => { this.syncSegs(); this.scrollActiveChipsIntoView(); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { this.syncSegs(); this.scrollActiveChipsIntoView(); });
     this._segRs = () => this.syncSegs();
     window.addEventListener('resize', this._segRs);
     // Rotacija pokazatelja: 5 s vidljivo + 0,4 s prijelaz.
@@ -6594,12 +6598,33 @@ class Component extends DCLogic {
       this.resetHScroll();
     };
   }
-  // Sve horizontalno-skrolabilne trake (kategorije/podtabovi, [data-seg]) i
-  // tablice ([data-hscroll]) vracaju se na pocetak pri promjeni sekcije/taba -
-  // inace nova sekcija moze naslijediti skrol poziciju stare.
+  // Tablice ([data-hscroll]) nemaju pojam "aktivnog" elementa pa se vracaju na
+  // pocetak pri promjeni sekcije/taba - inace nova sekcija moze naslijediti
+  // skrol poziciju stare. Trake s cipovima ([data-seg]) IMAJU aktivni cip
+  // (data-seg-active="1") - njih se ne vraca na 0 (moglo bi ga sakriti ako je
+  // u sredini/na kraju trake), nego se aktivni cip skrola u vidljivi dio -
+  // vidi scrollActiveChipsIntoView().
   resetHScroll() {
     if (typeof document === 'undefined') return;
-    document.querySelectorAll('[data-seg], [data-hscroll]').forEach((el) => { el.scrollLeft = 0; });
+    document.querySelectorAll('[data-hscroll]').forEach((el) => { el.scrollLeft = 0; });
+    // setTimeout, ne requestAnimationFrame: resetHScroll() se poziva sinkrono
+    // odmah nakon setState-a, prije nego se novi data-seg-active commita u DOM
+    // - bez odgode bismo jos uvijek nasli STARI aktivni cip. rAF je nepouzdan
+    // (preglednici ga suspendiraju za tabove bez fokusa), setTimeout se uvijek
+    // izvrsi.
+    setTimeout(() => this.scrollActiveChipsIntoView(), 0);
+  }
+  // Centrira aktivni cip u svakoj [data-seg] traci, umjesto da ga scrollLeft:0
+  // ostavi izvan vidljivog dijela. Namjerno odvojeno od syncSegs() (koji se
+  // zove na SVAKI render) - poziva se samo pri stvarnoj promjeni sekcije/
+  // kalkulatora/kategorije (resetHScroll) i jednom pri mountu, nikad pri
+  // svakoj promjeni stanja, jer bi inace nasilno vracalo rucni skrol korisnika.
+  scrollActiveChipsIntoView() {
+    if (typeof document === 'undefined') return;
+    document.querySelectorAll('[data-seg]').forEach((el) => {
+      const act = el.querySelector('[data-seg-active="1"]');
+      if (act) act.scrollIntoView({ inline: 'center', block: 'nearest' });
+    });
   }
   go(tab) { return () => { this.setState({ tab: tab, menuOpen: false, blogOpen: null }, () => this._syncUrl()); if (typeof window !== 'undefined') { window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; } this.resetHScroll(); }; }
   _pathFor(s) {

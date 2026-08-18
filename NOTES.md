@@ -103,6 +103,19 @@ Zadnje ažuriranje: 18. 8. 2026.
   vlastitog polja na instanci (npr. `this._prevX`), nikad preko drugog
   parametra. Vidi `_calcIdent`/`_prevCalcIdent` u `componentDidUpdate` kao
   primjer obrasca.
+- **Cip trake ([data-seg]) s `justify-content:center` + `overflow-x:auto`
+  odsijecaju sadržaj s obje strane kad je širi od trake**, i početni
+  `scrollLeft` ne bude 0 nego na sredini overflowa. Uklonjeno centriranje s
+  `data-seg="calc"`, `"pok"`, `"mir"` (jedine trake koje su kombinirale oboje).
+  `resetHScroll()` više ne vraća cip-trake na `scrollLeft:0` (moglo bi sakriti
+  aktivni cip) — umjesto toga `scrollActiveChipsIntoView()` centrira aktivni
+  cip (`[data-seg-active="1"]`) preko `scrollIntoView({inline:'center'})`.
+  `[data-hscroll]` (tablice, nemaju aktivni element) i dalje se vraćaju na 0.
+  Poziva se i na mountu (isti checkpointi kao `syncSegs()`, zbog širine cipova
+  ovisne o fontu) radi izravnih ruta čiji aktivni cip nije prvi u nizu.
+  **Nužno `setTimeout(fn, 0)`, ne `requestAnimationFrame`** — potonji se ne
+  pokreće pouzdano (u pozadinskim/nefokusiranim tabovima ga preglednik može
+  suspendirati), pa je "popravak" izgledao neaktivan za pod-tabove kalkulatora.
 - **Publication ID ostaje u git historyju** — nije eksploatabilan bez API ključa,
   rewrite historyja nije vrijedan rizika.
 - **GitHub Pages ugašen** (17.8.) — bila je druga živa kopija na
@@ -147,6 +160,11 @@ Development okruženje je zaključano na Hobby planu — ne treba.
   `prevState` (vidi §3) pa je stari uvjet bio no-op. Popravljeno praćenjem
   identiteta kalkulatora ručno (`_prevCalcIdent`); uneseni podaci (iznosi,
   e-mail adresa u modalu) namjerno ostaju sačuvani.
+- **Aktivni čip nije vidljiv u kategorijskim trakama.** Na `/pokazatelji`
+  (i drugdje) traka je pri prvom otvaranju bila skrolana na sredinu
+  (`justify-content:center` + `overflow-x:auto` odsijeca simetrično), a
+  `resetHScroll()` je nakon toga vraćao na `scrollLeft:0`, sakrivajući aktivni
+  čip ako nije prvi. Vidi §3.
 
 ### Riješeno 17. 8. 2026.
 - **Deep-linkovi slomljeni na 23/30 URL-ova.** `./support.js` na ruti s dva
