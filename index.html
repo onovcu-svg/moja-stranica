@@ -2987,7 +2987,7 @@
         <p style="font-weight:400;font-size:clamp(16px,1.9vw,20px);line-height:1.55;color:var(--ink);max-width:56ch;margin:0 auto 12px;text-wrap:pretty">Svi najvažniji pokazatelji za tvoje osobne financije na jednom mjestu. Provjeri stopu inflacije, plaće, kamate, mirovine i cijene nekretnina.</p>
         <p style="font-weight:300;font-size:clamp(14.5px,1.6vw,16.5px);line-height:1.55;color:var(--soft);max-width:52ch;margin:0 auto clamp(22px,3.5vh,32px);text-wrap:pretty">Svi pokazatelji na jednom mjestu, s povijesnim kretanjem i objašnjenjem što svaki broj znači u praksi.</p>
         <div style="display:inline-flex;gap:clamp(10px,2vw,20px);align-items:center;flex-wrap:wrap;justify-content:center;border:1px solid var(--line);border-radius:980px;padding:9px 18px">
-          <span style="font-weight:400;font-size:12.5px;color:var(--soft)">Zadnje ažuriranje: <strong style="color:var(--ink);font-weight:500">{{ trzisteMjesec }}</strong></span>
+          <span style="font-weight:400;font-size:12.5px;color:var(--soft)">{{ trzisteLabel }}: <strong style="color:var(--ink);font-weight:500">{{ trzisteMjesec }}</strong></span>
           <span style="width:1px;height:13px;background:var(--line);display:block"></span>
           <span style="font-weight:400;font-size:12.5px;color:var(--soft)">Izvori: <strong style="color:var(--ink);font-weight:500">{{ pokIzvori }}</strong></span>
         </div>
@@ -5515,7 +5515,7 @@ const TRZISTE = [
   { id: 'placaProsjek', label: 'Prosječna neto plaća', kratko: 'DZS, mjesečno', izvor: 'DZS', datum: 'svibanj 2026.', val: 1552, prev: 1552, hint: 'Izračunaj bruto za prosječnu plaću', fmt: 'eur' },
   { id: 'mirovina', label: 'Prosječna starosna mirovina', kratko: 'HZMO, bez međunarodnih ugovora', izvor: 'HZMO', datum: 'lipanj 2026.', val: 721.73, prev: 721.28, hint: 'Otvori pokazatelje mirovinskog sustava', fmt: 'eur' },
   { id: 'stambeni', label: 'Stambeni kredit', kratko: 'novi poslovi, prosjek', izvor: 'HNB', datum: 'lipanj 2026.', val: 2.90, prev: 2.92, hint: 'Primijeni u kreditnom kalkulatoru' },
-  { id: 'hpi', label: 'Rast cijena nekretnina', kratko: 'indeks cijena, godišnje', izvor: 'DZS', datum: 'prvo tromjesečje 2026.', val: 11.0, prev: 10.2, hint: 'Otvori pokazatelje nekretnina', per: 'od prošlog tromjesečja' }
+  { id: 'hpi', label: 'Rast cijena nekretnina', kratko: 'indeks cijena, godišnje', izvor: 'DZS', datum: 'prvo tromjesečje 2026.', val: 14.3, prev: 10.2, hint: 'Otvori pokazatelje nekretnina', per: 'od prošlog tromjesečja', dec: 1 }
 ];
 
 const FAQ = [
@@ -5750,7 +5750,7 @@ const POK_KAT = {
     naslov: 'Nekretnine', izvor: 'DZS i eNekretnine · tržište stambenih nekretnina',
     bluf: 'Cijene stambenih nekretnina u Hrvatskoj u godinu su dana porasle {HPI_RAST}, a od 2015. su se više nego udvostručile. U {NEK_GOD} izdano je {NEK_DOZVOLE} građevinskih dozvola i evidentirano {NEK_KUPOPROD} kupoprodaja stanova.',
     stat: [
-      { val: '11,0 %', label: 'Godišnji rast cijena', sub: 'indeks DZS · prvo tromjesečje 2026.', d: 0.8 },
+      { val: '14,3 %', label: 'Godišnji rast cijena', sub: 'indeks DZS · prvo tromjesečje 2026.', d: 0.8 },
       { val: '36.400', label: 'Kupoprodaja stanova', sub: 'eNekretnine · 2025.', d: 4.9 }
     ],
     graf: { key: 'stambeni', naslov: 'Indeks cijena stambenih objekata', jed: '', dec: 1 }
@@ -5797,7 +5797,7 @@ const POK_FAQ_KRED = [
 
 // FAQ za kategoriju Nekretnine. Ostale kategorije koriste POK_FAQ.
 const POK_FAQ_NEK = [
-  { p: 'Koliko su porasle cijene nekretnina u Hrvatskoj?', o: 'Indeks cijena stambenih objekata, koji DZS objavljuje tromjesečno, u godinu je dana porastao 11,0 %, a od 2015. za 139,1 %. Praktično: za isti novac kojim se 2015. kupovao stan od 50 m² danas se kupuje 20,9 m². Cijene su padale od 2009. do 2014., a od 2015. rastu svake godine.' },
+  { p: 'Koliko su porasle cijene nekretnina u Hrvatskoj?', o: 'Indeks cijena stambenih objekata, koji DZS objavljuje tromjesečno, u godinu je dana porastao 14,3 %, a od 2015. za 139,1 %. Praktično: za isti novac kojim se 2015. kupovao stan od 50 m² danas se kupuje 20,9 m². Cijene su padale od 2009. do 2014., a od 2015. rastu svake godine.' },
   { p: 'Jesu li prikazane cijene s PDV-om?', o: 'Indeks cijena stambenih objekata mjeri stvarne transakcijske cijene, u kojima je PDV uključen ako je nekretnina bila u sustavu PDV-a. Referentne cijene Ministarstva prostornoga uređenja objavljuju se bez PDV-a, jer je cijena bez poreza osnovica za mjere poput povrata poreza pri kupnji prve nekretnine. Kod novogradnje u sustavu PDV-a stvarna cijena koju plaćaš viša je za iznos poreza; kod kupnje od privatne osobe PDV se ne plaća.' },
   { p: 'Kako se računa indeks cijena stambenih objekata?', o: 'DZS ga računa iz stvarnih kupoprodajnih transakcija koje mu prosljeđuje Porezna uprava, a ne iz oglasnih cijena. Metoda je hedonistička regresija, koja iz cijene izdvaja utjecaj svojstava nekretnine (veličina, lokacija, starost) pa indeks mjeri promjenu cijene, a ne promjenu strukture prodanih stanova. Baza je 2015. = 100.' },
   { p: 'Zašto nema podatka o cijeni najma?', o: 'Zato što ne postoji službena statistika razine najamnine koja bi izdržala isti standard kao ostali pokazatelji na portalu. Indeks stanarina unutar potrošačkih cijena pokazuje samo promjenu, ne iznos, a procjene najamnina po gradovima objavljuju se jednom godišnje i modelom. Kad se pojavi mjerodavan izvor, najam ide na ovu stranicu.' }
@@ -8312,6 +8312,10 @@ class Component extends DCLogic {
       console.error('pokDatum: nepoznat s.pokKat "' + s.pokKat + '"');
       return ZADNJE_RAZDOBLJE;
     })();
+    // Label uz pokDatum - "Zadnje ažuriranje" ne vrijedi za Nekretnine, koje
+    // imaju tri razdoblja (vidi IZVORI.md); tamo banner tvrdi samo ono sto
+    // pokDatum stvarno jest (indeks cijena), ne generalizirano "azuriranje".
+    const pokDatumLabel = s.pokKat === 'nekretnine' ? 'Indeks cijena' : 'Zadnje ažuriranje';
     const nPts = s.pokPer === 1 ? 4 : (s.pokPer === 3 ? 12 : 20);
     const gKey = pk.graf.key, gDec = pk.graf.dec, gJed = pk.graf.jed;
     const serija = SERIJE[gKey].slice(-nPts);
@@ -8432,7 +8436,7 @@ class Component extends DCLogic {
         // Datum se veže uz pokazatelj, ne uz stranicu: DZS, HNB i HANFA
         // objavljuju u različitim ciklusima.
         potpis: (x.izvor || 'HNB · DZS') + ' · ' + (x.datum || ZADNJE_RAZDOBLJE),
-        val: isEur ? eur(x.val, 0) : pct(x.val, 2),
+        val: isEur ? eur(x.val, 0) : pct(x.val, x.dec ?? 2),
         arrow: Math.abs(d) < prag ? '→' : (d > 0 ? '▲' : '▼'),
         delta: Math.abs(d) < prag ? 'bez promjene' : (isEur ? eur(Math.abs(d), 0) : nf(2).format(Math.abs(d)) + ' pp') + ' ' + period,
         deltaColor: Math.abs(d) < prag ? SOFT : (d > 0 ? ACC : SOFT),
@@ -9012,6 +9016,7 @@ class Component extends DCLogic {
       // opcenito za sve (vidi pokDatum). Ticker (trzistePotpis, dolje) i dalje
       // cita s.trzisteMjesec izravno iz state-a, nedirano.
       trzisteMjesec: pokDatum,
+      trzisteLabel: pokDatumLabel,
 
       mirStup: { s1: s.mirStup === '1', s2: s.mirStup === '2', s3: s.mirStup === '3' },
       mirChips: [['1', '1. stup'], ['2', '2. stup'], ['3', '3. stup']].map((x) => {
