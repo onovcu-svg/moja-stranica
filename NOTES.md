@@ -199,6 +199,9 @@ Zadnje ažuriranje: 18. 8. 2026., 12:52
   isti obrazac kao postojeći `fmt`. `tickList` čita `x.dec ?? 2`. Bez `dec`
   stavka ostaje na 2 decimale. Postavljeno `dec: 1` na `hpi` jer kartica i
   sažetak prikazuju jednu decimalu — vidi pravilo o identičnom prikazu brojke.
+- **Cjeloviti nalaz prije lansiranja: `AUDIT-2026-08-18.md`** (89 potvrđenih
+  nalaza po kategorijama, s brojevima linija i dokazima, 11 oborenih s
+  obrazloženjem, i popis onoga što je provjereno i ispravno).
 
 ### Sadržaj
 - Kontakt uklonjen iz mobilnog izbornika, radi simetrije s desktopom. Forma
@@ -273,13 +276,28 @@ Development okruženje je zaključano na Hobby planu — ne treba.
 - **Bijeli prostor ispod footera na mobilnom** — vidi §3.
 
 ### Poznato, namjerno neriješeno
-- **`{{ a.d }}` i slični placeholderi u SVG atributima** (`index.html:766, 3753,
-  3573, 3580`). Preglednik parsira sirovi `d="{{ a.d }}"` prije hidracije, javi
-  grešku, pa runtime prepiše ispravnom vrijednošću. **Grafovi rade** — provjereno
-  uživo. Konzola ima 4 poznate greške po učitavanju. Nestat će s migracijom na
-  build. Filter u DevToolsu: `-a.d -nek.kuca`
-- **Nema prave 404 stranice** — nepoznata ruta preusmjerava na `/` preko
-  `history.replaceState`.
+- **`{{ a.d }}` i slični placeholderi u SVG atributima** (`index.html:822` i
+  `3762` za `d`/`transform`, `3615` i `3622` za `width`/`height` kućica).
+  Preglednik parsira sirovi `d="{{ a.d }}"` prije hidracije, javi grešku, pa
+  runtime prepiše ispravnom vrijednošću. **Grafovi rade** — provjereno uživo.
+  **Konzola ima 8 poznatih grešaka po učitavanju** (4 mjesta × 2 atributa), i to
+  na SVAKOJ ruti — cijeli template je u sirovom HTML-u pa preglednik parsira sve
+  placeholdere neovisno o tome koja se sekcija prikazuje. Izmjereno 18.8.2026. u
+  čistom tabu; prije je ovdje pisalo 4 i linije 766/3753/3573/3580, što su bile
+  zastarjele vrijednosti (linije su se pomaknule uklanjanjem `NEK_GRAD`).
+  Nestat će s migracijom na build. Filter u DevToolsu: `-a.d -nek.kuca`
+- **Nema prave 404 stranice, i "preusmjerava na `/`" vrijedi SAMO za
+  jednosegmentne rute.** Zaštita u `componentDidMount` (6395) gleda samo
+  `init.tab !== 'home'`, pa se za dvosegmentne rute `history.replaceState('/')`
+  nikad ne izvrši: `_stateFromPath` za `/pokazatelji/bilo-što` vrati
+  `{ tab: 'pok', pokKat: 'bilo-što' }`, `tab` nije `'home'`, URL ostaje i Vercel
+  rewrite vraća **200 s djelomičnim sadržajem (soft-404)**. Konkretno:
+  `/pokazatelji/bilo-što` prikaže inflacijski sažetak i 4 inflacijske stat
+  kartice (3009/3014 nisu pod nijednim `sc-if`, fallback 8297) ali bez ijednog
+  grafa i bez aktivnog čipa; `/kalkulatori/bilo-što` prikaže objašnjenje
+  kalkulatora plaće (fallback 7869) bez ijednog kalkulatora;
+  `/blog/<nepostojeći-slug>` prazan članak (7835). Loše i za korisnika i za
+  indeksiranje. Vidi `AUDIT-2026-08-18.md`.
 - **Kamatne stope, plaće i ostali podaci u Pokazateljima su hardkodirani**
   (`TRZISTE` konstanta). `marketApiUrl` prop postoji ali je prazan — mehanizam
   za povlačenje nikad nije spojen. Ažurira se ručno.
@@ -328,8 +346,13 @@ obrada. Testirati na pravom uređaju.
       rendera (inline script u `<head>` koji postavi klasu na `<html>`,
       inače bljesne svijetla tema), poštivanje `prefers-color-scheme` ako
       korisnik nikad nije birao, i fallback kad `localStorage` nije dostupan
-      (privatni tab). **Nakon implementacije dopuniti politiku privatnosti** —
-      trenutno tvrdi da se ništa ne pohranjuje na uređaju.
+      (privatni tab). **VAŽNO, obrnuto od onoga što je ovdje prije pisalo:
+      politika privatnosti (`index.html:4224`) VEĆ SAD tvrdi da se „tamna tema i
+      zadnji otvoreni kalkulator spremaju lokalno u tvom pregledniku", a
+      `localStorage`/`sessionStorage` imaju 0 pojava u `index.html` i
+      `support.js`.** Dokument je dakle netočan DANAS, ne postaje netočan nakon
+      implementacije — pravni tekst opisuje pohranu koja ne postoji. Popravak
+      teksta je neovisan o implementaciji i može ići odmah.
 - [ ] **Povezati `onovcu.hr` u Vercel Domains — ZADNJA STAVKA**
 
 ### Poslije lansiranja
