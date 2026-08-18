@@ -3,7 +3,7 @@
 Radni dnevnik projekta. Odluke, ograničenja i otvorene stavke.
 **Claude Code: pročitaj ovaj file prije svakog većeg zadatka.**
 
-Zadnje ažuriranje: 18. 8. 2026., 15:52
+Zadnje ažuriranje: 18. 8. 2026., 20:27
 
 ---
 
@@ -231,6 +231,35 @@ Zadnje ažuriranje: 18. 8. 2026., 15:52
   2021/914). Ne pisati DPF u politici privatnosti — jedan sekundarni izvor to
   tvrdi, ali je u suprotnosti s njihovim pravnim dokumentom. Resend je
   drugačiji slučaj: tamo DPF stoji.
+- **`aria-label` ne traži `sc-camel-` prefiks** — `support.js` ga propušta
+  nepromijenjeno za obične DOM elemente (432-440). Prefiks postoji samo za
+  pravu camelCase sintaksu bez crtice. Svih 76 polja obrasca ima `aria-label`
+  izveden iz vidljivog labela; `id`/`for` parovi se NE koriste (tražili bi
+  generiranje jedinstvenih id-eva, `aria-label` je dovoljan za dostupno ime).
+- **Blog kartice koriste "stretched-link" obrazac, ne `<a>` oko cijele kartice.**
+  Unutar kartice postoji YouTube `<a>` (aktivan na svim objavama), pa bi
+  omotavanje dalo ugniježđeni `<a>` — nevažeći HTML. Rješenje: kartica ostaje
+  `<div>` s `position:relative`, dobiva nevidljivi `<a href="/blog/<slug>">`
+  preko cijele površine. **Oba trebaju eksplicitan `z-index`** — unutarnji div
+  sa sličicom je `position:relative` i kasnije u DOM-u, pa bez toga prekriva
+  overlay (otkriveno `elementFromPoint`-om, ne vidi se iz koda).
+- **`otvoriLink` poziva `preventDefault()` SAMO kad nije pritisnut
+  Cmd/Ctrl/Shift.** Bezuvjetni `preventDefault()` gasi otvaranje u novom tabu —
+  točno funkciju radi koje je stretched-link i uveden.
+- **`prenesi()` (refi → kredit) postavlja `kIzvor` u callbacku drugog
+  `setState`**, ne u prvom. U prvom bi ga `componentDidUpdate` obrisao u istom
+  ciklusu (reset lista, promjena `_calcIdent`), pa banner "Iz refinanciranja"
+  nikad nije bio vidljiv. Reset lista i `_calcIdent` mehanizam su netaknuti —
+  banner i dalje ispravno nestaje pri prelasku na treći kalkulator.
+- **`faqGrupe` ima dvije grupe: "Pokazatelji" i "Kalkulatori".** Druga se puni
+  iz `CALC_META[*].faq`. `FAQ` niz se NE mijenja jer se renderira i na
+  naslovnici (9676); dva pitanja koja se preklapaju s `CALC_META` verzijama
+  izostavljena su samo iz spoja. `CALC_META.faq` ne koristi tokene (statični
+  brojčani primjeri u tekstu) — ako se ikad promijeni npr. stopa zdravstvenog
+  doprinosa, ti primjeri se neće sami ažurirati.
+- **Traka filtera vrste na `/blog` prikazuje se samo kad postoje obje vrste
+  objava** — isti obrazac kao `imaKats`. Danas su sve objave video pa je traka
+  skrivena; prvi tekstualni članak s `vrsta: 'blog'` je vraća automatski.
 
 ### Sadržaj
 - Kontakt uklonjen iz mobilnog izbornika, radi simetrije s desktopom. Forma
@@ -298,6 +327,24 @@ Development okruženje je zaključano na Hobby planu — ne treba.
 - **Politika privatnosti tvrdila dvije neistine** (`701036a`) — pohranu teme u
   pregledniku (`localStorage` = 0 pojava) i obradu newslettera unutar EGP-a
   (beehiiv je američki). Oboje ispravljeno.
+- **Lažna potvrda uspjeha na sve tri forme** (`d280f9f`) — `t0` s korisnikovog
+  sata; pomaknut sat naprijed davao je 200 bez slanja maila uz punu potvrdu.
+- **Rate limit se sam produžavao** (`d280f9f`) — odbijeni zahtjev je pomicao
+  prozor.
+- **Privola za newsletter nije se bilježila serverski** (`d280f9f`).
+- **`null` se prikazivao kao nula u Pokazateljima** (`e31b8fb`) —
+  `isFinite(null) === true`. Promjena kroz razdoblje za gotovinske kredite bila
+  je +5,42 pp umjesto −0,06 pp; medijan plaće 0,00 € dok je tekst dva reda
+  iznad govorio da nije riječ o nuli.
+- **`/cesta-pitanja` prikazivala samo pola pitanja** (`a5c2516`) — 24 od 50.
+  Nedovršena implementacija, ne urednička odluka.
+- **Meta, rute, klizači, meni, `_syncUrl`** (`285ea67`) —
+  `/kalkulatori/povijest` nasljeđivao naslov kalkulatora plaće; čip "Mediji"
+  slao temu "Sponzorstvo"; `/kalkulatori` tiho otvarao plaću; `pokOd/pokDo` bez
+  uparivanja; mobilni meni ostajao otvoren na Natrag; četiri putanje
+  preskakale `_syncUrl`/skrol.
+- **Pristupačnost** (`96dd7d4`) — 76 polja bez dostupnog imena, blog kartice
+  bez `href`.
 
 ### Riješeno 17. 8. 2026.
 - **Deep-linkovi slomljeni na 23/30 URL-ova.** `./support.js` na ruti s dva
@@ -353,6 +400,27 @@ Development okruženje je zaključano na Hobby planu — ne treba.
 - **Rate limit se sam produžuje**: `arr.push(now)` je izvan grane pa i odbijeni
   zahtjev pomiče prozor. Korisnik koji pritišće "Pokušaj ponovno" drži se u
   blokadi. Ide u prolaz 2.
+- **62 gumba s `tabindex="-1"` bez zamjenske tipkovničke navigacije.** Uzorak
+  je uobičajen kod segmentiranih kontrola kad postoji roving tabindex s
+  upravljanjem strelicama — ovdje ga nema, pa su te kontrole izvan tab reda.
+  Uključuje "Izvoz u Excel" (jedini način preuzimanja otplatnog plana) i
+  zatvaranje mail modala (koje nema ni Escape handler). Posljedica vizualnog
+  buildera; ide s migracijom.
+- **Skala grafa inflacije: pozitivna i negativna zona nisu na istoj skali**
+  (8047-8052, i 7886-7892 u kalkulatoru povijesti). −1,1 % izgleda kao ~35 %
+  stupca od +10,8 %, a stvarno je 10 %. Predznaci i tooltipovi su ispravni,
+  pogrešan je samo vizualni odnos.
+- **"Indeks 100 → X" protuslovi vlastitom grafu** (3607). Za "Od 2010." traka
+  tvrdi 100 → 204,9, tooltipovi pokazuju DZS skalu 116,7 → 239,1, opis kartice
+  tvrdi bazu 2015. Zadano (Od 2015.) se slučajno poklapa.
+- **58 handlera u `on:` bez reference u predlošku**, od toga ~40 `*S` za
+  slidere kojih više nema. Plus 5 nekorištenih tokena u `faqTokens`, mrtvi
+  `schedule()`, `mirScenView`, i ~40 mrtvih ključeva u objektima koje
+  `renderVals` vraća. Puni popis u `AUDIT-2026-08-18.md` §E.
+- **Rate limit off-by-one**: propušta 6 zahtjeva prije blokade, ne 5.
+- **`syncSegs` prebojava aktivni čip i nikad ne vrati boju** (6517). Nakon PDF
+  print pregleda aktivni čip može ostati crven na crvenom do prve promjene
+  čipa. Srednja pouzdanost — izvedeno iz koda, nije reproducirano uživo.
 
 ### iOS-specifično — ne može se reproducirati u Chromeu
 Auto-zoom na inpute, ponašanje visual viewporta pri tipkovnici, `height:100%`
@@ -366,7 +434,14 @@ obrada. Testirati na pravom uređaju.
 - [x] PDF pregled — cijeli list stane u širinu ekrana na mobilnom (CSS `zoom`, vidi §3)
 - [x] Dinamički naslovi i description po ruti (svih 30 URL-ova + og:/twitter:, vidi §3)
 - [ ] Layout provjera cijele stranice na 430px
-- [ ] Funkcionalna provjera cijele stranice (što izgleda da radi a ne radi)
+- [x] **Funkcionalna provjera cijele stranice** (što izgleda da radi a ne radi) —
+      odrađena kao `AUDIT-2026-08-18.md` (89 nalaza). Popravljeno danas:
+      sigurnosna blokada, lažna potvrda formi, netočni podaci, FAQ spoj,
+      meta/rute/klizači, pristupačnost. Preostalo je zapisano u §5 "Poznato,
+      namjerno neriješeno" i §6 "Poslije lansiranja".
+- [ ] **Cmd/Ctrl-klik na blog karticu otvara novi tab** — testni sandbox to nije
+      mogao vizualno potvrditi. Provjeriti na stvarnom uređaju.
+- [ ] **Tab tipkom do blog kartice, Enter otvara članak** — isto ograničenje.
 - [ ] Provjera da logika izračuna nije dotaknuta: `git diff 580b606 HEAD -- index.html`
 - [x] **Provjera izvora i točnosti svih podataka u Pokazateljima.**
       Interna konzistentnost popravljena (`d71eb73`), točnost provjerena prema
@@ -417,6 +492,16 @@ obrada. Testirati na pravom uređaju.
       2002.–2025. Postojeći niz (raspon 66–239) je stara baza. Namjerno
       odgođeno — za graf trenda baza je nebitna dok su sve točke na istoj.
       Linkovi i obrazloženje u `IZVORI.md`.
+- [ ] **Privola u beehiiv kao `custom_field`.** Serverska provjera radi
+      (`d280f9f`), ali privola se ne zapisuje u beehiiv. Traži ručno kreiranje
+      polja u beehiiv dashboardu prije nego kod može poslati `custom_fields`.
+- [ ] **Rate limit s dijeljenim stanjem.** In-memory `Map` ne preživljava
+      hladne startove. Provjeriti ima li Vercel Hobby platformski rate limit —
+      to bi bilo rješenje bez koda i bez novog izvršitelja obrade.
+- [ ] **Prava 404 stranica.** Soft-404 na dvosegmentnim rutama vraća 200 s
+      djelomičnim sadržajem — loše za korisnika i za indeksiranje. Vidi §5.
+- [ ] **Neovisno otvaranje FAQ-a po grupi.** `faqSveOpen` je jedna dijeljena
+      vrijednost, pa je samo jedno pitanje otvoreno na cijeloj stranici.
 
 ### Sporedno
 - Domena `onovcu.hr` istječe **13. 11. 2026.** (registrar: Hrvatski Telekom /
