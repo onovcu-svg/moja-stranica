@@ -9412,7 +9412,16 @@ class Component extends DCLogic {
         Object.assign({ label: '5 godina', go: () => this.setState({ pokPer: 5 }) }, perChip(5))
       ],
       faqGrupe: [
-        { naslov: 'Sva pitanja', opis: 'Pitanja uz kalkulatore i pokazatelje, na jednom mjestu.', pref: 'a', pitanja: FAQ.concat(POK_FAQ, POK_FAQ_KRED, POK_FAQ_NEK, POK_FAQ_INF, POK_FAQ_PLACE, POK_FAQ_MIR) }
+        {
+          naslov: 'Pokazatelji', opis: 'Inflacija, plaće, kamate, mirovine i nekretnine — objašnjenja brojki s /pokazatelji.', pref: 'a',
+          // Bruto1/Bruto2 i "prijevremena otplata vs ulaganje" izlaze iz ove grupe -
+          // isto pitanje postoji u CALC_META.placa/kredit.faq (grupa "Kalkulatori"
+          // nize), s konkretnim brojcanim primjerom. FAQ niz OSTAJE netaknut - i
+          // dalje se prikazuje cijeli, bez filtriranja, na naslovnici (predlozak 436).
+          pitanja: FAQ.filter((q) => q.p !== 'Koja je razlika između Bruto 1 i Bruto 2 plaće?' && q.p !== 'Isplati li se prijevremena otplata kredita ili ulaganje?')
+            .concat(POK_FAQ, POK_FAQ_KRED, POK_FAQ_NEK, POK_FAQ_INF, POK_FAQ_PLACE, POK_FAQ_MIR)
+        },
+        { naslov: 'Kalkulatori', opis: 'Pitanja uz svaki kalkulator, s konkretnim primjerima izračuna.', pref: 'b', pitanja: Object.values(CALC_META).flatMap((cm) => cm.faq || []) }
       ].map((g) => ({
         naslov: g.naslov, opis: g.opis,
         pitanja: g.pitanja.map((q, ix) => {
