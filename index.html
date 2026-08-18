@@ -2,6 +2,16 @@
 <html lang="hr">
 <head>
 <meta charset="utf-8">
+<script>
+(function(){
+  try {
+    var t = null;
+    try { t = localStorage.getItem('on-tema'); } catch (e) {}
+    var dark = t === 'dark' || (t === null && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches);
+    if (dark) document.documentElement.classList.add('on-dark');
+  } catch (e) {}
+})();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="/support.js"></script>
 </head>
@@ -48,6 +58,17 @@
   :root, html, body { --bg:#FFFFFF; --sec:#F4F4F5; --card:#FFFFFF; --field:#FFFFFF; --ink:#09090B; --soft:#71717A; --line:#E4E4E7; --line2:#D4D4D8; --acc:#DC2626; --tint:#FEF2F2; --inv:#09090B; --invInk:#FAFAFA; --invSoft:#A1A1AA; --invLine:#27272A; --sh:0 1px 2px rgba(9,9,11,.04),0 8px 30px rgba(9,9,11,.06); --shUp:0 2px 6px rgba(9,9,11,.06),0 18px 50px rgba(9,9,11,.10); }
   .on-root { --bg:#FFFFFF; --sec:#F4F4F5; --card:#FFFFFF; --field:#FFFFFF; --ink:#09090B; --soft:#71717A; --line:#E4E4E7; --line2:#D4D4D8; --acc:#DC2626; --tint:#FEF2F2; --inv:#09090B; --invInk:#FAFAFA; --invSoft:#A1A1AA; --invLine:#27272A; --sh:0 1px 2px rgba(9,9,11,.04),0 8px 30px rgba(9,9,11,.06); --shUp:0 2px 6px rgba(9,9,11,.06),0 18px 50px rgba(9,9,11,.10); }
   .on-root.on-dark { --bg:#09090B; --sec:#18181B; --card:#18181B; --field:#09090B; --ink:#FAFAFA; --soft:#A1A1AA; --line:#27272A; --line2:#3F3F46; --acc:#EF4444; --tint:#2A1517; --inv:#18181B; --invInk:#FAFAFA; --invSoft:#A1A1AA; --invLine:#3F3F46; --sh:0 1px 2px rgba(0,0,0,.5),0 8px 30px rgba(0,0,0,.4); --shUp:0 2px 6px rgba(0,0,0,.6),0 18px 50px rgba(0,0,0,.55); }
+  /* Tema PRIJE prvog rendera: postavlja se na <html> inline skriptom u <head>
+     (localStorage ili prefers-color-scheme), prije nego support.js uopce
+     stigne izvrsiti {{ rootClass }} i dati pravu .on-root.on-dark klasu na
+     korijenski div. Bez ovoga: neohidrirani div ima doslovno "{{ rootClass }}"
+     kao class-atribut (preglednik ga ne prepoznaje), pa nasljedjuje SVIJETLE
+     --bg/--ink vrijednosti s :root dok se JS ne izvrsi - otud bljesak. Isti
+     token-set kao .on-root.on-dark gore, plus eksplicitan override za body
+     (ima tvrdi background:#FFF na retku iznad, ne var(--bg)). toggleTheme()
+     drzi ovu klasu sinkroniziranu i nakon prve promjene teme. */
+  html.on-dark { --bg:#09090B; --sec:#18181B; --card:#18181B; --field:#09090B; --ink:#FAFAFA; --soft:#A1A1AA; --line:#27272A; --line2:#3F3F46; --acc:#EF4444; --tint:#2A1517; --inv:#18181B; --invInk:#FAFAFA; --invSoft:#A1A1AA; --invLine:#3F3F46; --sh:0 1px 2px rgba(0,0,0,.5),0 8px 30px rgba(0,0,0,.4); --shUp:0 2px 6px rgba(0,0,0,.6),0 18px 50px rgba(0,0,0,.55); }
+  html.on-dark body { background:#09090B; color:#FAFAFA; }
   a { color: #DC2626; text-decoration: none; }
   a:hover { color: #09090B; }
   .on-dark a { color: #EF4444; }
@@ -4230,7 +4251,7 @@
       </div>
       <div style="margin-top:clamp(26px,4vh,38px)">
         <h2 style="font-weight:600;font-size:clamp(18px,2.1vw,22px);letter-spacing:-.03em;margin:0 0 10px">Kolačići i praćenje</h2>
-        <p style="font-weight:300;font-size:15px;line-height:1.65;color:var(--soft);margin:0 0 12px;text-wrap:pretty">Portal ne koristi kolačiće za oglašavanje ni za praćenje kroz druge stranice. Postavke koje odabereš, kao što je tamna tema, važe samo do zatvaranja stranice — ništa se ne pohranjuje na tvom uređaju. Videi se ne ugrađuju u stranicu, nego se otvaraju na YouTubeu pa YouTube ne postavlja kolačiće dok si na portalu.</p>
+        <p style="font-weight:300;font-size:15px;line-height:1.65;color:var(--soft);margin:0 0 12px;text-wrap:pretty">Portal ne koristi kolačiće za oglašavanje ni za praćenje kroz druge stranice. Odabir teme (svijetla ili tamna) pamti se lokalno u tvom pregledniku kako bi ostao isti kad se sljedeći put vratiš — taj podatak ne izlazi s tvog uređaja, nije kolačić i ne služi praćenju. Videi se ne ugrađuju u stranicu, nego se otvaraju na YouTubeu pa YouTube ne postavlja kolačiće dok si na portalu.</p>
         <p style="font-weight:300;font-size:15px;line-height:1.65;color:var(--soft);margin:0 0 12px;text-wrap:pretty">Za osnovnu statistiku posjeta koristimo Cloudflare Web Analytics — bez kolačića i bez praćenja pojedinačnog korisnika kroz druge stranice. Prikupljaju se samo agregirani podaci o broju posjeta i pregledanim stranicama, ne pojedinačni profili.</p>
       </div>
       <div style="margin-top:clamp(26px,4vh,38px)">
@@ -6290,6 +6311,20 @@ const META_STATIC = {
   kontakt: { title: 'Kontakt' + SUFIKS, desc: 'Kontaktiraj autora portala O novcu za suradnju, pitanja o kalkulatorima i pokazateljima ili prijedloge tema za blog i edukacije za tvrtke.' },
 };
 
+// Početna vrijednost teme za React state - MORA računati identično inline
+// skripti u <head> (ista localStorage varijabla, isti fallback na
+// prefers-color-scheme), inače bi hidracija na trenutak prikazala krivu temu
+// pa je odmah prebacila natrag. Zaseban try/catch oko localStorage.getItem
+// (ne oko cijele funkcije) znači da privatni tab i dalje ispravno pada na
+// prefers-color-scheme umjesto direktno na false - vidi NOTES.md §6.
+function _initDark() {
+  let t = null;
+  try { t = localStorage.getItem('on-tema'); } catch (e) { /* privatni tab i sl. - t ostaje null */ }
+  try {
+    return t === 'dark' || (t === null && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches);
+  } catch (e) { return false; }
+}
+
 // Vraća { title, desc } za trenutno stanje rute. Nepoznat calcTab/pokKat/slug
 // pada na kalkulator plaće (META_CALC.placa), pokazatelje inflacije
 // (META_POK_INDEX) odnosno indeks bloga - nikad na prazan naslov.
@@ -6308,7 +6343,7 @@ function getMeta(s) {
 class Component extends DCLogic {
   _socialRef = React.createRef();
   state = {
-    tab: 'home', calcTab: 'hub', dark: false, menuOpen: false, wide: true,
+    tab: 'home', calcTab: 'hub', dark: _initDark(), menuOpen: false, wide: true,
     smjer: 'bruto', grad: 'Zagreb', djeca: 0, uzdrzavani: 0, mladi: 'ne', inv: false, invTip: 'dio',
     invUzdrz: false, invUzdrzTip: 'dio', invUzdrzBroj: 1,
     bonusIznos: null, bonusNeoporezivo: true,
@@ -9806,7 +9841,18 @@ class Component extends DCLogic {
         goHome: this.go('home'), tabHome: this.go('home'), tabCalc: this.go('calc'), tabB2b: this.go('b2b'),
         tabBlog: this.go('blog'), tabKontakt: this.go('kontakt'),
         toggleYtInfo: () => this.setState((st) => ({ ytInfoOpen: !st.ytInfoOpen })),
-        toggleTheme: () => this.setState((st) => ({ dark: !st.dark })),
+        // Perzistencija je best-effort: setItem moze baciti u privatnom tabu
+        // (Safari) ili kad je localStorage pun/blokiran politikom preglednika
+        // - u tom slucaju tema i dalje radi za ovu posjetu, samo se ne pamti.
+        // classList.toggle drzi <html> u koraku s Reactovim stanjem nakon
+        // prve promjene (inline skripta u <head> ga postavlja samo jednom,
+        // prije prvog renderiranja - vidi NOTES.md §6).
+        toggleTheme: () => this.setState((st) => {
+          const next = !st.dark;
+          try { localStorage.setItem('on-tema', next ? 'dark' : 'light'); } catch (e) {}
+          if (typeof document !== 'undefined') document.documentElement.classList.toggle('on-dark', next);
+          return { dark: next };
+        }),
         toggleMenu: () => this.setState((st) => ({ menuOpen: !st.menuOpen })),
         tabFaq: this.go('faq'), tabPriv: this.go('priv'),
         stop: (e) => { if (e && e.stopPropagation) e.stopPropagation(); },

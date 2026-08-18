@@ -473,18 +473,13 @@ obrada. Testirati na pravom uređaju.
       zatvaranja i ponovnog otvaranja je ispravno na dnu. Sumnja:
       `position:fixed` + visual viewport. Reproducirano na Kredit →
       Refinanciranje (iPhone 16 Pro Max, Safari).
-- [ ] **Odabrana tema se ne pamti.** Nakon refresha stranica se vrati na
-      svijetlu. Riješiti preko `localStorage`, uz: primjenu PRIJE prvog
-      rendera (inline script u `<head>` koji postavi klasu na `<html>`,
-      inače bljesne svijetla tema), poštivanje `prefers-color-scheme` ako
-      korisnik nikad nije birao, i fallback kad `localStorage` nije dostupan
-      (privatni tab). **VAŽNO, obrnuto od onoga što je ovdje prije pisalo:
-      politika privatnosti (`index.html:4224`) VEĆ SAD tvrdi da se „tamna tema i
-      zadnji otvoreni kalkulator spremaju lokalno u tvom pregledniku", a
-      `localStorage`/`sessionStorage` imaju 0 pojava u `index.html` i
-      `support.js`.** Dokument je dakle netočan DANAS, ne postaje netočan nakon
-      implementacije — pravni tekst opisuje pohranu koja ne postoji. Popravak
-      teksta je neovisan o implementaciji i može ići odmah.
+- [x] **Odabrana tema se pamti** (`localStorage`, ključ `on-tema`).
+      Primjenjuje se inline skriptom u `<head>` prije prvog rendera, pa nema
+      bljeska svijetle teme — dokazano tako da se tema ispravno postavi čak i
+      kad `support.js` potpuno padne (HTTP 500, React se nikad ne montira).
+      Bez ranijeg izbora poštuje `prefers-color-scheme`. Kad `localStorage`
+      nije dostupan (privatni tab), tema se mijenja ali se ne pamti, bez
+      greške. Politika privatnosti dopunjena istim commitom.
 - [ ] **Povezati `onovcu.hr` u Vercel Domains — ZADNJA STAVKA**
 
 ### Poslije lansiranja
