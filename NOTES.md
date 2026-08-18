@@ -3,7 +3,7 @@
 Radni dnevnik projekta. Odluke, ograničenja i otvorene stavke.
 **Claude Code: pročitaj ovaj file prije svakog većeg zadatka.**
 
-Zadnje ažuriranje: 18. 8. 2026., 12:52
+Zadnje ažuriranje: 18. 8. 2026., 15:52
 
 ---
 
@@ -202,6 +202,35 @@ Zadnje ažuriranje: 18. 8. 2026., 12:52
 - **Cjeloviti nalaz prije lansiranja: `AUDIT-2026-08-18.md`** (89 potvrđenih
   nalaza po kategorijama, s brojevima linija i dokazima, 11 oborenih s
   obrazloženjem, i popis onoga što je provjereno i ispravno).
+- **`/api/report` prihvaća SAMO whitelistane naslove i zatvorene obrasce
+  vrijednosti** (`dec1d4a`). Bio je otvoreni mail relay: primatelj, subject i
+  tijelo pod kontrolom pošiljatelja, bez autentikacije. Sad: `naslov` mora biti
+  jedan od 10 iz `buildPdf` grana, svaka vrijednost mora proći jedan od
+  obrazaca (eur, postotak, trajanje, datum, broj+riječ, euro s postotkom u
+  zagradi, raspon dvaju iznosa sa strelicom, kratka oznaka), labele imaju
+  vlastiti širi obrazac. Nijedan URL, `@` ni slobodna rečenica ne može doći u
+  mail. Izračun se NE prenosi na server — mail i ekran ostaju na istom `pdf`
+  objektu (6898), pa se brojke ne mogu razići.
+- **PRAVILO: svaki novi red u `buildPdf` mora proći `report.js` validaciju.**
+  Inače mail tiho pukne na 400 i korisnik dobije grešku bez objašnjenja. Ovo je
+  već dvaput uhvaćeno u testu: `'Da, do 1.200 €'` (7091, bonus u kalkulatoru
+  plaće) i `"667 € → 419 €"` (8482, model otplate "Rate") — oba su legitimni
+  fiksni stringovi koje prvi obrasci nisu pokrivali. Šest labela sadrži `%` i
+  zagrade (`"Doprinos I. stup, 15 %"`, `"Osobni odbitak (koeficijent 1,0)"`),
+  zato labele imaju širi obrazac od vrijednosti. Treći par u projektu koji se
+  mora držati usklađen bez mehanizma koji to jamči — kao `{CPI}` decimale i
+  `TRZISTE` niz-kao-objekt.
+- **`sazetak` više ne ide u mail.** Proza se ne može validirati (10 predložaka
+  × ternari unutar svakog). Klijent ga i dalje šalje, server ga ignorira. Mail
+  nosi `rez`/`male`/`param`. Ako se ikad vrati, treba mu vlastiti mehanizam.
+- **`reply_to` u `contact.js` (153) NIJE ranjivost.** Primatelj je fiksan
+  (`CONTACT_TO_EMAIL`), a adresa pošiljatelja je već vidljiva u tijelu maila
+  prije nego odgovoriš. Ne dirati.
+- **beehiiv koristi SCC, NE Data Privacy Framework.** Provjereno u beehiiv-ovom
+  vlastitom DPA (SCC Module 2, Controller-to-Processor, Odluka Komisije
+  2021/914). Ne pisati DPF u politici privatnosti — jedan sekundarni izvor to
+  tvrdi, ali je u suprotnosti s njihovim pravnim dokumentom. Resend je
+  drugačiji slučaj: tamo DPF stoji.
 
 ### Sadržaj
 - Kontakt uklonjen iz mobilnog izbornika, radi simetrije s desktopom. Forma
@@ -260,6 +289,15 @@ Development okruženje je zaključano na Hobby planu — ne treba.
   Usput otkriveno da ticker formatira sve postotke na 2 decimale fiksno, pa je
   ista brojka bila "14,3 %" na kartici i "14,30 %" u tickeru — riješeno
   poljem `dec`.
+- **`/api/report` bio otvoreni mail relay** (`dec1d4a`) — bilo kome, bilo
+  kakav tekst, s verificirane domene. Rizik je bio suspenzija Resenda ili
+  blacklist `onovcu.hr`, nakon čega prestaju raditi sve tri forme. Vidi §3.
+- **`image-slot.js` obrisan** (`701036a`) — 1225 linija, 64 KB, nula referenci,
+  ali se deployao i bio javno čitljiv na `onovcu.hr/image-slot.js`, uz interne
+  detalje razvojnog alata u komentarima. README.md ispravljen.
+- **Politika privatnosti tvrdila dvije neistine** (`701036a`) — pohranu teme u
+  pregledniku (`localStorage` = 0 pojava) i obradu newslettera unutar EGP-a
+  (beehiiv je američki). Oboje ispravljeno.
 
 ### Riješeno 17. 8. 2026.
 - **Deep-linkovi slomljeni na 23/30 URL-ova.** `./support.js` na ruti s dva
@@ -307,6 +345,14 @@ Development okruženje je zaključano na Hobby planu — ne treba.
   (kamatna stopa, 2,90–3,90 %) napunio bi graf indeksa cijena nekretnina
   (raspon 66–239). Provjeriti prije uključivanja.
 - **`STUP2_IMOVINA_MIL` (5675) se nikad ne prikazuje** — mrtav podatak.
+- **Rate limit u `api/*` je slab i to je svjesno prihvaćeno.** In-memory `Map`
+  ne preživljava hladne startove ni više instanci, pa limit 5/10min po IP-u
+  praktično ne postoji. Pravi popravak traži dijeljeno stanje (KV/Upstash) što
+  bi uvelo novog izvršitelja obrade i izmjenu politike privatnosti. Provjeriti
+  ima li Vercel Hobby platformski rate limit — to bi bilo rješenje bez koda.
+- **Rate limit se sam produžuje**: `arr.push(now)` je izvan grane pa i odbijeni
+  zahtjev pomiče prozor. Korisnik koji pritišće "Pokušaj ponovno" drži se u
+  blokadi. Ide u prolaz 2.
 
 ### iOS-specifično — ne može se reproducirati u Chromeu
 Auto-zoom na inpute, ponašanje visual viewporta pri tipkovnici, `height:100%`
@@ -331,7 +377,7 @@ obrada. Testirati na pravom uređaju.
       "Indeks cijena: prvo tromjesečje 2026." jer kategorija ima tri razdoblja.
       **Svi izvori, linkovi i ritam objava zapisani su u `IZVORI.md`** — prije
       svake buduće izmjene brojke otvoriti link odande.
-- [ ] beehiiv i EGP u politici privatnosti — tvrdnja o obradi u EGP-u je vjerojatno netočna
+- [x] beehiiv i EGP u politici privatnosti — ispravljeno (`701036a`)
 - [ ] InterCapital disclosure u sekciji Projekti (tekst §7)
 - [ ] `"O novcu"` u navodnike na naslovnici (samo tamo)
 - [ ] Provjera sitemapa i svih ruta
