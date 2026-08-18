@@ -3631,45 +3631,12 @@
         <div style="font-weight:300;font-size:11px;color:var(--soft);margin-top:16px;padding-top:10px;border-top:1px solid var(--line)">{{ src.dzsHpi }}</div>
       </div>
 
-      <div style="margin-top:clamp(20px,3vh,28px);background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden">
-        <div style="padding:clamp(20px,2.6vw,26px) clamp(20px,2.6vw,26px) 16px">
-          <div style="font-weight:600;font-size:16.5px;letter-spacing:-.025em;margin-bottom:5px">Prosječna cijena stana po gradovima</div>
-          <div style="font-weight:300;font-size:13px;color:var(--soft);line-height:1.5">Kupoprodajne cijene stanova, <strong style="color:var(--ink);font-weight:500">bez PDV-a</strong>. Klikni zaglavlje stupca za drugi redoslijed. Crvenkasto su označeni gradovi iznad državnog prosjeka od {{ nek.prosjekRH }}.</div>
-        </div>
-        <div data-hscroll style="overflow:auto">
-          <sc-raw-table style="width:100%;border-collapse:collapse;min-width:520px">
-            <sc-raw-thead>
-              <sc-raw-tr style="background:var(--sec)">
-                <sc-raw-th style="text-align:left;padding:0;width:34px"></sc-raw-th>
-                <sc-raw-th style="text-align:left;padding:0">
-                  <button sc-camel-on-click="{{ on.sortGrad }}" style="width:100%;text-align:left;background:none;border:none;padding:12px 10px 12px 0;cursor:pointer;font-weight:500;font-size:12px;color:{{ nek.gradBoja.grad }}">Grad {{ nek.gradStrelica.grad }}</button>
-                </sc-raw-th>
-                <sc-raw-th style="text-align:right;padding:0">
-                  <button sc-camel-on-click="{{ on.sortCijena }}" style="width:100%;text-align:right;background:none;border:none;padding:12px;cursor:pointer;font-weight:500;font-size:12px;color:{{ nek.gradBoja.cijena }}">Cijena po m² {{ nek.gradStrelica.cijena }}</button>
-                </sc-raw-th>
-                <sc-raw-th style="text-align:right;padding:0">
-                  <button sc-camel-on-click="{{ on.sortNekPromjena }}" style="width:100%;text-align:right;background:none;border:none;padding:12px clamp(20px,2.6vw,26px) 12px 12px;cursor:pointer;font-weight:500;font-size:12px;color:{{ nek.gradBoja.promjena }}">Godišnja promjena {{ nek.gradStrelica.promjena }}</button>
-                </sc-raw-th>
-              </sc-raw-tr>
-            </sc-raw-thead>
-            <sc-raw-tbody>
-              <sc-for list="{{ nek.gradovi }}" as="gr" hint-placeholder-count="12">
-                <sc-raw-tr style="border-top:1px solid var(--line);background:{{ gr.bg }}">
-                  <sc-raw-td style="padding:11px 0 11px clamp(20px,2.6vw,26px);font-weight:400;font-size:12px;color:var(--soft)">{{ gr.rb }}</sc-raw-td>
-                  <sc-raw-td style="padding:11px 10px 11px 12px;font-weight:400;font-size:13.5px;min-width:0">
-                    <div style="line-height:1.35">{{ gr.naziv }}</div>
-                    <div style="height:3px;border-radius:980px;background:var(--line);margin-top:6px;max-width:220px">
-                      <div style="height:100%;width:{{ gr.traka }};background:var(--acc);border-radius:980px;transition:width .4s ease"></div>
-                    </div>
-                  </sc-raw-td>
-                  <sc-raw-td style="padding:11px 12px;text-align:right;font-weight:600;font-size:14px;white-space:nowrap">{{ gr.cijena }}</sc-raw-td>
-                  <sc-raw-td style="padding:11px clamp(20px,2.6vw,26px) 11px 12px;text-align:right;font-weight:500;font-size:13.5px;color:{{ gr.promjenaBoja }};white-space:nowrap">{{ gr.promjena }}</sc-raw-td>
-                </sc-raw-tr>
-              </sc-for>
-            </sc-raw-tbody>
-          </sc-raw-table>
-        </div>
-        <div style="padding:14px clamp(20px,2.6vw,26px) 18px;font-weight:300;font-size:11px;color:var(--soft);border-top:1px solid var(--line)">{{ src.enekGrad }}</div>
+      <div style="margin-top:clamp(20px,3vh,28px);background:var(--card);border:1px solid var(--line);border-radius:18px;padding:clamp(20px,2.8vw,28px)">
+        <div style="font-weight:600;font-size:16.5px;letter-spacing:-.025em;margin-bottom:10px">Cijene po gradu</div>
+        <div style="font-weight:300;font-size:13.5px;line-height:1.6;color:var(--soft);margin-bottom:14px;text-wrap:pretty">Prosječne cijene stanova po gradovima i općinama objavljuje Ministarstvo prostornoga uređenja, graditeljstva i državne imovine. Riječ je o referentnim vrijednostima koje se koriste za izračun državnih poticaja pri kupnji prve nekretnine, izračunanim iz ostvarenih kupoprodaja u sustavu eNekretnine. Iz cijene novogradnje izuzet je PDV.</div>
+        <div style="font-weight:300;font-size:13.5px;line-height:1.6;color:var(--soft);margin-bottom:18px;text-wrap:pretty">Za Grad Zagreb cijene se objavljuju po katastarskim općinama, jer su razlike među četvrtima velike.</div>
+        <a href="https://mpgi.gov.hr/prosjecne-cijene-stanova-za-primjenu-u-2026/18577" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-weight:600;font-size:13.5px;color:var(--acc)" style-hover="text-decoration:underline">Pregled cijena po svim gradovima i općinama →</a>
+        <div style="font-weight:300;font-size:11px;color:var(--soft);margin-top:18px;padding-top:10px;border-top:1px solid var(--line)">Izvor: Ministarstvo prostornoga uređenja, graditeljstva i državne imovine · podaci za 2026.</div>
       </div>
 
       <div style="margin-top:clamp(20px,3vh,28px);background:var(--card);border:1px solid var(--line);border-radius:18px;padding:clamp(20px,2.8vw,28px)">
@@ -5702,18 +5669,6 @@ const HPI_GOD = [
   [2017, 104.8], [2018, 111.4], [2019, 121.6], [2020, 130.7], [2021, 138.4],
   [2022, 155.5], [2023, 175.0], [2024, 192.4], [2025, 215.6], [2026, 239.1]
 ];
-// Prosjecna cijena stana po m2, eNekretnine / MPGI, godisnja objava.
-// [grad, EUR/m2, godisnja promjena u %]
-const NEK_GRAD = [
-  ['Zagreb', 3150, 11.4], ['Split', 4350, 9.8], ['Rijeka', 2250, 12.6],
-  ['Osijek', 1620, 13.9], ['Zadar', 3050, 10.2], ['Dubrovnik', 5100, 7.4],
-  ['Pula', 2700, 9.1], ['Šibenik', 2950, 11.8], ['Varaždin', 1850, 12.2],
-  ['Karlovac', 1480, 10.6], ['Slavonski Brod', 1320, 14.3], ['Velika Gorica', 2050, 11.9],
-  ['Samobor', 2250, 10.8], ['Zaprešić', 2100, 12.4], ['Kaštela', 2900, 10.1],
-  ['Solin', 2750, 11.2], ['Sisak', 1180, 9.7], ['Vinkovci', 1250, 13.1],
-  ['Čakovec', 1700, 11.5], ['Koprivnica', 1450, 10.4], ['Bjelovar', 1220, 12.8],
-  ['Poreč', 3400, 8.6], ['Rovinj', 4600, 7.9], ['Opatija', 4800, 8.2], ['Makarska', 4100, 9.4]
-];
 // Aktivnost trzista. Dozvole: DZS, izdane gradevinske dozvole (mjesecno).
 // Kupoprodaje: eNekretnine, broj evidentiranih transakcija po vrsti nekretnine
 // (godisnje). Stanovi = stan/apartman, kuce = stambena zgrada / obiteljska kuca.
@@ -5793,10 +5748,9 @@ const POK_KAT = {
   },
   nekretnine: {
     naslov: 'Nekretnine', izvor: 'DZS i eNekretnine · tržište stambenih nekretnina',
-    bluf: 'Cijene stambenih nekretnina u Hrvatskoj u godinu su dana porasle {HPI_RAST}, a od 2015. su se više nego udvostručile. Prosječna cijena stana u Zagrebu je {NEK_ZG_M2}/m², u Splitu {NEK_ST_M2}/m², u oba slučaja bez PDV-a. U {NEK_GOD} izdano je {NEK_DOZVOLE} građevinskih dozvola i evidentirano {NEK_KUPOPROD} kupoprodaja stanova.',
+    bluf: 'Cijene stambenih nekretnina u Hrvatskoj u godinu su dana porasle {HPI_RAST}, a od 2015. su se više nego udvostručile. U {NEK_GOD} izdano je {NEK_DOZVOLE} građevinskih dozvola i evidentirano {NEK_KUPOPROD} kupoprodaja stanova.',
     stat: [
       { val: '11,0 %', label: 'Godišnji rast cijena', sub: 'indeks DZS · prvo tromjesečje 2026.', d: 0.8 },
-      { val: '3.150 €', label: 'Prosječni m² u Zagrebu', sub: 'stan, bez PDV-a · 2025.', d: 11.4 },
       { val: '36.400', label: 'Kupoprodaja stanova', sub: 'eNekretnine · 2025.', d: 4.9 }
     ],
     graf: { key: 'stambeni', naslov: 'Indeks cijena stambenih objekata', jed: '', dec: 1 }
@@ -5844,9 +5798,8 @@ const POK_FAQ_KRED = [
 // FAQ za kategoriju Nekretnine. Ostale kategorije koriste POK_FAQ.
 const POK_FAQ_NEK = [
   { p: 'Koliko su porasle cijene nekretnina u Hrvatskoj?', o: 'Indeks cijena stambenih objekata, koji DZS objavljuje tromjesečno, u godinu je dana porastao 11,0 %, a od 2015. za 139,1 %. Praktično: za isti novac kojim se 2015. kupovao stan od 50 m² danas se kupuje 20,9 m². Cijene su padale od 2009. do 2014., a od 2015. rastu svake godine.' },
-  { p: 'Jesu li prikazane cijene s PDV-om?', o: 'Nisu. Cijene po gradovima objavljuju se bez PDV-a, jer je cijena bez poreza osnovica za usporedbu i za mjere poput povrata poreza pri kupnji prve nekretnine. Kod novogradnje u sustavu PDV-a stvarna cijena koju plaćaš viša je za iznos poreza, kod kupnje od privatne osobe nije.' },
+  { p: 'Jesu li prikazane cijene s PDV-om?', o: 'Indeks cijena stambenih objekata mjeri stvarne transakcijske cijene, u kojima je PDV uključen ako je nekretnina bila u sustavu PDV-a. Referentne cijene Ministarstva prostornoga uređenja objavljuju se bez PDV-a, jer je cijena bez poreza osnovica za mjere poput povrata poreza pri kupnji prve nekretnine. Kod novogradnje u sustavu PDV-a stvarna cijena koju plaćaš viša je za iznos poreza; kod kupnje od privatne osobe PDV se ne plaća.' },
   { p: 'Kako se računa indeks cijena stambenih objekata?', o: 'DZS ga računa iz stvarnih kupoprodajnih transakcija koje mu prosljeđuje Porezna uprava, a ne iz oglasnih cijena. Metoda je hedonistička regresija, koja iz cijene izdvaja utjecaj svojstava nekretnine (veličina, lokacija, starost) pa indeks mjeri promjenu cijene, a ne promjenu strukture prodanih stanova. Baza je 2015. = 100.' },
-  { p: 'Zašto je indeks jedno, a cijena po m² drugo?', o: 'Indeks mjeri promjenu cijena kroz vrijeme na razini cijele države i objavljuje se tromjesečno. Cijena po m² je razina cijene u pojedinom gradu i objavljuje se jednom godišnje, iz registra eNekretnine. Dva podatka dolaze iz različitih objava i različitih razdoblja pa se postotak rasta indeksa i promjena cijene pojedinog grada ne moraju poklopiti.' },
   { p: 'Zašto nema podatka o cijeni najma?', o: 'Zato što ne postoji službena statistika razine najamnine koja bi izdržala isti standard kao ostali pokazatelji na portalu. Indeks stanarina unutar potrošačkih cijena pokazuje samo promjenu, ne iznos, a procjene najamnina po gradovima objavljuju se jednom godišnje i modelom. Kad se pojavi mjerodavan izvor, najam ide na ovu stranicu.' }
 ];
 
@@ -6367,7 +6320,7 @@ class Component extends DCLogic {
     c: { ime: '', email: '', poruka: '', tema: 'suradnja' }, ktSent: false, ktBurst: false, ktErr: '', ktHp: '', ktSlanje: false,
     // Vrijeme montiranja aplikacije - forme koriste ovo za "prebrzo poslano" provjeru (isti princip kao honeypot).
     formLoadedAt: Date.now(),
-    nlEmail: '', nlSent: false, nlBurst: false, nlPrivola: false, nlErr: '', nlSlanje: false, nlHp: '', blogOpen: null, filter: 'Sve', vrstaF: 'Sve', faqOpen: 0, pokFaqOpen: 0, pokOd: 2010, pokDo: 2026, mirStup: '1', mirKat: 0, mirScenView: 'iznos', plOd: 2010, plDo: 2026, nekOd: 2015, nekDo: 2026, nekHover: -1, nekSort: 'cijena', nekSmjer: 'desc', nekAkt: 'dozvole', nekVrsta: 'stanovi', nekAktHover: -1, ksOd: 2019, ksDo: 2026, ksVrsta: 'stambeni', ksHover: -1, ksIznos: 'stambeni', ksIznosHover: -1, sekSort: 'placa', sekSmjer: 'desc', kosMode: 'udio', kosSort: 'auto', kosSmjer: 'desc', kosHover: -1, placaHover: -1, kamoHover: -1, gh: {}, povHover: -1, placeMode: 'neto', placeHover: -1, faqSveOpen: 'a0', calcFaqOpen: 0, pokKat: 'inflacija', pokPer: 5, projPort: 'uk', projPer: 'sve',
+    nlEmail: '', nlSent: false, nlBurst: false, nlPrivola: false, nlErr: '', nlSlanje: false, nlHp: '', blogOpen: null, filter: 'Sve', vrstaF: 'Sve', faqOpen: 0, pokFaqOpen: 0, pokOd: 2010, pokDo: 2026, mirStup: '1', mirKat: 0, mirScenView: 'iznos', plOd: 2010, plDo: 2026, nekOd: 2015, nekDo: 2026, nekHover: -1, nekAkt: 'dozvole', nekVrsta: 'stanovi', nekAktHover: -1, ksOd: 2019, ksDo: 2026, ksVrsta: 'stambeni', ksHover: -1, ksIznos: 'stambeni', ksIznosHover: -1, sekSort: 'placa', sekSmjer: 'desc', kosMode: 'udio', kosSort: 'auto', kosSmjer: 'desc', kosHover: -1, placaHover: -1, kamoHover: -1, gh: {}, povHover: -1, placeMode: 'neto', placeHover: -1, faqSveOpen: 'a0', calcFaqOpen: 0, pokKat: 'inflacija', pokPer: 5, projPort: 'uk', projPer: 'sve',
     // Najnoviji podatak na portalu; pojedini pokazatelji nose vlastiti datum.
     trziste: TRZISTE, trzisteMjesec: ZADNJE_RAZDOBLJE, trzisteIzvor: 'HNB · DZS · HANFA', trzisteStatus: 'fallback',
     tickIx: 0, tickFade: false, ytLive: null, ytShown: 0, ytInfoOpen: false
@@ -8222,7 +8175,6 @@ class Component extends DCLogic {
       '{STUP3_CLANOVI}': nf(0).format(STUP3.clanovi),
       '{CPI}': pct(tz('inflacija'), 2), '{HPI_RAST}': pct(tz('hpi'), 1),
       '{KOSARICA_100}': eur(100 * (1 + tz('inflacija') / 100), 2),
-      '{NEK_ZG_M2}': eur(NEK_GRAD.find((g) => g[0] === 'Zagreb')[1], 0), '{NEK_ST_M2}': eur(NEK_GRAD.find((g) => g[0] === 'Split')[1], 0),
       '{NEK_GOD}': NEK_AKT[NEK_AKT.length - 1][0] + '.', '{NEK_DOZVOLE}': nf(0).format(NEK_AKT[NEK_AKT.length - 1][1]), '{NEK_KUPOPROD}': nf(0).format(NEK_AKT[NEK_AKT.length - 1][2]),
       '{MIROVINA}': eur(tz('mirovina'), 2), '{MIR_RATIO}': pct(tz('mirovina') / tz('placaProsjek') * 100, 1),
       '{STUP2_CLANOVI_MIL}': nf(2).format(STUP2_UK / 1e6) + ' milijuna', '{STUP2_B_PCT}': pct(STUP2[1].clanova / STUP2_UK * 100, 2),
@@ -9237,7 +9189,6 @@ class Component extends DCLogic {
         hnbStope: 'Izvor: HNB, tablica G2: kamatne stope kreditnih institucija na kredite kućanstvima (novi poslovi), vagani mjesečni prosjeci · zadnji podatak: ' + ZADNJE_HNB,
         hnbIznosi: 'Izvor: HNB, tablica G2: iznosi novih poslova u milijunima eura · zadnji podatak: ' + ZADNJE_HNB,
         dzsHpi: 'Izvor: DZS, indeks cijena stambenih objekata · zadnji podatak: ' + ZADNJE_HPI,
-        enekGrad: 'Izvor: eNekretnine, Ministarstvo prostornoga uređenja · cijene bez PDV-a · zadnji podatak: ' + ZADNJE_NEK,
         dzsDozvole: 'Izvor: DZS, izdane građevinske dozvole · zadnji podatak: ' + ZADNJE_DOZVOLE,
         enekAkt: 'Izvor: eNekretnine, evidentirane kupoprodaje · zadnji podatak: ' + ZADNJE_NEK,
         kategorija: 'Izvor: ' + pk.izvor + ' · zadnji podatak: ' + pokDatum,
@@ -9497,32 +9448,6 @@ class Component extends DCLogic {
           + '. Za isti novac kojim si ' + nkPrvi[0] + '. mogao kupiti stan od 50 m², '
           + (nkZadnji[0] === NK_ZADNJA ? 'danas' : nkZadnji[0] + '.') + ' možeš kupiti '
           + nf(1).format(50 / (nkZadnji[1] / nkPrvi[1])) + ' m².',
-        gradovi: (() => {
-          const kolona = s.nekSort === 'grad' ? 0 : (s.nekSort === 'promjena' ? 2 : 1);
-          const smjer = s.nekSmjer === 'asc' ? 1 : -1;
-          const vrh = NEK_GRAD.reduce((m, x) => Math.max(m, x[1]), 1);
-          return NEK_GRAD.slice().sort((a, b) => (kolona === 0
-            ? a[0].localeCompare(b[0], 'hr') * smjer
-            : (a[kolona] - b[kolona]) * smjer
-          )).map((r, ix) => ({
-            rb: ix + 1, naziv: r[0], cijena: eur(r[1], 0) + '/m²',
-            promjena: (r[2] >= 0 ? '+' : '−') + nf(1).format(Math.abs(r[2])) + ' %',
-            promjenaBoja: r[2] >= 0 ? ACC : SOFT,
-            traka: (r[1] / vrh * 100).toFixed(1) + '%',
-            bg: r[1] >= NEK_PROSJEK_M2 ? (s.dark ? '#2A1517' : '#FEF2F2') : 'transparent'
-          }));
-        })(),
-        gradStrelica: {
-          grad: s.nekSort === 'grad' ? (s.nekSmjer === 'asc' ? '↑' : '↓') : '',
-          cijena: s.nekSort === 'cijena' ? (s.nekSmjer === 'asc' ? '↑' : '↓') : '',
-          promjena: s.nekSort === 'promjena' ? (s.nekSmjer === 'asc' ? '↑' : '↓') : ''
-        },
-        gradBoja: {
-          grad: s.nekSort === 'grad' ? ACC : SOFT,
-          cijena: s.nekSort === 'cijena' ? ACC : SOFT,
-          promjena: s.nekSort === 'promjena' ? ACC : SOFT
-        },
-        prosjekRH: eur(NEK_PROSJEK_M2, 0) + '/m² (bez PDV-a)',
         aktChart: nkAktChart, aktGridLines: nkAktGridLines,
         jeKupoprodaje: !nkJeDozvole,
         aktNaslov: nkJeDozvole ? 'Izdane građevinske dozvole' : (nkVrsta === 'kuce' ? 'Kupoprodaje obiteljskih kuća' : (nkVrsta === 'ukupno' ? 'Kupoprodaje stambenih nekretnina' : 'Kupoprodaje stanova')),
@@ -9875,9 +9800,6 @@ class Component extends DCLogic {
         nekStanovi: () => this.setState({ nekVrsta: 'stanovi', nekAktHover: -1 }),
         nekKuce: () => this.setState({ nekVrsta: 'kuce', nekAktHover: -1 }),
         nekUkupno: () => this.setState({ nekVrsta: 'ukupno', nekAktHover: -1 }),
-        sortGrad: () => this.setState((st) => ({ nekSort: 'grad', nekSmjer: st.nekSort === 'grad' && st.nekSmjer === 'asc' ? 'desc' : 'asc' })),
-        sortCijena: () => this.setState((st) => ({ nekSort: 'cijena', nekSmjer: st.nekSort === 'cijena' && st.nekSmjer === 'desc' ? 'asc' : 'desc' })),
-        sortNekPromjena: () => this.setState((st) => ({ nekSort: 'promjena', nekSmjer: st.nekSort === 'promjena' && st.nekSmjer === 'desc' ? 'asc' : 'desc' })),
         sortNaziv: () => this.setState((st) => ({ sekSort: 'naziv', sekSmjer: st.sekSort === 'naziv' && st.sekSmjer === 'asc' ? 'desc' : 'asc' })),
         sortPlaca: () => this.setState((st) => ({ sekSort: 'placa', sekSmjer: st.sekSort === 'placa' && st.sekSmjer === 'desc' ? 'asc' : 'desc' })),
         sortPromjena: () => this.setState((st) => ({ sekSort: 'promjena', sekSmjer: st.sekSort === 'promjena' && st.sekSmjer === 'desc' ? 'asc' : 'desc' })),
