@@ -3,7 +3,7 @@
 Radni dnevnik projekta. Odluke, ograničenja i otvorene stavke.
 **Claude Code: pročitaj ovaj file prije svakog većeg zadatka.**
 
-Zadnje ažuriranje: 17. 8. 2026.
+Zadnje ažuriranje: 18. 8. 2026.
 
 ---
 
@@ -90,6 +90,19 @@ Zadnje ažuriranje: 17. 8. 2026.
   mounta pa njih nije trebalo braniti. `<title>` jest, pa `_guardTitle()` drži
   `MutationObserver` na `<title>` elementu koji odmah vrati željenu vrijednost
   čim je support.js prepiše — bez izmjene same `support.js` datoteke.
+- **`componentDidUpdate(prevProps, prevState)` u `Component` NIKAD ne dobiva
+  pravi `prevState`.** Otkriveno 18.8. dok se popravljao reset stanja pri
+  promjeni kalkulatora: `support.js`-ov wrapper (`StreamableComponent`, vidi
+  §2, NE DIRATI) zove `logic.componentDidUpdate(prevProps)` sa SAMO JEDNIM
+  argumentom — drugi parametar je uvijek `undefined`. Stari kod
+  (`if (prevState && prevState.calcTab !== ...)`) je zbog toga oduvijek bio
+  no-op (tiho, bez greške u konzoli) — mail-modal reset pri promjeni
+  kalkulatora **nikad nije radio**, unatoč tome što je izgledao ispravno.
+  Ne postoji ispravka u `support.js`-u za ovo (vendored, ne dira se) — svako
+  buduće `componentDidUpdate` mora pratiti prethodnu vrijednost ručno, preko
+  vlastitog polja na instanci (npr. `this._prevX`), nikad preko drugog
+  parametra. Vidi `_calcIdent`/`_prevCalcIdent` u `componentDidUpdate` kao
+  primjer obrasca.
 - **Publication ID ostaje u git historyju** — nije eksploatabilan bez API ključa,
   rewrite historyja nije vrijedan rizika.
 - **GitHub Pages ugašen** (17.8.) — bila je druga živa kopija na
@@ -125,6 +138,15 @@ Development okruženje je zaključano na Hobby planu — ne treba.
 ---
 
 ## 5. Poznati problemi i njihova povijest
+
+### Riješeno 18. 8. 2026.
+- **Stanja kalkulatora "curila" na sljedeći kalkulator/sekciju.** Otvoreni
+  accordion "Kako koristiti kalkulator", mail modal, PDF pregled i napredne
+  opcije ("+") ostajali su otvoreni nakon prelaska na drugi kalkulator, drugu
+  sekciju (`go()`) ili pod-tab. Uzrok: `componentDidUpdate` nikad nije dobivao
+  `prevState` (vidi §3) pa je stari uvjet bio no-op. Popravljeno praćenjem
+  identiteta kalkulatora ručno (`_prevCalcIdent`); uneseni podaci (iznosi,
+  e-mail adresa u modalu) namjerno ostaju sačuvani.
 
 ### Riješeno 17. 8. 2026.
 - **Deep-linkovi slomljeni na 23/30 URL-ova.** `./support.js` na ruti s dva

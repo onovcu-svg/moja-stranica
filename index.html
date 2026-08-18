@@ -6532,13 +6532,45 @@ class Component extends DCLogic {
       if (w <= 0) act.style.color = 'var(--acc)';
     }
   }
-  componentDidUpdate(prevProps, prevState) {
+  // "Identitet" kalkulatora koji je trenutno na ekranu: calcTab sam, osim za
+  // 'kamata' gdje ga dodatno razlikuje gMode (rast/cilj/renta su fakticki tri
+  // razlicita kalkulatora na istom calcTabu). null kad tab nije 'calc' uopce.
+  _calcIdent(s) {
+    if (s.tab !== 'calc') return null;
+    return s.calcTab === 'kamata' ? 'kamata:' + s.gMode : s.calcTab;
+  }
+  // VAZNO: support.js-ov wrapper (StreamableComponent.componentDidUpdate,
+  // vendored runtime, NE DIRATI - §2) zove logic.componentDidUpdate(prevProps)
+  // sa SAMO JEDNIM argumentom - pravi React prevState ovamo nikad ne stize
+  // (drugi parametar je uvijek undefined). To je postojeci, dosad neotkriven
+  // bug u vendored runtimeu: stari uvjet "if (prevState && ...)" iz ove metode
+  // je zbog toga oduvijek bio no-op, pa mail-modal reset nikad nije radio.
+  // Zato se identitet kalkulatora prati rucno u this._prevCalcIdent, umjesto
+  // usporedbe s (nedostupnim) prevState-om.
+  componentDidUpdate() {
     this.syncSegs();
-    // Panel za slanje izvještaja vezan je na aktivni kalkulator: pri prebacivanju
-    // se zatvara, da potvrda o poslanom izvještaju ne visi nad drugim izračunom.
-    if (prevState && (prevState.calcTab !== this.state.calcTab || prevState.gMode !== this.state.gMode)
-      && (this.state.mailOpen || this.state.mailSent || this.state.mailErr)) {
-      this.setState({ mailOpen: false, mailSent: false, mailErr: '' });
+    // Paneli, modali i napredne opcije pripadaju TRENUTNOM kalkulatoru - ne
+    // smiju "procuriti" na sljedeci. Ovo pokriva sve nacine kako se identitet
+    // kalkulatora moze promijeniti: goCalc() izmedu kalkulatora, promjena
+    // gMode unutar "kamata" (hub kartice postavljaju gMode izravno, ne idu
+    // kroz goCalc), i go() na/s druge sekcije (npr. Kalkulatori <-> Pokazatelji
+    // - tab prestaje biti 'calc' pa se ovdje cisti i pri izlasku i pri povratku,
+    // cak i na ISTI kalkulator kao prije). Uneseni podaci (kIznos, kStopa,
+    // mailAdr...) se namjerno ne diraju - za to postoji RESET objekt, iskljucivo
+    // na gumb "Ocisti polja".
+    const curIdent = this._calcIdent(this.state);
+    if (this._prevCalcIdent !== undefined && curIdent !== this._prevCalcIdent) {
+      this._prevCalcIdent = curIdent;
+      this.setState({
+        blufOpen: false, calcFaqOpen: 0, pdfOpen: null, pojamOpen: '',
+        mailOpen: false, mailSent: false, mailErr: '', mailNews: false, mailHp: '', mailBurst: false,
+        kExtraOpen: false, ikOpen: false, kInfOpen: false, kIzvor: '', kAll: false, kUsporedi: false,
+        rSlobOpen: false, oInvestOpen: false, oInfOpen: false,
+        sDodatno: false, sInflOn: false, sLifecycle: false,
+        gDodatno: false, gInflOn: false, dRastOpen: false,
+      });
+    } else {
+      this._prevCalcIdent = curIdent;
     }
   }
 
@@ -6768,7 +6800,8 @@ class Component extends DCLogic {
     return out;
   }
 
-  goCalc(t) { return () => { this.setState({ tab: 'calc', calcTab: t, menuOpen: false, calcFaqOpen: 0 }, () => this._syncUrl()); if (typeof window !== 'undefined') { window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; } this.resetHScroll(); }; }
+  // calcFaqOpen i ostala stanja vezana uz kalkulator gasi centralno componentDidUpdate().
+  goCalc(t) { return () => { this.setState({ tab: 'calc', calcTab: t, menuOpen: false }, () => this._syncUrl()); if (typeof window !== 'undefined') { window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; } this.resetHScroll(); }; }
   resetKljuc() {
     const t = this.state.calcTab;
     return t === 'kamata' ? (this.state.gMode || 'rast') : t;
@@ -9652,7 +9685,8 @@ class Component extends DCLogic {
         oInfStopa: this.setNumT('oInfStopa', 0), oInfStopaS: this.setN('oInfStopa', 0),
         toggleUsporedi: () => this.setState((st) => ({ kUsporedi: !st.kUsporedi })),
         zatvoriIzvor: () => this.setState({ kIzvor: '' }),
-        natragRefi: () => this.setState({ tab: 'calc', calcTab: 'refi', calcFaqOpen: 0, kIzvor: '' }),
+        // calcFaqOpen/kIzvor gasi centralno componentDidUpdate() (calcTab se ovdje mijenja).
+        natragRefi: () => this.setState({ tab: 'calc', calcTab: 'refi' }),
         toggleKInf: () => this.setState((st) => ({ kInfOpen: !st.kInfOpen })),
         kInfStopa: this.setNumT('kInfStopa', 0), kInfStopaS: this.setN('kInfStopa', 0),
         ikIsplata: this.setS('ikIsplata'), ikPrvi: this.setS('ikPrvi'),
