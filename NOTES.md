@@ -256,7 +256,6 @@ Development okruženje je zaključano na Hobby planu — ne treba.
   grešku, pa runtime prepiše ispravnom vrijednošću. **Grafovi rade** — provjereno
   uživo. Konzola ima 4 poznate greške po učitavanju. Nestat će s migracijom na
   build. Filter u DevToolsu: `-a.d -nek.kuca`
-- **Statični `<title>` i `description` za sve rute** — u planu dinamički naslovi.
 - **Nema prave 404 stranice** — nepoznata ruta preusmjerava na `/` preko
   `history.replaceState`.
 - **Kamatne stope, plaće i ostali podaci u Pokazateljima su hardkodirani**
@@ -296,6 +295,18 @@ obrada. Testirati na pravom uređaju.
 - [ ] `"O novcu"` u navodnike na naslovnici (samo tamo)
 - [ ] Provjera sitemapa i svih ruta
 - [ ] Finalni test svih formi
+- [ ] **Fiksna traka s rezultatom sjedne usred ekrana.** Pojavi se preko
+      sadržaja kad se prvi put montira DOK je tipkovnica otvorena; nakon
+      zatvaranja i ponovnog otvaranja je ispravno na dnu. Sumnja:
+      `position:fixed` + visual viewport. Reproducirano na Kredit →
+      Refinanciranje (iPhone 16 Pro Max, Safari).
+- [ ] **Odabrana tema se ne pamti.** Nakon refresha stranica se vrati na
+      svijetlu. Riješiti preko `localStorage`, uz: primjenu PRIJE prvog
+      rendera (inline script u `<head>` koji postavi klasu na `<html>`,
+      inače bljesne svijetla tema), poštivanje `prefers-color-scheme` ako
+      korisnik nikad nije birao, i fallback kad `localStorage` nije dostupan
+      (privatni tab). **Nakon implementacije dopuniti politiku privatnosti** —
+      trenutno tvrdi da se ništa ne pohranjuje na uređaju.
 - [ ] **Povezati `onovcu.hr` u Vercel Domains — ZADNJA STAVKA**
 
 ### Poslije lansiranja
