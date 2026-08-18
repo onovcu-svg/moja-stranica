@@ -3381,7 +3381,12 @@
           <div><div style="font-weight:300;font-size:12px;color:var(--soft);margin-bottom:5px">Zadnji prosjek</div><div style="font-weight:600;font-size:16px;letter-spacing:-.02em">{{ pl.zadnjaProsjek }}</div></div>
           <div><div style="font-weight:300;font-size:12px;color:var(--soft);margin-bottom:5px">Zadnji medijan</div><div style="font-weight:600;font-size:16px;letter-spacing:-.02em">{{ pl.zadnjaMedijan }}</div></div>
         </div>
+        <sc-if value="{{ pl.imaMedijan }}">
         <div style="font-weight:300;font-size:12.5px;color:var(--soft);margin-top:14px;line-height:1.55">Razlika prosjeka i medijana iznosi <strong style="color:var(--ink);font-weight:600">{{ pl.jaz }}</strong> ili {{ pl.jazPct }} prosjeka. Toliko visoke plaće izvlače prosjek iznad onoga što zarađuje tipičan zaposlenik.</div>
+        </sc-if>
+        <sc-if value="{{ pl.nemaMedijan }}">
+        <div style="font-weight:300;font-size:12.5px;color:var(--soft);margin-top:14px;line-height:1.55">Razlika prosjeka i medijana nije dostupna za odabrano razdoblje. Toliko visoke plaće izvlače prosjek iznad onoga što zarađuje tipičan zaposlenik.</div>
+        </sc-if>
         <div style="font-weight:300;font-size:11px;color:var(--soft);margin-top:14px;padding-top:10px;border-top:1px solid var(--line)">{{ src.dzsPlace }}</div>
       </div>
         <div style="margin-top:clamp(20px,3vh,28px);background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden">
@@ -3479,6 +3484,9 @@
           <div><div style="font-weight:300;font-size:12px;color:var(--soft);margin-bottom:5px">Promjena kroz razdoblje</div><div style="font-weight:600;font-size:16px;letter-spacing:-.02em;color:{{ ks.promjenaBoja }}">{{ ks.promjena }}</div></div>
           <div><div style="font-weight:300;font-size:12px;color:var(--soft);margin-bottom:5px">Najniža / najviša</div><div style="font-weight:600;font-size:15px;letter-spacing:-.02em">{{ ks.najniza }} · {{ ks.najvisa }}</div></div>
         </div>
+        <sc-if value="{{ ks.nemaPodataka }}">
+        <div style="font-weight:300;font-size:12.5px;color:var(--soft);margin-top:12px;line-height:1.55">{{ ks.napomenaNemaPodataka }}</div>
+        </sc-if>
         <div style="font-weight:300;font-size:11px;color:var(--soft);margin-top:16px;padding-top:10px;border-top:1px solid var(--line)">{{ src.hnbStope }}</div>
       </div>
 
@@ -3549,7 +3557,7 @@
         </div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:20px;padding-top:18px;border-top:1px solid var(--line)">
           <div><div style="font-weight:300;font-size:12px;color:var(--soft);margin-bottom:5px">Zadnji mjesec</div><div style="font-weight:600;font-size:16px;letter-spacing:-.02em">{{ ks.iznZadnji }}</div><div style="font-weight:300;font-size:11px;color:var(--soft);margin-top:3px">{{ ks.iznMjesec }}</div></div>
-          <div><div style="font-weight:300;font-size:12px;color:var(--soft);margin-bottom:5px">Zbroj u odabranom razdoblju</div><div style="font-weight:600;font-size:16px;letter-spacing:-.02em">{{ ks.iznUkupno }}</div></div>
+          <div><div style="font-weight:300;font-size:12px;color:var(--soft);margin-bottom:5px">{{ ks.iznUkupnoLabel }}</div><div style="font-weight:600;font-size:16px;letter-spacing:-.02em">{{ ks.iznUkupno }}</div></div>
         </div>
         <div style="font-weight:300;font-size:11px;color:var(--soft);margin-top:16px;padding-top:10px;border-top:1px solid var(--line)">{{ src.hnbIznosi }}</div>
       </div>
@@ -8097,8 +8105,16 @@ class Component extends DCLogic {
     const plRast = ((jeNeto ? plZadnji[1] / plPrvi[1] : plZadnji[3] / plPrvi[3]) - 1) * 100;
     // Medijan se mjeri od prve godine u kojoj je objavljen, ne od početka serije.
     const plPrviMed = PLACE_SEL.filter((r) => r[2] != null)[0] || PLACE_SEL[0];
-    const plRastMed = ((jeNeto ? plZadnji[2] / plPrviMed[2] : plZadnji[4] / plPrviMed[4]) - 1) * 100;
-    const plJaz = (jeNeto ? plZadnji[1] - plZadnji[2] : plZadnji[3] - plZadnji[4]);
+    // Medijan postoji tek od 2016. (vidi PLACE_GOD) - kad klizac "Do" povuce
+    // zadnju odabranu godinu prije toga, i plZadnji i plPrviMed (fallback
+    // grana gore) imaju null medijan. isFinite(null)===true bi inace tiho
+    // dao 0,00 €/0,0 % (vidi NOTES.md §3), a tekst iznad kartice (3376)
+    // izrijekom kaze da nula nije prava nula - brojke moraju to isto reci.
+    const plZadnjiMed = jeNeto ? plZadnji[2] : plZadnji[4];
+    const plPrviMedVal = jeNeto ? plPrviMed[2] : plPrviMed[4];
+    const plImaMedijan = plZadnjiMed != null && plPrviMedVal != null;
+    const plRastMed = plImaMedijan ? ((jeNeto ? plZadnji[2] / plPrviMed[2] : plZadnji[4] / plPrviMed[4]) - 1) * 100 : null;
+    const plJaz = plImaMedijan ? (jeNeto ? plZadnji[1] - plZadnji[2] : plZadnji[3] - plZadnji[4]) : null;
 
     // ── KAMATNE STOPE (HNB, mjesecne serije) ─────────────────
     const KS_PRVA = KS_OD[0], KS_ZADNJA_G = KS_OD[0] + Math.floor((KS_OD[1] - 1 + KS_MJ - 1) / 12);
@@ -8131,8 +8147,24 @@ class Component extends DCLogic {
     });
     const ksAkt = s.ksHover >= 0 && s.ksHover < ksN ? ksIdx[s.ksHover] : null;
     const ksPrviI = ksIdx[0], ksZadnjiI = ksIdx[ksN - 1];
-    const ksPromjena = (ksNiz[ksZadnjiI] || 0) - (ksNiz[ksPrviI] || 0);
-    const ksMin = Math.min.apply(null, ksVals), ksMax = Math.max.apply(null, ksVals);
+    const ksImaPodataka = ksVals.length > 0;
+    // isFinite(null) === true pa null tiho prolazi kao 0 (vidi NOTES.md §3) -
+    // gotovinski krediti nemaju podatak prije sijecnja 2023 (132 null na
+    // pocetku niza). Zadani raspon (2019.-2026.) zato pocinje na null, pa je
+    // (ksNiz[zadnji]||0) - (ksNiz[prvi]||0) tiho ispalo jednako zadnjoj
+    // vrijednosti (kriv i predznak i velicina). Ispravno: promjena se racuna
+    // od PRVOG STVARNOG podatka u rasponu do zadnjeg (ksVals, ne ksPrviI/
+    // ksZadnjiI koji su samo nominalne granice odabranog razdoblja) - isti
+    // princip kao zbroj kod ksIznGod nize, koji vec ispravno broji samo ono
+    // sto stvarno postoji. '-' se prikazuje SAMO kad u cijelom rasponu nema
+    // nijednog podatka (ksVals prazan) - vidi ksImaPodataka gore.
+    const ksPromjena = ksImaPodataka ? ksVals[ksVals.length - 1] - ksVals[0] : null;
+    const ksMin = ksImaPodataka ? Math.min.apply(null, ksVals) : null;
+    const ksMax = ksImaPodataka ? Math.max.apply(null, ksVals) : null;
+    // Prvi mjesec u kojem HNB uopce objavljuje ovu seriju, neovisno o
+    // odabranom rasponu - za napomenu kad odabrano razdoblje nema podataka.
+    const ksPrviPodatakI = ksNiz.findIndex((v) => v != null);
+    const ksPrviPodatak = ksPrviPodatakI >= 0 ? ksMjLbl(ksPrviPodatakI) : null;
     // Drugi graf: iznosi novih poslova.
     const ksIznVrsta = s.ksIznos === 'gotovinski' ? 'gotovinski' : 'stambeni';
     const ksIznNiz = ksIznVrsta === 'gotovinski' ? KS_IZNOSGOTOVINSKI : KS_IZNOSSTAMBENI;
@@ -8152,6 +8184,15 @@ class Component extends DCLogic {
     });
     const ksIznAkt = s.ksIznosHover >= 0 && s.ksIznosHover < ksN ? ksIdx[s.ksIznosHover] : null;
     const ksIznGod = ksIdx.reduce((a, i) => a + (ksIznNiz[i] || 0), 0);
+    // Zbroj gore vec ispravno racuna samo stvarne podatke (null ne dodaje
+    // nista), ali labela "u odabranom razdoblju" laze kad dio raspona nema
+    // podatka (isti niz kao ksNiz gore) - 2012.-2026. i 2023.-2026. daju
+    // identican zbroj jer prije 2023. gotovinski podatak ne postoji. Labela
+    // mora reci koje je razdoblje STVARNO pokriveno.
+    const ksIznIdxSaPodatkom = ksIdx.filter((i) => ksIznNiz[i] != null);
+    const ksIznImaPodataka = ksIznIdxSaPodatkom.length > 0;
+    const ksIznPuniRaspon = ksIznImaPodataka
+      && ksIznIdxSaPodatkom[0] === ksIdx[0] && ksIznIdxSaPodatkom[ksIznIdxSaPodatkom.length - 1] === ksIdx[ksIdx.length - 1];
     const ZI = KS_MJ - 1; // zadnji mjesec u seriji
     // Tokeni za brojke unutar FAQ/sažetka teksta pokazatelja, tako da se
     // ažuriraju zajedno s podacima umjesto da ostanu upisani ručno.
@@ -8165,8 +8206,15 @@ class Component extends DCLogic {
       return t.val;
     };
     const _kNS = KS_SER.STAMBENI[ZI], _kES = KS_SER.EKSSTAMBENI[ZI], _kNG = KS_SER.GOTOVINSKI[ZI], _kEG = KS_SER.EKSGOTOVINSKI[ZI], _kNP = KS_SER.PREKORACENJE[ZI], _kNK = KS_SER.KARTICE[ZI];
+    // Zadnji OBJAVLJENI redak (neovisno o klizacu plOd/plDo), isti obrazac
+    // kao NEK_AKT.length-1 nize - tokeni u sazetku/FAQ-u prezentiraju se kao
+    // apsolutne sluzbene brojke ("Prosjecna neto placa u Hrvatskoj iznosi..."),
+    // pa ne smiju ovisiti o korisnikovom odabranom rasponu na /pokazatelji/place.
+    // plZadnji (gore) OSTAJE vezan za klizac - koristi se samo za karticu s
+    // odabranim razdobljem, ne za ove tokene.
+    const plZadnjiPub = PLACE_GOD[PLACE_GOD.length - 1];
     const faqTokens = {
-      '{PL_MEDIJAN}': eur(plZadnji[2], 2), '{PL_PROSJEK}': eur(plZadnji[1], 2), '{PL_RAZLIKA}': eur(plZadnji[1] - plZadnji[2], 2),
+      '{PL_MEDIJAN}': eur(plZadnjiPub[2], 2), '{PL_PROSJEK}': eur(plZadnjiPub[1], 2), '{PL_RAZLIKA}': eur(plZadnjiPub[1] - plZadnjiPub[2], 2),
       '{KR_STAMB_NOM}': pct(_kNS, 2), '{KR_STAMB_EKS}': pct(_kES, 2), '{KR_GOTOV_NOM}': pct(_kNG, 2), '{KR_GOTOV_EKS}': pct(_kEG, 2),
       '{KR_PREKO_NOM}': pct(_kNP, 2), '{KR_KART_NOM}': pct(_kNK, 2),
       '{KR_DIFF_SG}': nf(2).format(_kNG - _kNS) + ' postotna boda', '{KR_STAMB_EKS_DIFF}': nf(2).format(_kES - _kNS) + ' postotnih bodova', '{KR_GOTOV_EKS_DIFF}': nf(2).format(_kEG - _kNG) + ' postotnih bodova',
@@ -9390,10 +9438,14 @@ class Component extends DCLogic {
         hoverLeft: (((s.ksHover + 0.5) / (ksN || 1)) * 100).toFixed(3) + '%',
         hoverTransform: (() => { const p = ((s.ksHover + 0.5) / (ksN || 1)) * 100; return p < 18 ? 'translateX(0)' : (p > 82 ? 'translateX(-100%)' : 'translateX(-50%)'); })(),
         razdoblje: ksMjLbl(ksPrviI) + ' – ' + ksMjLbl(ksZadnjiI),
-        zadnja: pct(ksNiz[ksZadnjiI], 2),
-        promjena: (ksPromjena >= 0 ? '+' : '−') + nf(2).format(Math.abs(ksPromjena)) + ' pp',
-        promjenaBoja: Math.abs(ksPromjena) < 0.005 ? SOFT : (ksPromjena > 0 ? ACC : SOFT),
-        najniza: pct(ksMin, 2), najvisa: pct(ksMax, 2),
+        zadnja: ksNiz[ksZadnjiI] == null ? '–' : pct(ksNiz[ksZadnjiI], 2),
+        promjena: ksPromjena == null ? '–' : (ksPromjena >= 0 ? '+' : '−') + nf(2).format(Math.abs(ksPromjena)) + ' pp',
+        promjenaBoja: ksPromjena == null ? SOFT : (Math.abs(ksPromjena) < 0.005 ? SOFT : (ksPromjena > 0 ? ACC : SOFT)),
+        najniza: ksMin == null ? '–' : pct(ksMin, 2), najvisa: ksMax == null ? '–' : pct(ksMax, 2),
+        nemaPodataka: !ksImaPodataka,
+        napomenaNemaPodataka: ksPrviPodatak
+          ? ('Prvi dostupan podatak: ' + ksPrviPodatak + ' Za odabrano razdoblje podatak ne postoji.')
+          : 'Za odabrano razdoblje podatak ne postoji.',
         tablica: KS_VRSTE.map((v) => {
           const nom = KS_SER[v.nom][ZI], eks = v.eks ? KS_SER[v.eks][ZI] : null, izn = v.izn ? KS_SER[v.izn][ZI] : null;
           const god = KS_SER[v.nom][ZI - 12];
@@ -9418,7 +9470,10 @@ class Component extends DCLogic {
         iznHoverLeft: (((s.ksIznosHover + 0.5) / (ksN || 1)) * 100).toFixed(3) + '%',
         iznHoverTransform: (() => { const p = ((s.ksIznosHover + 0.5) / (ksN || 1)) * 100; return p < 18 ? 'translateX(0)' : (p > 82 ? 'translateX(-100%)' : 'translateX(-50%)'); })(),
         iznZadnji: nf(1).format(ksIznNiz[ZI]) + ' mil €',
-        iznUkupno: nf(0).format(ksIznGod) + ' mil €',
+        iznUkupno: ksIznImaPodataka ? nf(0).format(ksIznGod) + ' mil €' : '–',
+        iznUkupnoLabel: (!ksIznImaPodataka || ksIznPuniRaspon)
+          ? 'Zbroj u odabranom razdoblju'
+          : ('Zbroj, ' + ksMjLbl(ksIznIdxSaPodatkom[0]) + ' – ' + ksMjLbl(ksIznIdxSaPodatkom[ksIznIdxSaPodatkom.length - 1])),
         iznMjesec: ksMjLbl(ZI)
       },
       // Zbirna traka izvora: izvedena iz kategorija, da ne moze zaostati za sadrzajem.
@@ -9520,11 +9575,12 @@ class Component extends DCLogic {
         hoverLeft: (((s.placeHover + 0.5) / (plN || 1)) * 100).toFixed(3) + '%',
         hoverTransform: (() => { const p = ((s.placeHover + 0.5) / (plN || 1)) * 100; return p < 18 ? 'translateX(0)' : (p > 82 ? 'translateX(-100%)' : 'translateX(-50%)'); })(),
         razdoblje: plPrvi[0] + '. – ' + plZadnji[0] + '.',
-        rast: pct(plRast, 1), rastMedijan: pct(plRastMed, 1),
+        rast: pct(plRast, 1), rastMedijan: plImaMedijan ? pct(plRastMed, 1) : '–',
         rastOd: plPrvi[0] + '.', rastMedijanOd: plPrviMed[0] + '.',
+        imaMedijan: plImaMedijan, nemaMedijan: !plImaMedijan,
         jaz: eur(plJaz, 0), jazPct: pct(plJaz / (jeNeto ? plZadnji[1] : plZadnji[3]) * 100, 1),
         zadnjaProsjek: eur(jeNeto ? plZadnji[1] : plZadnji[3], 2),
-        zadnjaMedijan: eur(jeNeto ? plZadnji[2] : plZadnji[4], 2)
+        zadnjaMedijan: plZadnjiMed == null ? '–' : eur(plZadnjiMed, 2)
       },
       pokOd: String(godOd), pokDo: String(godDo), pokOdNum: godOd, pokDoNum: godDo,
       pov: {
