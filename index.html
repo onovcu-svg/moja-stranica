@@ -619,9 +619,9 @@
     <sc-if value="{{ isPlaca }}" hint-placeholder-val="{{ true }}">
     <section style="max-width:1180px;margin:0 auto;padding:0 clamp(18px,4vw,36px) clamp(52px,8vh,96px);display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(16px,2vw,20px);align-items:start;animation:onFade .4s ease both">
       <div style="background:var(--card);border:1px solid var(--line);border-radius:20px;padding:clamp(22px,3vw,32px)">
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(20px,2.6vw,34px);align-items:start">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px, 100%),1fr));gap:clamp(20px,2.6vw,34px);align-items:start">
         <div>
-        <div data-seg="smjer" style="position:relative;display:inline-flex;padding:3px;background:var(--sec);border-radius:980px;margin-bottom:26px">
+        <div data-seg="smjer" style="position:relative;display:inline-flex;padding:3px;background:var(--sec);border-radius:980px;margin-bottom:26px;max-width:100%;overflow-x:auto">
           <span data-seg-ind="1" style="position:absolute;top:3px;bottom:3px;left:3px;width:0;background:var(--acc);border-radius:980px;box-shadow:0 1px 6px rgba(220,38,38,.35);transition:left .32s cubic-bezier(.4,0,.2,1),width .32s cubic-bezier(.4,0,.2,1);pointer-events:none"></span>
           <button sc-camel-tab-index="-1" sc-camel-on-click="{{ on.smjerBruto }}" data-seg-active="{{ sm.bruto.act }}" style="position:relative;z-index:1;background:none;color:{{ sm.bruto.c }};border:none;border-radius:980px;padding:9px 18px;cursor:pointer;font-weight:600;font-size:13.5px;white-space:nowrap;transition:color .25s">Bruto 1 → Neto</button>
           <button sc-camel-tab-index="-1" sc-camel-on-click="{{ on.smjerNeto }}" data-seg-active="{{ sm.neto.act }}" style="position:relative;z-index:1;background:none;color:{{ sm.neto.c }};border:none;border-radius:980px;padding:9px 18px;cursor:pointer;font-weight:600;font-size:13.5px;white-space:nowrap;transition:color .25s">Neto → Bruto 1</button>
@@ -789,7 +789,7 @@
       </div>
       </sc-if>
       <div style="display:{{ rezD.placa }}">
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(400px,1fr));gap:16px;align-items:start">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(400px, 100%),1fr));gap:16px;align-items:start">
         <div style="grid-column:1/-1;background:var(--tint);border:1px solid var(--acc);border-radius:16px;padding:16px 18px">
           <div style="font-weight:400;font-size:clamp(14.5px,1.6vw,16px);line-height:1.55;text-wrap:pretty">{{ pdf.sazetak }}</div>
         </div>
@@ -918,9 +918,9 @@
     <sc-if value="{{ isKredit }}">
     <section style="max-width:1180px;margin:0 auto;padding:0 clamp(18px,4vw,36px) clamp(52px,8vh,96px);display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(16px,2vw,20px);align-items:start;animation:onFade .4s ease both">
       <div style="background:var(--card);border:1px solid var(--line);border-radius:20px;padding:clamp(22px,3vw,32px)">
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(20px,2.6vw,34px);align-items:start">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px, 100%),1fr));gap:clamp(20px,2.6vw,34px);align-items:start">
         <div>
-        <div data-seg="kmod" style="position:relative;display:inline-flex;padding:3px;background:var(--sec);border-radius:980px;margin-bottom:14px">
+        <div data-seg="kmod" style="position:relative;display:inline-flex;padding:3px;background:var(--sec);border-radius:980px;margin-bottom:14px;max-width:100%;overflow-x:auto">
           <span data-seg-ind="1" style="position:absolute;top:3px;bottom:3px;left:3px;width:0;background:var(--acc);border-radius:980px;box-shadow:0 1px 6px rgba(220,38,38,.35);transition:left .32s cubic-bezier(.4,0,.2,1),width .32s cubic-bezier(.4,0,.2,1);pointer-events:none"></span>
           <button sc-camel-tab-index="-1" sc-camel-on-click="{{ on.modFiks }}" data-seg-active="{{ km.fiks.act }}" style="position:relative;z-index:1;background:none;color:{{ km.fiks.c }};border:none;border-radius:980px;padding:9px 18px;cursor:pointer;font-weight:600;font-size:13.5px;white-space:nowrap;transition:color .25s">Fiksna stopa</button>
           <button sc-camel-tab-index="-1" sc-camel-on-click="{{ on.modKomb }}" data-seg-active="{{ km.komb.act }}" style="position:relative;z-index:1;background:none;color:{{ km.komb.c }};border:none;border-radius:980px;padding:9px 18px;cursor:pointer;font-weight:600;font-size:13.5px;white-space:nowrap;transition:color .25s">Kombinirana stopa</button>
