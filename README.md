@@ -12,7 +12,7 @@ Statički portal (bez build koraka). Vercel servira sve datoteke izravno.
 
 ## Struktura
 - index.html - cijela stranica
-- support.js, image-slot.js - runtime skripte
+- support.js - runtime skripta
 - assets/ - logotipovi
 - api/subscribe.js - Vercel serverless funkcija za newsletter (beehiiv)
 - robots.txt, sitemap.xml - SEO
