@@ -2621,7 +2621,7 @@
             <textarea data-fs="sm" rows="3" placeholder="Koji je najveći izazov u timu?" value="{{ f.poruka }}" sc-camel-on-change="{{ on.fPoruka }}" style="width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:14.5px;background:var(--field);outline:none;resize:vertical;transition:border-color .2s" style-focus="border-color:var(--acc)"></textarea>
           </div>
           <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
-            <button sc-camel-on-click="{{ on.b2bSubmit }}" style="background:var(--acc);color:#FFF;border:none;border-radius:980px;padding:12px 26px;cursor:pointer;font-weight:600;font-size:14.5px;transition:opacity .2s,transform .2s" style-hover="opacity:.88;transform:scale(1.03)">Pošalji zahtjev</button>
+            <button sc-camel-on-click="{{ on.b2bSubmit }}" disabled="{{ b2bSlanje }}" style="background:var(--acc);color:#FFF;border:none;border-radius:980px;padding:12px 26px;cursor:pointer;font-weight:600;font-size:14.5px;transition:opacity .2s,transform .2s" style-hover="opacity:.88;transform:scale(1.03)">{{ b2bBtnLabel }}</button>
             <span style="font-weight:300;font-size:13px;color:{{ b2bHintColor }}">{{ b2bHint }}</span>
           </div>
           <div style="font-weight:300;font-size:12px;color:var(--soft);line-height:1.5;margin-top:14px;max-width:64ch">Podatke iz obrasca koristimo isključivo da bismo odgovorili na tvoj upit. Ne ulaze u newsletter i ne dijele se s trećim stranama. Više u <button sc-camel-on-click="{{ on.tabPriv }}" style="background:none;border:none;padding:0;cursor:pointer;font:inherit;color:var(--acc);text-decoration:underline">Politici privatnosti</button>.</div>
@@ -2966,7 +2966,7 @@
             <textarea data-fs="sm" rows="6" placeholder="O čemu se radi?" value="{{ c.poruka }}" sc-camel-on-change="{{ on.cPoruka }}" style="width:100%;border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:15px;background:var(--field);outline:none;resize:vertical;transition:border-color .2s" style-focus="border-color:var(--acc)"></textarea>
           </div>
           <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
-            <button sc-camel-on-click="{{ on.ktSubmit }}" style="background:var(--acc);color:#FFF;border:none;border-radius:980px;padding:14px 28px;cursor:pointer;font-weight:600;font-size:15px;transition:opacity .2s,transform .2s" style-hover="opacity:.88;transform:scale(1.03)">Pošalji poruku</button>
+            <button sc-camel-on-click="{{ on.ktSubmit }}" disabled="{{ ktSlanje }}" style="background:var(--acc);color:#FFF;border:none;border-radius:980px;padding:14px 28px;cursor:pointer;font-weight:600;font-size:15px;transition:opacity .2s,transform .2s" style-hover="opacity:.88;transform:scale(1.03)">{{ ktBtnLabel }}</button>
             <span style="font-weight:300;font-size:13px;color:{{ ktHintColor }}">{{ ktHint }}</span>
           </div>
           <div style="font-weight:300;font-size:12px;color:var(--soft);line-height:1.5;margin-top:14px;max-width:64ch">Podatke iz obrasca koristimo isključivo da bismo odgovorili na tvoj upit. Ne ulaze u newsletter i ne dijele se s trećim stranama. Više u <button sc-camel-on-click="{{ on.tabPriv }}" style="background:none;border:none;padding:0;cursor:pointer;font:inherit;color:var(--acc);text-decoration:underline">Politici privatnosti</button>.</div>
@@ -4176,7 +4176,7 @@
             <textarea data-fs="sm" rows="5" placeholder="O čemu se radi?" value="{{ c.poruka }}" sc-camel-on-change="{{ on.cPoruka }}" style="width:100%;border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:15px;background:var(--field);outline:none;resize:vertical;transition:border-color .2s" style-focus="border-color:var(--acc)"></textarea>
           </div>
           <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
-            <button sc-camel-on-click="{{ on.ktSubmit }}" style="background:var(--acc);color:#FFF;border:none;border-radius:980px;padding:14px 28px;cursor:pointer;font-weight:600;font-size:15px;transition:opacity .2s,transform .2s" style-hover="opacity:.88;transform:scale(1.03)">Pošalji poruku</button>
+            <button sc-camel-on-click="{{ on.ktSubmit }}" disabled="{{ ktSlanje }}" style="background:var(--acc);color:#FFF;border:none;border-radius:980px;padding:14px 28px;cursor:pointer;font-weight:600;font-size:15px;transition:opacity .2s,transform .2s" style-hover="opacity:.88;transform:scale(1.03)">{{ ktBtnLabel }}</button>
             <span style="font-weight:300;font-size:13px;color:{{ ktHintColor }}">{{ ktHint }}</span>
           </div>
           <div style="font-weight:300;font-size:12px;color:var(--soft);line-height:1.5;margin-top:14px;max-width:64ch">Podatke iz obrasca koristimo isključivo da bismo odgovorili na tvoj upit. Ne ulaze u newsletter i ne dijele se s trećim stranama. Više u <button sc-camel-on-click="{{ on.tabPriv }}" style="background:none;border:none;padding:0;cursor:pointer;font:inherit;color:var(--acc);text-decoration:underline">Politici privatnosti</button>.</div>
@@ -9642,10 +9642,14 @@ class Component extends DCLogic {
       })),
       clanak: clanak,
 
-      f: s.f, b2bSent: s.b2bSent, b2bBurst: s.b2bBurst, b2bOpen: !s.b2bSent,
+      f: s.f, b2bSent: s.b2bSent, b2bBurst: s.b2bBurst, b2bOpen: !s.b2bSent, b2bSlanje: s.b2bSlanje,
       b2bHint: s.b2bErr || 'Odgovor u roku od jednog radnog dana.', b2bHintColor: s.b2bErr ? ACC : SOFT,
-      c: s.c, ktSent: s.ktSent, ktBurst: s.ktBurst, ktOpen: !s.ktSent,
+      // Isti obrazac kao newsletter (nlBtnLabel) i mail izvještaja (mailCta):
+      // gumb mora vidljivo promijeniti stanje dok zahtjev traje.
+      b2bBtnLabel: s.b2bSlanje ? 'Šaljem…' : 'Pošalji zahtjev',
+      c: s.c, ktSent: s.ktSent, ktBurst: s.ktBurst, ktOpen: !s.ktSent, ktSlanje: s.ktSlanje,
       ktHint: s.ktErr || 'Odgovaram u pravilu isti dan.', ktHintColor: s.ktErr ? ACC : SOFT,
+      ktBtnLabel: s.ktSlanje ? 'Šaljem…' : 'Pošalji poruku',
       // Dok glavna polja nisu popunjena, rezultat se ne prikazuje (inače bi
       // stranica pokazivala 0,00 € kao da je to izračun).
       ...(() => {
@@ -9847,14 +9851,18 @@ class Component extends DCLogic {
         // gdje se stvarno provjeravaju (klijentska provjera je samo brzi izlaz).
         b2bSubmit: () => {
           const f = this.state.f;
-          if (!f.tvrtka.trim() || !f.osoba.trim() || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.email)) { this.setState({ b2bErr: 'Popuni tvrtku, kontakt osobu i ispravan e-mail.' }); return; }
+          // Trim PRIJE validacije - isti obrazac kao posaljiIzvjestaj (6893).
+          // Regex zabranjuje razmake, pa netrimana adresa s vodecim/pratecim
+          // razmakom (cesto pri kopiranju) izgleda ispravna na ekranu, a padne test.
+          const email = String(f.email || '').trim();
+          if (!f.tvrtka.trim() || !f.osoba.trim() || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { this.setState({ b2bErr: 'Popuni tvrtku, kontakt osobu i ispravan e-mail.' }); return; }
           if (this.state.b2bSlanje) return;
           this.setState({ b2bSlanje: true, b2bErr: '' });
           fetch('/api/contact', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              tip: 'edukacija', tvrtka: f.tvrtka, osoba: f.osoba, email: f.email,
+              tip: 'edukacija', tvrtka: f.tvrtka, osoba: f.osoba, email,
               velicina: f.velicina, format: f.format, poruka: f.poruka,
               hp: this.state.b2bHp, t0: this.state.formLoadedAt,
             }),
@@ -9873,14 +9881,18 @@ class Component extends DCLogic {
         ktHp: this.setS('ktHp'),
         ktSubmit: () => {
           const c = this.state.c;
-          if (!c.ime.trim() || !c.poruka.trim() || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(c.email)) { this.setState({ ktErr: 'Popuni ime, ispravan e-mail i poruku.' }); return; }
+          // Trim PRIJE validacije - isti obrazac kao posaljiIzvjestaj (6893).
+          // Regex zabranjuje razmake, pa netrimana adresa s vodecim/pratecim
+          // razmakom (cesto pri kopiranju) izgleda ispravna na ekranu, a padne test.
+          const email = String(c.email || '').trim();
+          if (!c.ime.trim() || !c.poruka.trim() || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { this.setState({ ktErr: 'Popuni ime, ispravan e-mail i poruku.' }); return; }
           if (this.state.ktSlanje) return;
           this.setState({ ktSlanje: true, ktErr: '' });
           fetch('/api/contact', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              tip: 'kontakt', ime: c.ime, email: c.email, poruka: c.poruka, tema: c.tema,
+              tip: 'kontakt', ime: c.ime, email, poruka: c.poruka, tema: c.tema,
               hp: this.state.ktHp, t0: this.state.formLoadedAt,
             }),
           })
@@ -9900,11 +9912,17 @@ class Component extends DCLogic {
         // pa bilo koja vrijednost u njemu znaci bota - tiho odbijamo, bez greske.
         nlSubmit: () => {
           if (this.state.nlHp) return;
-          const okMail = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(this.state.nlEmail);
+          // Trim PRIJE validacije - isti obrazac kao posaljiIzvjestaj (6893).
+          // Regex zabranjuje razmake, pa netrimana adresa s vodecim/pratecim
+          // razmakom (cesto pri kopiranju) izgleda ispravna na ekranu, a padne test.
+          const email = String(this.state.nlEmail || '').trim();
+          const okMail = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email);
           if (!okMail) return this.setState({ nlErr: 'Upiši ispravnu e-mail adresu.' });
           if (!this.state.nlPrivola) return this.setState({ nlErr: 'Za prijavu je potrebna privola za primanje newslettera.' });
           this.setState({ nlSlanje: true, nlErr: '' });
-          fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: this.state.nlEmail, hp: this.state.nlHp, t0: this.state.formLoadedAt }) })
+          // privola: true - eksplicitan signal servera da je korisnik zaista
+          // oznacio kvacicu (server sad to i provjerava, vidi api/subscribe.js).
+          fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, privola: true, hp: this.state.nlHp, t0: this.state.formLoadedAt }) })
             .then((r) => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json().catch(() => ({})); })
             .then(() => {
               this.setState({ nlSent: true, nlSlanje: false, nlErr: '', nlBurst: true });

@@ -14,9 +14,12 @@ function rateLimited(ip) {
   const now = Date.now();
   const windowMs = 10 * 60 * 1000;
   const arr = (hits.get(ip) || []).filter((t) => now - t < windowMs);
+  // Timestamp se dodaje SAMO kad zahtjev prolazi - inace i odbijeni zahtjev
+  // pomice klizni prozor naprijed i drzi korisnika u blokadi.
+  if (arr.length > 5) { hits.set(ip, arr); return true; }
   arr.push(now);
   hits.set(ip, arr);
-  return arr.length > 5;
+  return false;
 }
 
 module.exports = async function handler(req, res) {
@@ -44,8 +47,16 @@ module.exports = async function handler(req, res) {
     res.status(200).json({ ok: true });
     return;
   }
+  // t0 dolazi s korisnikovog uredaja - klijentski sat mu moze ici naprijed.
+  // Ako je u buducnosti (negativna razlika bi ispala "prebrzo") ili nerealno
+  // star (vise od 24h - sigurno nije normalno trajanje ispunjavanja forme),
+  // ne moze se protumaciti kao pouzdana "prebrzo poslano" provjera. Tad je
+  // NE primjenjujemo - bolje propustiti bota (honeypot i rate limit i dalje
+  // stite) nego tiho odbiti pravog korisnika ciji sat krivo ide.
+  const now = Date.now();
   const t0 = Number(body.t0);
-  if (Number.isFinite(t0) && Date.now() - t0 < MIN_MS_DO_SLANJA) {
+  const t0Vjerodostojan = Number.isFinite(t0) && t0 <= now && now - t0 < 24 * 60 * 60 * 1000;
+  if (t0Vjerodostojan && now - t0 < MIN_MS_DO_SLANJA) {
     res.status(200).json({ ok: true });
     return;
   }
@@ -53,6 +64,13 @@ module.exports = async function handler(req, res) {
   const email = String((body && body.email) || '').trim().toLowerCase();
   if (!EMAIL_RE.test(email)) {
     res.status(400).json({ error: 'invalid_email' });
+    return;
+  }
+  // Privola mora biti eksplicitna: iskljucivo strogo true, nikad podrazumijevana
+  // i nikad izvedena iz drugog polja. Bez nje nema server-side zapisa da je
+  // korisnik pristao (index.html je do sad ovo provjeravao SAMO na klijentu).
+  if (body.privola !== true) {
+    res.status(400).json({ error: 'missing_consent' });
     return;
   }
 
