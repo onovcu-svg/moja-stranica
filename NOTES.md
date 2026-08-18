@@ -3,7 +3,7 @@
 Radni dnevnik projekta. Odluke, ograničenja i otvorene stavke.
 **Claude Code: pročitaj ovaj file prije svakog većeg zadatka.**
 
-Zadnje ažuriranje: 18. 8. 2026.
+Zadnje ažuriranje: 18. 8. 2026., 10:22
 
 ---
 
@@ -171,6 +171,19 @@ Zadnje ažuriranje: 18. 8. 2026.
 - **GitHub Pages ugašen** (17.8.) — bila je druga živa kopija na
   `onovcu-svg.github.io/moja-stranica/` gdje API rute ne mogu raditi.
   Nikad nije bila indeksirana.
+- **`TRZISTE` je NIZ, ne objekt.** Pristup ide isključivo preko `tz(id)`
+  helpera. `TRZISTE.inflacija` i sl. daju `undefined`, a `pct()`/`eur()` tiho
+  padnu na 0 — pa se greška prikaže kao vjerodostojan podatak, bez ičega u
+  konzoli. Tako su tokeni `{CPI}`, `{HPI_RAST}`, `{MIROVINA}`, `{MIR_RATIO}`
+  mjesecima pokazivali 0. Isti razred zamke kao `prevState`.
+  **Svaki novi tihi fallback mora imati `console.error`** — vrijedi za `tz()` i
+  `pokDatum`, tako je i izvedeno.
+- **Brojka mora izgledati identično na svim mjestima gdje se pojavljuje.**
+  `{CPI}` je bio `pct(...,1)` → "4,5 %" dok kartica ima "4,50 %". Kod svake
+  nove metrike provjeriti broj decimala na svim prikazima.
+- **Banner "Zadnje ažuriranje" čita `pokDatum`** — jedan izvor istine,
+  hoistan uz `pk`, koristi se i za `{{ trzisteMjesec }}` (2990) i za
+  `src.kategorija` (9219). Ne pisati drugu paralelnu mapu datuma.
 
 ### Sadržaj
 - Kontakt uklonjen iz mobilnog izbornika, radi simetrije s desktopom. Forma
@@ -215,6 +228,13 @@ Development okruženje je zaključano na Hobby planu — ne treba.
   (`justify-content:center` + `overflow-x:auto` odsijeca simetrično), a
   `resetHScroll()` je nakon toga vraćao na `scrollLeft:0`, sakrivajući aktivni
   čip ako nije prvi. Vidi §3.
+- **Sažetci u Pokazateljima pokazivali 0,0 % / 0,00 €** — `TRZISTE` je niz a
+  tokeni su mu pristupali kao objektu. Vidi §3. Popravljeno u `d71eb73`.
+- **Nedovršena rečenica u sažetku inflacije** ("...koštala 100,00 € danas
+  više.") — dovršena i gramatički ispravljena, iznos preko tokena
+  `{KOSARICA_100}`, izveden iz `tz('inflacija')`, nije hardkodiran.
+- **Banner "Zadnje ažuriranje" pokazivao isti datum za sve kategorije** — za
+  Nekretnine netočan ("lipanj 2026." umjesto "prvo tromjesečje 2026.").
 
 ### Riješeno 17. 8. 2026.
 - **Deep-linkovi slomljeni na 23/30 URL-ova.** `./support.js` na ruti s dva
@@ -242,6 +262,12 @@ Development okruženje je zaključano na Hobby planu — ne treba.
 - **Kamatne stope, plaće i ostali podaci u Pokazateljima su hardkodirani**
   (`TRZISTE` konstanta). `marketApiUrl` prop postoji ali je prazan — mehanizam
   za povlačenje nikad nije spojen. Ažurira se ručno.
+- **`POK_KAT.nekretnine.graf.key` i `POK_KAT.krediti.graf.key` oba su
+  `'stambeni'`** (5802, 5812). Spava jer je `imaGraf: false` (9522) tvrdo za
+  sve kategorije. Ako se `imaGraf` ikad uključi, `SERIJE['stambeni']`
+  (kamatna stopa, 2,90–3,90 %) napunio bi graf indeksa cijena nekretnina
+  (raspon 66–239). Provjeriti prije uključivanja.
+- **`STUP2_IMOVINA_MIL` (5675) se nikad ne prikazuje** — mrtav podatak.
 
 ### iOS-specifično — ne može se reproducirati u Chromeu
 Auto-zoom na inpute, ponašanje visual viewporta pri tipkovnici, `height:100%`
@@ -257,7 +283,14 @@ obrada. Testirati na pravom uređaju.
 - [ ] Layout provjera cijele stranice na 430px
 - [ ] Funkcionalna provjera cijele stranice (što izgleda da radi a ne radi)
 - [ ] Provjera da logika izračuna nije dotaknuta: `git diff 580b606 HEAD -- index.html`
-- [ ] Provjera izvora svih podataka u Pokazateljima (izvor + razdoblje za svaku brojku)
+- [ ] Provjera izvora svih podataka u Pokazateljima (izvor + razdoblje za svaku brojku).
+      Interna konzistentnost je provjerena i popravljena (`d71eb73`).
+      **Ostaje neprovjereno: je li ijedna brojka TOČNA** prema HNB / DZS / HZMO /
+      HANFA / eNekretnine. Za svaku metriku treba izvor, razdoblje i potvrda da se
+      navedeno poklapa sa stvarnim.
+      Dodatno otvoreno: banner za Nekretnine tvrdi jedan datum, a kategorija ima
+      tri (`ZADNJE_HPI`, `ZADNJE_DOZVOLE`, `ZADNJE_NEK` = 2025.). Sad pokazuje
+      `ZADNJE_HPI`; treba urednička odluka o formulaciji.
 - [ ] beehiiv i EGP u politici privatnosti — tvrdnja o obradi u EGP-u je vjerojatno netočna
 - [ ] InterCapital disclosure u sekciji Projekti (tekst §7)
 - [ ] `"O novcu"` u navodnike na naslovnici (samo tamo)
