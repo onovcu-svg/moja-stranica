@@ -98,8 +98,10 @@ Zadnja potpuna provjera: 18. 8. 2026.
     svoju referentnu godinu neovisno od DZS-a — neće dati DZS-ovu novu bazu.
 - Ritam: tromjesečno. Objave: 2.7.2026 (Q1), 1.10.2026 (Q2),
   8.1.2027 (Q3), 5.4.2027 (Q4)
-- **KOD JE NETOČAN (18.8.2026): prikazuje rast 11,0 %, DZS kaže 14,3 %
-  godišnje za Q1 2026. (kvartalno +3,3 %).**
+- Provjereno 18.8.2026: godišnji rast **14,3 %** za Q1 2026. Ispravljeno u
+  kodu (`1d74c37`), prikazuje se na sva tri mjesta s istim brojem decimala.
+- Novi ukupni indeks za Q1 2026. na bazi 2025 = 100 iznosi **108,36**
+  (korisno kao provjera kad se niz jednom zamijeni).
 - **ODLUKA (18.8.2026): `HPI_GOD` niz se NE mijenja prije lansiranja.**
   Ispravlja se samo prikazana brojka rasta (11,0 % → 14,3 %), koja je ono što
   korisnik čita i koja je potvrđena iz DZS priopćenja.
@@ -116,25 +118,23 @@ Zadnja potpuna provjera: 18. 8. 2026.
 - Napomena: DZS od Q1 2026. objavljuje i stope promjene broja i vrijednosti
   prodanih objekata. Q1 2026: broj −42,2 %, vrijednost −35,4 % godišnje.
 
-## Nekretnine — cijena po m² po gradu (`NEK_GRAD`)
+## Nekretnine — cijena po gradu
 
-- **ODLUKA (18.8.2026): izvor je APN / Ekonomski institut Zagreb** —
-  referentne prosječne cijene stanova koje se koriste za državne poticaje
-  (povrat poreza i PDV-a za prvu nekretninu), izračunane iz podataka
-  informacijskog sustava eNekretnine.
-  Odabran jer je jedini službeni izvor koji daje cijenu po gradu; DZS ne
-  objavljuje po gradu, a oglasne cijene mjere što prodavač traži, ne što
-  je plaćeno.
-- Ritam: godišnje, objava na početku godine za tekuću godinu
-- **OBAVEZNA NAPOMENA NA PORTALU: ovo su ADMINISTRATIVNE referentne cijene
-  za izračun poticaja, ne tržišni prosjek.** Bez toga brojka zavarava.
-- **Otvoreno: službeni URL do APN odluke/tablice još nije zapisan — dopuniti
-  prije nego što se brojke mijenjaju.**
-- **Otvoreno: kod trenutno ima Zagreb 3.150 € i Split 4.350 €, što NE dolazi
-  iz ovog izvora. APN za Split je oko 3.740 €. Zagreb APN objavljuje po
-  četvrtima (npr. Centar 3.413 €, Trnje 3.184 €), ne kao jednu gradsku
-  cijenu — treba odluka prikazuje li se četvrt ili prosjek grada.
-  Do tada su te dvije brojke neprovjerene.**
+- **ODLUKA (18.8.2026): portal NE prikazuje cijene po gradu.** Tablica
+  `NEK_GRAD` uklonjena je u cijelosti (`4ffd793`). Razlog: brojke nisu imale
+  potvrdiv primarni izvor (od 25 gradova samo se Split poklapao s MPGI
+  tablicom), a MPGI za Grad Zagreb objavljuje cijene po katastarskim općinama
+  pa jedna vrijednost za Zagreb ne postoji. Bez Zagreba tablica nema smisla.
+- Na njeno mjesto ide kartica s objašnjenjem i linkom na izvor.
+- Izvor na koji portal upućuje: **MPGI** (Ministarstvo prostornoga uređenja),
+  podatke izračunava Ekonomski institut Zagreb iz sustava eNekretnine.
+  https://mpgi.gov.hr/prosjecne-cijene-stanova-za-primjenu-u-2026/18577
+- **URL sadrži godinu i mijenja se svake godine** — provjeriti i ažurirati
+  link u `index.html` pri svakoj novoj objavi (početak godine).
+- Ako se ikad odluči vratiti prikaz cijena: vrijednosti moraju biti iz MPGI
+  tablice, uz obaveznu napomenu da su to administrativne referentne cijene za
+  izračun poticaja, ne tržišni prosjek, i da je iz novogradnje izuzet PDV.
+  Za Zagreb treba urednička odluka (raspon, jedna općina, ili izostavljanje).
 
 ---
 

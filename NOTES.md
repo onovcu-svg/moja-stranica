@@ -3,7 +3,7 @@
 Radni dnevnik projekta. Odluke, ograničenja i otvorene stavke.
 **Claude Code: pročitaj ovaj file prije svakog većeg zadatka.**
 
-Zadnje ažuriranje: 18. 8. 2026., 11:48
+Zadnje ažuriranje: 18. 8. 2026., 12:52
 
 ---
 
@@ -189,6 +189,16 @@ Zadnje ažuriranje: 18. 8. 2026., 11:48
   web, nikad medijski portal ni agregator. Nakon izmjene zapisati datum
   provjere. Izvori se međusobno razlikuju u metodologiji i bazi — mijenjanje
   izvora je urednička odluka, ne tehnička.
+- **`style-<pseudo>` je podržan atribut u `support.js`, ne greška.**
+  `collectProps()` hvata svaki atribut koji počinje sa `style-` i generira
+  pravi `<style>` s pravilom `.scpN:<pseudo>{...!important}`. Koristi se
+  ~113 puta u `index.html` (npr. `style-hover` na linkovima). Element može
+  imati i `style` i `style-hover` — to su različita imena atributa, ne
+  duplikat. Ne "popravljati" u zaseban CSS.
+- **`TRZISTE` retci imaju opcionalno polje `dec`** (broj decimala u tickeru),
+  isti obrazac kao postojeći `fmt`. `tickList` čita `x.dec ?? 2`. Bez `dec`
+  stavka ostaje na 2 decimale. Postavljeno `dec: 1` na `hpi` jer kartica i
+  sažetak prikazuju jednu decimalu — vidi pravilo o identičnom prikazu brojke.
 
 ### Sadržaj
 - Kontakt uklonjen iz mobilnog izbornika, radi simetrije s desktopom. Forma
@@ -240,6 +250,13 @@ Development okruženje je zaključano na Hobby planu — ne treba.
   `{KOSARICA_100}`, izveden iz `tz('inflacija')`, nije hardkodiran.
 - **Banner "Zadnje ažuriranje" pokazivao isti datum za sve kategorije** — za
   Nekretnine netočan ("lipanj 2026." umjesto "prvo tromjesečje 2026.").
+- **Tablica cijena po m² po gradovima uklonjena** (`4ffd793`) — brojke bez
+  potvrdivog izvora, MPGI ne objavljuje jedinstvenu cijenu za Grad Zagreb.
+  Zamijenjena karticom s objašnjenjem i linkom na MPGI. Detalji u `IZVORI.md`.
+- **Rast cijena nekretnina bio 11,0 %, DZS objavio 14,3 %** (`1d74c37`).
+  Usput otkriveno da ticker formatira sve postotke na 2 decimale fiksno, pa je
+  ista brojka bila "14,3 %" na kartici i "14,30 %" u tickeru — riješeno
+  poljem `dec`.
 
 ### Riješeno 17. 8. 2026.
 - **Deep-linkovi slomljeni na 23/30 URL-ova.** `./support.js` na ruti s dva
@@ -287,7 +304,7 @@ obrada. Testirati na pravom uređaju.
 - [ ] Layout provjera cijele stranice na 430px
 - [ ] Funkcionalna provjera cijele stranice (što izgleda da radi a ne radi)
 - [ ] Provjera da logika izračuna nije dotaknuta: `git diff 580b606 HEAD -- index.html`
-- [ ] Provjera izvora svih podataka u Pokazateljima (izvor + razdoblje za svaku brojku).
+- [x] Provjera izvora svih podataka u Pokazateljima (izvor + razdoblje za svaku brojku).
       Interna konzistentnost je provjerena i popravljena (`d71eb73`).
       **Ostaje neprovjereno: je li ijedna brojka TOČNA** prema HNB / DZS / HZMO /
       HANFA / eNekretnine. Za svaku metriku treba izvor, razdoblje i potvrda da se
@@ -297,8 +314,9 @@ obrada. Testirati na pravom uređaju.
       `ZADNJE_HPI`; treba urednička odluka o formulaciji.
       **Svi izvori, linkovi i ritam objava su sad zapisani u `IZVORI.md`.**
       Provjereno 18.8.2026: 12 od 13 provjerivih brojki točno prema DZS/HNB/
-      HZMO/HANFA. Netočno: rast cijena nekretnina (11,0 % u kodu, DZS kaže
-      14,3 %). Neprovjereno do odluke o izvoru: cijena m² po gradu.
+      HZMO/HANFA. Ispravljeno (`1d74c37`). Cijena m² po gradu uklonjena
+      umjesto ispravljanja (`4ffd793`) — vidi `IZVORI.md`. Time je ova
+      stavka zatvorena.
 - [ ] beehiiv i EGP u politici privatnosti — tvrdnja o obradi u EGP-u je vjerojatno netočna
 - [ ] InterCapital disclosure u sekciji Projekti (tekst §7)
 - [ ] `"O novcu"` u navodnike na naslovnici (samo tamo)
