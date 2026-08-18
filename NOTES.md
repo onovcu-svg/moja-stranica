@@ -260,6 +260,11 @@ Zadnje ažuriranje: 18. 8. 2026., 20:27
 - **Traka filtera vrste na `/blog` prikazuje se samo kad postoje obje vrste
   objava** — isti obrazac kao `imaKats`. Danas su sve objave video pa je traka
   skrivena; prvi tekstualni članak s `vrsta: 'blog'` je vraća automatski.
+- **`visualViewport` korekcija za fiksnu traku** (`_onVVResize`,
+  `--mob-rez-shift`, `data-mob-rez`, `_prevHasMobRez`): sluša `resize`/`scroll`
+  i preračunava se pri montiranju trake. Na desktopu i Androidu je korekcija
+  uvijek 0, dakle no-op. **NE rješava iOS bug iz §6** — provjereno na uređaju
+  dvaput. Ne graditi na pretpostavci da radi.
 
 ### Sadržaj
 - Kontakt uklonjen iz mobilnog izbornika, radi simetrije s desktopom. Forma
@@ -468,11 +473,16 @@ obrada. Testirati na pravom uređaju.
       kredita (anuiteti i rate), izvještaj plaće (bonus), newsletter s
       privolom i bez. Svi mailovi dostavljeni, sažetak ispravno izostavljen iz
       izvještaja.
-- [ ] **Fiksna traka s rezultatom sjedne usred ekrana.** Pojavi se preko
-      sadržaja kad se prvi put montira DOK je tipkovnica otvorena; nakon
-      zatvaranja i ponovnog otvaranja je ispravno na dnu. Sumnja:
-      `position:fixed` + visual viewport. Reproducirano na Kredit →
-      Refinanciranje (iPhone 16 Pro Max, Safari).
+- [ ] **Fiksna traka s rezultatom sjedne usred ekrana na iOS-u.** Pojavi se
+      preko sadržaja kad se prvi put montira DOK je tipkovnica otvorena; nakon
+      zatvaranja i ponovnog otvaranja je ispravno na dnu. Reproducirano na
+      Kredit → Refinanciranje (iPhone 16 Pro Max, Safari).
+      **Dva pokušaja popravka nisu uspjela** (`9fea78f`, `20b6328`), iako oba
+      prolaze u simulaciji. Ostavljeni su u kodu jer je `visualViewport`
+      logika sama po sebi ispravna i pokriva promjene viewporta — ali stvarni
+      scenarij i dalje pada. Sljedeći pokušaj traži novu hipotezu, ne varijaciju
+      postojeće. Prihvaćeno kao poznato za lansiranje: traka se ispravno
+      postavi čim se tipkovnica zatvori.
 - [x] **Odabrana tema se pamti** (`localStorage`, ključ `on-tema`).
       Primjenjuje se inline skriptom u `<head>` prije prvog rendera, pa nema
       bljeska svijetle teme — dokazano tako da se tema ispravno postavi čak i
