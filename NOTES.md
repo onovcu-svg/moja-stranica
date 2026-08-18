@@ -3,7 +3,7 @@
 Radni dnevnik projekta. Odluke, ograničenja i otvorene stavke.
 **Claude Code: pročitaj ovaj file prije svakog većeg zadatka.**
 
-Zadnje ažuriranje: 18. 8. 2026., 10:22
+Zadnje ažuriranje: 18. 8. 2026., 11:48
 
 ---
 
@@ -184,6 +184,11 @@ Zadnje ažuriranje: 18. 8. 2026., 10:22
 - **Banner "Zadnje ažuriranje" čita `pokDatum`** — jedan izvor istine,
   hoistan uz `pk`, koristi se i za `{{ trzisteMjesec }}` (2990) i za
   `src.kategorija` (9219). Ne pisati drugu paralelnu mapu datuma.
+- **Svaki podatak u Pokazateljima ima zapisan primarni izvor u `IZVORI.md`.**
+  Prije izmjene ijedne brojke: otvoriti link iz tog filea, nikad pretraživati
+  web, nikad medijski portal ni agregator. Nakon izmjene zapisati datum
+  provjere. Izvori se međusobno razlikuju u metodologiji i bazi — mijenjanje
+  izvora je urednička odluka, ne tehnička.
 
 ### Sadržaj
 - Kontakt uklonjen iz mobilnog izbornika, radi simetrije s desktopom. Forma
@@ -290,6 +295,10 @@ obrada. Testirati na pravom uređaju.
       Dodatno otvoreno: banner za Nekretnine tvrdi jedan datum, a kategorija ima
       tri (`ZADNJE_HPI`, `ZADNJE_DOZVOLE`, `ZADNJE_NEK` = 2025.). Sad pokazuje
       `ZADNJE_HPI`; treba urednička odluka o formulaciji.
+      **Svi izvori, linkovi i ritam objava su sad zapisani u `IZVORI.md`.**
+      Provjereno 18.8.2026: 12 od 13 provjerivih brojki točno prema DZS/HNB/
+      HZMO/HANFA. Netočno: rast cijena nekretnina (11,0 % u kodu, DZS kaže
+      14,3 %). Neprovjereno do odluke o izvoru: cijena m² po gradu.
 - [ ] beehiiv i EGP u politici privatnosti — tvrdnja o obradi u EGP-u je vjerojatno netočna
 - [ ] InterCapital disclosure u sekciji Projekti (tekst §7)
 - [ ] `"O novcu"` u navodnike na naslovnici (samo tamo)
@@ -320,6 +329,11 @@ obrada. Testirati na pravom uređaju.
       Trenutno se članci i videi dodaju ručno u `index.html`.
 - [ ] Živi podaci HNB/DZS — scraping ruta + cache
 - [ ] PDF u prilogu maila — odgođeno, HTML u tijelu ostaje
+- [ ] **`HPI_GOD` niz na novu baznu godinu.** DZS je 2.7.2026. promijenio
+      baznu godinu s 2015 = 100 na 2025 = 100 i revidirao cijeli niz
+      2002.–2025. Postojeći niz (raspon 66–239) je stara baza. Namjerno
+      odgođeno — za graf trenda baza je nebitna dok su sve točke na istoj.
+      Linkovi i obrazloženje u `IZVORI.md`.
 
 ### Sporedno
 - Domena `onovcu.hr` istječe **13. 11. 2026.** (registrar: Hrvatski Telekom /
