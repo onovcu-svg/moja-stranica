@@ -371,6 +371,13 @@ Development okruženje je zaključano na Hobby planu — ne treba.
   čistom tabu; prije je ovdje pisalo 4 i linije 766/3753/3573/3580, što su bile
   zastarjele vrijednosti (linije su se pomaknule uklanjanjem `NEK_GRAD`).
   Nestat će s migracijom na build. Filter u DevToolsu: `-a.d -nek.kuca`
+  **Chrome dodatno prikazuje 2 upozorenja (warning, ne error) koje Safari ne
+  pokazuje**: `index.html:1062` i `1066` — `<input type="date">` s
+  `{{ ikIsplata }}`/`{{ ikPrvi }}` placeholderom u `value` atributu, "ne
+  odgovara formatu yyyy-MM-dd". Ista klasa problema kao SVG placeholderi
+  (predložak u sirovom HTML-u, parsiran prije hidracije). Polja rade ispravno.
+  **Ukupno u Chromeu: 8 grešaka + 2 upozorenja.** Safari grupira drugačije —
+  prikazuje 6 grešaka za istu stvar, ne 8.
 - **Nema prave 404 stranice, i "preusmjerava na `/`" vrijedi SAMO za
   jednosegmentne rute.** Zaštita u `componentDidMount` (6395) gleda samo
   `init.tab !== 'home'`, pa se za dvosegmentne rute `history.replaceState('/')`
@@ -456,7 +463,11 @@ obrada. Testirati na pravom uređaju.
 - [ ] InterCapital disclosure u sekciji Projekti (tekst §7)
 - [ ] `"O novcu"` u navodnike na naslovnici (samo tamo)
 - [ ] Provjera sitemapa i svih ruta
-- [ ] Finalni test svih formi
+- [x] **Finalni test svih formi.** Testirano na produkciji 18.8.2026. sa
+      stvarnim Resendom: kontakt, Mediji (tema ispravna), B2B, izvještaj
+      kredita (anuiteti i rate), izvještaj plaće (bonus), newsletter s
+      privolom i bez. Svi mailovi dostavljeni, sažetak ispravno izostavljen iz
+      izvještaja.
 - [ ] **Fiksna traka s rezultatom sjedne usred ekrana.** Pojavi se preko
       sadržaja kad se prvi put montira DOK je tipkovnica otvorena; nakon
       zatvaranja i ponovnog otvaranja je ispravno na dnu. Sumnja:
