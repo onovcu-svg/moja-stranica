@@ -2551,8 +2551,11 @@
          _onVVResize (vidi dolje) na razliku window.innerHeight - vizualni
          viewport; fallback 0px znaci da bez visualViewport podrske ili na
          desktopu/Androidu (gdje je razlika 0) ponasanje ostaje bottom:0,
-         identicno danasnjem. -->
-    <div style="position:fixed;left:0;right:0;bottom:calc(0px + var(--mob-rez-shift, 0px));z-index:70;background:var(--inv);color:var(--invInk);padding:11px clamp(14px,4vw,20px);display:flex;align-items:center;justify-content:space-between;gap:14px;box-shadow:0 -6px 24px rgba(0,0,0,.22)">
+         identicno danasnjem. data-mob-rez: componentDidUpdate njime prati
+         je li traka u DOM-u (vidi _prevHasMobRez), za popravak drugog dijela
+         istog buga - prisilni recompute pri MONTIRANJU, ne samo pri promjeni
+         viewporta. -->
+    <div data-mob-rez="1" style="position:fixed;left:0;right:0;bottom:calc(0px + var(--mob-rez-shift, 0px));z-index:70;background:var(--inv);color:var(--invInk);padding:11px clamp(14px,4vw,20px);display:flex;align-items:center;justify-content:space-between;gap:14px;box-shadow:0 -6px 24px rgba(0,0,0,.22)">
       <span style="font-weight:400;font-size:12px;color:var(--invSoft);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ pdf.rataLabel }}</span>
       <span style="font-weight:700;font-size:19px;letter-spacing:-.03em;white-space:nowrap">{{ pdf.rata }}</span>
     </div>
@@ -6643,6 +6646,28 @@ class Component extends DCLogic {
     } else {
       this._prevCalcIdent = curIdent;
     }
+    // Popravak trake s rezultatom (NOTES.md §6, drugi dio): sc-if dodaje/
+    // uklanja DOM cvor, ne mijenja CSS display. Ako se traka prvi put pojavi
+    // dok je tipkovnica vec otvorena I smirena, nijedan visualViewport
+    // resize/scroll vise ne dolazi (vidi komentar uz _onVVResize u
+    // componentDidMount) - CSS varijabla ostaje na zastarjeloj (obicno 0px)
+    // vrijednosti izracunatoj pri ucitavanju stranice. Ovdje se prati SAMO
+    // prisutnost trake u DOM-u (preko data-mob-rez, ne prikaziMobRez izravno)
+    // jer ta vrijednost nije u state-u nego lokalna u render-pipelineu -
+    // izbjegava dupliciranje 'nema'/'imaRez' logike na dva mjesta. Isto
+    // pokriva i suprotan smjer: kad traka nestane (_prevHasMobRez -> false) pa
+    // se kasnije opet pojavi bez stisnutog viewporta, ovaj recompute potvrdjuje
+    // korekciju 0 umjesto da ostavi zaostalu vrijednost od prosli put.
+    // setTimeout(fn, 0), ne requestAnimationFrame - §3: rAF nije pouzdan
+    // (suspendiran za pozadinske tabove). DOM je vec azuriran kad se
+    // componentDidUpdate pozove (React garancija), ali StreamableComponent
+    // (vidi napomenu o prevState iznad) vec jednom NIJE postovao standardno
+    // React ponasanje, pa se ne oslanjamo slijepo na tu istu garanciju ovdje.
+    const hasBar = typeof document !== 'undefined' && !!document.querySelector('[data-mob-rez]');
+    if (hasBar && !this._prevHasMobRez && window.visualViewport) {
+      setTimeout(() => this._onVVResize(), 0);
+    }
+    this._prevHasMobRez = hasBar;
   }
 
   componentWillUnmount() {
