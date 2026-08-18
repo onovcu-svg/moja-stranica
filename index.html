@@ -632,14 +632,14 @@
           <div style="background:var(--sec);border-radius:10px;padding:12px 14px;margin-bottom:12px;margin-top:10px;font-weight:300;font-size:12.5px;line-height:1.55;color:var(--soft)">{{ pj.bruto1.txt }}</div>
           </sc-if>
         <div style="position:relative;margin-bottom:14px">
-          <input type="text" inputmode="decimal" value="{{ inp.iznos }}" sc-camel-on-change="{{ on.iznos }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.iznos }};border-radius:12px;padding:15px 46px 15px 16px;font-weight:600;font-size:26px;letter-spacing:-.03em;background:{{ bgF.iznos }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
+          <input type="text" inputmode="decimal" aria-label="{{ placaLabel }}" value="{{ inp.iznos }}" sc-camel-on-change="{{ on.iznos }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.iznos }};border-radius:12px;padding:15px 46px 15px 16px;font-weight:600;font-size:26px;letter-spacing:-.03em;background:{{ bgF.iznos }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
           <span style="position:absolute;right:17px;top:50%;transform:translateY(-50%);font-weight:500;font-size:19px;color:var(--soft)">€</span>
         </div>
         <sc-if value="{{ smjerJeBonus }}">
         <div style="margin-bottom:14px">
           <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:8px">Bruto iznos bonusa</label>
           <div style="position:relative">
-            <input type="text" inputmode="decimal" value="{{ inp.bonusIznos }}" sc-camel-on-change="{{ on.bonusIznos }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.bonusIznos }};border-radius:12px;padding:15px 46px 15px 16px;font-weight:600;font-size:26px;letter-spacing:-.03em;background:{{ bgF.bonusIznos }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
+            <input type="text" inputmode="decimal" aria-label="Bruto iznos bonusa" value="{{ inp.bonusIznos }}" sc-camel-on-change="{{ on.bonusIznos }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.bonusIznos }};border-radius:12px;padding:15px 46px 15px 16px;font-weight:600;font-size:26px;letter-spacing:-.03em;background:{{ bgF.bonusIznos }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
             <span style="position:absolute;right:17px;top:50%;transform:translateY(-50%);font-weight:500;font-size:19px;color:var(--soft)">€</span>
           </div>
         </div>
@@ -668,7 +668,7 @@
           <sc-if value="{{ pj.mladi.open }}">
           <div style="background:var(--sec);border-radius:10px;padding:12px 14px;margin-bottom:10px;margin-top:10px;font-weight:300;font-size:12.5px;line-height:1.55;color:var(--soft)">{{ pj.mladi.txt }}</div>
           </sc-if>
-            <sc-raw-select data-fs="sm" value="{{ mladi }}" sc-camel-on-change="{{ on.mladi }}" style="width:100%;border:1px solid var(--line);border-radius:10px;padding:12px;font-weight:500;font-size:14.5px;background:var(--field);outline:none" style-focus="border-color:var(--acc)">
+            <sc-raw-select data-fs="sm" aria-label="Olakšica" value="{{ mladi }}" sc-camel-on-change="{{ on.mladi }}" style="width:100%;border:1px solid var(--line);border-radius:10px;padding:12px;font-weight:500;font-size:14.5px;background:var(--field);outline:none" style-focus="border-color:var(--acc)">
               <option value="ne">Nemam (30+)</option>
               <option value="do25">Do 25 g. (povrat 100 %)</option>
               <option value="do30">25–30 g. (povrat 50 %)</option>
@@ -682,14 +682,14 @@
           <div>
             <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:8px">Niža stopa (do 5.000,00 €)</label>
             <div style="position:relative">
-              <input type="text" inputmode="decimal" value="{{ inp.gradNiza }}" sc-camel-on-change="{{ on.gradNiza }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.gradNiza }};border-radius:10px;padding:12px 34px 12px 12px;font-weight:600;font-size:16px;background:{{ bgF.gradNiza }};outline:none" style-focus="border-color:var(--acc)">
+              <input type="text" inputmode="decimal" aria-label="Niža stopa (do 5.000,00 €)" value="{{ inp.gradNiza }}" sc-camel-on-change="{{ on.gradNiza }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.gradNiza }};border-radius:10px;padding:12px 34px 12px 12px;font-weight:600;font-size:16px;background:{{ bgF.gradNiza }};outline:none" style-focus="border-color:var(--acc)">
               <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">%</span>
             </div>
           </div>
           <div>
             <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:8px">Viša stopa (iznad 5.000,00 €)</label>
             <div style="position:relative">
-              <input type="text" inputmode="decimal" value="{{ inp.gradVisa }}" sc-camel-on-change="{{ on.gradVisa }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.gradVisa }};border-radius:10px;padding:12px 34px 12px 12px;font-weight:600;font-size:16px;background:{{ bgF.gradVisa }};outline:none" style-focus="border-color:var(--acc)">
+              <input type="text" inputmode="decimal" aria-label="Viša stopa (iznad 5.000,00 €)" value="{{ inp.gradVisa }}" sc-camel-on-change="{{ on.gradVisa }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.gradVisa }};border-radius:10px;padding:12px 34px 12px 12px;font-weight:600;font-size:16px;background:{{ bgF.gradVisa }};outline:none" style-focus="border-color:var(--acc)">
               <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">%</span>
             </div>
           </div>
@@ -701,11 +701,11 @@
           <sc-if value="{{ pj.djeca.open }}">
           <div style="background:var(--sec);border-radius:10px;padding:12px 14px;margin-bottom:10px;margin-top:10px;font-weight:300;font-size:12.5px;line-height:1.55;color:var(--soft)">{{ pj.djeca.txt }}</div>
           </sc-if>
-            <input type="text" inputmode="numeric" value="{{ inp.djeca }}" sc-camel-on-change="{{ on.djeca }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.djeca }};border-radius:10px;padding:12px;font-weight:600;font-size:16px;background:{{ bgF.djeca }};outline:none" style-focus="border-color:var(--acc)">
+            <input type="text" inputmode="numeric" aria-label="Broj djece" value="{{ inp.djeca }}" sc-camel-on-change="{{ on.djeca }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.djeca }};border-radius:10px;padding:12px;font-weight:600;font-size:16px;background:{{ bgF.djeca }};outline:none" style-focus="border-color:var(--acc)">
           </div>
           <div>
             <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:8px">Ostali uzdržavani</label>
-            <input type="text" inputmode="numeric" value="{{ inp.uzdrzavani }}" sc-camel-on-change="{{ on.uzdrzavani }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.uzdrzavani }};border-radius:10px;padding:12px;font-weight:600;font-size:16px;background:{{ bgF.uzdrzavani }};outline:none" style-focus="border-color:var(--acc)">
+            <input type="text" inputmode="numeric" aria-label="Ostali uzdržavani" value="{{ inp.uzdrzavani }}" sc-camel-on-change="{{ on.uzdrzavani }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.uzdrzavani }};border-radius:10px;padding:12px;font-weight:600;font-size:16px;background:{{ bgF.uzdrzavani }};outline:none" style-focus="border-color:var(--acc)">
           </div>
         </div>
         <div style="margin-bottom:22px">
@@ -716,7 +716,7 @@
           <sc-if value="{{ inv }}">
           <div style="margin-top:12px">
             <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:8px">Razina invalidnosti</label>
-            <sc-raw-select data-fs="sm" value="{{ invTip }}" sc-camel-on-change="{{ on.invTip }}" style="width:100%;border:1px solid var(--line);border-radius:10px;padding:12px;font-weight:500;font-size:14.5px;background:var(--field);outline:none" style-focus="border-color:var(--acc)">
+            <sc-raw-select data-fs="sm" aria-label="Razina invalidnosti" value="{{ invTip }}" sc-camel-on-change="{{ on.invTip }}" style="width:100%;border:1px solid var(--line);border-radius:10px;padding:12px;font-weight:500;font-size:14.5px;background:var(--field);outline:none" style-focus="border-color:var(--acc)">
               <option value="dio">Djelomična invalidnost (koeficijent 0,3)</option>
               <option value="puni">100 % invaliditet ili doplatak za tuđu pomoć i njegu (koeficijent 1,0)</option>
             </sc-raw-select>
@@ -733,14 +733,14 @@
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:16px;margin-top:12px">
             <div>
               <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:8px">Razina invalidnosti</label>
-              <sc-raw-select data-fs="sm" value="{{ invUzdrzTip }}" sc-camel-on-change="{{ on.invUzdrzTip }}" style="width:100%;border:1px solid var(--line);border-radius:10px;padding:12px;font-weight:500;font-size:14.5px;background:var(--field);outline:none" style-focus="border-color:var(--acc)">
+              <sc-raw-select data-fs="sm" aria-label="Razina invalidnosti uzdržavanog člana" value="{{ invUzdrzTip }}" sc-camel-on-change="{{ on.invUzdrzTip }}" style="width:100%;border:1px solid var(--line);border-radius:10px;padding:12px;font-weight:500;font-size:14.5px;background:var(--field);outline:none" style-focus="border-color:var(--acc)">
                 <option value="dio">Djelomična invalidnost (koeficijent 0,3)</option>
                 <option value="puni">100 % invaliditet ili doplatak za tuđu pomoć i njegu (koeficijent 1,0)</option>
               </sc-raw-select>
             </div>
             <div>
               <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:8px">Broj takvih uzdržavanih članova</label>
-              <input data-fs="sm" type="text" inputmode="numeric" value="{{ inp.invUzdrzBroj }}" sc-camel-on-change="{{ on.invUzdrzBroj }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.invUzdrzBroj }};border-radius:10px;padding:12px;font-weight:500;font-size:14.5px;background:{{ bgF.invUzdrzBroj }};outline:none" style-focus="border-color:var(--acc)">
+              <input data-fs="sm" type="text" inputmode="numeric" aria-label="Broj takvih uzdržavanih članova" value="{{ inp.invUzdrzBroj }}" sc-camel-on-change="{{ on.invUzdrzBroj }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.invUzdrzBroj }};border-radius:10px;padding:12px;font-weight:500;font-size:14.5px;background:{{ bgF.invUzdrzBroj }};outline:none" style-focus="border-color:var(--acc)">
             </div>
           </div>
           <div style="font-weight:300;font-size:12.5px;line-height:1.55;color:var(--soft);margin-top:10px">Isti koeficijenti vrijede za uzdržavanog člana s invalidnošću kao i za tebe. Ako uzdržavani članovi imaju različite razine, unesi ovdje onu koja se odnosi na većinu njih.</div>
@@ -945,7 +945,7 @@
           </sc-if>
         <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:8px">Iznos kredita</label>
         <div style="position:relative;margin-bottom:14px">
-          <input type="text" inputmode="decimal" value="{{ inp.kIznos }}" sc-camel-on-change="{{ on.kIznos }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.kIznos }};border-radius:12px;padding:15px 46px 15px 16px;font-weight:600;font-size:26px;letter-spacing:-.03em;background:{{ bgF.kIznos }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
+          <input type="text" inputmode="decimal" aria-label="Iznos kredita" value="{{ inp.kIznos }}" sc-camel-on-change="{{ on.kIznos }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.kIznos }};border-radius:12px;padding:15px 46px 15px 16px;font-weight:600;font-size:26px;letter-spacing:-.03em;background:{{ bgF.kIznos }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
           <span style="position:absolute;right:17px;top:50%;transform:translateY(-50%);font-weight:500;font-size:19px;color:var(--soft)">€</span>
         </div>
         </div>
@@ -955,7 +955,7 @@
             <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px">
               <label style="font-weight:500;font-size:12.5px;color:var(--soft)">Kamatna stopa</label>
               <div style="position:relative;flex-shrink:0">
-                <input data-fs="sm" type="text" inputmode="decimal" value="{{ inp.kStopa }}" sc-camel-on-change="{{ on.kStopa }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:92px;border:1px solid {{ bd.kStopa }};border-radius:9px;padding:9px 26px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.kStopa }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                <input data-fs="sm" type="text" inputmode="decimal" aria-label="Kamatna stopa" value="{{ inp.kStopa }}" sc-camel-on-change="{{ on.kStopa }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:92px;border:1px solid {{ bd.kStopa }};border-radius:9px;padding:9px 26px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.kStopa }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
                 <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">%</span>
               </div>
             </div>
@@ -964,7 +964,7 @@
             <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px">
               <label style="font-weight:500;font-size:12.5px;color:var(--soft)">Rok otplate</label>
               <div style="position:relative;flex-shrink:0">
-                <input data-fs="sm" type="text" inputmode="decimal" value="{{ inp.kGodine }}" sc-camel-on-change="{{ on.kGodine }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:112px;border:1px solid {{ bd.kGodine }};border-radius:9px;padding:9px 48px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.kGodine }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                <input data-fs="sm" type="text" inputmode="decimal" aria-label="Rok otplate" value="{{ inp.kGodine }}" sc-camel-on-change="{{ on.kGodine }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:112px;border:1px solid {{ bd.kGodine }};border-radius:9px;padding:9px 48px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.kGodine }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
                 <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">god.</span>
               </div>
             </div>
@@ -979,7 +979,7 @@
               <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px">
                 <label style="font-weight:500;font-size:12.5px;color:var(--soft)">Fiksni period</label>
                 <div style="position:relative;flex-shrink:0">
-                  <input data-fs="sm" type="text" inputmode="decimal" value="{{ inp.kFiks }}" sc-camel-on-change="{{ on.kFiks }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:112px;border:1px solid {{ bd.kFiks }};border-radius:9px;padding:9px 48px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.kFiks }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                  <input data-fs="sm" type="text" inputmode="decimal" aria-label="Fiksni period (kombinirana stopa)" value="{{ inp.kFiks }}" sc-camel-on-change="{{ on.kFiks }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:112px;border:1px solid {{ bd.kFiks }};border-radius:9px;padding:9px 48px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.kFiks }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
                   <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">god.</span>
                 </div>
               </div>
@@ -988,7 +988,7 @@
               <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px">
                 <label style="font-weight:500;font-size:12.5px;color:var(--soft)">Marža banke</label>
                 <div style="position:relative;flex-shrink:0">
-                  <input data-fs="sm" type="text" inputmode="decimal" value="{{ inp.kMarza }}" sc-camel-on-change="{{ on.kMarza }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:92px;border:1px solid {{ bd.kMarza }};border-radius:9px;padding:9px 26px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.kMarza }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                  <input data-fs="sm" type="text" inputmode="decimal" aria-label="Marža banke" value="{{ inp.kMarza }}" sc-camel-on-change="{{ on.kMarza }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:92px;border:1px solid {{ bd.kMarza }};border-radius:9px;padding:9px 26px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.kMarza }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
                   <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">%</span>
                 </div>
               </div>
@@ -997,7 +997,7 @@
               <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px">
                 <label style="font-weight:500;font-size:12.5px;color:var(--soft)">Očekivani EURIBOR</label>
                 <div style="position:relative;flex-shrink:0">
-                  <input data-fs="sm" type="text" inputmode="decimal" value="{{ inp.kEuribor }}" sc-camel-on-change="{{ on.kEuribor }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:92px;border:1px solid {{ bd.kEuribor }};border-radius:9px;padding:9px 26px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.kEuribor }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                  <input data-fs="sm" type="text" inputmode="decimal" aria-label="Očekivani EURIBOR" value="{{ inp.kEuribor }}" sc-camel-on-change="{{ on.kEuribor }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:92px;border:1px solid {{ bd.kEuribor }};border-radius:9px;padding:9px 26px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.kEuribor }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
                   <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">%</span>
                 </div>
               </div>
@@ -1023,7 +1023,7 @@
           <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px">
             <label style="font-weight:500;font-size:12.5px;color:var(--soft)">Očekivana godišnja inflacija</label>
             <div style="position:relative;flex-shrink:0">
-              <input data-fs="sm" type="text" inputmode="decimal" value="{{ inp.kInfStopa }}" sc-camel-on-change="{{ on.kInfStopa }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:92px;border:1px solid {{ bd.kInfStopa }};border-radius:9px;padding:9px 26px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.kInfStopa }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
+              <input data-fs="sm" type="text" inputmode="decimal" aria-label="Očekivana godišnja inflacija (izračun kredita)" value="{{ inp.kInfStopa }}" sc-camel-on-change="{{ on.kInfStopa }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:92px;border:1px solid {{ bd.kInfStopa }};border-radius:9px;padding:9px 26px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.kInfStopa }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
               <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">%</span>
             </div>
           </div>
@@ -1059,11 +1059,11 @@
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px">
             <div>
               <label style="display:block;font-weight:500;font-size:12px;color:var(--soft);margin-bottom:7px">Datum isplate</label>
-              <input data-fs="sm" type="date" value="{{ ikIsplata }}" sc-camel-on-change="{{ on.ikIsplata }}" style="width:100%;border:1px solid var(--line);border-radius:10px;padding:11px 12px;font-weight:600;font-size:15px;background:var(--field);outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
+              <input data-fs="sm" type="date" aria-label="Datum isplate kredita" value="{{ ikIsplata }}" sc-camel-on-change="{{ on.ikIsplata }}" style="width:100%;border:1px solid var(--line);border-radius:10px;padding:11px 12px;font-weight:600;font-size:15px;background:var(--field);outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
             </div>
             <div>
               <label style="display:block;font-weight:500;font-size:12px;color:var(--soft);margin-bottom:7px">Datum prvog anuiteta</label>
-              <input data-fs="sm" type="date" value="{{ ikPrvi }}" sc-camel-on-change="{{ on.ikPrvi }}" style="width:100%;border:1px solid var(--line);border-radius:10px;padding:11px 12px;font-weight:600;font-size:15px;background:var(--field);outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
+              <input data-fs="sm" type="date" aria-label="Datum prvog anuiteta" value="{{ ikPrvi }}" sc-camel-on-change="{{ on.ikPrvi }}" style="width:100%;border:1px solid var(--line);border-radius:10px;padding:11px 12px;font-weight:600;font-size:15px;background:var(--field);outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
             </div>
           </div>
           <sc-if value="{{ ik.ok }}">
@@ -1114,11 +1114,11 @@
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:14px;margin-bottom:18px">
             <div>
               <label style="display:block;font-weight:500;font-size:12px;color:var(--soft);margin-bottom:7px">Iznos po uplati (€)</label>
-              <input type="text" inputmode="decimal" value="{{ inp.kExtra }}" sc-camel-on-change="{{ on.kExtra }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.kExtra }};border-radius:10px;padding:11px 12px;font-weight:600;font-size:16px;background:{{ bgF.kExtra }};outline:none" style-focus="border-color:var(--acc)">
+              <input type="text" inputmode="decimal" aria-label="Iznos po uplati (€)" value="{{ inp.kExtra }}" sc-camel-on-change="{{ on.kExtra }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.kExtra }};border-radius:10px;padding:11px 12px;font-weight:600;font-size:16px;background:{{ bgF.kExtra }};outline:none" style-focus="border-color:var(--acc)">
             </div>
             <div>
               <label style="display:block;font-weight:500;font-size:12px;color:var(--soft);margin-bottom:7px">Prva uplata u mjesecu</label>
-              <input type="text" inputmode="numeric" value="{{ inp.kExtraStart }}" sc-camel-on-change="{{ on.kExtraStart }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.kExtraStart }};border-radius:10px;padding:11px 12px;font-weight:600;font-size:16px;background:{{ bgF.kExtraStart }};outline:none" style-focus="border-color:var(--acc)">
+              <input type="text" inputmode="numeric" aria-label="Prva uplata u mjesecu" value="{{ inp.kExtraStart }}" sc-camel-on-change="{{ on.kExtraStart }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.kExtraStart }};border-radius:10px;padding:11px 12px;font-weight:600;font-size:16px;background:{{ bgF.kExtraStart }};outline:none" style-focus="border-color:var(--acc)">
             </div>
           </div>
           </sc-if>
@@ -1131,11 +1131,11 @@
                   <div style="width:34px;font-weight:600;font-size:13px;color:var(--soft);padding-bottom:12px;flex-shrink:0">{{ u.broj }}</div>
                   <div style="flex:1;min-width:0">
                     <label style="display:block;font-weight:500;font-size:11.5px;color:var(--soft);margin-bottom:6px">Mjesec</label>
-                    <input data-fs="sm" type="text" inputmode="numeric" value="{{ u.mj }}" sc-camel-on-change="{{ u.setMj }}" sc-camel-on-blur="{{ u.blurMj }}" title="{{ u.mjNaslov }}" style="width:100%;border:1px solid {{ u.mjBoja }};border-radius:10px;padding:10px 12px;font-weight:600;font-size:15px;background:{{ u.mjBg }};outline:none" style-focus="border-color:var(--acc)">
+                    <input data-fs="sm" type="text" inputmode="numeric" aria-label="{{ u.mjLabel }}" value="{{ u.mj }}" sc-camel-on-change="{{ u.setMj }}" sc-camel-on-blur="{{ u.blurMj }}" title="{{ u.mjNaslov }}" style="width:100%;border:1px solid {{ u.mjBoja }};border-radius:10px;padding:10px 12px;font-weight:600;font-size:15px;background:{{ u.mjBg }};outline:none" style-focus="border-color:var(--acc)">
                   </div>
                   <div style="flex:1.4;min-width:0">
                     <label style="display:block;font-weight:500;font-size:11.5px;color:var(--soft);margin-bottom:6px">Iznos (€)</label>
-                    <input data-fs="sm" type="text" inputmode="decimal" value="{{ u.iznos }}" sc-camel-on-change="{{ u.setIznos }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-weight:600;font-size:15px;background:var(--field);outline:none" style-focus="border-color:var(--acc)">
+                    <input data-fs="sm" type="text" inputmode="decimal" aria-label="{{ u.iznosLabel }}" value="{{ u.iznos }}" sc-camel-on-change="{{ u.setIznos }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-weight:600;font-size:15px;background:var(--field);outline:none" style-focus="border-color:var(--acc)">
                   </div>
                   <button sc-camel-on-click="{{ u.remove }}" title="Ukloni uplatu" sc-camel-tab-index="-1" style="width:38px;height:38px;flex-shrink:0;background:none;border:1px solid var(--line);border-radius:10px;cursor:pointer;font-size:16px;line-height:1;color:var(--soft);transition:all .2s" style-hover="border-color:var(--acc);color:var(--acc)">×</button>
                 </div>
@@ -1350,21 +1350,21 @@
             <div>
               <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:8px">Iznos kredita</label>
               <div style="position:relative">
-                <input type="text" inputmode="decimal" value="{{ inp.rIznos }}" sc-camel-on-change="{{ on.rIznos }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.rIznos }};border-radius:10px;padding:12px 46px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.rIznos }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                <input type="text" inputmode="decimal" aria-label="Iznos kredita" value="{{ inp.rIznos }}" sc-camel-on-change="{{ on.rIznos }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.rIznos }};border-radius:10px;padding:12px 46px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.rIznos }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
                 <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">€</span>
               </div>
             </div>
             <div>
               <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:8px">Kamatna stopa</label>
               <div style="position:relative">
-                <input type="text" inputmode="decimal" value="{{ inp.rStopa }}" sc-camel-on-change="{{ on.rStopa }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.rStopa }};border-radius:10px;padding:12px 46px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.rStopa }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                <input type="text" inputmode="decimal" aria-label="Kamatna stopa" value="{{ inp.rStopa }}" sc-camel-on-change="{{ on.rStopa }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.rStopa }};border-radius:10px;padding:12px 46px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.rStopa }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
                 <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">%</span>
               </div>
             </div>
             <div>
               <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:8px">Ugovoreni rok</label>
               <div style="position:relative">
-                <input type="text" inputmode="decimal" value="{{ inp.rGodine }}" sc-camel-on-change="{{ on.rGodine }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.rGodine }};border-radius:10px;padding:12px 46px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.rGodine }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                <input type="text" inputmode="decimal" aria-label="Ugovoreni rok" value="{{ inp.rGodine }}" sc-camel-on-change="{{ on.rGodine }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.rGodine }};border-radius:10px;padding:12px 46px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.rGodine }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
                 <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">god.</span>
               </div>
             </div>
@@ -1374,7 +1374,7 @@
           <div style="background:var(--sec);border-radius:10px;padding:12px 14px;margin-bottom:10px;margin-top:10px;font-weight:300;font-size:12.5px;line-height:1.55;color:var(--soft)">{{ pj.otplaceno.txt }}</div>
           </sc-if>
               <div style="position:relative">
-                <input type="text" inputmode="decimal" value="{{ inp.rOtplaceno }}" sc-camel-on-change="{{ on.rOtplaceno }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.rOtplaceno }};border-radius:10px;padding:12px 46px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.rOtplaceno }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                <input type="text" inputmode="decimal" aria-label="Otplaćeno anuiteta" value="{{ inp.rOtplaceno }}" sc-camel-on-change="{{ on.rOtplaceno }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.rOtplaceno }};border-radius:10px;padding:12px 46px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.rOtplaceno }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
                 <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">mj.</span>
               </div>
             </div>
@@ -1386,7 +1386,7 @@
             <div>
               <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:8px">Nova kamatna stopa</label>
               <div style="position:relative">
-                <input type="text" inputmode="decimal" value="{{ inp.rNova }}" sc-camel-on-change="{{ on.rNova }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.rNova }};border-radius:10px;padding:12px 46px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.rNova }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                <input type="text" inputmode="decimal" aria-label="Nova kamatna stopa" value="{{ inp.rNova }}" sc-camel-on-change="{{ on.rNova }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.rNova }};border-radius:10px;padding:12px 46px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.rNova }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
                 <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">%</span>
               </div>
             </div>
@@ -1408,7 +1408,7 @@
               <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
                 <label style="font-weight:500;font-size:12.5px;color:var(--soft)">Rok otplate novog kredita</label>
                 <div style="position:relative;flex-shrink:0">
-                  <input data-fs="sm" type="text" inputmode="numeric" value="{{ inp.rSlobodno }}" sc-camel-on-change="{{ on.rSlobodno }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:112px;border:1px solid {{ bd.rSlobodno }};border-radius:9px;padding:9px 48px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.rSlobodno }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                  <input data-fs="sm" type="text" inputmode="numeric" aria-label="Rok otplate novog kredita" value="{{ inp.rSlobodno }}" sc-camel-on-change="{{ on.rSlobodno }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:112px;border:1px solid {{ bd.rSlobodno }};border-radius:9px;padding:9px 48px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.rSlobodno }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
                   <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">god.</span>
                 </div>
               </div>
@@ -1495,28 +1495,28 @@
             <div>
               <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:8px">Glavnica kredita</label>
               <div style="position:relative">
-                <input type="text" inputmode="decimal" value="{{ inp.zIznos }}" sc-camel-on-change="{{ on.zIznos }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.zIznos }};border-radius:10px;padding:12px 52px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.zIznos }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                <input type="text" inputmode="decimal" aria-label="Glavnica kredita" value="{{ inp.zIznos }}" sc-camel-on-change="{{ on.zIznos }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.zIznos }};border-radius:10px;padding:12px 52px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.zIznos }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
                 <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">€</span>
               </div>
             </div>
             <div>
               <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:8px">Kamatna stopa</label>
               <div style="position:relative">
-                <input type="text" inputmode="decimal" value="{{ inp.zStopa }}" sc-camel-on-change="{{ on.zStopa }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.zStopa }};border-radius:10px;padding:12px 52px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.zStopa }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                <input type="text" inputmode="decimal" aria-label="Kamatna stopa" value="{{ inp.zStopa }}" sc-camel-on-change="{{ on.zStopa }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.zStopa }};border-radius:10px;padding:12px 52px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.zStopa }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
                 <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">%</span>
               </div>
             </div>
             <div>
               <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:8px">Ugovoreni rok</label>
               <div style="position:relative">
-                <input type="text" inputmode="decimal" value="{{ inp.zGodine }}" sc-camel-on-change="{{ on.zGodine }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.zGodine }};border-radius:10px;padding:12px 52px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.zGodine }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                <input type="text" inputmode="decimal" aria-label="Ugovoreni rok" value="{{ inp.zGodine }}" sc-camel-on-change="{{ on.zGodine }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.zGodine }};border-radius:10px;padding:12px 52px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.zGodine }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
                 <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">god.</span>
               </div>
             </div>
             <div>
               <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:8px">Preostalo anuiteta</label>
               <div style="position:relative">
-                <input type="text" inputmode="decimal" value="{{ inp.zPreostalo }}" sc-camel-on-change="{{ on.zPreostalo }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.zPreostalo }};border-radius:10px;padding:12px 52px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.zPreostalo }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                <input type="text" inputmode="decimal" aria-label="Preostalo anuiteta" value="{{ inp.zPreostalo }}" sc-camel-on-change="{{ on.zPreostalo }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.zPreostalo }};border-radius:10px;padding:12px 52px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.zPreostalo }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
                 <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">mj.</span>
               </div>
               <div style="font-weight:300;font-size:12px;color:var(--soft);margin-top:8px;line-height:1.45">Broj anuiteta koji ti je još ostao. Piše u otplatnom planu ili u zadnjoj obavijesti banke.</div>
@@ -1629,28 +1629,28 @@
             <div>
               <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:8px">Iznos kredita</label>
               <div style="position:relative">
-                <input type="text" inputmode="decimal" value="{{ inp.oIznos }}" sc-camel-on-change="{{ on.oIznos }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.oIznos }};border-radius:10px;padding:12px 46px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.oIznos }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                <input type="text" inputmode="decimal" aria-label="Iznos kredita" value="{{ inp.oIznos }}" sc-camel-on-change="{{ on.oIznos }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.oIznos }};border-radius:10px;padding:12px 46px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.oIznos }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
                 <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">€</span>
               </div>
             </div>
             <div>
               <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:8px">Kamatna stopa</label>
               <div style="position:relative">
-                <input type="text" inputmode="decimal" value="{{ inp.oStopa }}" sc-camel-on-change="{{ on.oStopa }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.oStopa }};border-radius:10px;padding:12px 46px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.oStopa }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                <input type="text" inputmode="decimal" aria-label="Kamatna stopa" value="{{ inp.oStopa }}" sc-camel-on-change="{{ on.oStopa }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.oStopa }};border-radius:10px;padding:12px 46px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.oStopa }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
                 <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">%</span>
               </div>
             </div>
             <div>
               <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:8px">Duži rok</label>
               <div style="position:relative">
-                <input type="text" inputmode="decimal" value="{{ oMaxTxt }}" sc-camel-on-change="{{ on.oMax }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.oMax }};border-radius:10px;padding:12px 46px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.oMax }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                <input type="text" inputmode="decimal" aria-label="Duži rok (godine)" value="{{ oMaxTxt }}" sc-camel-on-change="{{ on.oMax }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.oMax }};border-radius:10px;padding:12px 46px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.oMax }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
                 <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">god.</span>
               </div>
             </div>
             <div>
               <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:8px">Kraći rok</label>
               <div style="position:relative">
-                <input type="text" inputmode="decimal" value="{{ oMinTxt }}" sc-camel-on-change="{{ on.oMin }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.oMin }};border-radius:10px;padding:12px 46px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.oMin }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                <input type="text" inputmode="decimal" aria-label="Kraći rok (godine)" value="{{ oMinTxt }}" sc-camel-on-change="{{ on.oMin }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.oMin }};border-radius:10px;padding:12px 46px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.oMin }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
                 <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">god.</span>
               </div>
             </div>
@@ -1683,14 +1683,14 @@
             <div>
               <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:8px">Godišnji prinos investicije</label>
               <div style="position:relative">
-                <input type="text" inputmode="decimal" value="{{ inp.oPrinos }}" sc-camel-on-change="{{ on.oPrinos }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.oPrinos }};border-radius:10px;padding:12px 46px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.oPrinos }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                <input type="text" inputmode="decimal" aria-label="Godišnji prinos investicije" value="{{ inp.oPrinos }}" sc-camel-on-change="{{ on.oPrinos }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.oPrinos }};border-radius:10px;padding:12px 46px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.oPrinos }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
                 <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">%</span>
               </div>
             </div>
             <div>
               <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:8px">Dodatna mjesečna uplata</label>
               <div style="position:relative">
-                <input type="text" inputmode="decimal" value="{{ inp.oDodatna }}" sc-camel-on-change="{{ on.oDodatna }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.oDodatna }};border-radius:10px;padding:12px 46px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.oDodatna }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                <input type="text" inputmode="decimal" aria-label="Dodatna mjesečna uplata" value="{{ inp.oDodatna }}" sc-camel-on-change="{{ on.oDodatna }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.oDodatna }};border-radius:10px;padding:12px 46px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.oDodatna }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
                 <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">€</span>
               </div>
             </div>
@@ -1714,7 +1714,7 @@
             <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px">
               <label style="font-weight:500;font-size:12.5px;color:var(--soft)">Očekivana godišnja inflacija</label>
               <div style="position:relative;flex-shrink:0">
-                <input data-fs="sm" type="text" inputmode="decimal" value="{{ inp.oInfStopa }}" sc-camel-on-change="{{ on.oInfStopa }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:92px;border:1px solid {{ bd.oInfStopa }};border-radius:9px;padding:9px 26px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.oInfStopa }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                <input data-fs="sm" type="text" inputmode="decimal" aria-label="Očekivana godišnja inflacija (kraći/duži rok)" value="{{ inp.oInfStopa }}" sc-camel-on-change="{{ on.oInfStopa }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:92px;border:1px solid {{ bd.oInfStopa }};border-radius:9px;padding:9px 26px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.oInfStopa }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
                 <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">%</span>
               </div>
             </div>
@@ -1822,12 +1822,12 @@
       <div style="background:var(--card);border:1px solid var(--line);border-radius:20px;padding:clamp(22px,3vw,32px);display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px clamp(22px,2.8vw,34px);align-items:start">
         <div>
           <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:8px">Jednokratna uplata (€)</label>
-          <input type="text" inputmode="decimal" value="{{ inp.sPocetni }}" sc-camel-on-change="{{ on.sPocetni }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.sPocetni }};border-radius:12px;padding:14px 16px;font-weight:600;font-size:22px;letter-spacing:-.025em;background:{{ bgF.sPocetni }};outline:none" style-focus="border-color:var(--acc)">
+          <input type="text" inputmode="decimal" aria-label="Jednokratna uplata (€)" value="{{ inp.sPocetni }}" sc-camel-on-change="{{ on.sPocetni }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.sPocetni }};border-radius:12px;padding:14px 16px;font-weight:600;font-size:22px;letter-spacing:-.025em;background:{{ bgF.sPocetni }};outline:none" style-focus="border-color:var(--acc)">
         </div>
         <div>
           <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:8px">Redovita uplata (€)</label>
-          <input type="text" inputmode="decimal" value="{{ inp.sMjesecno }}" sc-camel-on-change="{{ on.sMjesecno }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.sMjesecno }};border-radius:12px;padding:14px 16px;font-weight:600;font-size:22px;letter-spacing:-.025em;background:{{ bgF.sMjesecno }};outline:none" style-focus="border-color:var(--acc)">
-          <sc-raw-select data-fs="sm" value="{{ sFreq }}" sc-camel-on-change="{{ on.sFreq }}" style="width:100%;margin-top:10px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-weight:500;font-size:13.5px;background:var(--field);outline:none" style-focus="border-color:var(--acc)">
+          <input type="text" inputmode="decimal" aria-label="Redovita uplata (€)" value="{{ inp.sMjesecno }}" sc-camel-on-change="{{ on.sMjesecno }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.sMjesecno }};border-radius:12px;padding:14px 16px;font-weight:600;font-size:22px;letter-spacing:-.025em;background:{{ bgF.sMjesecno }};outline:none" style-focus="border-color:var(--acc)">
+          <sc-raw-select data-fs="sm" aria-label="Učestalost redovite uplate" value="{{ sFreq }}" sc-camel-on-change="{{ on.sFreq }}" style="width:100%;margin-top:10px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-weight:500;font-size:13.5px;background:var(--field);outline:none" style-focus="border-color:var(--acc)">
             <option value="mjesecno">Mjesečno</option>
             <option value="kvartalno">Kvartalno</option>
             <option value="godisnje">Godišnje</option>
@@ -1837,7 +1837,7 @@
           <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px">
             <span style="display:flex;align-items:center;gap:6px;min-width:0"><label style="font-weight:500;font-size:12.5px;color:var(--soft)">Godišnji prinos</label><button sc-camel-on-click="{{ pj.prinos.toggle }}" title="Objašnjenje pojma" sc-camel-tab-index="-1" style="width:17px;height:17px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:none;border:1px solid var(--line2);border-radius:50%;cursor:pointer;font-weight:700;font-size:10.5px;line-height:1;color:var(--soft);padding:0;transition:border-color .2s,color .2s" style-hover="border-color:var(--acc);color:var(--acc)">i</button></span>
             <div style="position:relative;flex-shrink:0">
-              <input data-fs="sm" type="text" inputmode="decimal" value="{{ inp.sStopa }}" sc-camel-on-change="{{ on.sStopa }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:92px;border:1px solid {{ bd.sStopa }};border-radius:9px;padding:9px 26px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.sStopa }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
+              <input data-fs="sm" type="text" inputmode="decimal" aria-label="Godišnji prinos" value="{{ inp.sStopa }}" sc-camel-on-change="{{ on.sStopa }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:92px;border:1px solid {{ bd.sStopa }};border-radius:9px;padding:9px 26px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.sStopa }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
               <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">%</span>
             </div>
           </div>
@@ -1849,7 +1849,7 @@
           <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px">
             <label style="font-weight:500;font-size:12.5px;color:var(--soft)">Razdoblje ulaganja</label>
             <div style="position:relative;flex-shrink:0">
-              <input data-fs="sm" type="text" inputmode="decimal" value="{{ inp.sGodine }}" sc-camel-on-change="{{ on.sGodine }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:112px;border:1px solid {{ bd.sGodine }};border-radius:9px;padding:9px 48px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.sGodine }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
+              <input data-fs="sm" type="text" inputmode="decimal" aria-label="Razdoblje ulaganja" value="{{ inp.sGodine }}" sc-camel-on-change="{{ on.sGodine }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:112px;border:1px solid {{ bd.sGodine }};border-radius:9px;padding:9px 48px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.sGodine }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
               <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">god.</span>
             </div>
           </div>
@@ -1873,7 +1873,7 @@
               <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px">
                 <label style="font-weight:500;font-size:12.5px;color:var(--soft)">Godišnji rast uplata</label>
                 <div style="position:relative;flex-shrink:0">
-                  <input data-fs="sm" type="text" inputmode="decimal" value="{{ inp.sRast }}" sc-camel-on-change="{{ on.sRast }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:92px;border:1px solid {{ bd.sRast }};border-radius:9px;padding:9px 26px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.sRast }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                  <input data-fs="sm" type="text" inputmode="decimal" aria-label="Godišnji rast uplata" value="{{ inp.sRast }}" sc-camel-on-change="{{ on.sRast }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:92px;border:1px solid {{ bd.sRast }};border-radius:9px;padding:9px 26px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.sRast }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
                   <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">%</span>
                 </div>
               </div>
@@ -1891,7 +1891,7 @@
               <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px">
                 <label style="font-weight:400;font-size:12px;color:var(--soft)">Očekivana godišnja inflacija</label>
                 <div style="position:relative;flex-shrink:0">
-                  <input data-fs="sm" type="text" inputmode="decimal" value="{{ inp.sInflacija }}" sc-camel-on-change="{{ on.sInflacija }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:92px;border:1px solid {{ bd.sInflacija }};border-radius:9px;padding:9px 26px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.sInflacija }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                  <input data-fs="sm" type="text" inputmode="decimal" aria-label="Očekivana godišnja inflacija (rezultat ulaganja)" value="{{ inp.sInflacija }}" sc-camel-on-change="{{ on.sInflacija }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:92px;border:1px solid {{ bd.sInflacija }};border-radius:9px;padding:9px 26px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.sInflacija }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
                   <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">%</span>
                 </div>
               </div>
@@ -1919,18 +1919,18 @@
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:14px">
               <div>
                 <label style="display:block;font-weight:500;font-size:12px;color:var(--soft);margin-bottom:7px">Mjesečna isplata (€)</label>
-                <input type="text" inputmode="decimal" value="{{ inp.sIsplata }}" sc-camel-on-change="{{ on.sIsplata }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.sIsplata }};border-radius:10px;padding:11px 12px;font-weight:600;font-size:16px;background:{{ bgF.sIsplata }};outline:none" style-focus="border-color:var(--acc)">
+                <input type="text" inputmode="decimal" aria-label="Mjesečna isplata (€)" value="{{ inp.sIsplata }}" sc-camel-on-change="{{ on.sIsplata }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.sIsplata }};border-radius:10px;padding:11px 12px;font-weight:600;font-size:16px;background:{{ bgF.sIsplata }};outline:none" style-focus="border-color:var(--acc)">
               </div>
               <div>
                 <label style="display:block;font-weight:500;font-size:12px;color:var(--soft);margin-bottom:7px">Godišnji rast isplate (%)</label>
-                <input type="text" inputmode="decimal" value="{{ inp.sIsplataRast }}" sc-camel-on-change="{{ on.sIsplataRast }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.sIsplataRast }};border-radius:10px;padding:11px 12px;font-weight:600;font-size:16px;background:{{ bgF.sIsplataRast }};outline:none" style-focus="border-color:var(--acc)">
+                <input type="text" inputmode="decimal" aria-label="Godišnji rast isplate (%)" value="{{ inp.sIsplataRast }}" sc-camel-on-change="{{ on.sIsplataRast }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.sIsplataRast }};border-radius:10px;padding:11px 12px;font-weight:600;font-size:16px;background:{{ bgF.sIsplataRast }};outline:none" style-focus="border-color:var(--acc)">
               </div>
             </div>
             <div style="margin-top:18px;padding-top:16px;border-top:1px solid var(--line2)">
               <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px">
                 <label style="font-weight:500;font-size:12px;color:var(--soft)">Koliko dugo isplaćuješ</label>
                 <div style="position:relative;flex-shrink:0">
-                  <input data-fs="sm" type="text" inputmode="numeric" value="{{ sIsplGodineTxt }}" sc-camel-on-change="{{ on.sIsplGodine }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:112px;border:1px solid {{ bd.sIsplGodine }};border-radius:9px;padding:9px 48px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.sIsplGodine }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                  <input data-fs="sm" type="text" inputmode="numeric" aria-label="Koliko dugo isplaćuješ" value="{{ sIsplGodineTxt }}" sc-camel-on-change="{{ on.sIsplGodine }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:112px;border:1px solid {{ bd.sIsplGodine }};border-radius:9px;padding:9px 48px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.sIsplGodine }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
                   <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">god.</span>
                 </div>
               </div>
@@ -1939,7 +1939,7 @@
               <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;flex-wrap:wrap">
                 <label style="font-weight:500;font-size:12px;color:var(--soft)">Prinos u fazi isplate</label>
                 <div style="position:relative;flex-shrink:0">
-                  <input data-fs="sm" type="text" inputmode="decimal" value="{{ sIsplPrinosTxt }}" sc-camel-on-change="{{ on.sIsplPrinos }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:92px;border:1px solid var(--line);border-radius:9px;padding:9px 26px 9px 10px;font-weight:600;font-size:15px;background:var(--field);outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                  <input data-fs="sm" type="text" inputmode="decimal" aria-label="Prinos u fazi isplate" value="{{ sIsplPrinosTxt }}" sc-camel-on-change="{{ on.sIsplPrinos }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:92px;border:1px solid var(--line);border-radius:9px;padding:9px 26px 9px 10px;font-weight:600;font-size:15px;background:var(--field);outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
                   <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">%</span>
                 </div>
               </div>
@@ -2032,20 +2032,20 @@
       <div style="background:var(--card);border:1px solid var(--line);border-radius:20px;padding:clamp(22px,3vw,32px);display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px clamp(22px,2.8vw,34px);align-items:start">
         <div>
           <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:8px">Koliko novca želiš imati (€)</label>
-          <input type="text" inputmode="decimal" value="{{ inp.gCilj }}" sc-camel-on-change="{{ on.gCilj }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.gCilj }};border-radius:12px;padding:15px 16px;font-weight:600;font-size:26px;letter-spacing:-.03em;background:{{ bgF.gCilj }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
+          <input type="text" inputmode="decimal" aria-label="Koliko novca želiš imati (€)" value="{{ inp.gCilj }}" sc-camel-on-change="{{ on.gCilj }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.gCilj }};border-radius:12px;padding:15px 16px;font-weight:600;font-size:26px;letter-spacing:-.03em;background:{{ bgF.gCilj }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
         </div>
         <div>
           <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px">
             <label style="font-weight:500;font-size:12.5px;color:var(--soft)">Za koliko godina</label>
             <div style="position:relative;flex-shrink:0">
-              <input data-fs="sm" type="text" inputmode="numeric" value="{{ inp.gGodine }}" sc-camel-on-change="{{ on.gGodine }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:112px;border:1px solid {{ bd.gGodine }};border-radius:9px;padding:9px 48px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.gGodine }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
+              <input data-fs="sm" type="text" inputmode="numeric" aria-label="Za koliko godina" value="{{ inp.gGodine }}" sc-camel-on-change="{{ on.gGodine }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:112px;border:1px solid {{ bd.gGodine }};border-radius:9px;padding:9px 48px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.gGodine }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
               <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">god.</span>
             </div>
           </div>
         </div>
         <div>
           <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:8px">Koliko već imaš (€)</label>
-          <input type="text" inputmode="decimal" value="{{ inp.gPocetni }}" sc-camel-on-change="{{ on.gPocetni }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.gPocetni }};border-radius:12px;padding:13px 16px;font-weight:600;font-size:20px;letter-spacing:-.025em;background:{{ bgF.gPocetni }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
+          <input type="text" inputmode="decimal" aria-label="Koliko već imaš (€)" value="{{ inp.gPocetni }}" sc-camel-on-change="{{ on.gPocetni }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.gPocetni }};border-radius:12px;padding:13px 16px;font-weight:600;font-size:20px;letter-spacing:-.025em;background:{{ bgF.gPocetni }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
         </div>
         <div style="padding-top:20px;border-top:1px solid var(--line)">
           <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:9px">Što želiš izračunati</label>
@@ -2058,7 +2058,7 @@
             <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px">
               <label style="font-weight:500;font-size:12.5px;color:var(--soft)">Očekivani godišnji prinos</label>
               <div style="position:relative;flex-shrink:0">
-                <input data-fs="sm" type="text" inputmode="decimal" value="{{ inp.gPrinos }}" sc-camel-on-change="{{ on.gPrinos }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:92px;border:1px solid {{ bd.gPrinos }};border-radius:9px;padding:9px 26px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.gPrinos }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                <input data-fs="sm" type="text" inputmode="decimal" aria-label="Očekivani godišnji prinos" value="{{ inp.gPrinos }}" sc-camel-on-change="{{ on.gPrinos }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:92px;border:1px solid {{ bd.gPrinos }};border-radius:9px;padding:9px 26px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.gPrinos }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
                 <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">%</span>
               </div>
             </div>
@@ -2069,7 +2069,7 @@
             <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px">
               <label style="font-weight:500;font-size:12.5px;color:var(--soft)">Mjesečna uplata koju možeš</label>
               <div style="position:relative;flex-shrink:0">
-                <input data-fs="sm" type="text" inputmode="decimal" value="{{ inp.gUplata }}" sc-camel-on-change="{{ on.gUplata }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:112px;border:1px solid {{ bd.gUplata }};border-radius:9px;padding:9px 30px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.gUplata }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                <input data-fs="sm" type="text" inputmode="decimal" aria-label="Mjesečna uplata koju možeš" value="{{ inp.gUplata }}" sc-camel-on-change="{{ on.gUplata }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:112px;border:1px solid {{ bd.gUplata }};border-radius:9px;padding:9px 30px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.gUplata }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
                 <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">€</span>
               </div>
             </div>
@@ -2103,7 +2103,7 @@
               <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px">
                 <label style="font-weight:400;font-size:12px;color:var(--soft)">Očekivana godišnja inflacija</label>
                 <div style="position:relative;flex-shrink:0">
-                  <input data-fs="sm" type="text" inputmode="decimal" value="{{ inp.gInflacija }}" sc-camel-on-change="{{ on.gInflacija }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:92px;border:1px solid {{ bd.gInflacija }};border-radius:9px;padding:9px 26px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.gInflacija }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                  <input data-fs="sm" type="text" inputmode="decimal" aria-label="Očekivana godišnja inflacija (cilj)" value="{{ inp.gInflacija }}" sc-camel-on-change="{{ on.gInflacija }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:92px;border:1px solid {{ bd.gInflacija }};border-radius:9px;padding:9px 26px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.gInflacija }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
                   <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">%</span>
                 </div>
               </div>
@@ -2203,11 +2203,11 @@
       <div style="background:var(--card);border:1px solid var(--line);border-radius:20px;padding:clamp(22px,3vw,32px);display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px clamp(22px,2.8vw,34px);align-items:start">
         <div>
           <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:8px">Iznos koji si tada imao (€)</label>
-          <input type="text" inputmode="decimal" value="{{ inp.pvIznos }}" sc-camel-on-change="{{ on.pvIznos }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.pvIznos }};border-radius:12px;padding:14px 16px;font-weight:600;font-size:22px;letter-spacing:-.025em;background:{{ bgF.pvIznos }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
+          <input type="text" inputmode="decimal" aria-label="Iznos koji si tada imao (€)" value="{{ inp.pvIznos }}" sc-camel-on-change="{{ on.pvIznos }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.pvIznos }};border-radius:12px;padding:14px 16px;font-weight:600;font-size:22px;letter-spacing:-.025em;background:{{ bgF.pvIznos }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
         </div>
         <div>
           <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:8px">Godina</label>
-          <sc-raw-select value="{{ pvGodina }}" sc-camel-on-change="{{ on.pvGodinaSelect }}" style="width:100%;border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-weight:600;font-size:22px;letter-spacing:-.025em;background:var(--field);outline:none">
+          <sc-raw-select aria-label="Godina" value="{{ pvGodina }}" sc-camel-on-change="{{ on.pvGodinaSelect }}" style="width:100%;border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-weight:600;font-size:22px;letter-spacing:-.025em;background:var(--field);outline:none">
             <sc-for list="{{ pvGodineOpcije }}" as="g" hint-placeholder-count="10">
               <option value="{{ g }}">{{ g }}</option>
             </sc-for>
@@ -2282,12 +2282,12 @@
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px clamp(22px,2.8vw,34px);align-items:start">
           <div>
             <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:9px">Ušteđevina (€)</label>
-            <input type="text" inputmode="decimal" value="{{ inp.dIznos }}" sc-camel-on-change="{{ on.dIznos }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.dIznos }};border-radius:12px;padding:11px 14px;font-weight:600;font-size:17px;background:{{ bgF.dIznos }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
+            <input type="text" inputmode="decimal" aria-label="Ušteđevina (€)" value="{{ inp.dIznos }}" sc-camel-on-change="{{ on.dIznos }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.dIznos }};border-radius:12px;padding:11px 14px;font-weight:600;font-size:17px;background:{{ bgF.dIznos }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
           </div>
           <div>
             <span style="display:flex;align-items:center;gap:6px;min-width:0;margin-bottom:9px"><label style="font-weight:500;font-size:12.5px;color:var(--soft)">Godišnji prinos</label><button sc-camel-on-click="{{ pj.prinosOstatak.toggle }}" title="Objašnjenje pojma" sc-camel-tab-index="-1" style="width:17px;height:17px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:none;border:1px solid var(--line2);border-radius:50%;cursor:pointer;font-weight:700;font-size:10.5px;line-height:1;color:var(--soft);padding:0;transition:border-color .2s,color .2s" style-hover="border-color:var(--acc);color:var(--acc)">i</button></span>
             <div style="position:relative">
-              <input type="text" inputmode="decimal" value="{{ inp.dPrinos }}" sc-camel-on-change="{{ on.dPrinos }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.dPrinos }};border-radius:12px;padding:11px 30px 11px 14px;font-weight:600;font-size:17px;background:{{ bgF.dPrinos }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
+              <input type="text" inputmode="decimal" aria-label="Godišnji prinos" value="{{ inp.dPrinos }}" sc-camel-on-change="{{ on.dPrinos }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.dPrinos }};border-radius:12px;padding:11px 30px 11px 14px;font-weight:600;font-size:17px;background:{{ bgF.dPrinos }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
               <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">%</span>
             </div>
             <div style="font-weight:300;font-size:12px;color:var(--soft);margin-top:8px">Prinos na dio koji ostaje uložen dok isplaćuješ.</div>
@@ -2305,7 +2305,7 @@
             <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
               <label style="font-weight:500;font-size:12.5px;color:var(--soft)">Mjesečna isplata</label>
               <div style="position:relative;flex-shrink:0">
-                <input data-fs="sm" type="text" inputmode="decimal" value="{{ inp.dIsplata }}" sc-camel-on-change="{{ on.dIsplata }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:118px;border:1px solid {{ bd.dIsplata }};border-radius:9px;padding:9px 30px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.dIsplata }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                <input data-fs="sm" type="text" inputmode="decimal" aria-label="Mjesečna isplata" value="{{ inp.dIsplata }}" sc-camel-on-change="{{ on.dIsplata }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:118px;border:1px solid {{ bd.dIsplata }};border-radius:9px;padding:9px 30px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.dIsplata }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
                 <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">€</span>
               </div>
             </div>
@@ -2314,7 +2314,7 @@
             <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
               <label style="font-weight:500;font-size:12.5px;color:var(--soft)">Broj godina isplate</label>
               <div style="position:relative;flex-shrink:0">
-                <input data-fs="sm" type="text" inputmode="decimal" value="{{ inp.dGodine }}" sc-camel-on-change="{{ on.dGodine }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:118px;border:1px solid {{ bd.dGodine }};border-radius:9px;padding:9px 40px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.dGodine }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                <input data-fs="sm" type="text" inputmode="decimal" aria-label="Broj godina isplate" value="{{ inp.dGodine }}" sc-camel-on-change="{{ on.dGodine }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:118px;border:1px solid {{ bd.dGodine }};border-radius:9px;padding:9px 40px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.dGodine }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
                 <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">god.</span>
               </div>
             </div>
@@ -2340,7 +2340,7 @@
               <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
                 <label style="font-weight:500;font-size:12.5px;color:var(--soft)">Godišnji rast isplate</label>
                 <div style="position:relative;flex-shrink:0">
-                  <input data-fs="sm" type="text" inputmode="decimal" value="{{ inp.dRast }}" sc-camel-on-change="{{ on.dRast }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:118px;border:1px solid {{ bd.dRast }};border-radius:9px;padding:9px 30px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.dRast }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                  <input data-fs="sm" type="text" inputmode="decimal" aria-label="Godišnji rast isplate" value="{{ inp.dRast }}" sc-camel-on-change="{{ on.dRast }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:118px;border:1px solid {{ bd.dRast }};border-radius:9px;padding:9px 30px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.dRast }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
                   <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">%</span>
                 </div>
               </div>
@@ -2409,21 +2409,21 @@
         <div>
           <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:9px">Iznos danas</label>
           <div style="position:relative">
-            <input type="text" inputmode="decimal" value="{{ inp.iIznos }}" sc-camel-on-change="{{ on.iIznos }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.iIznos }};border-radius:12px;padding:11px 34px 11px 14px;font-weight:600;font-size:17px;background:{{ bgF.iIznos }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
+            <input type="text" inputmode="decimal" aria-label="Iznos danas" value="{{ inp.iIznos }}" sc-camel-on-change="{{ on.iIznos }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.iIznos }};border-radius:12px;padding:11px 34px 11px 14px;font-weight:600;font-size:17px;background:{{ bgF.iIznos }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
             <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">€</span>
           </div>
         </div>
         <div>
           <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:9px">Godišnja inflacija</label>
           <div style="position:relative">
-            <input type="text" inputmode="decimal" value="{{ inp.iStopa }}" sc-camel-on-change="{{ on.iStopa }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.iStopa }};border-radius:12px;padding:11px 30px 11px 14px;font-weight:600;font-size:17px;background:{{ bgF.iStopa }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
+            <input type="text" inputmode="decimal" aria-label="Godišnja inflacija" value="{{ inp.iStopa }}" sc-camel-on-change="{{ on.iStopa }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.iStopa }};border-radius:12px;padding:11px 30px 11px 14px;font-weight:600;font-size:17px;background:{{ bgF.iStopa }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
             <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">%</span>
           </div>
         </div>
         <div>
           <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:9px">Razdoblje</label>
           <div style="position:relative">
-            <input type="text" inputmode="decimal" value="{{ inp.iGodine }}" sc-camel-on-change="{{ on.iGodine }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.iGodine }};border-radius:12px;padding:11px 42px 11px 14px;font-weight:600;font-size:17px;background:{{ bgF.iGodine }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
+            <input type="text" inputmode="decimal" aria-label="Razdoblje (godine)" value="{{ inp.iGodine }}" sc-camel-on-change="{{ on.iGodine }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.iGodine }};border-radius:12px;padding:11px 42px 11px 14px;font-weight:600;font-size:17px;background:{{ bgF.iGodine }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
             <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">god.</span>
           </div>
         </div>
@@ -2600,7 +2600,7 @@
             </div>
             <div>
               <label style="display:block;font-weight:500;font-size:12px;color:var(--soft);margin-bottom:5px">Broj zaposlenika</label>
-              <sc-raw-select data-fs="sm" value="{{ f.velicina }}" sc-camel-on-change="{{ on.fVelicina }}" style="width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:14.5px;background:var(--field);outline:none" style-focus="border-color:var(--acc)">
+              <sc-raw-select data-fs="sm" aria-label="Broj zaposlenika" value="{{ f.velicina }}" sc-camel-on-change="{{ on.fVelicina }}" style="width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:14.5px;background:var(--field);outline:none" style-focus="border-color:var(--acc)">
                 <option value="1-20">1–20</option>
                 <option value="21-100">21–100</option>
                 <option value="101-500">101–500</option>
@@ -2735,7 +2735,8 @@
       </sc-if>
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:clamp(18px,2.4vw,28px)">
         <sc-for list="{{ objave }}" as="o" hint-placeholder-count="6">
-          <div sc-camel-on-click="{{ o.otvori }}" style="display:flex;flex-direction:column;text-align:left;cursor:pointer;background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:transform .25s ease,box-shadow .25s ease,border-color .25s" style-hover="transform:translateY(-4px);box-shadow:var(--shUp);border-color:var(--line2)">
+          <div style="position:relative;display:flex;flex-direction:column;text-align:left;cursor:pointer;background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:transform .25s ease,box-shadow .25s ease,border-color .25s" style-hover="transform:translateY(-4px);box-shadow:var(--shUp);border-color:var(--line2)">
+            <a href="{{ o.clanakHref }}" sc-camel-on-click="{{ o.otvoriLink }}" aria-label="{{ o.naslov }}" style="position:absolute;inset:0;z-index:1"></a>
             <div style="position:relative;aspect-ratio:16/9;background:var(--sec);overflow:hidden">
               <img src="{{ o.thumb }}" alt="{{ o.naslov }}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block">
               <div style="position:absolute;left:12px;top:12px;display:flex;gap:6px;pointer-events:none">
@@ -2758,7 +2759,7 @@
               <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:auto;padding-top:4px">
                 <span style="font-weight:600;font-size:13.5px;color:var(--ink)">Pročitaj →</span>
                 <sc-if value="{{ o.jeVideo }}">
-                  <a href="{{ o.href }}" target="_blank" rel="noopener" sc-camel-on-click="{{ on.stop }}" style="display:inline-flex;align-items:center;gap:7px;text-decoration:none;font-weight:600;font-size:13.5px;color:var(--acc);border:1px solid var(--line2);border-radius:980px;padding:7px 14px;transition:background .2s,border-color .2s" style-hover="background:var(--tint);border-color:var(--acc)">
+                  <a href="{{ o.href }}" target="_blank" rel="noopener" sc-camel-on-click="{{ on.stop }}" style="position:relative;z-index:2;display:inline-flex;align-items:center;gap:7px;text-decoration:none;font-weight:600;font-size:13.5px;color:var(--acc);border:1px solid var(--line2);border-radius:980px;padding:7px 14px;transition:background .2s,border-color .2s" style-hover="background:var(--tint);border-color:var(--acc)">
                     <svg width="13" height="13" sc-camel-view-box="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg>
                     Pogledaj video
                   </a>
@@ -3317,14 +3318,14 @@
                 <span style="font-weight:500;font-size:11.5px;color:var(--soft)">Od</span>
                 <span style="font-weight:700;font-size:16px;letter-spacing:-.02em">{{ pl.od }}</span>
               </div>
-              <input type="range" min="{{ pl.minGod }}" max="{{ pl.maxGod }}" step="1" value="{{ pl.odNum }}" sc-camel-on-change="{{ on.plOd }}" style="width:100%">
+              <input type="range" min="{{ pl.minGod }}" max="{{ pl.maxGod }}" step="1" aria-label="Od godine (plaća po godinama)" value="{{ pl.odNum }}" sc-camel-on-change="{{ on.plOd }}" style="width:100%">
             </div>
             <div style="flex:1 1 118px;min-width:118px">
               <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:7px">
                 <span style="font-weight:500;font-size:11.5px;color:var(--soft)">Do</span>
                 <span style="font-weight:700;font-size:16px;letter-spacing:-.02em">{{ pl.do }}</span>
               </div>
-              <input type="range" min="{{ pl.minGod }}" max="{{ pl.maxGod }}" step="1" value="{{ pl.doNum }}" sc-camel-on-change="{{ on.plDo }}" style="width:100%">
+              <input type="range" min="{{ pl.minGod }}" max="{{ pl.maxGod }}" step="1" aria-label="Do godine (plaća po godinama)" value="{{ pl.doNum }}" sc-camel-on-change="{{ on.plDo }}" style="width:100%">
             </div>
             <div style="display:flex;gap:7px;align-self:flex-end;padding-bottom:2px">
             <div data-seg="plneto" style="position:relative;display:inline-flex;padding:3px;background:var(--sec);border-radius:980px">
@@ -3444,14 +3445,14 @@
                 <span style="font-weight:500;font-size:11.5px;color:var(--soft)">Od</span>
                 <span style="font-weight:700;font-size:16px;letter-spacing:-.02em">{{ ks.od }}</span>
               </div>
-              <input type="range" min="{{ ks.minGod }}" max="{{ ks.maxGod }}" step="1" value="{{ ks.odNum }}" sc-camel-on-change="{{ on.ksOd }}" style="width:100%">
+              <input type="range" min="{{ ks.minGod }}" max="{{ ks.maxGod }}" step="1" aria-label="Od godine (kamatne stope)" value="{{ ks.odNum }}" sc-camel-on-change="{{ on.ksOd }}" style="width:100%">
             </div>
             <div style="min-width:120px">
               <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:7px">
                 <span style="font-weight:500;font-size:11.5px;color:var(--soft)">Do</span>
                 <span style="font-weight:700;font-size:16px;letter-spacing:-.02em">{{ ks.do }}</span>
               </div>
-              <input type="range" min="{{ ks.minGod }}" max="{{ ks.maxGod }}" step="1" value="{{ ks.doNum }}" sc-camel-on-change="{{ on.ksDo }}" style="width:100%">
+              <input type="range" min="{{ ks.minGod }}" max="{{ ks.maxGod }}" step="1" aria-label="Do godine (kamatne stope)" value="{{ ks.doNum }}" sc-camel-on-change="{{ on.ksDo }}" style="width:100%">
             </div>
           </div>
         </div>
@@ -3576,14 +3577,14 @@
                 <span style="font-weight:500;font-size:11.5px;color:var(--soft)">Od</span>
                 <span style="font-weight:700;font-size:16px;letter-spacing:-.02em">{{ nek.od }}</span>
               </div>
-              <input type="range" min="{{ nek.minGod }}" max="{{ nek.maxGod }}" step="1" value="{{ nek.odNum }}" sc-camel-on-change="{{ on.nekOd }}" style="width:100%">
+              <input type="range" min="{{ nek.minGod }}" max="{{ nek.maxGod }}" step="1" aria-label="Od godine (indeks cijena stambenih objekata)" value="{{ nek.odNum }}" sc-camel-on-change="{{ on.nekOd }}" style="width:100%">
             </div>
             <div style="min-width:130px">
               <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:7px">
                 <span style="font-weight:500;font-size:11.5px;color:var(--soft)">Do</span>
                 <span style="font-weight:700;font-size:16px;letter-spacing:-.02em">{{ nek.do }}</span>
               </div>
-              <input type="range" min="{{ nek.minGod }}" max="{{ nek.maxGod }}" step="1" value="{{ nek.doNum }}" sc-camel-on-change="{{ on.nekDo }}" style="width:100%">
+              <input type="range" min="{{ nek.minGod }}" max="{{ nek.maxGod }}" step="1" aria-label="Do godine (indeks cijena stambenih objekata)" value="{{ nek.doNum }}" sc-camel-on-change="{{ on.nekDo }}" style="width:100%">
             </div>
           </div>
         </div>
@@ -3708,14 +3709,14 @@
                 <span style="font-weight:500;font-size:11.5px;color:var(--soft)">Od</span>
                 <span style="font-weight:700;font-size:16px;letter-spacing:-.02em">{{ pokOd }}.</span>
               </div>
-              <input type="range" min="1999" max="2026" step="1" value="{{ pokOdNum }}" sc-camel-on-change="{{ on.pokOd }}" style="width:100%">
+              <input type="range" min="1999" max="2026" step="1" aria-label="Od godine (inflacija kroz povijest)" value="{{ pokOdNum }}" sc-camel-on-change="{{ on.pokOd }}" style="width:100%">
             </div>
             <div style="min-width:130px">
               <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:7px">
                 <span style="font-weight:500;font-size:11.5px;color:var(--soft)">Do</span>
                 <span style="font-weight:700;font-size:16px;letter-spacing:-.02em">{{ pokDo }}.</span>
               </div>
-              <input type="range" min="1999" max="2026" step="1" value="{{ pokDoNum }}" sc-camel-on-change="{{ on.pokDo }}" style="width:100%">
+              <input type="range" min="1999" max="2026" step="1" aria-label="Do godine (inflacija kroz povijest)" value="{{ pokDoNum }}" sc-camel-on-change="{{ on.pokDo }}" style="width:100%">
             </div>
           </div>
         </div>
@@ -8961,6 +8962,7 @@ class Component extends DCLogic {
         mj: s.editKey === 'slobMj' + ix ? s.editTxt : this.fmtIn(this.num(x.mj, 0), 0),
         iznos: s.editKey === 'slobIz' + ix ? s.editTxt : this.fmtIn(this.num(x.iznos, 0), 2),
         broj: (ix + 1) + '.',
+        mjLabel: 'Mjesec uplate br. ' + (ix + 1), iznosLabel: 'Iznos uplate br. ' + (ix + 1) + ' (€)',
         setMj: (e) => { const t = String(e.target.value).replace(/[^0-9.,\s]/g, ''); const n = parseHR(t); this.setState((st) => { const l = st.kSlobodno.slice(); l[ix] = Object.assign({}, l[ix], { mj: isFinite(n) ? n : 1 }); return { kSlobodno: l, editKey: 'slobMj' + ix, editTxt: t }; }); },
         setIznos: (e) => { const t = String(e.target.value).replace(/[^0-9.,\s]/g, ''); const n = parseHR(t); this.setState((st) => { const l = st.kSlobodno.slice(); l[ix] = Object.assign({}, l[ix], { iznos: isFinite(n) ? n : 0 }); return { kSlobodno: l, editKey: 'slobIz' + ix, editTxt: t }; }); },
         // Uplate moraju ići kronološki: pri izlasku iz polja mjesec se podiže na
@@ -9723,12 +9725,34 @@ class Component extends DCLogic {
       imaKats: kats.length > 1, nemaObjava: uVrsti.filter((o) => aktKat === 'Sve' || o.kat === aktKat).length === 0,
       vrsteFilteri: ['Sve', 'Video', 'Blog'].map((v) => ({ label: v === 'Sve' ? 'Sve objave' : v, act: s.vrstaF === v ? '1' : '0', c: s.vrstaF === v ? '#FFF' : SOFT, go: () => { this.setState({ vrstaF: v, filter: 'Sve' }); if (typeof window !== 'undefined') { window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; } this.resetHScroll(); } })),
       filteri: kats.map((k) => ({ label: k, act: aktKat === k ? '1' : '0', c: aktKat === k ? '#FFF' : SOFT, go: () => this.setState({ filter: k }) })),
-      objave: uVrsti.filter((o) => aktKat === 'Sve' || o.kat === aktKat).map((o) => Object.assign({}, o, {
-        vrstaLabel: vrstaOd(o), jeVideo: vrstaOd(o) === 'Video',
-        thumb: o.slika || 'https://i.ytimg.com/vi/' + o.yt + '/hqdefault.jpg',
-        href: 'https://youtu.be/' + o.yt,
-        otvori: () => { this.setState({ blogOpen: o.slug }, () => this._syncUrl()); if (typeof window !== 'undefined') { window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; } }
-      })),
+      objave: uVrsti.filter((o) => aktKat === 'Sve' || o.kat === aktKat).map((o) => {
+        // otvoriClanak izvucen u imenovanu funkciju da ga i otvori (postojece
+        // ponasanje, nepromijenjeno) i otvoriLink (novo, za stretched-link
+        // overlay na kartici 2738) pozivaju ISTU logiku - ne dupliciram je.
+        const otvoriClanak = () => { this.setState({ blogOpen: o.slug }, () => this._syncUrl()); if (typeof window !== 'undefined') { window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; } };
+        return Object.assign({}, o, {
+          vrstaLabel: vrstaOd(o), jeVideo: vrstaOd(o) === 'Video',
+          thumb: o.slika || 'https://i.ytimg.com/vi/' + o.yt + '/hqdefault.jpg',
+          href: 'https://youtu.be/' + o.yt,
+          // clanakHref: koristi POSTOJECI o.slug - pravi href za overlay <a>
+          // na kartici, da Cmd/middle-click i "kopiraj adresu" rade.
+          clanakHref: '/blog/' + o.slug,
+          otvori: otvoriClanak,
+          // otvoriLink: isti otvoriClanak, ali s preventDefault - overlay je
+          // pravi <a href>, pa bez ovoga klik prvo pokrene puni page-load
+          // prema href-u prije nego SPA navigacija stigne preuzeti klik.
+          // IZUZETAK: Cmd/Ctrl/Shift-klik (otvori u novom tabu/prozoru) NE
+          // smije dobiti preventDefault - to bi ugasilo upravo tu, izvornu
+          // funkciju linka. Srednji klik ionako ne okida "click" nego
+          // "auxclick" (nije ovdje ni prijavljen), pa ga ovaj uvjet ne mora
+          // posebno hvatati.
+          otvoriLink: (e) => {
+            if (e && (e.metaKey || e.ctrlKey || e.shiftKey)) return;
+            if (e && e.preventDefault) e.preventDefault();
+            otvoriClanak();
+          }
+        });
+      }),
       clanak: clanak,
 
       f: s.f, b2bSent: s.b2bSent, b2bBurst: s.b2bBurst, b2bOpen: !s.b2bSent, b2bSlanje: s.b2bSlanje,
