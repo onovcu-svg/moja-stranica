@@ -109,13 +109,33 @@ Zadnje ažuriranje: 18. 8. 2026.
   `data-seg="calc"`, `"pok"`, `"mir"` (jedine trake koje su kombinirale oboje).
   `resetHScroll()` više ne vraća cip-trake na `scrollLeft:0` (moglo bi sakriti
   aktivni cip) — umjesto toga `scrollActiveChipsIntoView()` centrira aktivni
-  cip (`[data-seg-active="1"]`) preko `scrollIntoView({inline:'center'})`.
-  `[data-hscroll]` (tablice, nemaju aktivni element) i dalje se vraćaju na 0.
-  Poziva se i na mountu (isti checkpointi kao `syncSegs()`, zbog širine cipova
-  ovisne o fontu) radi izravnih ruta čiji aktivni cip nije prvi u nizu.
+  cip (`[data-seg-active="1"]`). `[data-hscroll]` (tablice, nemaju aktivni
+  element) i dalje se vraćaju na 0. Poziva se i na mountu (isti checkpointi
+  kao `syncSegs()`, zbog širine cipova ovisne o fontu) radi izravnih ruta čiji
+  aktivni cip nije prvi u nizu.
   **Nužno `setTimeout(fn, 0)`, ne `requestAnimationFrame`** — potonji se ne
   pokreće pouzdano (u pozadinskim/nefokusiranim tabovima ga preglednik može
   suspendirati), pa je "popravak" izgledao neaktivan za pod-tabove kalkulatora.
+  **NE koristiti `scrollIntoView` za ovo, ni s `block:'nearest'`** — prošao
+  kroz sve scroll-ancestore uključivo stranicu i povlačio vertikalni skrol
+  (regresija potvrđena na iPhoneu: Pokazatelji su se otvarali usred grafa
+  umjesto na vrhu). Umjesto toga `scrollActiveChipsIntoView()` računa poziciju
+  cipa ručno (`act.offsetLeft`) i postavlja `container.scrollLeft` izravno —
+  to fizički ne može dirati `window`/`document` skrol.
+- **Pravilo: svaka stranica se uvijek otvara na vrhu, bez iznimke.** Vrijedi za
+  svaku navigaciju: `go()`, `goCalc()`, `blogVeza()`, izravno otvaranje URL-a,
+  promjenu kategorije/podtaba (Pokazatelji, Projekti, Blog), otvaranje i
+  zatvaranje blog članka, i gumb natrag/naprijed u pregledniku. U kodu ne
+  postoji nijedan link koji cilja određeni dio stranice (kotva/hash) - nema
+  legitimnog razloga da bilo koja navigacija ostavi korisnika usred stranice.
+  `_onPopState` (natrag/naprijed) do 18.8. NIJE resetirao skrol - popravljeno
+  dodavanjem istog `window.scrollTo(0,0)` + `resetHScroll()` poziva, i
+  postavljanjem `history.scrollRestoration = 'manual'` u `componentDidMount()`
+  da preglednikovo vlastito vraćanje skrol pozicije na popstate ne poništi taj
+  reset asinkrono. Provjereno uživo na svim putovima (430px): go() (svih 7
+  odredišta), goCalc(), deep-link, promjena kategorije u Pokazateljima/
+  Projektima/Blogu, otvaranje/zatvaranje članka, natrag/naprijed, blogVeza -
+  svaki na vrhu, s vidljivim aktivnim cipom gdje je primjenjivo.
 - **Publication ID ostaje u git historyju** — nije eksploatabilan bez API ključa,
   rewrite historyja nije vrijedan rizika.
 - **GitHub Pages ugašen** (17.8.) — bila je druga živa kopija na
