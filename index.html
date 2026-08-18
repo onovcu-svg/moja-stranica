@@ -6470,13 +6470,30 @@ class Component extends DCLogic {
     setTimeout(() => this.watchSocial(), 60);
     // scrollActiveChipsIntoView() ovdje (ne u resize listeneru ispod) - pokriva
     // izravno otvaranje rute čiji aktivni cip nije prvi u traci (npr. deep-link
-    // na /pokazatelji/krediti). Ponovljeno na istim checkpointima kao syncSegs()
-    // jer sirina cipova ovisi o ucitanom fontu.
+    // na /kalkulatori/zatvoriti). Ponovljeno na istim checkpointima kao syncSegs()
+    // jer sirina cipova ovisi o ucitanom fontu. Ovo je iskljucivo za calc/calcsub
+    // (kalkulatori) - scrollActiveChipsIntoView() namjerno preskace pok/mir.
     this.syncSegs(); this.scrollActiveChipsIntoView();
     setTimeout(() => { this.syncSegs(); this.scrollActiveChipsIntoView(); }, 120);
     setTimeout(() => { this.syncSegs(); this.scrollActiveChipsIntoView(); }, 600);
     window.addEventListener('load', () => { this.syncSegs(); this.scrollActiveChipsIntoView(); });
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { this.syncSegs(); this.scrollActiveChipsIntoView(); });
+    // pok/mir (Pokazatelji): NAMJERNO ne isti pristup s vise checkpointa - na
+    // stvarnom uredjaju (hladni font s mreze, font-display:swap) svaki bi
+    // checkpoint mogao izracunati drugaciju poziciju dok se sirina cipova
+    // slaze, sto se vidi kao "poskakivanje" (potvrdjeno na iPhoneu, vidi
+    // NOTES.md §3). Zato tocno JEDNO pozicioniranje: cim fontovi zavrse
+    // ucitavanje (document.fonts.ready), uz ~1s fallback za slucaj da se
+    // ready nikad ne razrijesi. _pokChipsPositioned sprjecava da oba (ready
+    // i fallback) pozicioniraju dvaput.
+    this._pokChipsPositioned = false;
+    const positionPokChipsOnce = () => {
+      if (this._pokChipsPositioned) return;
+      this._pokChipsPositioned = true;
+      this.scrollActivePokChipsIntoView();
+    };
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(positionPokChipsOnce);
+    setTimeout(positionPokChipsOnce, 1000);
     this._segRs = () => this.syncSegs();
     window.addEventListener('resize', this._segRs);
     // Rotacija pokazatelja: 5 s vidljivo + 0,4 s prijelaz.
@@ -6614,7 +6631,8 @@ class Component extends DCLogic {
   // skrol poziciju stare. Trake s cipovima ([data-seg]) IMAJU aktivni cip
   // (data-seg-active="1") - njih se ne vraca na 0 (moglo bi ga sakriti ako je
   // u sredini/na kraju trake), nego se aktivni cip skrola u vidljivi dio -
-  // vidi scrollActiveChipsIntoView().
+  // vidi scrollActiveChipsIntoView() (calc/calcsub) i
+  // scrollActivePokChipsIntoView() (pok/mir, drugaciji - minimalni - pristup).
   resetHScroll() {
     if (typeof document === 'undefined') return;
     document.querySelectorAll('[data-hscroll]').forEach((el) => { el.scrollLeft = 0; });
@@ -6623,13 +6641,14 @@ class Component extends DCLogic {
     // - bez odgode bismo jos uvijek nasli STARI aktivni cip. rAF je nepouzdan
     // (preglednici ga suspendiraju za tabove bez fokusa), setTimeout se uvijek
     // izvrsi.
-    setTimeout(() => this.scrollActiveChipsIntoView(), 0);
+    setTimeout(() => { this.scrollActiveChipsIntoView(); this.scrollActivePokChipsIntoView(); }, 0);
   }
-  // Centrira aktivni cip u svakoj [data-seg] traci, umjesto da ga scrollLeft:0
-  // ostavi izvan vidljivog dijela. Namjerno odvojeno od syncSegs() (koji se
-  // zove na SVAKI render) - poziva se samo pri stvarnoj promjeni sekcije/
-  // kalkulatora/kategorije (resetHScroll) i jednom pri mountu, nikad pri
-  // svakoj promjeni stanja, jer bi inace nasilno vracalo rucni skrol korisnika.
+  // Centrira aktivni cip u svakoj [data-seg] traci OSIM pok/mir (vidi
+  // scrollActivePokChipsIntoView), umjesto da ga scrollLeft:0 ostavi izvan
+  // vidljivog dijela. Namjerno odvojeno od syncSegs() (koji se zove na SVAKI
+  // render) - poziva se samo pri stvarnoj promjeni sekcije/kalkulatora
+  // (resetHScroll) i jednom pri mountu, nikad pri svakoj promjeni stanja, jer
+  // bi inace nasilno vracalo rucni skrol korisnika.
   // NAMJERNO ne koristi scrollIntoView: taj API prolazi kroz SVE scroll-
   // ancestore (ukljucivo stranicu), pa je i uz block:'nearest' znao povuci
   // vertikalni skrol cijele stranice (potvrdjeno na iPhoneu - Pokazatelji su
@@ -6638,9 +6657,41 @@ class Component extends DCLogic {
   scrollActiveChipsIntoView() {
     if (typeof document === 'undefined') return;
     document.querySelectorAll('[data-seg]').forEach((el) => {
+      const name = el.getAttribute('data-seg');
+      if (name === 'pok' || name === 'mir') return; // te dvije ide preko scrollActivePokChipsIntoView()
       const act = el.querySelector('[data-seg-active="1"]');
       if (!act) return;
       const target = act.offsetLeft + act.offsetWidth / 2 - el.clientWidth / 2;
+      const max = el.scrollWidth - el.clientWidth;
+      el.scrollLeft = Math.max(0, Math.min(target, max));
+    });
+  }
+  // pok/mir (Pokazatelji): minimalni pomak, ne centriranje. Razlog (vidi
+  // NOTES.md §3): centriranje na svaki klik pomice traku i kad nije nuzno
+  // ("poskakivanje"). Ovdje: ako je aktivni cip vec potpuno vidljiv, scrollLeft
+  // se uopce ne dira; inace se pomakne bas onoliko da rub cipa (+12px razmaka)
+  // sjedne na rub trake. NAMJERNO bez animacije: i CSS scroll-behavior:smooth
+  // i el.scrollTo({behavior:'smooth'}) su se u testiranju pokazali nepouzdani
+  // (scrollLeft se ponekad uopce nije pomaknuo - vidi NOTES.md §3). Ispravna
+  // pozicija ima prednost pred glatkim klizanjem; izravna dodjela scrollLeft-a
+  // je jedini nacin koji je pouzdano radio u svim testovima.
+  // Bez aktivnog cipa (rijedak edge-case) vraca na 0.
+  scrollActivePokChipsIntoView() {
+    if (typeof document === 'undefined') return;
+    const PAD = 12;
+    ['pok', 'mir'].forEach((name) => {
+      const el = document.querySelector('[data-seg="' + name + '"]');
+      if (!el) return;
+      const act = el.querySelector('[data-seg-active="1"]');
+      if (!act) { el.scrollLeft = 0; return; }
+      const viewLeft = el.scrollLeft;
+      const viewRight = viewLeft + el.clientWidth;
+      const actLeft = act.offsetLeft;
+      const actRight = actLeft + act.offsetWidth;
+      let target = null;
+      if (actRight > viewRight) target = actRight - el.clientWidth + PAD;
+      else if (actLeft < viewLeft) target = actLeft - PAD;
+      if (target === null) return; // vec potpuno vidljiv - ne diraj
       const max = el.scrollWidth - el.clientWidth;
       el.scrollLeft = Math.max(0, Math.min(target, max));
     });

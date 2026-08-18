@@ -122,6 +122,36 @@ Zadnje ažuriranje: 18. 8. 2026.
   umjesto na vrhu). Umjesto toga `scrollActiveChipsIntoView()` računa poziciju
   cipa ručno (`act.offsetLeft`) i postavlja `container.scrollLeft` izravno —
   to fizički ne može dirati `window`/`document` skrol.
+- **Dvije različite strategije pozicioniranja cipa, po traci — ne dirati jednu
+  zbog druge.** `calc`/`calcsub` (Kalkulatori) nikad nisu stvarno "poskakivali"
+  jer `calc` ne prelazi širinu ekrana (scroll je matematički prikovan na 0), a
+  `calcsub` gotovo uvijek slijeće na indeks 0 (prvi podtab obitelji), gdje se
+  centriranje uvijek zaokruži na 0. `pok` (i rjeđe `mir`) *stvarno* prelazi
+  širinu I ima realne ulazne točke na ne-nulte indekse (sitemap ravnopravno
+  promovira svih 5 kategorija), pa je centriranje na svaki klik bilo vidljivo
+  pomicanje trake i kad nije nužno. Rješenje, primijenjeno SAMO na `pok`/`mir`
+  (`calc`/`calcsub` i dalje idu kroz `scrollActiveChipsIntoView()`,
+  nepromijenjeno):
+  - `scrollActivePokChipsIntoView()` — minimalni pomak: ako je aktivni cip već
+    potpuno vidljiv, `scrollLeft` se uopće ne dira; inače se pomakne baš toliko
+    da rub cipa (+12px razmaka) sjedne na rub trake.
+  - Mount: umjesto 5 checkpointa (0/120/600ms/`load`/`fonts.ready`, i dalje
+    korišteno za `calc`/`calcsub`), `pok`/`mir` čekaju isključivo
+    `document.fonts.ready` (uz ~1s fallback ako se `ready` nikad ne razriješi,
+    čuvano `_pokChipsPositioned` zastavicom da se ne pozicionira dvaput) — na
+    stvarnom uređaju svaki raniji checkpoint može izračunati drugačiju poziciju
+    dok se širina cipova slaže s učitanim fontom (`font-display: swap`
+    + zaseban `saira-latin-ext.woff2` za dijakritiku), što se vidi kao skok.
+  - **`scroll-behavior: smooth` i `el.scrollTo({behavior:'smooth'})` su se u
+    testiranju pokazali nepouzdani — `scrollLeft` se ponekad uopće nije
+    pomaknuo** (isti obrazac kao ranije otkriveni `requestAnimationFrame`
+    problem — API-ji vezani uz animacijski frame ne moraju napredovati u
+    pozadinskim/automatiziranim kontekstima, a `scroll-behavior:smooth` je
+    interno vezan za isti mehanizam). Zato `scrollActivePokChipsIntoView()`
+    postavlja `scrollLeft` izravno, bez animacije — pouzdanost ispravne
+    pozicije ima prednost pred glatkim klizanjem. Ako se poslije pokaže da
+    animacija na stvarnom uređaju ipak radi, može se dodati naknadno, ali
+    provjeriti uživo na uređaju, ne osloniti se na automatizirano testiranje.
 - **Pravilo: svaka stranica se uvijek otvara na vrhu, bez iznimke.** Vrijedi za
   svaku navigaciju: `go()`, `goCalc()`, `blogVeza()`, izravno otvaranje URL-a,
   promjenu kategorije/podtaba (Pokazatelji, Projekti, Blog), otvaranje i
