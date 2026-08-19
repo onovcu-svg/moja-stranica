@@ -492,13 +492,13 @@ obrada. Testirati na pravom uređaju.
       kod HNB revizija (vidi §3). Obrazloženje uz sam unos u `GRADOVI`, izvor
       i poveznice u `IZVORI.md`, odjeljak "JLS stope poreza na dohodak".
 - [x] beehiiv i EGP u politici privatnosti — ispravljeno (`701036a`)
-- [x] **InterCapital disclosure u sekciji Projekti — provedeno (`4eee9f8`).**
+- [x] **InterCapital disclosure u sekciji Projekti — provedeno (`89b4175`).**
       Dodan u karticu "Investiram svaki mjesec", nakon opisa četiriju
       portfelja i prije grafa i brojki, kako §7 propisuje. Diskretan stil:
       `border-left:2px solid var(--line2)`, `font-size:12.5px`,
       `color:var(--soft)`, bez pozadine — potvrđeno da ne izgleda kao alert.
       Tekst usklađen s §7 istim commitom.
-- [x] **`"O novcu"` u navodnike na naslovnici — provedeno (`4eee9f8`).**
+- [x] **`"O novcu"` u navodnike na naslovnici — provedeno (`89b4175`).**
       Primijenjeno SAMO u hero tekstu (dva odlomka ispod naslova "Novac nije
       kompliciran."), hrvatskim niskim-visokim navodnicima „..." — isti par
       koji projekt već koristi na 42 druga mjesta (npr. „Spremi kao PDF").
@@ -567,7 +567,7 @@ obrada. Testirati na pravom uređaju.
 
 ## 7. InterCapital disclosure — tekst
 
-**Provedeno (`4eee9f8`)** — vidi §6. Ide u sekciju Projekti, unutar kartice
+**Provedeno (`89b4175`)** — vidi §6. Ide u sekciju Projekti, unutar kartice
 "Investiram svaki mjesec", **nakon** opisa četiriju portfelja i **prije** grafa
 i brojki. Diskretno izdvojeno (sivi okvir ili tanka linija lijevo), manji font,
 neutralne boje, **ne** stil alerta.
