@@ -5693,6 +5693,18 @@ const HPI_GOD = [
   [2017, 104.8], [2018, 111.4], [2019, 121.6], [2020, 130.7], [2021, 138.4],
   [2022, 155.5], [2023, 175.0], [2024, 192.4], [2025, 215.6], [2026, 239.1]
 ];
+// HPI_GOD_NEPUNA oznacava KOJU godinu (ako ijednu) njezin redak u HPI_GOD
+// JOS NE predstavlja puni godisnji prosjek nego samo najnovije objavljeno
+// tromjesecje (trenutno 2026 -> 239,1 je Q1 2026, ne godisnji prosjek).
+// Taj redak OSTAJE u HPI_GOD (podatak se ne brise), ali se iskljucuje iz
+// HPI_PUNE i time iz SVAKE aritmetike koja usporedjuje dvije godine
+// (hpiGod, nkRast, nkProsjekGod, omjer za kuce-ikone, "kupis X m2") - inace
+// bi se dijelila tromjesecna mjera s godisnjim prosjekom. Postaviti na null
+// tek kad DZS objavi PRAVU godisnju vrijednost za tu godinu (ocekivano
+// pocetkom 2027., uz reviziju) - ne pri sljedecim tromjesecnim objavama.
+// Vidi IZVORI.md, "Nekretnine - indeks cijena".
+const HPI_GOD_NEPUNA = 2026;
+const HPI_PUNE = HPI_GOD_NEPUNA == null ? HPI_GOD : HPI_GOD.filter((r) => r[0] !== HPI_GOD_NEPUNA);
 // Aktivnost trzista. Dozvole: DZS, izdane gradevinske dozvole (mjesecno).
 // Kupoprodaje: eNekretnine, broj evidentiranih transakcija po vrsti nekretnine
 // (godisnje). Stanovi = stan/apartman, kuce = stambena zgrada / obiteljska kuca.
@@ -5818,7 +5830,7 @@ const POK_FAQ_KRED = [
 
 // FAQ za kategoriju Nekretnine. Ostale kategorije koriste POK_FAQ.
 const POK_FAQ_NEK = [
-  { p: 'Koliko su porasle cijene nekretnina u Hrvatskoj?', o: 'Indeks cijena stambenih objekata, koji DZS objavljuje tromjesečno, u godinu je dana porastao {HPI_RAST}, a od 2015. za 139,1 %. Praktično: za isti novac kojim se 2015. kupovao stan od 50 m² danas se kupuje 20,9 m². Cijene su padale od 2009. do 2014., a od 2015. rastu svake godine.' },
+  { p: 'Koliko su porasle cijene nekretnina u Hrvatskoj?', o: 'Indeks cijena stambenih objekata, koji DZS objavljuje tromjesečno, u godinu je dana porastao {HPI_RAST}, a od 2015. do 2025. za 115,6 %. Praktično: za isti novac kojim se 2015. kupovao stan od 50 m² 2025. se kupovalo 23,2 m². Cijene su padale od 2009. do 2014., a od 2015. rastu svake godine.' },
   { p: 'Jesu li prikazane cijene s PDV-om?', o: 'Indeks cijena stambenih objekata mjeri stvarne transakcijske cijene, u kojima je PDV uključen ako je nekretnina bila u sustavu PDV-a. Referentne cijene Ministarstva prostornoga uređenja objavljuju se bez PDV-a, jer je cijena bez poreza osnovica za mjere poput povrata poreza pri kupnji prve nekretnine. Kod novogradnje u sustavu PDV-a stvarna cijena koju plaćaš viša je za iznos poreza; kod kupnje od privatne osobe PDV se ne plaća.' },
   { p: 'Kako se računa indeks cijena stambenih objekata?', o: 'DZS ga računa iz stvarnih kupoprodajnih transakcija koje mu prosljeđuje Porezna uprava, a ne iz oglasnih cijena. Metoda je hedonistička regresija, koja iz cijene izdvaja utjecaj svojstava nekretnine (veličina, lokacija, starost) pa indeks mjeri promjenu cijene, a ne promjenu strukture prodanih stanova. Baza je 2015. = 100.' },
   { p: 'Zašto nema podatka o cijeni najma?', o: 'Zato što ne postoji službena statistika razine najamnine koja bi izdržala isti standard kao ostali pokazatelji na portalu. Indeks stanarina unutar potrošačkih cijena pokazuje samo promjenu, ne iznos, a procjene najamnina po gradovima objavljuju se jednom godišnje i modelom. Kad se pojavi mjerodavan izvor, najam ide na ovu stranicu.' }
@@ -8400,20 +8412,26 @@ class Component extends DCLogic {
     const faqSub = (txt) => { let o = txt; for (const k in faqTokens) o = o.split(k).join(faqTokens[k]); return o; };
 
     // ── NEKRETNINE: indeks cijena, kuce, gradovi, aktivnost ──
-    const NK_PRVA = HPI_GOD[0][0], NK_ZADNJA = HPI_GOD[HPI_GOD.length - 1][0];
+    // Sve niže ide preko HPI_PUNE (godišnji prosjeci, bez eventualnog
+    // tromjesečnog retka HPI_GOD_NEPUNA) - vidi komentar uz definiciju.
+    const NK_PRVA = HPI_PUNE[0][0], NK_ZADNJA = HPI_PUNE[HPI_PUNE.length - 1][0];
     const nkOd = Math.max(NK_PRVA, Math.min(NK_ZADNJA, Math.round(this.num(s.nekOd, 2015))));
     const nkDo = Math.max(nkOd, Math.min(NK_ZADNJA, Math.round(this.num(s.nekDo, NK_ZADNJA))));
-    const HPI_SEL = HPI_GOD.filter((r) => r[0] >= nkOd && r[0] <= nkDo);
+    const HPI_SEL = HPI_PUNE.filter((r) => r[0] >= nkOd && r[0] <= nkDo);
     const nkN = HPI_SEL.length;
     const nkVrh = Math.max.apply(null, HPI_SEL.map((r) => r[1]));
-    const hpiGod = (g) => { const p = HPI_GOD.filter((r) => r[0] === g - 1)[0], c = HPI_GOD.filter((r) => r[0] === g)[0]; return p && c ? (c[1] / p[1] - 1) * 100 : null; };
+    const hpiGod = (g) => { const p = HPI_PUNE.filter((r) => r[0] === g - 1)[0], c = HPI_PUNE.filter((r) => r[0] === g)[0]; return p && c ? (c[1] / p[1] - 1) * 100 : null; };
     const nkChart = HPI_SEL.map((r, ix) => {
       const gp = hpiGod(r[0]);
       return {
         h: (r[1] / nkVrh * 100).toFixed(1) + '%',
         boja: gp != null && gp < 0 ? SOFT : ACC,
-        label: osLbl(ix, nkN, r[0], ix === nkN - 1 && r[0] === NK_ZADNJA, ZADNJE_HPI), align: osAlign(ix, nkN),
-        tip: (ix === nkN - 1 && r[0] === NK_ZADNJA ? ZADNJE_HPI : r[0] + '.') + ', indeks ' + nf(1).format(r[1]) + (gp != null ? ' · ' + pct(gp, 1) + ' u godinu dana' : ''),
+        // Svaki redak u HPI_SEL je sad puni godišnji prosjek (HPI_PUNE) -
+        // nema više posebnog "zadnja = tromjesečje" slučaja, pa ni oznaka
+        // ni tooltip ne smiju posuđivati ZADNJE_HPI (to bi za zadnju punu
+        // godinu prikazalo tekst tromjesečja koje više nije u ovom nizu).
+        label: osLbl(ix, nkN, r[0], false), align: osAlign(ix, nkN),
+        tip: r[0] + '.' + ', indeks ' + nf(1).format(r[1]) + (gp != null ? ' · ' + pct(gp, 1) + ' u godinu dana' : ''),
         op: s.nekHover < 0 || s.nekHover === ix ? '1' : '.45',
         enter: () => this.setState({ nekHover: ix }), leave: () => this.setState({ nekHover: -1 })
       };
@@ -9644,7 +9662,9 @@ class Component extends DCLogic {
         od: nkOd + '.', do: nkDo + '.', odNum: nkOd, doNum: nkDo, minGod: NK_PRVA, maxGod: NK_ZADNJA,
         chart: nkChart,
         hoverAktivan: !!nkAkt,
-        hoverTxt: nkAkt ? ((s.nekHover === nkN - 1 && nkZadnji[0] === NK_ZADNJA ? ZADNJE_HPI : nkAkt[0] + '.') + ', indeks ' + nf(1).format(nkAkt[1])) : '',
+        // Isti razlog kao label/tip u nkChart iznad - nkAkt je uvijek redak
+        // iz HPI_SEL (dakle HPI_PUNE), pa ZADNJE_HPI ovdje ne pripada.
+        hoverTxt: nkAkt ? (nkAkt[0] + '.' + ', indeks ' + nf(1).format(nkAkt[1])) : '',
         hoverLeft: (((s.nekHover + 0.5) / (nkN || 1)) * 100).toFixed(3) + '%',
         hoverTransform: (() => { const p = ((s.nekHover + 0.5) / (nkN || 1)) * 100; return p < 18 ? 'translateX(0)' : (p > 82 ? 'translateX(-100%)' : 'translateX(-50%)'); })(),
         razdoblje: nkPrvi[0] + '. – ' + nkZadnji[0] + '.',

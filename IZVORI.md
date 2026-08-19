@@ -165,6 +165,24 @@ Zadnja potpuna provjera: 18. 8. 2026. (inflacija ažurirana 19. 8. 2026. na srpa
   razdoblja (HPI Q1 2026., dozvole lipanj 2026., kupoprodaje 2025.) pa jedan
   datum ne može stajati za sve. Nova formulacija tvrdi samo ono što jest.
   Izmjena u index.html još nije provedena.
+- **ODLUKA (19.8.2026): `HPI_GOD` sadrži GODIŠNJE PROSJEKE. Zadnji redak
+  (2026.) je tromjesečno očitanje Q1 2026. i NE ulazi u izračune rasta**
+  (`hpiGod()`, `nkRast`, `nkProsjekGod`, omjer za kuće-ikone, "kupiš X m²")
+  jer bi ti izračuni dijelili dvije različite mjere — tromjesečno očitanje s
+  godišnjim prosjekom. To je davalo **10,9 %** umjesto **14,3 %** na tooltipu
+  zadnjeg stupca grafa, i kontaminiralo je ZADANI prikaz (`nekOd: 2015,
+  nekDo: 2026`), ne rubni slučaj. U kodu: konstanta `HPI_GOD_NEPUNA`
+  označava koju godinu (danas 2026) treba isključiti, a `HPI_PUNE` je
+  filtrirani niz koji sva aritmetika koristi umjesto `HPI_GOD` izravno. Redak
+  se NE briše iz `HPI_GOD` — ostaje kao podatak, samo se ne računa s njim.
+  **Prava godišnja vrijednost za 2026. smije se vratiti u niz (postaviti
+  `HPI_GOD_NEPUNA = null`) tek kad je DZS objavi** (očekivano početkom
+  2027., uz reviziju), ne pri sljedećim tromjesečnim objavama (npr.
+  1.10.2026., Q2). **14,3 % ({HPI_RAST}, kartica, ticker, bluf) ostaje
+  netaknuto** — postoji samo kao ručno unesena `TRZISTE` vrijednost i
+  strukturno je neizvediva iz `HPI_GOD`, jer niz nema tromjesečnu vrijednost
+  za Q1 2025 s kojom bi se Q1 2026 mogao usporediti tromjesečje-na-
+  tromjesečje.
 - Napomena: DZS od Q1 2026. objavljuje i stope promjene broja i vrijednosti
   prodanih objekata. Q1 2026: broj −42,2 %, vrijednost −35,4 % godišnje.
 
