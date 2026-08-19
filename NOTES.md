@@ -479,10 +479,22 @@ Development okruženje je zaključano na Hobby planu — ne treba.
   (calc, calcsub, kmod, ktip) — aktivni čip ostaje crven na crvenom,
   nečitljiv. Indikatori ostaju ispravni.
 
+  **Popravljeno 20.8.2026.** `syncSegs()` je dobio `else` granu: čim
+  pokazivač ponovno ima širinu, boja se eksplicitno vraća na `'#FFF'` (jedina
+  moguća boja za aktivan čip). Pravi uzrok nije bio "poziva se u krivom
+  trenutku" nego da grana nikad nije imala povratni put. Potvrđeno uživo na
+  `/kalkulatori/kredit` (sve četiri trake), `/kalkulatori/placa` i
+  `/pokazatelji` — nije vezano uz jedan kalkulator.
+
   Dio je šireg problema: **zatvaranje PDF pregleda ne obnavlja stanje
   stranice.** Drugi simptom, potvrđen na desktopu: nakon zatvaranja pregleda
   sadržaj se prekida i ispod ostaje prazan prostor do dna, a desna kolona je
-  odsječena. Rješavati zajedno.
+  odsječena. `pdfClose` sad (20.8.2026) dispatcha sintetički `resize` event
+  nakon zatvaranja kao protumjera — ali **taj drugi simptom NIJE reproduciran
+  u testnom okruženju ni u jednoj varijanti** (1440px, 700px s aktivnim
+  `zoom`-om na `.on-pdf-sheet`, simuliran `@media print` prijelaz), pa učinak
+  protumjere na njega ostaje nepotvrđen. Ne tretirati kao riješeno dok se ne
+  potvrdi na stvarnom pregledniku.
 
   Napomena o testiranju: `window.print()` blokira headless preglednik nativnim
   dijalogom, pa se CSS posljedica mora simulirati. Konačna potvrda popravka

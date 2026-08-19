@@ -6578,7 +6578,16 @@ class Component extends DCLogic {
         ind.style.height = act.offsetHeight + 'px';
       }
       // Dok pokazivač nema širinu, aktivni gumb ne smije ostati bijel na bijelom.
-      if (w <= 0) act.style.color = 'var(--acc)';
+      if (w <= 0) { act.style.color = 'var(--acc)'; }
+      // NOTES.md §5 "syncSegs prebojava aktivni čip i nikad ne vrati boju":
+      // gornja grana nikad nije imala povratni put. React sam neće vratiti
+      // '#FFF' - prop je isti ('#FFF') u oba renderа dok je čip aktivan, pa
+      // React (prema vlastitom diffing pravilu) ne dira style.color kad se
+      // vrijednost ne mijenja. Zato eksplicitno, ovdje - čim pokazivač ponovno
+      // ima širinu, čip JE aktivan (#FFF je jedina moguća boja za data-seg-
+      // active="1", vidi chip()/'.c' pomoćne funkcije), pa nema dvoumljenja
+      // koju boju vratiti.
+      else { act.style.color = '#FFF'; }
     }
   }
   // "Identitet" kalkulatora koji je trenutno na ekranu: calcTab sam, osim za
@@ -9910,7 +9919,22 @@ class Component extends DCLogic {
         mailHp: this.setS('mailHp'),
         mailPosalji: () => this.posaljiIzvjestaj(),
         pdfOtvori: () => this.setState({ pdfOpen: 1, pdfTs: Date.now() }),
-        pdfClose: () => this.setState({ pdfOpen: null }),
+        // NEPOTVRDENO (v. NOTES.md §5): drugi, neovisan simptom prijavljen na
+        // stvarnom pregledniku - nakon zatvaranja pregleda sadrzaj se prekida
+        // i ostaje prazan prostor, desna kolona odsjecena. Nije reproduciran
+        // u testnom okruzenju ni u jednoj varijanti (1440px, 700px s aktivnim
+        // zoom-om na .on-pdf-sheet, simuliran @media print prijelaz). Callback
+        // dispatcha sinteticki resize NAKON sto je DOM commitao zatvaranje -
+        // to ponovno pokrece SVE postojece recompute funkcije koje vec slusaju
+        // resize (_onResize, _segRs->syncSegs(), _onVVResize) umjesto da se
+        // rucno pogadja koja je konkretno metrika zaglavila. Razumna
+        // protumjera za ovu klasu buga (zaglavljen layout nakon uklanjanja
+        // fixed/zoom elementa - isti obrazac kao §3 overflow-y auto slucaj),
+        // ali njen ucinak na taj simptom NIJE dokazan - potvrda trazi stvarni
+        // preglednik. window.print()/@media print (§2) ovime nisu dirani:
+        // pdfClose se ne izvrsava dok je pregled otvoren, ispis se uvijek
+        // dogadja prije ovog dispatcha, nikad poslije.
+        pdfClose: () => this.setState({ pdfOpen: null }, () => { window.dispatchEvent(new Event('resize')); }),
         pdfPrint: () => { setTimeout(() => window.print(), 80); },
         dodajUplatu: () => this.setState((st) => {
           const zadnji = st.kSlobodno.length ? Math.round(this.num(st.kSlobodno[st.kSlobodno.length - 1].mj, 0)) : 0;
