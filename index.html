@@ -5721,9 +5721,12 @@ const POK_KAT = {
     naslov: 'Inflacija', izvor: 'DZS · indeks potrošačkih cijena (CPI)',
     bluf: 'Godišnja inflacija u Hrvatskoj mjerena indeksom potrošačkih cijena (CPI) iznosi {CPI}, što znači da košarica koja je prije godinu dana koštala 100,00 € danas košta {KOSARICA_100}. Inflacija se mjeri indeksom potrošačkih cijena koji DZS objavljuje mjesečno.',
     stat: [
-      { val: '3,9 %', label: 'Godišnja stopa inflacije', sub: 'CPI · srpanj 2026.', d: -0.6 },
+      { val: '{CPI}', label: 'Godišnja stopa inflacije', sub: 'CPI · {RAZD_INF}', d: -0.6 },
       { val: '__KUM5__', label: 'Kumulativna inflacija, 5 godina', sub: '__KUM5SUB__', d: 1 },
       { val: '__KUM10__', label: 'Kumulativna inflacija, 10 godina', sub: '__KUM10SUB__', d: 1 },
+      // 'srpanj / lipanj 2026.' NIJE isto sto i {RAZD_INF} ('srpanj 2026.') -
+      // ovo je usporedba dva mjeseca, tokenom bi ispalo 'srpanj 2026. / lipanj
+      // 2026.', drugaciji tekst. Ostaje upisano rucno (v. NOTES.md).
       { val: '−0,2 %', label: 'Mjesečna promjena cijena', sub: 'CPI · srpanj / lipanj 2026.', d: -0.2 }
     ]
   },
@@ -5731,8 +5734,8 @@ const POK_KAT = {
     naslov: 'Rad & plaće', izvor: 'DZS · statistika plaća',
     bluf: 'Prosječna neto plaća u Hrvatskoj iznosi {PL_PROSJEK}, a medijalna {PL_MEDIJAN}. Polovica zaposlenih zarađuje manje od medijalnog iznosa.',
     stat: [
-      { val: '1.552,00 €', label: 'Prosječna neto plaća', sub: 'mjesečno · svibanj 2026.', d: 0 },
-      { val: '1.324,00 €', label: 'Medijalna neto plaća', sub: 'polovica zaposlenih zarađuje manje', d: 5 },
+      { val: '{PL_PROSJEK}', label: 'Prosječna neto plaća', sub: 'mjesečno · {RAZD_PLACE}', d: 0 },
+      { val: '{PL_MEDIJAN}', label: 'Medijalna neto plaća', sub: 'polovica zaposlenih zarađuje manje', d: 5 },
       { val: '2.178,00 €', label: 'Prosječna bruto plaća', sub: 'Bruto 1, mjesečno', d: -2 },
       { val: '1.050,00 €', label: 'Minimalna bruto plaća', sub: 'zakonski minimum za 2026.', d: 0 }
     ]
@@ -5741,26 +5744,30 @@ const POK_KAT = {
     naslov: 'Mirovinski sustav', izvor: 'HZMO i HANFA · mirovinski sustav',
     bluf: 'Na jednog umirovljenika u Hrvatskoj dolazi 1,46 zaposlenih, a prosječna starosna mirovina iznosi {MIROVINA}, odnosno {MIR_RATIO} prosječne neto plaće. U 2. stupu je {STUP2_CLANOVI_MIL} članova, od kojih je {STUP2_B_PCT} u zadanoj kategoriji B, a u dobrovoljnom 3. stupu štedi {STUP3_CLANOVI} ljudi.',
     stat: [
-      { val: '1 : 1,46', label: 'Zaposlenih po umirovljeniku', sub: 'HZMO · lipanj 2026.', d: 0.05 },
-      { val: '721,73 €', label: 'Prosječna starosna mirovina', sub: 'bez međ. ugovora · lipanj 2026.', d: 0.45 },
-      { val: '46,5 %', label: 'Mirovina u odnosu na plaću', sub: 'naspram 1.552,00 € neto', d: -0.3 },
-      { val: '73,73 %', label: 'Članova u kategoriji B', sub: 'zadana kategorija 2. stupa', d: -0.4 }
+      { val: '1 : 1,46', label: 'Zaposlenih po umirovljeniku', sub: 'HZMO · {RAZD_MIR}', d: 0.05 },
+      { val: '{MIROVINA}', label: 'Prosječna starosna mirovina', sub: 'bez međ. ugovora · {RAZD_MIR}', d: 0.45 },
+      { val: '{MIR_RATIO}', label: 'Mirovina u odnosu na plaću', sub: 'naspram 1.552,00 € neto', d: -0.3 },
+      { val: '{STUP2_B_PCT}', label: 'Članova u kategoriji B', sub: 'zadana kategorija 2. stupa', d: -0.4 }
     ]
   },
   nekretnine: {
     naslov: 'Nekretnine', izvor: 'DZS i eNekretnine · tržište stambenih nekretnina',
     bluf: 'Cijene stambenih nekretnina u Hrvatskoj u godinu su dana porasle {HPI_RAST}, a od 2015. su se više nego udvostručile. U {NEK_GOD} izdano je {NEK_DOZVOLE} građevinskih dozvola i evidentirano {NEK_KUPOPROD} kupoprodaja stanova.',
     stat: [
-      { val: '14,3 %', label: 'Godišnji rast cijena', sub: 'indeks DZS · prvo tromjesečje 2026.', d: 0.8 },
-      { val: '36.400', label: 'Kupoprodaja stanova', sub: 'eNekretnine · 2025.', d: 4.9 }
+      { val: '{HPI_RAST}', label: 'Godišnji rast cijena', sub: 'indeks DZS · {RAZD_NEK}', d: 0.8 },
+      { val: '{NEK_KUPOPROD}', label: 'Kupoprodaja stanova', sub: 'eNekretnine · 2025.', d: 4.9 }
     ]
   },
   krediti: {
     naslov: 'Krediti & kamate', izvor: 'HNB · kamatne stope na nove poslove',
     bluf: 'Prosječna kamatna stopa na nove stambene kredite iznosi {KR_STAMB_NOM}, a na gotovinske nenamjenske {KR_GOTOV_NOM}. Stambeni kredit je time gotovo dvostruko jeftiniji od gotovinskog. Banke su odobrile {KR_IZNOSSTAMB} novih stambenih i {KR_IZNOSGOTOV} gotovinskih kredita, dakle više novca ide u potrošnju nego u nekretnine.',
     stat: [
-      { val: '2,90 %', label: 'Stambeni krediti', sub: 'novi poslovi · lipanj 2026.', d: -0.02 },
-      { val: '5,42 %', label: 'Gotovinski nenamjenski', sub: 'novi poslovi · lipanj 2026.', d: 0.11 },
+      { val: '{KR_STAMB_NOM}', label: 'Stambeni krediti', sub: 'novi poslovi · {RAZD_KRED}', d: -0.02 },
+      { val: '{KR_GOTOV_NOM}', label: 'Gotovinski nenamjenski', sub: 'novi poslovi · {RAZD_KRED}', d: 0.11 },
+      // '316,6 mil €' svjesno NIJE zamijenjeno tokenom {KR_IZNOSSTAMB} - taj
+      // token daje 'milijuna eura', drugi registar iste brojke. Zamjena radi
+      // bit-za-bit poklapanja znacila bi prilagoditi podatak prikazu, ne
+      // obrnuto. Obje su ispravne; ova ostaje rucno upisana (v. NOTES.md).
       { val: '316,6 mil €', label: 'Novih stambenih kredita', sub: 'odobreno u lipnju 2026.', d: -12.7 }
     ]
   }
@@ -5787,7 +5794,7 @@ const KS_VRSTE = [
 
 // FAQ za kategoriju Krediti & kamate.
 const POK_FAQ_KRED = [
-  { p: 'Kolika je kamatna stopa na stambeni kredit u Hrvatskoj?', o: 'Prosje\u010dna nominalna kamatna stopa na nove stambene kredite iznosi {KR_STAMB_NOM} (HNB, lipanj 2026.), a efektivna, koja uključuje i naknade, {KR_STAMB_EKS}. To je vagani prosjek svih banaka i svih novih ugovora u tom mjesecu pa tvoja ponuda može biti i niža i viša, ovisno o iznosu, roku, udjelu vlastitog učešća i tome jesi li klijent banke.' },
+  { p: 'Kolika je kamatna stopa na stambeni kredit u Hrvatskoj?', o: 'Prosje\u010dna nominalna kamatna stopa na nove stambene kredite iznosi {KR_STAMB_NOM} (HNB, {RAZD_KRED}), a efektivna, koja uključuje i naknade, {KR_STAMB_EKS}. To je vagani prosjek svih banaka i svih novih ugovora u tom mjesecu pa tvoja ponuda može biti i niža i viša, ovisno o iznosu, roku, udjelu vlastitog učešća i tome jesi li klijent banke.' },
   { p: 'Zašto je gotovinski kredit skuplji od stambenog?', o: 'Zato što iza stambenog kredita stoji nekretnina kao zalog, a iza gotovinskog ne stoji ništa osim tvoje plaće. Razlika je trenutno {KR_DIFF_SG}: {KR_STAMB_NOM} naspram {KR_GOTOV_NOM}. Na 20.000 € kroz 7 godina to je oko {KR_DIFF_20K7G} više kamate.' },
   { p: 'Što je razlika između nominalne i efektivne kamatne stope?', o: 'Nominalna stopa je cijena samog novca. Efektivna kamatna stopa (EKS) uz nju uračunava i naknadu za obradu, procjenu, vođenje računa i police osiguranja pa pokazuje stvarnu cijenu kredita. Kod stambenih kredita razlika je {KR_STAMB_EKS_DIFF}, kod gotovinskih {KR_GOTOV_EKS_DIFF}. Ponude uspoređuj po EKS-u, ne po nominalnoj stopi.' },
   { p: 'Koliko se Hrvati zadužuju?', o: 'U lipnju 2026. banke su odobrile {KR_IZNOSSTAMB} novih stambenih kredita i {KR_IZNOSGOTOV} gotovinskih nenamjenskih. Znači, mjesečno se više novca uzima za potrošnju nego za nekretnine. To je podatak koji rijetko dolazi u naslove, a puno govori o tome kako se u Hrvatskoj zapravo troši posuđeni novac.' },
@@ -5824,7 +5831,7 @@ const POK_FAQ_MIR = [
 ];
 
 const POK_FAQ = [
-  { p: 'Koliko ljudi štedi u 3. mirovinskom stupu?', o: 'U dobrovoljnim mirovinskim fondovima (3. stup) štedi {STUP3_CLANOVI} članova, s ukupnom imovinom od 1,80 milijardi eura (HANFA, lipanj 2026.). To je nešto više od četvrtine osiguranika prvog stupa. Država na uplate u 3. stup dodaje državnu potporu od 15 % na uplaćeno, do zakonskog maksimuma godišnje.' },
+  { p: 'Koliko ljudi štedi u 3. mirovinskom stupu?', o: 'U dobrovoljnim mirovinskim fondovima (3. stup) štedi {STUP3_CLANOVI} članova, s ukupnom imovinom od 1,80 milijardi eura (HANFA, {RAZD_MIR}). To je nešto više od četvrtine osiguranika prvog stupa. Država na uplate u 3. stup dodaje državnu potporu od 15 % na uplaćeno, do zakonskog maksimuma godišnje.' },
   { p: 'Što znače kategorije A, B i C u 2. mirovinskom stupu?', o: 'Kategorije se razlikuju po dopuštenom udjelu dionica: A je najagresivnija i dostupna do 10 godina prije mirovine, B je uravnotežena i zadana kategorija u koju je raspoređeno oko 74 % članova, a C ulaže gotovo isključivo u obveznice i obvezna je u posljednjih 5 godina prije mirovine. Prelazak između kategorija je besplatan jednom godišnje.' },
 ];
 
@@ -8349,7 +8356,14 @@ class Component extends DCLogic {
       '{NEK_GOD}': NEK_AKT[NEK_AKT.length - 1][0] + '.', '{NEK_DOZVOLE}': nf(0).format(NEK_AKT[NEK_AKT.length - 1][1]), '{NEK_KUPOPROD}': nf(0).format(NEK_AKT[NEK_AKT.length - 1][2]),
       '{MIROVINA}': eur(tz('mirovina'), 2), '{MIR_RATIO}': pct(tz('mirovina') / tz('placaProsjek') * 100, 1),
       '{STUP2_CLANOVI_MIL}': nf(2).format(STUP2_UK / 1e6) + ' milijuna', '{STUP2_B_PCT}': pct(STUP2[1].clanova / STUP2_UK * 100, 2),
-      '{KR_IZNOSSTAMB}': nf(1).format(KS_IZNOSSTAMBENI[ZI]) + ' milijuna eura', '{KR_IZNOSGOTOV}': nf(1).format(KS_IZNOSGOTOVINSKI[ZI]) + ' milijuna eura'
+      '{KR_IZNOSSTAMB}': nf(1).format(KS_IZNOSSTAMBENI[ZI]) + ' milijuna eura', '{KR_IZNOSGOTOV}': nf(1).format(KS_IZNOSGOTOVINSKI[ZI]) + ' milijuna eura',
+      // Razdoblje po kategoriji, iz ISTIH konstanti kao pokDatum (v. gore) -
+      // ne nova paralelna mapa. {ZADNJE_HNB}/{ZADNJE_HANFA}/{ZADNJE_CPI} nisu
+      // dodani kao zasebni tokeni jer bi bili bit-za-bit identični
+      // {RAZD_KRED}/{RAZD_MIR}/{RAZD_INF} - nema smisla imati dva imena za
+      // istu vrijednost.
+      '{RAZD_INF}': ZADNJE_RAZDOBLJE, '{RAZD_PLACE}': ZADNJE_PLACE, '{RAZD_MIR}': ZADNJE_HANFA,
+      '{RAZD_NEK}': ZADNJE_HPI, '{RAZD_KRED}': ZADNJE_HNB
     };
     const faqSub = (txt) => { let o = txt; for (const k in faqTokens) o = o.split(k).join(faqTokens[k]); return o; };
 
