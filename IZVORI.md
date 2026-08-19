@@ -60,6 +60,16 @@ Zadnja potpuna provjera: 18. 8. 2026. (inflacija ažurirana 19. 8. 2026. na srpa
   https://mrosp.gov.hr/vijesti/minimalna-placa-za-2026-godinu-1-050-eura-bruto/13826
   Mijenja se jednom godišnje, uredbom u listopadu za sljedeću godinu.
 - Napomena: od siječnja 2026. podaci se iskazuju prema NKD-u 2025.
+- **ODLUKA (19.8.2026): tablica SEKTORI (plaće po djelatnostima) uklonjena je
+  u cijelosti.** Od 21 vrijednosti samo 2 su bile objavljene (dva ekstrema iz
+  DZS vijesti), 1 je bila u izravnoj suprotnosti s izvorom (farmaceutska
+  proizvodnja 4.281 € nasuprot DZS-ovom izričito navedenom maksimumu od
+  2.364 € za isto razdoblje), a 18 bez ikakvog izvora. Tablica je miješala
+  dvije razine NKD klasifikacije (sekcije i uže odjeljke u istom stupcu) i
+  prikazivala se pod oznakom "Izvor: DZS, statistika plaća". DZS u mjesečnom
+  priopćenju NE objavljuje raščlambu plaća po djelatnostima — samo najvišu i
+  najnižu, u prozi vijesti, ne u tablici. Ako se prikaz ikad vrati, mora imati
+  puni objavljeni raspon, ne interpolaciju između krajnosti.
 
 ## Kamatne stope i iznosi kredita
 

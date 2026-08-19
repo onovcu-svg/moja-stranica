@@ -3380,46 +3380,6 @@
         </sc-if>
         <div style="font-weight:300;font-size:11px;color:var(--soft);margin-top:14px;padding-top:10px;border-top:1px solid var(--line)">{{ src.dzsPlace }}</div>
       </div>
-        <div style="margin-top:clamp(20px,3vh,28px);background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden">
-          <div style="padding:clamp(20px,2.6vw,26px) clamp(20px,2.6vw,26px) 16px">
-            <div style="font-weight:600;font-size:16.5px;letter-spacing:-.025em;margin-bottom:5px">Prosječna neto plaća po djelatnostima</div>
-            <div style="font-weight:300;font-size:13px;color:var(--soft);line-height:1.5">Klikni zaglavlje stupca za drugi redoslijed. Crvenkasto su označene djelatnosti iznad državnog prosjeka.</div>
-          </div>
-          <div data-hscroll style="overflow:auto">
-            <sc-raw-table style="width:100%;border-collapse:collapse;min-width:520px">
-              <sc-raw-thead>
-                <sc-raw-tr style="background:var(--sec)">
-                  <sc-raw-th style="text-align:left;padding:0;width:34px"></sc-raw-th>
-                  <sc-raw-th style="text-align:left;padding:0">
-                    <button sc-camel-on-click="{{ on.sortNaziv }}" style="width:100%;text-align:left;background:none;border:none;padding:12px 10px 12px 0;cursor:pointer;font-weight:500;font-size:12px;color:{{ pl.sekBoja.naziv }}">Djelatnost {{ pl.sekStrelica.naziv }}</button>
-                  </sc-raw-th>
-                  <sc-raw-th style="text-align:right;padding:0">
-                    <button sc-camel-on-click="{{ on.sortPlaca }}" style="width:100%;text-align:right;background:none;border:none;padding:12px;cursor:pointer;font-weight:500;font-size:12px;color:{{ pl.sekBoja.placa }}">Neto plaća {{ pl.sekStrelica.placa }}</button>
-                  </sc-raw-th>
-                  <sc-raw-th style="text-align:right;padding:0">
-                    <button sc-camel-on-click="{{ on.sortPromjena }}" style="width:100%;text-align:right;background:none;border:none;padding:12px clamp(20px,2.6vw,26px) 12px 12px;cursor:pointer;font-weight:500;font-size:12px;color:{{ pl.sekBoja.promjena }}">Godišnja promjena {{ pl.sekStrelica.promjena }}</button>
-                  </sc-raw-th>
-                </sc-raw-tr>
-              </sc-raw-thead>
-              <sc-raw-tbody>
-                <sc-for list="{{ pl.sektori }}" as="sk" hint-placeholder-count="12">
-                  <sc-raw-tr style="border-top:1px solid var(--line);background:{{ sk.bg }}">
-                    <sc-raw-td style="padding:11px 0 11px clamp(20px,2.6vw,26px);font-weight:400;font-size:12px;color:var(--soft)">{{ sk.rb }}</sc-raw-td>
-                    <sc-raw-td style="padding:11px 10px 11px 12px;font-weight:400;font-size:13.5px;min-width:0">
-                      <div style="line-height:1.35">{{ sk.naziv }}</div>
-                      <div style="height:3px;border-radius:980px;background:var(--line);margin-top:6px;max-width:220px">
-                        <div style="height:100%;width:{{ sk.traka }};background:var(--acc);border-radius:980px;transition:width .4s ease"></div>
-                      </div>
-                    </sc-raw-td>
-                    <sc-raw-td style="padding:11px 12px;text-align:right;font-weight:600;font-size:14px;white-space:nowrap">{{ sk.placa }}</sc-raw-td>
-                    <sc-raw-td style="padding:11px clamp(20px,2.6vw,26px) 11px 12px;text-align:right;font-weight:500;font-size:13.5px;color:{{ sk.promjenaBoja }};white-space:nowrap">{{ sk.promjena }}</sc-raw-td>
-                  </sc-raw-tr>
-                </sc-for>
-              </sc-raw-tbody>
-            </sc-raw-table>
-          </div>
-          <div style="padding:14px clamp(20px,2.6vw,26px) 18px;font-weight:300;font-size:11px;color:var(--soft);border-top:1px solid var(--line)">{{ src.dzsPlace }}</div>
-        </div>
       </sc-if>
 
       <sc-if value="{{ jeKrediti }}">
@@ -5571,34 +5531,6 @@ const GRADOVI_POP = [
   ['Metković', 15974]
 ];
 
-// Prosječne neto plaće po područjima djelatnosti (NKD 2025.), DZS.
-// [naziv, neto EUR, godišnja promjena u %]
-// FALLBACK: vrijednosti treba potvrditi uz svaku objavu DZS; raspon je
-// usidren na objavljene krajnosti (najviša i najniža djelatnost).
-const SEKTORI = [
-  ['Proizvodnja farmaceutskih proizvoda', 4281, 9.4],
-  ['Zračni prijevoz', 2364, 6.1],
-  ['Informacije i komunikacije', 2210, 7.2],
-  ['Financijske djelatnosti i osiguranje', 2145, 6.8],
-  ['Opskrba energijom, plinom i parom', 2038, 8.1],
-  ['Rudarstvo i vađenje', 1902, 5.4],
-  ['Javna uprava i obrana', 1788, 9.9],
-  ['Stručne, znanstvene i tehničke djelatnosti', 1701, 7.5],
-  ['Poslovanje nekretninama', 1620, 6.3],
-  ['Obrazovanje', 1587, 10.4],
-  ['Zdravstvo i socijalna skrb', 1564, 11.2],
-  ['Prijevoz i skladištenje', 1498, 7.8],
-  ['Vodoopskrba i gospodarenje otpadom', 1452, 8.6],
-  ['Prerađivačka industrija', 1401, 7.1],
-  ['Trgovina na veliko i malo', 1372, 6.9],
-  ['Građevinarstvo', 1341, 8.3],
-  ['Poljoprivreda, šumarstvo i ribarstvo', 1289, 6.5],
-  ['Umjetnost, zabava i rekreacija', 1244, 5.9],
-  ['Administrativne i pomoćne djelatnosti', 1178, 6.2],
-  ['Smještaj, priprema hrane i posluživanje', 1156, 7.4],
-  ['Proizvodnja odjeće', 992, 4.8]
-];
-
 // ── MIROVINSKI SUSTAV ─────────────────────────────────────────
 // 1. stup: HZMO, aktualna statistika (lipanj 2026., isplata u srpnju).
 // HZMO (1. stup) je institucija ODVOJENA od HANFA-e (2./3. stup, ZADNJE_HANFA)
@@ -6402,7 +6334,7 @@ class Component extends DCLogic {
     c: { ime: '', email: '', poruka: '', tema: 'suradnja' }, ktSent: false, ktBurst: false, ktErr: '', ktHp: '', ktSlanje: false,
     // Vrijeme montiranja aplikacije - forme koriste ovo za "prebrzo poslano" provjeru (isti princip kao honeypot).
     formLoadedAt: Date.now(),
-    nlEmail: '', nlSent: false, nlBurst: false, nlPrivola: false, nlErr: '', nlSlanje: false, nlHp: '', blogOpen: null, filter: 'Sve', vrstaF: 'Sve', faqOpen: 0, pokFaqOpen: 0, pokOd: 2010, pokDo: 2026, mirStup: '1', mirKat: 0, mirScenView: 'iznos', plOd: 2010, plDo: 2026, nekOd: 2015, nekDo: 2026, nekHover: -1, nekAkt: 'dozvole', nekVrsta: 'stanovi', nekAktHover: -1, ksOd: 2019, ksDo: 2026, ksVrsta: 'stambeni', ksHover: -1, ksIznos: 'stambeni', ksIznosHover: -1, sekSort: 'placa', sekSmjer: 'desc', kosMode: 'udio', kosSort: 'auto', kosSmjer: 'desc', kosHover: -1, placaHover: -1, kamoHover: -1, gh: {}, povHover: -1, placeMode: 'neto', placeHover: -1, faqSveOpen: 'a0', calcFaqOpen: 0, pokKat: 'inflacija', projPort: 'uk', projPer: 'sve',
+    nlEmail: '', nlSent: false, nlBurst: false, nlPrivola: false, nlErr: '', nlSlanje: false, nlHp: '', blogOpen: null, filter: 'Sve', vrstaF: 'Sve', faqOpen: 0, pokFaqOpen: 0, pokOd: 2010, pokDo: 2026, mirStup: '1', mirKat: 0, mirScenView: 'iznos', plOd: 2010, plDo: 2026, nekOd: 2015, nekDo: 2026, nekHover: -1, nekAkt: 'dozvole', nekVrsta: 'stanovi', nekAktHover: -1, ksOd: 2019, ksDo: 2026, ksVrsta: 'stambeni', ksHover: -1, ksIznos: 'stambeni', ksIznosHover: -1, kosMode: 'udio', kosSort: 'auto', kosSmjer: 'desc', kosHover: -1, placaHover: -1, kamoHover: -1, gh: {}, povHover: -1, placeMode: 'neto', placeHover: -1, faqSveOpen: 'a0', calcFaqOpen: 0, pokKat: 'inflacija', projPort: 'uk', projPer: 'sve',
     // Najnoviji podatak na portalu; pojedini pokazatelji nose vlastiti datum.
     trziste: TRZISTE, trzisteMjesec: ZADNJE_RAZDOBLJE, trzisteIzvor: 'HNB · DZS · HANFA', trzisteStatus: 'fallback',
     tickIx: 0, tickFade: false, ytLive: null, ytShown: 0, ytInfoOpen: false
@@ -9721,31 +9653,6 @@ class Component extends DCLogic {
             + ((jeNeto ? plAkt[2] : plAkt[4]) != null ? ' · medijan ' + eur(jeNeto ? plAkt[2] : plAkt[4], 0) : ' · medijan nije objavljen')
           : '',
         prvaMedijan: PLACE_GOD.filter((r) => r[2] != null)[0][0] + '.',
-        // Tablica po djelatnostima: sortiranje po nazivu, plaći ili promjeni.
-        sektori: (() => {
-          const kolona = s.sekSort === 'naziv' ? 0 : (s.sekSort === 'promjena' ? 2 : 1);
-          const smjer = s.sekSmjer === 'asc' ? 1 : -1;
-          return SEKTORI.slice().sort((a, b) => (kolona === 0
-            ? a[0].localeCompare(b[0], 'hr') * smjer
-            : (a[kolona] - b[kolona]) * smjer
-          )).map((r, ix) => ({
-            rb: ix + 1, naziv: r[0], placa: eur(r[1], 0),
-            promjena: '+' + nf(1).format(r[2]) + ' %',
-            promjenaBoja: r[2] >= 0 ? ACC : SOFT,
-            traka: (r[1] / SEKTORI.reduce((m, x) => Math.max(m, x[1]), 1) * 100).toFixed(1) + '%',
-            bg: r[1] >= 1552 ? (s.dark ? '#2A1517' : '#FEF2F2') : 'transparent'
-          }));
-        })(),
-        sekStrelica: {
-          naziv: s.sekSort === 'naziv' ? (s.sekSmjer === 'asc' ? '↑' : '↓') : '',
-          placa: s.sekSort === 'placa' ? (s.sekSmjer === 'asc' ? '↑' : '↓') : '',
-          promjena: s.sekSort === 'promjena' ? (s.sekSmjer === 'asc' ? '↑' : '↓') : ''
-        },
-        sekBoja: {
-          naziv: s.sekSort === 'naziv' ? ACC : SOFT,
-          placa: s.sekSort === 'placa' ? ACC : SOFT,
-          promjena: s.sekSort === 'promjena' ? ACC : SOFT
-        },
         od: plGodOd + '.', do: plGodDo + '.', odNum: plGodOd, doNum: plGodDo,
         minGod: PL_PRVA, maxGod: PL_ZADNJA,
         hoverLeft: (((s.placeHover + 0.5) / (plN || 1)) * 100).toFixed(3) + '%',
@@ -10078,9 +9985,6 @@ class Component extends DCLogic {
         nekStanovi: () => this.setState({ nekVrsta: 'stanovi', nekAktHover: -1 }),
         nekKuce: () => this.setState({ nekVrsta: 'kuce', nekAktHover: -1 }),
         nekUkupno: () => this.setState({ nekVrsta: 'ukupno', nekAktHover: -1 }),
-        sortNaziv: () => this.setState((st) => ({ sekSort: 'naziv', sekSmjer: st.sekSort === 'naziv' && st.sekSmjer === 'asc' ? 'desc' : 'asc' })),
-        sortPlaca: () => this.setState((st) => ({ sekSort: 'placa', sekSmjer: st.sekSort === 'placa' && st.sekSmjer === 'desc' ? 'asc' : 'desc' })),
-        sortPromjena: () => this.setState((st) => ({ sekSort: 'promjena', sekSmjer: st.sekSort === 'promjena' && st.sekSmjer === 'desc' ? 'asc' : 'desc' })),
         plNeto: () => this.setState({ placeMode: 'neto' }), plBruto: () => this.setState({ placeMode: 'bruto' }),
         mirScenIznos: () => this.setState({ mirScenView: 'iznos' }), mirScenPrinos: () => this.setState({ mirScenView: 'prinos' }),
         kosUdio: () => this.setState({ kosMode: 'udio', kosSort: 'auto' }), kosDoprinos: () => this.setState({ kosMode: 'doprinos', kosSort: 'auto' }),
