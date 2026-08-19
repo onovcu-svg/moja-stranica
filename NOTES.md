@@ -1,9 +1,10 @@
 # NOTES.md — O novcu / moja-stranica
 
 Radni dnevnik projekta. Odluke, ograničenja i otvorene stavke.
-**Claude Code: pročitaj ovaj file prije svakog većeg zadatka.**
+**Claude Code: pročitaj ovaj file prije svakog većeg zadatka i ažuriraj ga kad
+se donese nova odluka ili zatvori stavka.**
 
-Zadnje ažuriranje: 18. 8. 2026., 20:27
+Zadnje ažuriranje: 19. 8. 2026., 21:12
 
 ---
 
@@ -364,6 +365,30 @@ Development okruženje je zaključano na Hobby planu — ne treba.
 - **Pristupačnost** (`96dd7d4`) — 76 polja bez dostupnog imena, blog kartice
   bez `href`.
 
+### Riješeno 19. 8. 2026.
+- **`ZADNJE_HZMO` odvojen od `ZADNJE_HANFA`** (`64029a6`). HZMO (1. stup) i
+  HANFA (2./3. stup) su različite institucije s vlastitim kalendarima; to što
+  danas nose istu vrijednost je slučajnost. `STUP1.mirovina40Mjesec` je treća,
+  neovisna vrijednost. Obrisan mrtvi kod (`STUP3.razdoblje`, `mjHnb`,
+  `mjPlace`, `mjHanfa`).
+- **HPI izračuni miješali tromjesečno očitanje s godišnjim prosjekom**
+  (`e445976`, `205a75e`). Tooltip je pokazivao 10,9 % dok kartica pokazuje
+  14,3 %, a "Ukupni rast", "Prosjek godišnje" i "kupiš X m²" bili su
+  kontaminirani u ZADANOM prikazu. Uveden `HPI_PUNE` — zadnji redak ostaje
+  kao podatak ali ne ulazi u aritmetiku. Tekst prepisan: 115,6 % i 23,2 m²
+  za 2015.–2025., "danas" zamijenjeno stvarnom godinom.
+- **Tablica `SEKTORI` uklonjena** (`ed23250`) — od 21 vrijednosti samo 2 su
+  bile objavljene, 1 u izravnoj suprotnosti s izvorom (farmaceutska
+  proizvodnja 4.281 € nasuprot DZS-ovom izričitom maksimumu od 2.364 €), 18
+  bez izvora. Miješala je dvije razine NKD klasifikacije, a prikazivala se
+  pod "Izvor: DZS, statistika plaća".
+- **Blok "Aktivnost tržišta" (`NEK_AKT`) uklonjen** (`a4ca504`) — nijedna od
+  8 provjerenih vrijednosti nije odgovarala izvoru. Kupoprodaje 79–87 %
+  previsoke (36.400 nasuprot 20.293 stanova), a smjer OBRNUT: portal je
+  prikazivao rast dok je tržište palo 21,7 % (2025.) i 9,7 % (2024.).
+  Zamijenjeno karticom sa stopama promjene iz DZS priopćenja (−42,2 % broj,
+  −35,4 % vrijednost) i kvartalnim rastom 3,3 %.
+
 ### Riješeno 17. 8. 2026.
 - **Deep-linkovi slomljeni na 23/30 URL-ova.** `./support.js` na ruti s dva
   segmenta postajao `/kalkulatori/support.js`, Vercel rewrite vraćao HTML umjesto
@@ -446,6 +471,9 @@ Development okruženje je zaključano na Hobby planu — ne treba.
 - **`syncSegs` prebojava aktivni čip i nikad ne vrati boju** (6517). Nakon PDF
   print pregleda aktivni čip može ostati crven na crvenom do prve promjene
   čipa. Srednja pouzdanost — izvedeno iz koda, nije reproducirano uživo.
+- **`<input type="email">` sam obrezuje razmake** po WHATWG specifikaciji,
+  prije nego JS vidi vrijednost. Trim u tri forme (`d280f9f`) je dodan radi
+  dosljednosti s `posaljiIzvjestaj`, ne zato što je rupa bila iskoristiva.
 
 ### iOS-specifično — ne može se reproducirati u Chromeu
 Auto-zoom na inpute, ponašanje visual viewporta pri tipkovnici, `height:100%`
@@ -458,16 +486,32 @@ obrada. Testirati na pravom uređaju.
 ### Prije lansiranja
 - [x] PDF pregled — cijeli list stane u širinu ekrana na mobilnom (CSS `zoom`, vidi §3)
 - [x] Dinamički naslovi i description po ruti (svih 30 URL-ova + og:/twitter:, vidi §3)
-- [ ] Layout provjera cijele stranice na 430px
 - [x] **Funkcionalna provjera cijele stranice** (što izgleda da radi a ne radi) —
       odrađena kao `AUDIT-2026-08-18.md` (89 nalaza). Popravljeno danas:
       sigurnosna blokada, lažna potvrda formi, netočni podaci, FAQ spoj,
       meta/rute/klizači, pristupačnost. Preostalo je zapisano u §5 "Poznato,
       namjerno neriješeno" i §6 "Poslije lansiranja".
-- [ ] **Cmd/Ctrl-klik na blog karticu otvara novi tab** — testni sandbox to nije
-      mogao vizualno potvrditi. Provjeriti na stvarnom uređaju.
-- [ ] **Tab tipkom do blog kartice, Enter otvara članak** — isto ograničenje.
-- [ ] Provjera da logika izračuna nije dotaknuta: `git diff 580b606 HEAD -- index.html`
+- [ ] Layout provjera cijele stranice na 430px
+- [ ] **Fiksna traka s rezultatom sjedne usred ekrana na iOS-u.** Pojavi se
+      preko sadržaja kad se prvi put montira DOK je tipkovnica otvorena; nakon
+      zatvaranja i ponovnog otvaranja je ispravno na dnu. Reproducirano na
+      Kredit → Refinanciranje (iPhone 16 Pro Max, Safari).
+      **Dva pokušaja popravka nisu uspjela** (`9fea78f`, `20b6328`), iako oba
+      prolaze u simulaciji. Ostavljeni su u kodu jer je `visualViewport`
+      logika sama po sebi ispravna i pokriva promjene viewporta — ali stvarni
+      scenarij i dalje pada. Sljedeći pokušaj traži novu hipotezu, ne varijaciju
+      postojeće. Prihvaćeno kao poznato za lansiranje: traka se ispravno
+      postavi čim se tipkovnica zatvori.
+- [x] **Cmd/Ctrl-klik na blog karticu otvara novi tab** — potvrđeno na uređaju.
+- [x] **Tab tipkom do blog kartice, Enter otvara članak** — potvrđeno na uređaju.
+- [x] Provjera da logika izračuna nije dotaknuta: `git diff 580b606 HEAD -- index.html` —
+      provedeno, nijedna formula nije dirana kroz 41 commit koji dira
+      `index.html` i 2.013 promijenjenih redaka (1.217 dodanih, 796 obrisanih).
+      Promjene u izračunu su bile isključivo prikaz: redak "Grad ili općina" u
+      PDF-u, decimala u oznaci stope, labele u KOSARICA sažetku ("zbroj
+      doprinosa" umjesto "ukupna inflacija" gdje je bilo dvosmisleno).
+      Konstante netaknute: pragovi, doprinosi 15/5/16,5 %, osobni odbitak,
+      koeficijenti, 365 dana.
 - [x] **Provjera izvora i točnosti svih podataka u Pokazateljima.**
       Interna konzistentnost popravljena (`d71eb73`), točnost provjerena prema
       DZS / HNB / HZMO / HANFA / MPGI — 12 od 13 provjerivih brojki bilo je
@@ -509,16 +553,6 @@ obrada. Testirati na pravom uređaju.
       kredita (anuiteti i rate), izvještaj plaće (bonus), newsletter s
       privolom i bez. Svi mailovi dostavljeni, sažetak ispravno izostavljen iz
       izvještaja.
-- [ ] **Fiksna traka s rezultatom sjedne usred ekrana na iOS-u.** Pojavi se
-      preko sadržaja kad se prvi put montira DOK je tipkovnica otvorena; nakon
-      zatvaranja i ponovnog otvaranja je ispravno na dnu. Reproducirano na
-      Kredit → Refinanciranje (iPhone 16 Pro Max, Safari).
-      **Dva pokušaja popravka nisu uspjela** (`9fea78f`, `20b6328`), iako oba
-      prolaze u simulaciji. Ostavljeni su u kodu jer je `visualViewport`
-      logika sama po sebi ispravna i pokriva promjene viewporta — ali stvarni
-      scenarij i dalje pada. Sljedeći pokušaj traži novu hipotezu, ne varijaciju
-      postojeće. Prihvaćeno kao poznato za lansiranje: traka se ispravno
-      postavi čim se tipkovnica zatvori.
 - [x] **Odabrana tema se pamti** (`localStorage`, ključ `on-tema`).
       Primjenjuje se inline skriptom u `<head>` prije prvog rendera, pa nema
       bljeska svijetle teme — dokazano tako da se tema ispravno postavi čak i

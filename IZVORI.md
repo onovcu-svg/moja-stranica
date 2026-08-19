@@ -81,13 +81,14 @@ Zadnja potpuna provjera: 18. 8. 2026. (inflacija ažurirana 19. 8. 2026. na srpa
 - Ritam: mjesečno
 - Provjereno 18.8.2026: stambeni 2,90 %, gotovinski nenamjenski 5,42 %,
   novi stambeni krediti 316,59 mil € — poklapa se s kodom u decimalu.
-- **ODLUKA (18.8.2026): portal prikazuje NOMINALNU stopu i mora je tako
-  označiti** ("prosječna nominalna kamatna stopa, HNB"). Nominalna se
-  zadržava jer je to glavna serija koju HNB objavljuje i na kojoj stoji
-  povijesni niz od 175 mjeseci. **EKS se dodaje kao druga brojka uz nju**
-  (stambeni EKS lipanj 2026: 3,25 %), jer je to ono što banka po zakonu
-  oglašava. EKS NE zamjenjuje nominalnu — inače bi se graf i naslov razišli.
-  Izmjena u index.html još nije provedena.
+- **ODLUKA (18.8.2026, revidirana 19.8.): portal prikazuje i nominalnu i
+  EKS.** Kartice na vrhu prikazuju nominalnu (2,90 % stambeni, 5,42 %
+  gotovinski), a tablica niže na istoj stranici ("Prosječne kamatne stope na
+  jednom mjestu") ima oba stupca — Nominalna i EKS — uz stupac Razlika u
+  postotnim bodovima i uvodni tekst koji objašnjava razliku i upućuje da se
+  ponude uspoređuju po EKS-u. Kod ažuriranja podataka ažurirati OBA stupca.
+  (Ranija verzija ove odluke tvrdila je da EKS treba dodati i da izmjena
+  "još nije provedena" — netočno, tablica je već imala oba stupca.)
 - **HNB tiho revidira već objavljene mjesece — nema oznake koja bi to trajno
   pamtila.** Ažuriranje datoteke od 4.8.2026. bilo je opisano kao "ispravak
   EKS-a travanj i lipanj 2026.", što znači da je **3,25 % (stambeni EKS,
