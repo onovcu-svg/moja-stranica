@@ -5542,7 +5542,7 @@ const OBJAVE = [
 const TRZISTE = [
   { id: 'inflacija', label: 'Godišnja inflacija (CPI)', kratko: 'CPI, Hrvatska', izvor: 'DZS', datum: 'srpanj 2026.', val: 3.9, prev: 4.5, hint: 'Primijeni u inflacijskom kalkulatoru', dec: 1 },
   { id: 'placaProsjek', label: 'Prosječna neto plaća', kratko: 'DZS, mjesečno', izvor: 'DZS', datum: 'svibanj 2026.', val: 1552, prev: 1552, hint: 'Izračunaj bruto za prosječnu plaću', fmt: 'eur' },
-  { id: 'mirovina', label: 'Prosječna starosna mirovina', kratko: 'HZMO, bez međunarodnih ugovora', izvor: 'HZMO', datum: 'lipanj 2026.', val: 721.73, prev: 721.28, hint: 'Otvori pokazatelje mirovinskog sustava', fmt: 'eur' },
+  { id: 'mirovina', label: 'Prosječna starosna mirovina', kratko: 'HZMO, bez međunarodnih ugovora', izvor: 'HZMO', datum: 'lipanj 2026.', val: 721.73, prev: 721.28, hint: 'Otvori pokazatelje mirovinskog sustava', fmt: 'eur', dec: 2 },
   { id: 'stambeni', label: 'Stambeni kredit', kratko: 'novi poslovi, prosjek', izvor: 'HNB', datum: 'lipanj 2026.', val: 2.90, prev: 2.92, hint: 'Primijeni u kreditnom kalkulatoru' },
   { id: 'hpi', label: 'Rast cijena nekretnina', kratko: 'indeks cijena, godišnje', izvor: 'DZS', datum: 'prvo tromjesečje 2026.', val: 14.3, prev: 10.2, hint: 'Otvori pokazatelje nekretnina', per: 'od prošlog tromjesečja', dec: 1 }
 ];
@@ -8579,7 +8579,7 @@ class Component extends DCLogic {
         // Datum se veže uz pokazatelj, ne uz stranicu: DZS, HNB i HANFA
         // objavljuju u različitim ciklusima.
         potpis: (x.izvor || 'HNB · DZS') + ' · ' + (x.datum || ZADNJE_RAZDOBLJE),
-        val: isEur ? eur(x.val, 0) : pct(x.val, x.dec ?? 2),
+        val: isEur ? eur(x.val, x.dec ?? 0) : pct(x.val, x.dec ?? 2),
         arrow: Math.abs(d) < prag ? '→' : (d > 0 ? '▲' : '▼'),
         delta: Math.abs(d) < prag ? 'bez promjene' : (isEur ? eur(Math.abs(d), 0) : nf(2).format(Math.abs(d)) + ' pp') + ' ' + period,
         deltaColor: Math.abs(d) < prag ? SOFT : (d > 0 ? ACC : SOFT),
