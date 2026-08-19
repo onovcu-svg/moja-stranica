@@ -4855,7 +4855,7 @@ const GRADOVI = {
   'Novi Golubovec': [20, 30],
   'Novi Marof': [20, 30],
   'Novi Vinodolski': [20, 30],
-  'Novigrad': [20, 30],
+  'Novigrad (Zadarska)': [20, 30],
   'Novigrad - Cittanova': [20, 31],
   'Novigrad Podravski': [20, 30],
   'Novo Virje': [20, 30],
@@ -5117,12 +5117,59 @@ const GRADOVI = {
   'Županja': [21, 31]
 };
 // Izvor: Porezna uprava, službena tablica poreznih stopa godišnjeg poreza na dohodak za 2026. (svih 556 JLS-ova).
-// Otok, Privlaka i Sveta Nedelja postoje dvaput (različita županija); tablica nema stupac županije pa su razdvojeni ručno prema javno objavljenim odlukama JLS-ova za 2026.
+// Otok, Privlaka, Sveta Nedelja i Novigrad postoje dvaput (različita županija); tablica nema stupac županije pa su razdvojeni ručno prema javno objavljenim odlukama JLS-ova za 2026.
+
+// GRAD_ALIAS: nazivi koje korisnik STVARNO upiše, a ne poklapaju se egzaktno s
+// ključem u GRADOVI. Ključ tablice je službeni naziv JLS-a i često je dvojezičan
+// ("Pula - Pola") ili disambiguiran županijom ("Novigrad (Zadarska)") — nitko to
+// ne tipka. Bez ovoga nadjiGrad vraća null, korisnik dobije poruku "grad nije na
+// popisu" i tiho se primijeni zadano 20/30, što za JLS-ove sa stopama različitim
+// od 20/30 daje POGREŠAN NETO (npr. Pula 22/32 → razlika ~23 €/mj).
+//
+// PRAVILO: alias smije postojati SAMO ako je jednoznačan. Za baze koje nose više
+// JLS-ova s RAZLIČITIM stopama (Otok, Privlaka, Sveta Nedelja, Novigrad) golo ime
+// se NAMJERNO ne aliasira — korisnik mora dobiti signal i sam odabrati županiju,
+// jer bi pogađanje jedne od dvije stope bilo tiho i neprovjerljivo. Zato ovdje
+// nema 'otok', 'privlaka', 'sveta nedelja' ni 'novigrad'.
+//
+// AŽURIRATI pri preimenovanju ili spajanju JLS-a, zajedno s tablicom GRADOVI.
+// Vrijednost mora biti postojeći ključ iz GRADOVI (provjereno u nadjiGrad).
+const GRAD_ALIAS = {
+  // Jednoznačni dvojezični nazivi (istarski i kvarnerski JLS-ovi)
+  'pula': 'Pula - Pola', 'pola': 'Pula - Pola',
+  'cittanova': 'Novigrad - Cittanova',
+  // Jednoznačni složeni nazivi, uz varijantu bez dijakritike
+  'ivanić-grad': 'Ivanić - Grad', 'ivanic-grad': 'Ivanić - Grad',
+  'ivanić grad': 'Ivanić - Grad', 'ivanic grad': 'Ivanić - Grad',
+  // Disambiguirane baze: samo oblik SA županijom, nikad goli naziv
+  'otok (splitsko-dalmatinska)': 'Otok (Splitsko-dalmatinska)',
+  'otok splitsko-dalmatinska': 'Otok (Splitsko-dalmatinska)',
+  'otok (vukovarsko-srijemska)': 'Otok (Vukovarsko-srijemska)',
+  'otok vukovarsko-srijemska': 'Otok (Vukovarsko-srijemska)',
+  'privlaka (zadarska)': 'Privlaka (Zadarska)', 'privlaka zadarska': 'Privlaka (Zadarska)',
+  'privlaka (vukovarsko-srijemska)': 'Privlaka (Vukovarsko-srijemska)',
+  'privlaka vukovarsko-srijemska': 'Privlaka (Vukovarsko-srijemska)',
+  'sveta nedelja (zagrebačka)': 'Sveta Nedelja (Zagrebačka)',
+  'sveta nedelja zagrebačka': 'Sveta Nedelja (Zagrebačka)',
+  'sveta nedelja (istarska)': 'Sveta Nedelja (Istarska)',
+  'sveta nedelja istarska': 'Sveta Nedelja (Istarska)',
+  'novigrad (zadarska)': 'Novigrad (Zadarska)', 'novigrad zadarska': 'Novigrad (Zadarska)',
+  'novigrad cittanova': 'Novigrad - Cittanova'
+};
+
 // Vrati [naziv, niza, visa] za grad iz popisa (usporedba bez obzira na velika/mala slova), ili null ako nije prepoznat.
+// Prvo egzaktno podudaranje s ključem, pa GRAD_ALIAS. Alias koji pokazuje na
+// nepostojeći ključ tretira se kao promašaj (ne baca), ali ostavlja console.error
+// jer je to greška u tablici, ne u korisnikovom unosu.
 const nadjiGrad = (upit) => {
   const t = String(upit || '').trim().toLowerCase();
   if (!t) return null;
-  const k = Object.keys(GRADOVI).find((n) => n.toLowerCase() === t);
+  let k = Object.keys(GRADOVI).find((n) => n.toLowerCase() === t);
+  if (!k && GRAD_ALIAS[t]) {
+    const cilj = GRAD_ALIAS[t];
+    if (GRADOVI[cilj]) k = cilj;
+    else if (typeof console !== 'undefined') console.error('GRAD_ALIAS: nepoznat ključ "' + cilj + '" za alias "' + t + '"');
+  }
   return k ? [k, GRADOVI[k][0], GRADOVI[k][1]] : null;
 };
 // Umanjenje mjesečne osnovice za doprinos I. stupa (Porezna uprava).
@@ -7213,6 +7260,17 @@ class Component extends DCLogic {
 
     if (t === 'placa') {
       const p = o.p;
+      // Za red "Grad ili općina" u param (v. komentar niže): razriješeni JLS i
+      // ručno unesene stope, izvučeni jednom da se nadjiGrad ne zove tri puta.
+      const _pdfNadj = nadjiGrad(s.grad);
+      const _pdfNiza = Math.max(0, this.num(s.gradNiza, 20));
+      const _pdfVisa = Math.max(0, this.num(s.gradVisa, 30));
+      // Naziv JLS-a u oblik koji prolazi RE_OZNAKA u api/report.js: zagrada sa
+      // županijom postaje zarez, a sve izvan dopuštenog skupa se odbacuje.
+      // Drugi dio nije teorijski: 'Oroslavje*' u GRADOVI ima zvjezdicu (marker
+      // fusnote prepisan iz tablice Porezne uprave) i bez ovoga bi vraćao 400.
+      // Generički filtar znači da budući tipfeler u tablici ne može slomiti mail.
+      const _pdfGrad = (naziv) => String(naziv).replace(' (', ', ').replace(')', '').replace(/[^\p{L}\d ,.:-]/gu, '').trim();
       return base({
         naslov: 'Obračun plaće',
         rataLabel: s.smjer === 'bonus' ? 'Neto mjesečna isplata' : 'Neto plaća, mjesečno', rata: p.neto,
@@ -7227,7 +7285,17 @@ class Component extends DCLogic {
           s.smjer === 'bonus' ? R('Bruto iznos bonusa', eur(n('bonusIznos'), 2)) : null,
           s.smjer === 'bonus' ? R('Neoporezivi dio bonusa', s.bonusNeoporezivo ? 'Da, do 1.200 €' : 'Ne') : null,
           s.smjer === 'bonus' && o.bonus.imaPovrat ? R('Povrat kroz godišnji obračun', o.bonus.povrat) : null,
-          R('Grad ili općina', nadjiGrad(s.grad) ? s.grad : 'Ručni unos stopa (' + (s.grad || 'nepoznat grad') + '): ' + pct(n('gradNiza', 20), 0) + ' / ' + pct(n('gradVisa', 30), 0)),
+          // Vrijednost MORA proći jedan od obrazaca u api/report.js (v. NOTES.md §3).
+          // Prije je ovaj jedan red padao u DVIJE grane i vraćao 400 bez objašnjenja:
+          //   nepoznat grad → "Ručni unos stopa (Pula): 20 % / 30 %" (zagrade, % i /)
+          //   ključ sa zagradom → "Otok (Splitsko-dalmatinska)" (7 takvih ključeva)
+          // Sad: naziv se normalizira u oblik bez zagrada (RE_OZNAKA), a ručno
+          // unesene stope idu u zasebne redove kao čisti postotci (RE_POSTOTAK).
+          // Šalje se KANONSKI naziv iz GRADOVI, ne korisnikov unos — točnije je i
+          // slobodan tekst ne dolazi u mail (isti smjer kao dec1d4a).
+          R('Grad ili općina', _pdfNadj ? _pdfGrad(_pdfNadj[0]) : 'Ručni unos stopa'),
+          _pdfNadj ? null : R('Niža stopa, ručni unos', pct(_pdfNiza, _pdfNiza % 1 ? 1 : 0)),
+          _pdfNadj ? null : R('Viša stopa, ručni unos', pct(_pdfVisa, _pdfVisa % 1 ? 1 : 0)),
           R('Broj djece', String(Math.round(n('djeca')))),
           R('Uzdržavani članovi', String(Math.round(n('uzdrzavani')))),
           R('Olakšica', s.mladi === 'do25' ? 'Do 25 godina, povrat 100 %' : (s.mladi === 'do30' ? 'Od 25 do 30 godina, povrat 50 %' : (s.mladi === 'povratnik' ? 'Povratnik iz inozemstva, povrat 100 %' : 'Nema'))),
@@ -8871,7 +8939,7 @@ class Component extends DCLogic {
       bonus: {
         oslobodjeno: eur(bonusOslobodjeno, 2), oporezivi: eur(bonusOporezivi, 2), brutoUkupno: eur(bruto, 2),
         imaPovrat: bonusImaPovrat, povrat: eur(bonusPovrat, 2), visak: eur(bonusVisak, 2),
-        prosjek: eur(bonusProsjek, 2), stopaNiza: pct(P.stopaNiza, 0), stopaVisa: pct(P.stopaVisa, 0),
+        prosjek: eur(bonusProsjek, 2), stopaNiza: pct(P.stopaNiza, P.stopaNiza % 1 ? 1 : 0), stopaVisa: pct(P.stopaVisa, P.stopaVisa % 1 ? 1 : 0),
         imaOslobodjeno: bonusOslobodjeno > 0.005
       },
       kamo: (() => {
@@ -8962,9 +9030,15 @@ class Component extends DCLogic {
           ? 'Ukupno porezno opterećenje rada:'
           : 'Porezno opterećenje rada, prije povrata:',
         porezNiza: eur(P.porezNiza), porezVisa: eur(P.porezVisa),
-        labelNiza: 'Porez na dohodak, niža stopa (' + nf(0).format(P.stopaNiza) + ' %' + olaksicaTxt + ')',
-        labelVisa: 'Porez na dohodak, viša stopa (' + nf(0).format(P.stopaVisa) + ' %' + olaksicaTxt + ')',
-        labelJedna: 'Porez na dohodak (' + nf(0).format(P.stopaNiza) + ' %)',
+        // Stopa se prikazuje s decimalom SAMO ako je JLS propisao decimalnu
+        // (Sisak 21,6/31,6 · Split 21,5 · Supetar 20,5 — 3 od 556). Izračun je
+        // uvijek koristio punu vrijednost (v. porezNiza/porezVisa), pa je nf(0)
+        // prikazivao stopu koju nijedna JLS nije propisala: Split je računao po
+        // 21,5 % a pisao "22 %". Ostalih 553 unosa su cjelobrojni i prikaz im se
+        // ne mijenja. Labele prolaze RE_LABELA u api/report.js (provjereno).
+        labelNiza: 'Porez na dohodak, niža stopa (' + nf(P.stopaNiza % 1 ? 1 : 0).format(P.stopaNiza) + ' %' + olaksicaTxt + ')',
+        labelVisa: 'Porez na dohodak, viša stopa (' + nf(P.stopaVisa % 1 ? 1 : 0).format(P.stopaVisa) + ' %' + olaksicaTxt + ')',
+        labelJedna: 'Porez na dohodak (' + nf(P.stopaNiza % 1 ? 1 : 0).format(P.stopaNiza) + ' %)',
         // minus samo kad se porez stvarno plaća
         znak: P.porez > 0.005 ? '−' : '',
         znakNiza: P.porezNiza > 0.005 ? '−' : '', znakVisa: P.porezVisa > 0.005 ? '−' : '',
