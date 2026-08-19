@@ -4558,6 +4558,11 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;ytSubs&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;44908&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Sadržaj&quot;},&quot;defaultTab&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;home&quot;,&quot;calc&quot;,&quot;pok&quot;,&quot;blog&quot;,&quot;proj&quot;,&quot;b2b&quot;,&quot;autor&quot;,&quot;faq&quot;,&quot;spon&quot;,&quot;kontakt&quot;],&quot;default&quot;:&quot;home&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Prototip&quot;},&quot;darkDefault&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Prototip&quot;},&quot;marketApiUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Tržišni podaci&quot;},&quot;ytStatsUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;/api/yt-subs&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Tržišni podaci&quot;},&quot;mailEndpoint&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Newsletter&quot;}}">
 
+// Izvor: Porezna uprava, službena tablica poreznih stopa godišnjeg poreza na dohodak za 2026. (svih 556 JLS-ova).
+// Otok, Privlaka, Sveta Nedelja i Novigrad postoje dvaput (različita županija); tablica nema stupac županije pa su razdvojeni ručno prema javno objavljenim odlukama JLS-ova za 2026.
+// AŽURIRATI GODIŠNJE: JLS-ovi donose odluke za sljedeću godinu do kraja studenog/15.12.,
+// Porezna uprava objavljuje zbirnu tablicu nakon toga (v. IZVORI.md, odjeljak "JLS stope poreza na dohodak").
+const JLS_GODINA = 2026; // godina za koju vrijede stope u GRADOVI. Prikaz (linija ~9452), ne izračun — stope su hardkodirane po JLS-u i ne mijenjaju se automatski kad se ova brojka promijeni.
 const GRADOVI = {
   'Andrijaševci': [20, 30],
   'Antunovac': [20, 30],
@@ -4876,7 +4881,15 @@ const GRADOVI = {
   'Orehovica': [20, 30],
   'Oriovac': [20, 30],
   'Orle': [20, 30],
-  'Oroslavje*': [20, 30],
+  // NN 152/2023 (30.11.2023., na snazi 1.1.2024.) propisuje nižu stopu 18,0 %:
+  // https://narodne-novine.nn.hr/clanci/sluzbeni/2023_12_152_2230.html
+  // Odluka je bila sporna (gradonačelnik ju je smatrao nezakonitom — nedostajalo
+  // javno savjetovanje, pogrešan predlagatelj), ishod spora nije potvrđen. Zbirna
+  // tablica Porezne uprave za 2026. — naš izvor po IZVORI.md — i dalje navodi
+  // 20 %, uz zvjezdicu bez legende (jedina u svih 592 retka). Slijedimo zbirnu
+  // tablicu i ne ispravljamo je vlastitim čitanjem NN-a, isti princip kao kod
+  // HNB revizija. Vidi NOTES.md §6 i IZVORI.md "JLS stope poreza na dohodak".
+  'Oroslavje': [20, 30],
   'Osijek': [20, 30],
   'Otočac': [20, 30],
   'Otok (Splitsko-dalmatinska)': [17, 27],
@@ -5116,8 +5129,6 @@ const GRADOVI = {
   'Župa Dubrovačka': [20, 30],
   'Županja': [21, 31]
 };
-// Izvor: Porezna uprava, službena tablica poreznih stopa godišnjeg poreza na dohodak za 2026. (svih 556 JLS-ova).
-// Otok, Privlaka, Sveta Nedelja i Novigrad postoje dvaput (različita županija); tablica nema stupac županije pa su razdvojeni ručno prema javno objavljenim odlukama JLS-ova za 2026.
 
 // GRAD_ALIAS: nazivi koje korisnik STVARNO upiše, a ne poklapaju se egzaktno s
 // ključem u GRADOVI. Ključ tablice je službeni naziv JLS-a i često je dvojezičan
@@ -7267,8 +7278,9 @@ class Component extends DCLogic {
       const _pdfVisa = Math.max(0, this.num(s.gradVisa, 30));
       // Naziv JLS-a u oblik koji prolazi RE_OZNAKA u api/report.js: zagrada sa
       // županijom postaje zarez, a sve izvan dopuštenog skupa se odbacuje.
-      // Drugi dio nije teorijski: 'Oroslavje*' u GRADOVI ima zvjezdicu (marker
-      // fusnote prepisan iz tablice Porezne uprave) i bez ovoga bi vraćao 400.
+      // Drugi dio nije teorijski: GRADOVI je prepisan iz službene tablice
+      // Porezne uprave i jednom je već sadržavao naziv sa zvjezdicom
+      // ('Oroslavje*', v. komentar uz taj unos) koji bi bez ovoga vraćao 400.
       // Generički filtar znači da budući tipfeler u tablici ne može slomiti mail.
       const _pdfGrad = (naziv) => String(naziv).replace(' (', ', ').replace(')', '').replace(/[^\p{L}\d ,.:-]/gu, '').trim();
       return base({
@@ -9449,7 +9461,7 @@ class Component extends DCLogic {
       // Diskretna oznaka izvora ispod svakog grafikona. Datumi se vuku iz istih
       // konstanti kao i podaci pa se osvježavaju zajedno s njima.
       src: {
-        izracun: 'Izračun: O novcu, na temelju unesenih podataka · porezne stope, doprinosi i osobni odbitak za ' + CPI_ZADNJA + '.',
+        izracun: 'Izračun: O novcu, na temelju unesenih podataka · porezne stope, doprinosi i osobni odbitak za ' + JLS_GODINA + '.',
         izracunKredit: 'Izračun: O novcu, na temelju unesenih uvjeta kredita (iznos, kamatna stopa, rok i model otplate).',
         izracunHnb: 'Izračun: O novcu, na temelju unesenih podataka',
         izracunCpi: 'Izračun: O novcu, na temelju unesenih podataka',

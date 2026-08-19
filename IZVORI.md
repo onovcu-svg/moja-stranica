@@ -175,6 +175,39 @@ Zadnja potpuna provjera: 18. 8. 2026. (inflacija ažurirana 19. 8. 2026. na srpa
   izračun poticaja, ne tržišni prosjek, i da je iz novogradnje izuzet PDV.
   Za Zagreb treba urednička odluka (raspon, jedna općina, ili izostavljanje).
 
+## JLS stope poreza na dohodak (kalkulator plaće)
+
+- Izvor: Ministarstvo financija / Porezna uprava, službena zbirna tablica
+  "Porezne stope godišnjeg poreza na dohodak" — svaka JLS donosi vlastitu
+  odluku, Porezna uprava ih sažima u jednu tablicu za cijelu državu.
+- Pregled: https://porezna-uprava.gov.hr/hr/porezne-stope-godisnjeg-poreza-na-dohodak/4764
+- Zadnje korišteno: tablica za 2026. —
+  https://porezna-uprava.gov.hr/hr/stope-godisnjeg-poreza-na-dohodak-za-2026-godinu/8166
+- Ritam: godišnje. Odluke JLS-ova moraju biti objavljene u Narodnim novinama
+  do 15.12. za sljedeću godinu; Porezna uprava objavljuje zbirnu tablicu
+  nakon toga, obično u prosincu.
+- Konstanta u kodu: `GRADOVI` (index.html, uz `const JLS_GODINA`), 556
+  unosa `'Naziv JLS-a': [niža stopa, viša stopa]`. `JLS_GODINA` nosi samo
+  godinu za prikaz — GRADOVI se pri godišnjem ažuriranju prepisuje ručno u
+  cijelosti, ne izvodi se iz JLS_GODINA.
+- `GRAD_ALIAS` (uz GRADOVI) prevodi nazive koje korisnik stvarno upiše u
+  službeni ključ tablice (npr. "Pula" → "Pula - Pola"). **Mora se ažurirati
+  pri svakom preimenovanju ili spajanju JLS-a** — inače stari alias ostaje
+  mrtav, a novi službeni naziv nema alias, pa korisnik koji je prije uspio
+  dobiva "grad nije prepoznat" za isto ime.
+- Otok, Privlaka, Sveta Nedelja i Novigrad postoje dvaput (dvije JLS s istim
+  imenom, različita županija) — tablica nema stupac županije pa su ručno
+  razdvojeni prema pojedinačnim odlukama, ključ nosi županiju u zagradi
+  (npr. "Otok (Splitsko-dalmatinska)"). Bare ime se NAMJERNO ne pogađa u
+  aliasu za te četiri JLS — korisnik mora dobiti signal i sam odabrati
+  županiju, jer bi tiho pogađanje jedne od dvije različite stope bilo
+  neprovjerljivo. Vidi komentar uz GRAD_ALIAS u kodu.
+- Provjereno 19.8.2026: svih 556 unosa uspoređeno red-po-red s xlsx tablicom
+  za 2026. (skriptom, ne ručno) — poklapaju se. Otvoreno: `Oroslavje*` je
+  jedini naziv u službenoj tablici sa zvjezdicom bez legende; NN 152/2023
+  (odluka Grada Oroslavja) navodi nižu stopu 18,0 %, službena tablica i
+  ova konstanta i dalje 20,0 % — vidi NOTES.md.
+
 ---
 
 ## Postupak ažuriranja
