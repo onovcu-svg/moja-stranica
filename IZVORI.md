@@ -203,10 +203,14 @@ Zadnja potpuna provjera: 18. 8. 2026. (inflacija ažurirana 19. 8. 2026. na srpa
   županiju, jer bi tiho pogađanje jedne od dvije različite stope bilo
   neprovjerljivo. Vidi komentar uz GRAD_ALIAS u kodu.
 - Provjereno 19.8.2026: svih 556 unosa uspoređeno red-po-red s xlsx tablicom
-  za 2026. (skriptom, ne ručno) — poklapaju se. Otvoreno: `Oroslavje*` je
-  jedini naziv u službenoj tablici sa zvjezdicom bez legende; NN 152/2023
-  (odluka Grada Oroslavja) navodi nižu stopu 18,0 %, službena tablica i
-  ova konstanta i dalje 20,0 % — vidi NOTES.md.
+  za 2026. (skriptom, ne ručno) — poklapaju se.
+- **Oroslavje, riješeno (`1b7d82c`):** službena tablica ima `OROSLAVJE*`,
+  jedini naziv sa zvjezdicom bez legende u svih 592 retka; NN 152/2023
+  (odluka Grada Oroslavja) navodi nižu stopu 18,0 %, a zbirna tablica i
+  dalje 20,0 %, uz spornu proceduru odluke (v. NOTES.md §5). Zadržano 20/30
+  i uklonjena zvjezdica iz naziva — portal slijedi zbirnu tablicu Porezne
+  uprave kao propisani izvor i ne ispravlja je vlastitim čitanjem NN-a, isti
+  princip kao kod HNB revizija. Obrazloženje uz sam unos u `GRADOVI`.
 
 ---
 

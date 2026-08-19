@@ -464,19 +464,20 @@ obrada. Testirati na pravom uređaju.
       "Indeks cijena: prvo tromjesečje 2026." jer kategorija ima tri razdoblja.
       **Svi izvori, linkovi i ritam objava zapisani su u `IZVORI.md`** — prije
       svake buduće izmjene brojke otvoriti link odande.
-- [ ] **Moguća netočna stopa za Oroslavje u kalkulatoru plaće (`GRADOVI`).**
+- [x] **Stopa za Oroslavje u kalkulatoru plaće (`GRADOVI`) — riješeno (`1b7d82c`).**
       Službena tablica Porezne uprave za 2026. navodi Oroslavje kao
       `OROSLAVJE*` — jedini naziv u 592 retka sa zvjezdicom, bez legende koja
       objašnjava što ona znači. Odluka Grada Oroslavja objavljena u NN
       152/2023 (na snazi od 1.1.2024.) navodi nižu stopu **18,0 %**; službena
-      zbirna tablica i naša konstanta i dalje imaju **20,0 %**. Iz dostupnih
-      izvora (Zagorje.com, Radio Stubica) ta odluka gradskog vijeća bila je
+      zbirna tablica i naša konstanta imaju **20,0 %**. Iz dostupnih izvora
+      (Zagorje.com, Radio Stubica) ta odluka gradskog vijeća bila je
       politički/pravno sporna — gradonačelnik ju je smatrao nezakonitom
-      (nedostajalo javno savjetovanje, pogrešan predlagatelj) — nije potvrđeno
-      je li naknadno poništena/obustavljena, što bi objasnilo zašto službena
-      tablica ipak pokazuje staru stopu 20 %. Stope u kodu NISU mijenjane dok
-      se ovo ne razriješi. Vidi `IZVORI.md`, odjeljak "JLS stope poreza na
-      dohodak".
+      (nedostajalo javno savjetovanje, pogrešan predlagatelj); ishod spora
+      nije potvrđen. **Odluka: 20/30 ostaje, zvjezdica uklonjena iz naziva.**
+      Portal slijedi propisani primarni izvor (zbirna tablica Porezne
+      uprave) i ne ispravlja ga vlastitim čitanjem NN-a — isti princip kao
+      kod HNB revizija (vidi §3). Obrazloženje uz sam unos u `GRADOVI`, izvor
+      i poveznice u `IZVORI.md`, odjeljak "JLS stope poreza na dohodak".
 - [x] beehiiv i EGP u politici privatnosti — ispravljeno (`701036a`)
 - [ ] InterCapital disclosure u sekciji Projekti (tekst §7)
 - [ ] `"O novcu"` u navodnike na naslovnici (samo tamo)

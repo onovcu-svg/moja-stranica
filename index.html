@@ -3293,51 +3293,6 @@
       </sc-if>
       </sc-if>
 
-      <sc-if value="{{ imaGraf }}">
-      <div style="background:var(--card);border:1px solid var(--line);border-radius:18px;padding:clamp(20px,2.6vw,28px)">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:24px">
-          <div style="min-width:0">
-            <div style="font-weight:600;font-size:16.5px;letter-spacing:-.025em">{{ pok.grafNaslov }}</div>
-            <div style="font-weight:300;font-size:13px;color:var(--soft);margin-top:5px">{{ pok.odDo }} · <span style="color:{{ pok.promjenaBoja }};font-weight:500">{{ pok.promjena }}</span></div>
-          </div>
-          <div data-seg="pokper" style="position:relative;display:inline-flex;padding:3px;background:var(--sec);border-radius:980px;gap:2px;flex-shrink:0">
-            <span data-seg-ind="1" style="position:absolute;top:3px;bottom:3px;left:3px;width:0;background:var(--acc);border-radius:980px;box-shadow:0 1px 6px rgba(220,38,38,.35);transition:left .32s cubic-bezier(.4,0,.2,1),width .32s cubic-bezier(.4,0,.2,1);pointer-events:none"></span>
-            <sc-for list="{{ pokPerChips }}" as="pc" hint-placeholder-count="3">
-              <button sc-camel-on-click="{{ pc.go }}" data-seg-active="{{ pc.act }}" style="position:relative;z-index:1;background:none;color:{{ pc.c }};border:none;border-radius:980px;padding:8px 16px;cursor:pointer;font-weight:600;font-size:13px;white-space:nowrap;transition:color .25s">{{ pc.label }}</button>
-            </sc-for>
-          </div>
-        </div>
-        <div style="position:relative;min-height:34px;margin-bottom:2px">
-          <sc-if value="{{ pok.hoverAktivan }}">
-            <span style="position:absolute;left:{{ pok.hoverLeft }};transform:{{ pok.hoverTransform }};background:var(--ink);color:var(--bg);font-weight:600;font-size:12px;padding:5px 12px;border-radius:980px;white-space:nowrap;pointer-events:none">{{ pok.hoverTxt }}</span>
-          </sc-if>
-        </div>
-        <div style="position:relative;display:flex;align-items:flex-end;gap:clamp(3px,.7vw,8px);height:230px;padding-bottom:4px">
-          <sc-for list="{{ pok.gridLines }}" as="gl" hint-placeholder-count="2">
-            <div style="position:absolute;left:0;right:0;top:{{ gl.top }};border-top:1px dashed var(--line2);pointer-events:none"><span style="position:absolute;right:0;bottom:2px;background:var(--card);padding-left:6px;font-weight:500;font-size:10.5px;color:var(--soft)">{{ gl.val }}</span></div>
-          </sc-for>
-          <sc-for list="{{ pok.bars }}" as="b" hint-placeholder-count="20">
-            <div sc-camel-on-mouse-enter="{{ b.enter }}" sc-camel-on-mouse-leave="{{ b.leave }}" style="flex:1;min-width:0;height:100%;display:flex;flex-direction:column;justify-content:flex-end;cursor:default;cursor:default;opacity:{{ b.op }};transition:opacity .2s ease">
-              <div style="height:{{ b.h }};background:{{ b.boja }};border-radius:5px 5px 0 0;transition:height .45s ease,background .3s ease"></div>
-            </div>
-          </sc-for>
-        </div>
-        <div style="display:flex;gap:clamp(3px,.7vw,8px);border-top:1px solid var(--line);padding-top:9px">
-          <sc-for list="{{ pok.bars }}" as="b" hint-placeholder-count="20">
-            <div style="flex:1;min-width:0;text-align:center;font-weight:400;font-size:10.5px;color:var(--soft);white-space:nowrap;overflow:hidden">
-              <sc-if value="{{ b.pokazi }}">{{ b.label }}</sc-if>
-            </div>
-          </sc-for>
-        </div>
-        <div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:20px;padding-top:18px;border-top:1px solid var(--line);font-weight:300;font-size:13px;color:var(--soft)">
-          <span>Najviše: <strong style="color:var(--ink);font-weight:600">{{ pok.max }}</strong></span>
-          <span>Najniže: <strong style="color:var(--ink);font-weight:600">{{ pok.min }}</strong></span>
-          <span>Zadnje: <strong style="color:var(--ink);font-weight:600">{{ pok.zadnji }}</strong></span>
-        </div>
-        <div style="font-weight:300;font-size:11px;color:var(--soft);margin-top:14px;padding-top:10px;border-top:1px solid var(--line)">{{ src.kategorija }}</div>
-      </div>
-      </sc-if>
-
       <sc-if value="{{ jePlace }}">
       <div style="background:var(--card);border:1px solid var(--line);border-radius:18px;padding:clamp(20px,2.8vw,28px)">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:22px">
@@ -3847,32 +3802,6 @@
         </div>
         <div style="font-weight:300;font-size:11.5px;color:var(--soft);margin-top:20px;padding-top:14px;border-top:1px solid var(--line);line-height:1.55">Težine košarice DZS revidira jednom godišnje; prikazane vrijednosti odnose se na tekuću godinu.</div>
         <div style="font-weight:300;font-size:11px;color:var(--soft);margin-top:14px;padding-top:10px;border-top:1px solid var(--line)">{{ src.kosarica }}</div>
-      </div>
-      </sc-if>
-
-      <sc-if value="{{ imaGraf }}">
-      <div style="margin-top:clamp(20px,3vh,28px);background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden">
-        <div style="padding:clamp(18px,2.4vw,24px) clamp(20px,2.6vw,26px);border-bottom:1px solid var(--line);font-weight:600;font-size:15px;letter-spacing:-.02em">Tablica vrijednosti po kvartalima</div>
-        <div style="max-height:340px;overflow:auto">
-          <sc-raw-table style="width:100%;border-collapse:collapse">
-            <sc-raw-thead>
-              <sc-raw-tr style="background:var(--sec)">
-                <sc-raw-th style="text-align:left;padding:11px clamp(20px,2.6vw,26px);font-weight:500;font-size:12px;color:var(--soft);position:sticky;top:0;background:var(--sec)">Razdoblje</sc-raw-th>
-                <sc-raw-th style="text-align:right;padding:11px 16px;font-weight:500;font-size:12px;color:var(--soft);position:sticky;top:0;background:var(--sec)">Vrijednost</sc-raw-th>
-                <sc-raw-th style="text-align:right;padding:11px clamp(20px,2.6vw,26px);font-weight:500;font-size:12px;color:var(--soft);position:sticky;top:0;background:var(--sec)">Promjena</sc-raw-th>
-              </sc-raw-tr>
-            </sc-raw-thead>
-            <sc-raw-tbody>
-              <sc-for list="{{ pok.tablica }}" as="r" hint-placeholder-count="8">
-                <sc-raw-tr style="border-top:1px solid var(--line)">
-                  <sc-raw-td style="padding:11px clamp(20px,2.6vw,26px);font-weight:400;font-size:13.5px;color:var(--soft)">{{ r.razdoblje }}</sc-raw-td>
-                  <sc-raw-td style="padding:11px 16px;text-align:right;font-weight:600;font-size:14px">{{ r.vrijednost }}</sc-raw-td>
-                  <sc-raw-td style="padding:11px clamp(20px,2.6vw,26px);text-align:right;font-weight:500;font-size:13.5px;color:{{ r.boja }}">{{ r.promjena }}</sc-raw-td>
-                </sc-raw-tr>
-              </sc-for>
-            </sc-raw-tbody>
-          </sc-raw-table>
-        </div>
       </div>
       </sc-if>
     </section>
@@ -5637,26 +5566,6 @@ const GRADOVI_POP = [
   ['Metković', 15974]
 ];
 
-// ───────────────────────────────────────────────────────────────
-// POKAZATELJI: kvartalne serije, 2021.Q3 – 2026.Q2 (20 točaka).
-// Fallback vrijednosti; u produkciji dolaze iz HNB/DZS/HANFA
-// pipeline-a (vidi 04-DATA-PIPELINE.md). Filtar razdoblja reže
-// zadnjih 4 / 12 / 20 točaka.
-// ───────────────────────────────────────────────────────────────
-const KVART = ['Q3 21','Q4 21','Q1 22','Q2 22','Q3 22','Q4 22','Q1 23','Q2 23','Q3 23','Q4 23','Q1 24','Q2 24','Q3 24','Q4 24','Q1 25','Q2 25','Q3 25','Q4 25','Q1 26','Q2 26'];
-
-const SERIJE = {
-  inflacija: [2.6,4.8,6.3,9.4,12.3,13.1,11.5,8.3,7.2,5.4,4.8,4.2,3.4,3.0,3.4,3.1,2.9,3.2,4.6,3.9],
-  netoPlaca: [1050,1075,1100,1130,1150,1180,1210,1240,1260,1285,1300,1320,1340,1370,1420,1455,1480,1505,1530,1552],
-  brutoPlaca:[1470,1505,1540,1582,1610,1652,1694,1736,1764,1799,1820,1848,1876,1920,1990,2035,2075,2115,2145,2178],
-  medijan:   [905,928,948,975,992,1018,1044,1070,1087,1108,1121,1138,1156,1175,1205,1235,1262,1288,1306,1324],
-  stup2:     [15.2,15.9,15.4,15.1,15.6,16.3,17.0,17.6,18.2,19.0,19.6,20.2,20.7,21.4,22.3,23.4,24.5,25.6,26.4,27.0],
-  stup3:     [0.90,0.95,0.94,0.95,0.99,1.05,1.09,1.14,1.19,1.25,1.30,1.36,1.41,1.46,1.50,1.53,1.56,1.58,1.59,1.61],
-  stambeni:  [2.90,2.85,2.80,2.90,3.10,3.30,3.60,3.80,3.90,3.85,3.70,3.60,3.55,3.50,3.48,3.50,3.47,3.30,3.10,2.95],
-  nenamjenski:[5.60,5.62,5.70,5.85,6.00,6.20,6.45,6.60,6.70,6.65,6.55,6.45,6.40,6.35,6.30,6.28,6.22,6.18,6.15,6.25],
-  minus:     [8.20,8.20,8.30,8.45,8.70,9.00,9.30,9.55,9.70,9.80,9.85,9.85,9.80,9.78,9.80,9.82,9.80,9.78,9.79,9.80]
-};
-
 // Prosječne neto plaće po područjima djelatnosti (NKD 2025.), DZS.
 // [naziv, neto EUR, godišnja promjena u %]
 // FALLBACK: vrijednosti treba potvrditi uz svaku objavu DZS; raspon je
@@ -5816,8 +5725,7 @@ const POK_KAT = {
       { val: '__KUM5__', label: 'Kumulativna inflacija, 5 godina', sub: '__KUM5SUB__', d: 1 },
       { val: '__KUM10__', label: 'Kumulativna inflacija, 10 godina', sub: '__KUM10SUB__', d: 1 },
       { val: '−0,2 %', label: 'Mjesečna promjena cijena', sub: 'CPI · srpanj / lipanj 2026.', d: -0.2 }
-    ],
-    graf: { key: 'inflacija', naslov: 'Godišnja stopa inflacije (CPI)', jed: '%', dec: 2 }
+    ]
   },
   place: {
     naslov: 'Rad & plaće', izvor: 'DZS · statistika plaća',
@@ -5827,8 +5735,7 @@ const POK_KAT = {
       { val: '1.324,00 €', label: 'Medijalna neto plaća', sub: 'polovica zaposlenih zarađuje manje', d: 5 },
       { val: '2.178,00 €', label: 'Prosječna bruto plaća', sub: 'Bruto 1, mjesečno', d: -2 },
       { val: '1.050,00 €', label: 'Minimalna bruto plaća', sub: 'zakonski minimum za 2026.', d: 0 }
-    ],
-    graf: { key: 'netoPlaca', naslov: 'Prosječna neto plaća', jed: '€', dec: 0 }
+    ]
   },
   mirovine: {
     naslov: 'Mirovinski sustav', izvor: 'HZMO i HANFA · mirovinski sustav',
@@ -5838,12 +5745,6 @@ const POK_KAT = {
       { val: '721,73 €', label: 'Prosječna starosna mirovina', sub: 'bez međ. ugovora · lipanj 2026.', d: 0.45 },
       { val: '46,5 %', label: 'Mirovina u odnosu na plaću', sub: 'naspram 1.552,00 € neto', d: -0.3 },
       { val: '73,73 %', label: 'Članova u kategoriji B', sub: 'zadana kategorija 2. stupa', d: -0.4 }
-    ],
-    graf: { key: 'stup2', naslov: 'Imovina 2. stupa', jed: 'mlrd €', dec: 2 },
-    kat: [
-      { slovo: 'A', pct: 22.5, opis: 'najviše dionica, za mlađe od 45' },
-      { slovo: 'B', pct: 74.2, opis: 'uravnotežen, zadana kategorija' },
-      { slovo: 'C', pct: 3.3, opis: 'samo obveznice, 5 g. do mirovine' }
     ]
   },
   nekretnine: {
@@ -5852,8 +5753,7 @@ const POK_KAT = {
     stat: [
       { val: '14,3 %', label: 'Godišnji rast cijena', sub: 'indeks DZS · prvo tromjesečje 2026.', d: 0.8 },
       { val: '36.400', label: 'Kupoprodaja stanova', sub: 'eNekretnine · 2025.', d: 4.9 }
-    ],
-    graf: { key: 'stambeni', naslov: 'Indeks cijena stambenih objekata', jed: '', dec: 1 }
+    ]
   },
   krediti: {
     naslov: 'Krediti & kamate', izvor: 'HNB · kamatne stope na nove poslove',
@@ -5862,8 +5762,7 @@ const POK_KAT = {
       { val: '2,90 %', label: 'Stambeni krediti', sub: 'novi poslovi · lipanj 2026.', d: -0.02 },
       { val: '5,42 %', label: 'Gotovinski nenamjenski', sub: 'novi poslovi · lipanj 2026.', d: 0.11 },
       { val: '316,6 mil €', label: 'Novih stambenih kredita', sub: 'odobreno u lipnju 2026.', d: -12.7 }
-    ],
-    graf: { key: 'stambeni', naslov: 'Kamatna stopa na stambene kredite', jed: '%', dec: 2 }
+    ]
   }
 };
 
@@ -5891,13 +5790,13 @@ const POK_FAQ_KRED = [
   { p: 'Kolika je kamatna stopa na stambeni kredit u Hrvatskoj?', o: 'Prosje\u010dna nominalna kamatna stopa na nove stambene kredite iznosi {KR_STAMB_NOM} (HNB, lipanj 2026.), a efektivna, koja uključuje i naknade, {KR_STAMB_EKS}. To je vagani prosjek svih banaka i svih novih ugovora u tom mjesecu pa tvoja ponuda može biti i niža i viša, ovisno o iznosu, roku, udjelu vlastitog učešća i tome jesi li klijent banke.' },
   { p: 'Zašto je gotovinski kredit skuplji od stambenog?', o: 'Zato što iza stambenog kredita stoji nekretnina kao zalog, a iza gotovinskog ne stoji ništa osim tvoje plaće. Razlika je trenutno {KR_DIFF_SG}: {KR_STAMB_NOM} naspram {KR_GOTOV_NOM}. Na 20.000 € kroz 7 godina to je oko {KR_DIFF_20K7G} više kamate.' },
   { p: 'Što je razlika između nominalne i efektivne kamatne stope?', o: 'Nominalna stopa je cijena samog novca. Efektivna kamatna stopa (EKS) uz nju uračunava i naknadu za obradu, procjenu, vođenje računa i police osiguranja pa pokazuje stvarnu cijenu kredita. Kod stambenih kredita razlika je {KR_STAMB_EKS_DIFF}, kod gotovinskih {KR_GOTOV_EKS_DIFF}. Ponude uspoređuj po EKS-u, ne po nominalnoj stopi.' },
-  { p: 'Koliko se Hrvati zadužuju?', o: 'U lipnju 2026. banke su odobrile 316,6 milijuna eura novih stambenih kredita i 395,9 milijuna eura gotovinskih nenamjenskih. Znači, mjesečno se više novca uzima za potrošnju nego za nekretnine. To je podatak koji rijetko dolazi u naslove, a puno govori o tome kako se u Hrvatskoj zapravo troši posuđeni novac.' },
+  { p: 'Koliko se Hrvati zadužuju?', o: 'U lipnju 2026. banke su odobrile {KR_IZNOSSTAMB} novih stambenih kredita i {KR_IZNOSGOTOV} gotovinskih nenamjenskih. Znači, mjesečno se više novca uzima za potrošnju nego za nekretnine. To je podatak koji rijetko dolazi u naslove, a puno govori o tome kako se u Hrvatskoj zapravo troši posuđeni novac.' },
   { p: 'Vrijedi li objavljena prosječna stopa i za mene?', o: 'Ne nužno. HNB objavljuje vagani prosjek svih novih ugovora u mjesecu, gdje veći krediti nose veću težinu. Tvoja stopa ovisi o roku, iznosu, vrsti stope (fiksna ili promjenjiva), primanjima i tome primaš li plaću u toj banci. Prosjek koristi za orijentaciju i za provjeru je li ponuda koju si dobio bolja ili lošija od tržišta.' }
 ];
 
 // FAQ za kategoriju Nekretnine. Ostale kategorije koriste POK_FAQ.
 const POK_FAQ_NEK = [
-  { p: 'Koliko su porasle cijene nekretnina u Hrvatskoj?', o: 'Indeks cijena stambenih objekata, koji DZS objavljuje tromjesečno, u godinu je dana porastao 14,3 %, a od 2015. za 139,1 %. Praktično: za isti novac kojim se 2015. kupovao stan od 50 m² danas se kupuje 20,9 m². Cijene su padale od 2009. do 2014., a od 2015. rastu svake godine.' },
+  { p: 'Koliko su porasle cijene nekretnina u Hrvatskoj?', o: 'Indeks cijena stambenih objekata, koji DZS objavljuje tromjesečno, u godinu je dana porastao {HPI_RAST}, a od 2015. za 139,1 %. Praktično: za isti novac kojim se 2015. kupovao stan od 50 m² danas se kupuje 20,9 m². Cijene su padale od 2009. do 2014., a od 2015. rastu svake godine.' },
   { p: 'Jesu li prikazane cijene s PDV-om?', o: 'Indeks cijena stambenih objekata mjeri stvarne transakcijske cijene, u kojima je PDV uključen ako je nekretnina bila u sustavu PDV-a. Referentne cijene Ministarstva prostornoga uređenja objavljuju se bez PDV-a, jer je cijena bez poreza osnovica za mjere poput povrata poreza pri kupnji prve nekretnine. Kod novogradnje u sustavu PDV-a stvarna cijena koju plaćaš viša je za iznos poreza; kod kupnje od privatne osobe PDV se ne plaća.' },
   { p: 'Kako se računa indeks cijena stambenih objekata?', o: 'DZS ga računa iz stvarnih kupoprodajnih transakcija koje mu prosljeđuje Porezna uprava, a ne iz oglasnih cijena. Metoda je hedonistička regresija, koja iz cijene izdvaja utjecaj svojstava nekretnine (veličina, lokacija, starost) pa indeks mjeri promjenu cijene, a ne promjenu strukture prodanih stanova. Baza je 2015. = 100.' },
   { p: 'Zašto nema podatka o cijeni najma?', o: 'Zato što ne postoji službena statistika razine najamnine koja bi izdržala isti standard kao ostali pokazatelji na portalu. Indeks stanarina unutar potrošačkih cijena pokazuje samo promjenu, ne iznos, a procjene najamnina po gradovima objavljuju se jednom godišnje i modelom. Kad se pojavi mjerodavan izvor, najam ide na ovu stranicu.' }
@@ -6458,7 +6357,7 @@ class Component extends DCLogic {
     c: { ime: '', email: '', poruka: '', tema: 'suradnja' }, ktSent: false, ktBurst: false, ktErr: '', ktHp: '', ktSlanje: false,
     // Vrijeme montiranja aplikacije - forme koriste ovo za "prebrzo poslano" provjeru (isti princip kao honeypot).
     formLoadedAt: Date.now(),
-    nlEmail: '', nlSent: false, nlBurst: false, nlPrivola: false, nlErr: '', nlSlanje: false, nlHp: '', blogOpen: null, filter: 'Sve', vrstaF: 'Sve', faqOpen: 0, pokFaqOpen: 0, pokOd: 2010, pokDo: 2026, mirStup: '1', mirKat: 0, mirScenView: 'iznos', plOd: 2010, plDo: 2026, nekOd: 2015, nekDo: 2026, nekHover: -1, nekAkt: 'dozvole', nekVrsta: 'stanovi', nekAktHover: -1, ksOd: 2019, ksDo: 2026, ksVrsta: 'stambeni', ksHover: -1, ksIznos: 'stambeni', ksIznosHover: -1, sekSort: 'placa', sekSmjer: 'desc', kosMode: 'udio', kosSort: 'auto', kosSmjer: 'desc', kosHover: -1, placaHover: -1, kamoHover: -1, gh: {}, povHover: -1, placeMode: 'neto', placeHover: -1, faqSveOpen: 'a0', calcFaqOpen: 0, pokKat: 'inflacija', pokPer: 5, projPort: 'uk', projPer: 'sve',
+    nlEmail: '', nlSent: false, nlBurst: false, nlPrivola: false, nlErr: '', nlSlanje: false, nlHp: '', blogOpen: null, filter: 'Sve', vrstaF: 'Sve', faqOpen: 0, pokFaqOpen: 0, pokOd: 2010, pokDo: 2026, mirStup: '1', mirKat: 0, mirScenView: 'iznos', plOd: 2010, plDo: 2026, nekOd: 2015, nekDo: 2026, nekHover: -1, nekAkt: 'dozvole', nekVrsta: 'stanovi', nekAktHover: -1, ksOd: 2019, ksDo: 2026, ksVrsta: 'stambeni', ksHover: -1, ksIznos: 'stambeni', ksIznosHover: -1, sekSort: 'placa', sekSmjer: 'desc', kosMode: 'udio', kosSort: 'auto', kosSmjer: 'desc', kosHover: -1, placaHover: -1, kamoHover: -1, gh: {}, povHover: -1, placeMode: 'neto', placeHover: -1, faqSveOpen: 'a0', calcFaqOpen: 0, pokKat: 'inflacija', projPort: 'uk', projPer: 'sve',
     // Najnoviji podatak na portalu; pojedini pokazatelji nose vlastiti datum.
     trziste: TRZISTE, trzisteMjesec: ZADNJE_RAZDOBLJE, trzisteIzvor: 'HNB · DZS · HANFA', trzisteStatus: 'fallback',
     tickIx: 0, tickFade: false, ytLive: null, ytShown: 0, ytInfoOpen: false
@@ -8568,11 +8467,8 @@ class Component extends DCLogic {
     // ── POKAZATELJI ──────────────────────────────────────────
     const pk = POK_KAT[s.pokKat] || POK_KAT.inflacija;
     // Zadnji objavljeni datum po kategoriji - jedini izvor istine za banner
-    // ("Zadnje ažuriranje") i src.kategorija (fusnota ispod grafa), da ne
-    // postoje dvije usporedne mape koje mogu razici. Prije je ovo pisalo samo
-    // unutar src.kategorija; ta vrijednost se nikad nije prikazivala (imaGraf
-    // je hardkodiran na false), pa banner nije imao odakle citati - vidi
-    // NOTES.md §3.
+    // ("Zadnje ažuriranje"), da ne postoje dvije usporedne mape koje mogu
+    // razici - vidi NOTES.md §3.
     const pokDatum = (() => {
       if (s.pokKat === 'place') return ZADNJE_PLACE;
       if (s.pokKat === 'mirovine') return ZADNJE_HANFA;
@@ -8588,30 +8484,6 @@ class Component extends DCLogic {
     // imaju tri razdoblja (vidi IZVORI.md); tamo banner tvrdi samo ono sto
     // pokDatum stvarno jest (indeks cijena), ne generalizirano "azuriranje".
     const pokDatumLabel = s.pokKat === 'nekretnine' ? 'Indeks cijena' : 'Zadnje ažuriranje';
-    const nPts = s.pokPer === 1 ? 4 : (s.pokPer === 3 ? 12 : 20);
-    const gKey = pk.graf.key, gDec = pk.graf.dec, gJed = pk.graf.jed;
-    const serija = SERIJE[gKey].slice(-nPts);
-    const labeli = KVART.slice(-nPts);
-    const gMax = Math.max.apply(null, serija), gMin = Math.min.apply(null, serija);
-    const raspon = gMax - gMin || 1;
-    const fmtG = (v) => (gJed === '€' ? eur(v, gDec) : nf(gDec).format(v) + ' ' + gJed);
-    const pokGridLines = [0.33, 0.75].map((f) => ({ top: (100 - (18 + f * 82)).toFixed(1) + '%', val: fmtG(gMin + f * raspon) }));
-    const pokBars = serija.map((v, ix) => {
-      const hi = 18 + ((v - gMin) / raspon) * 82;
-      return {
-        h: hi.toFixed(1) + '%', label: labeli[ix], vrijednost: fmtG(v),
-        tip: labeli[ix] + ': ' + fmtG(v),
-        pokazi: nPts <= 4 || ix % Math.ceil(nPts / 5) === 0 || ix === nPts - 1,
-        boja: ix === nPts - 1 ? ACC : (s.dark ? '#3F3F46' : '#D4D4D8')
-      };
-    });
-    const prviV = serija[0], zadnjiV = serija[serija.length - 1], dV = zadnjiV - prviV;
-    const pokTable = serija.map((v, ix) => ({
-      razdoblje: labeli[ix], vrijednost: fmtG(v),
-      promjena: ix === 0 ? '–' : ((v - serija[ix - 1] >= 0 ? '+' : '−') + fmtG(Math.abs(v - serija[ix - 1])).replace('-', '')),
-      boja: ix === 0 ? SOFT : (v - serija[ix - 1] > 0 ? ACC : SOFT)
-    })).slice().reverse();
-    const perChip = (n) => ({ c: s.pokPer === n ? '#FFF' : SOFT, act: s.pokPer === n ? '1' : '0' });
 
     // ── PROJEKT: Investiram svaki mjesec (stvarna evidencija) ─
     const pIme = { uk: 'Sve zajedno', etf: 'Genius ETF Start', sp: 'S&P 500', bet: 'BET (Rumunjska)', luc: 'Lucija (ETF + Kripto)' };
@@ -8685,7 +8557,6 @@ class Component extends DCLogic {
     const _hpv = this.withHover('kupovna', pvChart, (x) => x.tip);
     const _hz = this.withHover('zatvoriti', zChart, (x) => x.tip);
     const _ho = this.withHover('opcije', oChart, (x) => x.tip);
-    const _hpok = this.withHover('pokBars', pokBars, (x) => x.tip);
     const _hproj = this.withHover('projekt', projChart, (x) => x.tip);
     // Objave: zadnja je uvijek istaknuta kao tekst; ostale se pojavljuju na
     // hover, samo ako taj datum ima objavu (nemaju je svi stupići).
@@ -9475,7 +9346,6 @@ class Component extends DCLogic {
         dzsHpi: 'Izvor: DZS, indeks cijena stambenih objekata · zadnji podatak: ' + ZADNJE_HPI,
         dzsDozvole: 'Izvor: DZS, izdane građevinske dozvole · zadnji podatak: ' + ZADNJE_DOZVOLE,
         enekAkt: 'Izvor: eNekretnine, evidentirane kupoprodaje · zadnji podatak: ' + ZADNJE_NEK,
-        kategorija: 'Izvor: ' + pk.izvor + ' · zadnji podatak: ' + pokDatum,
         projekt: 'Izvor: vlastita evidencija projekta · stanje: ' + PROJ_STANJE
       },
       isHub: s.calcTab === 'hub', nijeHub: s.calcTab !== 'hub',
@@ -9612,7 +9482,7 @@ class Component extends DCLogic {
       })(),
       cSavjet: cm.savjet,
       calcFaq: cm.faq.map((q, ix) => ({
-        pitanje: q.p, odgovor: q.o, open: s.calcFaqOpen === ix,
+        pitanje: q.p, odgovor: faqSub(q.o), open: s.calcFaqOpen === ix,
         rot: s.calcFaqOpen === ix ? 'rotate(45deg)' : 'none',
         toggle: () => this.setState((st) => ({ calcFaqOpen: st.calcFaqOpen === ix ? -1 : ix }))
       })),
@@ -9623,25 +9493,14 @@ class Component extends DCLogic {
       }),
       pok: {
         naslov: pk.naslov, izvor: pk.izvor, bluf: faqSub(pk.bluf),
-        grafNaslov: pk.graf.naslov, bars: _hpok.items, gridLines: pokGridLines, hoverAktivan: _hpok.hoverAktivan, hoverLeft: _hpok.hoverLeft, hoverTxt: _hpok.hoverTxt, hoverTransform: _hpok.hoverTransform, tablica: pokTable,
-        max: fmtG(gMax), min: fmtG(gMin), zadnji: fmtG(zadnjiV),
-        promjena: (dV >= 0 ? '+' : '−') + fmtG(Math.abs(dV)) + ' u odabranom razdoblju',
-        promjenaBoja: Math.abs(dV) < 0.0001 ? SOFT : (dV > 0 ? ACC : SOFT),
-        odDo: labeli[0] + ' – ' + labeli[labeli.length - 1],
         stat: pk.stat.map((x) => ({
-          val: x.val === '__KUM5__' ? kum5 : (x.val === '__KUM10__' ? kum10 : x.val),
+          val: faqSub(x.val === '__KUM5__' ? kum5 : (x.val === '__KUM10__' ? kum10 : x.val)),
           label: x.label,
-          sub: x.sub === '__KUM5SUB__' ? kum5Sub : (x.sub === '__KUM10SUB__' ? kum10Sub : x.sub),
+          sub: faqSub(x.sub === '__KUM5SUB__' ? kum5Sub : (x.sub === '__KUM10SUB__' ? kum10Sub : x.sub)),
           arrow: !x.d ? '→' : (x.d > 0 ? '▲' : '▼'),
           boja: !x.d ? SOFT : (x.d > 0 ? ACC : SOFT)
-        })),
-        imaKat: !!pk.kat, kat: (pk.kat || []).map((k) => ({ slovo: k.slovo, pctTxt: k.pct + ' %', w: k.pct + '%', opis: k.opis }))
+        }))
       },
-      pokPerChips: [
-        Object.assign({ label: '1 godina', go: () => this.setState({ pokPer: 1 }) }, perChip(1)),
-        Object.assign({ label: '3 godine', go: () => this.setState({ pokPer: 3 }) }, perChip(3)),
-        Object.assign({ label: '5 godina', go: () => this.setState({ pokPer: 5 }) }, perChip(5))
-      ],
       faqGrupe: [
         {
           naslov: 'Pokazatelji', opis: 'Inflacija, plaće, kamate, mirovine i nekretnine — objašnjenja brojki s /pokazatelji.', pref: 'a',
@@ -9771,9 +9630,6 @@ class Component extends DCLogic {
           ? 'Izvor: DZS, izdane građevinske dozvole, godišnji zbroj · zadnja cijela godina: 2025. (DZS objavljuje mjesečno, zadnji mjesec: ' + ZADNJE_DOZVOLE + ')'
           : 'Izvor: eNekretnine, evidentirane kupoprodaje' + (nkVrsta === 'kuce' ? ' obiteljskih kuća' : (nkVrsta === 'ukupno' ? ' stanova i kuća' : ' stanova')) + ' · zadnji podatak: ' + ZADNJE_NEK
       },
-      // Mirovine imaju vlastite prikaze po stupovima pa im generički graf i
-      // kvartalna tablica ne trebaju.
-      imaGraf: false,
       jeMirovine: s.pokKat === 'mirovine',
       jePlace: s.pokKat === 'place',
       plChips: { neto: seg(jeNeto), bruto: seg(!jeNeto) },
@@ -9914,7 +9770,7 @@ class Component extends DCLogic {
         go: () => this.setState({ tickIx: ix, tickFade: false })
       })),
       faq: FAQ.map((q, ix) => ({
-        pitanje: q.p, odgovor: q.o, open: s.faqOpen === ix, rot: s.faqOpen === ix ? 'rotate(45deg)' : 'none',
+        pitanje: q.p, odgovor: faqSub(q.o), open: s.faqOpen === ix, rot: s.faqOpen === ix ? 'rotate(45deg)' : 'none',
         toggle: () => this.setState((st) => ({ faqOpen: st.faqOpen === ix ? -1 : ix }))
       })),
       preview: [
