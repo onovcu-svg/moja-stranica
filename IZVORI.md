@@ -7,7 +7,7 @@ odakle. Prije svake izmjene brojke: otvori izvor, prepiši, zapiši razdoblje.
 **Pravilo: isključivo primarni izvor (DZS, HNB, HZMO, HANFA, APN, NN).
 Nikad medijski portal, nikad agregator, nikad drugi kalkulator.**
 
-Zadnja potpuna provjera: 18. 8. 2026.
+Zadnja potpuna provjera: 18. 8. 2026. (inflacija ažurirana 19. 8. 2026. na srpanj)
 
 ---
 
@@ -15,12 +15,39 @@ Zadnja potpuna provjera: 18. 8. 2026.
 
 - Izvor: DZS, priopćenja "Indeksi potrošačkih cijena"
 - Pregled: https://podaci.dzs.hr/hr/podaci/cijene/
-- Zadnje korišteno: lipanj 2026. — https://podaci.dzs.hr/2026/hr/121577
+- Zadnje korišteno: srpanj 2026. — CIJ-2026-1-1/7, https://podaci.dzs.hr/2026/hr/121443
+  (prethodno lipanj 2026. — https://podaci.dzs.hr/2026/hr/121577)
 - Ritam: prva procjena ~1. u mjesecu, KONAČNI podaci ~15.
-- **Koristiti konačne, ne prvu procjenu.**
-- Provjereno 18.8.2026: godišnje 4,5 %, mjesečno −0,4 % — poklapa se s kodom.
+- **Koristiti konačne, ne prvu procjenu.** Šifra `1-1` = mjesečna (konačna)
+  serija; `1-2` je prva procjena.
+- Provjereno 19.8.2026: godišnje 3,9 %, mjesečno −0,2 % — poklapa se s kodom.
+  Portal je prije ove provjere bio jednu objavu u zaostatku (imao je lipanj
+  4,5 % / −0,4 % dok je srpanj već bio objavljen 14.8.2026.).
+- **HICP (harmonizirani indeks) NIJE CPI** — u istom priopćenju, u tablici T3,
+  stoji i harmonizirana stopa (za srpanj 2026: 3,6 % godišnje, +0,6 %
+  mjesečno). Lako se zamijeni s CPI-jem jer su brojevi blizu i u istom
+  dokumentu. Portal koristi ISKLJUČIVO CPI (tablica T1 u prilogu), nikad HICP.
 - Napomena: od siječnja 2026. CPI se računa po ECOICOP ver. 2, nova bazna
   godina 2025 = 100. Serije prije toga nisu na istoj bazi.
+- **Od siječnja 2026. ECOICOP ver. 2 ima 13 skupina, ne 12** (ver. 1 je imala
+  12). Razdvojene su npr. "Usluge osiguranja i financijske usluge" i "Osobna
+  njega, socijalna zaštita i razna roba i usluge" — ranije spojene u "Ostala
+  dobra i usluge". `KOSARICA` u kodu mora imati svih 13 skupina.
+- **`KOSARICA` (težine i stope po skupinama) ažurira se ZAJEDNO s naslovnom
+  stopom**, ne zasebno. Izvor: prilog priopćenja
+  (`cij-2026-1-1_N_tablice-hr.xlsx`, list T1), stupac "Ponderi" (DZS ih
+  objavljuje u PROMILIMA — podijeliti s 10 za %) i stupac s godišnjom stopom
+  promjene za zadnji mjesec.
+- **Zbroj doprinosa po skupinama (Σ w·r / 100) NIJE jednak naslovnoj stopi, i
+  to NIJE greška.** Za srpanj 2026: zbroj doprinosa = 3,77 %, naslovna stopa =
+  3,9 %. CPI se agregira preko indeksa i ulančavanja, ne kao ponderirani
+  prosjek zaokruženih stopa po skupinama — isto "odstupanje" (3,76) postoji i
+  u samom priopćenju, u zbroju objavljenih doprinosa. Portal to eksplicitno
+  objašnjava korisniku (kartica "Od čega se sastoji potrošačka košarica").
+  Prijašnja verzija `KOSARICA` (12 skupina, ver. 1) imala je stope koje se
+  NISU poklapale ni s jednom stvarnom DZS objavom — bile su obrnuto izvedene
+  da zbroj ispadne točno jednak naslovnoj stopi, i pogrešno pripisane DZS-u.
+  Ne vraćati taj pristup: unositi isključivo objavljene brojke.
 
 ## Plaće
 
@@ -38,6 +65,7 @@ Zadnja potpuna provjera: 18. 8. 2026.
 
 - Izvor: HNB, **Tablica G2** — Kamatne stope kreditnih institucija na kredite
   kućanstvima (novi poslovi), vagani mjesečni prosjeci
+- Stranica: https://www.hnb.hr/statistika/statisticki-podaci/financijski-sektor/druge-monetarne-financijske-institucije/kreditne-institucije/kamatne-stope
 - Lokalna kopija tablice: `h-g2-2.xlsx` (nije u repozitoriju)
 - Zadnje korišteno: lipanj 2026.
 - Ritam: mjesečno
@@ -50,7 +78,15 @@ Zadnja potpuna provjera: 18. 8. 2026.
   (stambeni EKS lipanj 2026: 3,25 %), jer je to ono što banka po zakonu
   oglašava. EKS NE zamjenjuje nominalnu — inače bi se graf i naslov razišli.
   Izmjena u index.html još nije provedena.
-- **Otvoreno: URL do HNB statističke stranice još nije zapisan — dopuniti.**
+- **HNB tiho revidira već objavljene mjesece — nema oznake koja bi to trajno
+  pamtila.** Ažuriranje datoteke od 4.8.2026. bilo je opisano kao "ispravak
+  EKS-a travanj i lipanj 2026.", što znači da je **3,25 % (stambeni EKS,
+  lipanj 2026.) koje portal prikazuje samo revidirana vrijednost**, ne
+  izvorno objavljena. `?version=` na URL-u datoteke vraća 404 (nema povijesti
+  verzija), a marker koji HNB ponekad stavlja uz revidirane brojke u samoj
+  tablici se naknadno briše. Praktična posljedica: ne pretpostavljati da je
+  jednom pročitana brojka za prošli mjesec i dalje ista — kod svake provjere
+  pročitati cijeli zadnji objavljeni mjesec iznova, ne samo najnoviji.
 - Napomena: od siječnja 2023. svi podaci se odnose samo na kredite u eurima;
   povijesni redci uključuju kune s valutnom klauzulom.
 
@@ -73,11 +109,12 @@ Zadnja potpuna provjera: 18. 8. 2026.
 ## Mirovinski fondovi (2. i 3. stup)
 
 - Izvor: HANFA, mjesečno izvješće
+- Pregled svih mjesečnih izvješća: https://www.hanfa.hr/statistika/mjesecna-izvjesca/
+- RSS (globalan, sve HANFA vijesti, ne samo statistika): https://hanfa.hr/rss
 - Zadnje korišteno: lipanj 2026. — https://hanfa.hr/vijesti/mjesecno-izvjesce-za-lipanj-2026
 - Ritam: mjesečno
 - Provjereno 18.8.2026: kategorija B 73,73 % (A 23,16 %, C 3,11 %),
   neto imovina OMF-ova 28,7 mlrd € — poklapa se.
-- **Otvoreno: URL do HANFA pregleda svih mjesečnih izvješća — dopuniti.**
 
 ## Nekretnine — indeks cijena
 
@@ -91,7 +128,9 @@ Zadnja potpuna provjera: 18. 8. 2026.
     https://www.hnb.hr/documents/20182/840f0cd0-8480-4b7b-aeaf-40042a456ff9
     (nalazi se na https://hnb.hr/statistika/statisticki-podaci/odabrane-nefinancijske-statistike/indeksi-cijena)
     URL je trajan — HNB mijenja sadržaj datoteke, ne adresu.
-    **Kasni za DZS-om** — zadnja izmjena 21.4.2026., prije DZS revizije od 2.7.2026.
+    Danas nosi Q1 2026. (zadnja izmjena 21.7.2026., NAKON DZS revizije od
+    2.7.2026.) — prijašnja tvrdnja da J3 kasni za DZS-om (zadnja izmjena bila
+    21.4.2026., prije revizije) više ne vrijedi, provjereno 19.8.2026.
   - Eurostat, skup podataka `prc_hpi_q`:
     https://ec.europa.eu/eurostat/databrowser/view/prc_hpi_q/default/table?lang=en
     Filtrirati Croatia, preuzeti CSV. **Eurostat je na bazi 2015 = 100**, drži

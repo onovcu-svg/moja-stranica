@@ -175,7 +175,7 @@
 {"@type":"Question","name":"Kako se izračunava neto plaća u Hrvatskoj u 2026. godini?","acceptedAnswer":{"@type":"Answer","text":"Iz bruto 1 plaće prvo se odbijaju doprinosi za mirovinsko osiguranje (15 % za I. stup i 5 % za II. stup), čime se dobiva dohodak. Od dohotka se odbija osobni odbitak (osnovno 600 € mjesečno, uvećan za djecu i uzdržavane članove), a na ostatak se primjenjuje porezna stopa grada ili općine, niža do 5.000 € osnovice, a viša iznad toga."}},
 {"@type":"Question","name":"Koja je razlika između Bruto 1 i Bruto 2 plaće?","acceptedAnswer":{"@type":"Answer","text":"Bruto 1 je ugovorena plaća iz koje se plaćaju doprinosi i porez zaposlenika. Bruto 2 je ukupni trošak poslodavca, dakle Bruto 1 uvećan za doprinos za zdravstveno osiguranje od 16,5 % koji plaća poslodavac."}},
 {"@type":"Question","name":"Isplati li se prijevremena otplata kredita ili ulaganje?","acceptedAnswer":{"@type":"Answer","text":"Ako je kamatna stopa na kredit veća od realnog očekivanog prinosa ulaganja nakon poreza, prijevremena otplata je matematički isplativija. Kod anuitetskih kredita učinak je najveći u prvim godinama, kada kamata čini najveći dio anuiteta."}},
-{"@type":"Question","name":"Kako inflacija utječe na štednju u Hrvatskoj?","acceptedAnswer":{"@type":"Answer","text":"Inflacija smanjuje kupovnu moć novca: pri godišnjoj inflaciji od 4,5 % iznos od 10.000 € nakon deset godina vrijedi približno 6.439 € u današnjim cijenama. Štednja je realno profitabilna samo ako je kamata na depozit veća od stope inflacije."}}]}]}
+{"@type":"Question","name":"Kako inflacija utječe na štednju u Hrvatskoj?","acceptedAnswer":{"@type":"Answer","text":"Inflacija smanjuje kupovnu moć novca: pri godišnjoj inflaciji od 3,9 % iznos od 10.000 € nakon deset godina vrijedi približno 6.820,94 € u današnjim cijenama. Štednja je realno profitabilna samo ako je kamata na depozit veća od stope inflacije."}}]}]}
 </script>
 </helmet>
 
@@ -5553,7 +5553,7 @@ const OBJAVE = [
 
 // Fallback / zadnje poznate vrijednosti. Zamjenjuju se podacima s API-ja u loadMarket().
 const TRZISTE = [
-  { id: 'inflacija', label: 'Godišnja inflacija (CPI)', kratko: 'CPI, Hrvatska', izvor: 'DZS', datum: 'lipanj 2026.', val: 4.5, prev: 5.2, hint: 'Primijeni u inflacijskom kalkulatoru' },
+  { id: 'inflacija', label: 'Godišnja inflacija (CPI)', kratko: 'CPI, Hrvatska', izvor: 'DZS', datum: 'srpanj 2026.', val: 3.9, prev: 4.5, hint: 'Primijeni u inflacijskom kalkulatoru', dec: 1 },
   { id: 'placaProsjek', label: 'Prosječna neto plaća', kratko: 'DZS, mjesečno', izvor: 'DZS', datum: 'svibanj 2026.', val: 1552, prev: 1552, hint: 'Izračunaj bruto za prosječnu plaću', fmt: 'eur' },
   { id: 'mirovina', label: 'Prosječna starosna mirovina', kratko: 'HZMO, bez međunarodnih ugovora', izvor: 'HZMO', datum: 'lipanj 2026.', val: 721.73, prev: 721.28, hint: 'Otvori pokazatelje mirovinskog sustava', fmt: 'eur' },
   { id: 'stambeni', label: 'Stambeni kredit', kratko: 'novi poslovi, prosjek', izvor: 'HNB', datum: 'lipanj 2026.', val: 2.90, prev: 2.92, hint: 'Primijeni u kreditnom kalkulatoru' },
@@ -5564,7 +5564,7 @@ const FAQ = [
   { p: 'Kako se izračunava neto plaća u Hrvatskoj u 2026.?', o: 'Iz bruto 1 plaće prvo se odbijaju doprinosi za mirovinsko osiguranje, 15 % za I. stup i 5 % za II. stup, čime se dobiva dohodak. Od dohotka se odbija osobni odbitak (osnovno 600,00 € mjesečno, uvećan za djecu i uzdržavane članove), a na ostatak se primjenjuje porezna stopa tvojega grada ili općine: niža do 5.000,00 € osnovice, viša iznad toga. Prirez više ne postoji zasebno, integriran je u porezne stope.' },
   { p: 'Koja je razlika između Bruto 1 i Bruto 2 plaće?', o: 'Bruto 1 je ugovorena plaća iz koje se plaćaju doprinosi zaposlenika i porez na dohodak. Bruto 2 je ukupni trošak poslodavca, dakle Bruto 1 uvećan za doprinos za zdravstveno osiguranje od 16,5 %. Taj doprinos plaća poslodavac.' },
   { p: 'Isplati li se prijevremena otplata kredita ili ulaganje?', o: 'Ako je kamatna stopa na kredit veća od realnog očekivanog prinosa ulaganja nakon poreza, prijevremena otplata je matematički isplativija, i to bez rizika. Kod anuitetskih kredita učinak je najveći u prvim godinama, kada kamata čini najveći dio anuiteta. Kreditni kalkulator prikazuje točnu uštedu kamate i skraćenje roka za bilo koju dodatnu uplatu.' },
-  { p: 'Kako inflacija utječe na štednju u Hrvatskoj?', o: 'Inflacija smanjuje kupovnu moć novca: pri godišnjoj inflaciji od 4,5 % iznos od 10.000,00 € nakon deset godina vrijedi približno 6.439,00 € u današnjim cijenama. Štednja je realno profitabilna samo kada je kamata na depozit veća od stope inflacije. U protivnom novac na računu svake godine polako gubi vrijednost.' }
+  { p: 'Kako inflacija utječe na štednju u Hrvatskoj?', o: 'Inflacija smanjuje kupovnu moć novca: pri godišnjoj inflaciji od 3,9 % iznos od 10.000,00 € nakon deset godina vrijedi približno 6.820,94 € u današnjim cijenama. Štednja je realno profitabilna samo kada je kamata na depozit veća od stope inflacije. U protivnom novac na računu svake godine polako gubi vrijednost.' }
 ];
 
 // DZS, Popis stanovništva 2021., gradovi (jedinice lokalne samouprave), sortirano.
@@ -5588,7 +5588,7 @@ const GRADOVI_POP = [
 const KVART = ['Q3 21','Q4 21','Q1 22','Q2 22','Q3 22','Q4 22','Q1 23','Q2 23','Q3 23','Q4 23','Q1 24','Q2 24','Q3 24','Q4 24','Q1 25','Q2 25','Q3 25','Q4 25','Q1 26','Q2 26'];
 
 const SERIJE = {
-  inflacija: [2.6,4.8,6.3,9.4,12.3,13.1,11.5,8.3,7.2,5.4,4.8,4.2,3.4,3.0,3.4,3.1,2.9,3.2,4.6,4.5],
+  inflacija: [2.6,4.8,6.3,9.4,12.3,13.1,11.5,8.3,7.2,5.4,4.8,4.2,3.4,3.0,3.4,3.1,2.9,3.2,4.6,3.9],
   netoPlaca: [1050,1075,1100,1130,1150,1180,1210,1240,1260,1285,1300,1320,1340,1370,1420,1455,1480,1505,1530,1552],
   brutoPlaca:[1470,1505,1540,1582,1610,1652,1694,1736,1764,1799,1820,1848,1876,1920,1990,2035,2075,2115,2145,2178],
   medijan:   [905,928,948,975,992,1018,1044,1070,1087,1108,1121,1138,1156,1175,1205,1235,1262,1288,1306,1324],
@@ -5754,10 +5754,10 @@ const POK_KAT = {
     naslov: 'Inflacija', izvor: 'DZS · indeks potrošačkih cijena (CPI)',
     bluf: 'Godišnja inflacija u Hrvatskoj mjerena indeksom potrošačkih cijena (CPI) iznosi {CPI}, što znači da košarica koja je prije godinu dana koštala 100,00 € danas košta {KOSARICA_100}. Inflacija se mjeri indeksom potrošačkih cijena koji DZS objavljuje mjesečno.',
     stat: [
-      { val: '4,50 %', label: 'Godišnja stopa inflacije', sub: 'CPI · lipanj 2026.', d: -0.7 },
+      { val: '3,9 %', label: 'Godišnja stopa inflacije', sub: 'CPI · srpanj 2026.', d: -0.6 },
       { val: '__KUM5__', label: 'Kumulativna inflacija, 5 godina', sub: '__KUM5SUB__', d: 1 },
       { val: '__KUM10__', label: 'Kumulativna inflacija, 10 godina', sub: '__KUM10SUB__', d: 1 },
-      { val: '−0,40 %', label: 'Mjesečna promjena cijena', sub: 'CPI · lipanj / svibanj 2026.', d: -0.4 }
+      { val: '−0,2 %', label: 'Mjesečna promjena cijena', sub: 'CPI · srpanj / lipanj 2026.', d: -0.2 }
     ],
     graf: { key: 'inflacija', naslov: 'Godišnja stopa inflacije (CPI)', jed: '%', dec: 2 }
   },
@@ -6086,8 +6086,8 @@ const CALC_META = {
     izvor: 'Indeks potrošačkih cijena · DZS · kamate na depozite · HNB',
     savjet: 'Inflacija je stalno prisutna, u većoj ili manjoj mjeri, i djeluje na svaki euro koji ne radi za tebe. Ona je cijena neaktivnosti: novac koji samo stoji gubi kupovnu moć iz godine u godinu, bez obzira koliko brzo ili sporo cijene rastu. Pitanje zato nije hoće li novac izgubiti vrijednost, nego koliko i koliko dugo ćeš to dopustiti.',
     faq: [
-      { p: 'Je li oročenje isplativo pri inflaciji od 4,5 %?', o: 'Nominalno da, realno ne. Pri prosječnoj kamati na jednogodišnje oročenje od 1,15 % i inflaciji od 4,5 %, realni prinos je približno −3,2 % godišnje: iznos na računu raste, ali njime kupuješ manje nego godinu ranije. Oročenje ima smisla za novac koji ti treba uskoro, ne za dugoročnu štednju.' },
-      { p: 'Kako se računa realna vrijednost novca?', o: 'Buduća kupovna moč dobiva se dijeljenjem iznosa s faktorom (1 + stopa inflacije) na potenciju broja godina. Za 10.000,00 € pri 4,5 % kroz 10 godina to je 10.000 / 1,045^10 ≈ 6.439,00 €. Isti princip koristi kalkulator i za usporedbu nominalnog i realnog prinosa ulaganja.' }
+      { p: 'Je li oročenje isplativo pri inflaciji od 3,9 %?', o: 'Nominalno da, realno ne. Pri prosječnoj kamati na jednogodišnje oročenje od 1,15 % i inflaciji od 3,9 %, realni prinos je približno −2,6 % godišnje: iznos na računu raste, ali njime kupuješ manje nego godinu ranije. Oročenje ima smisla za novac koji ti treba uskoro, ne za dugoročnu štednju.' },
+      { p: 'Kako se računa realna vrijednost novca?', o: 'Buduća kupovna moč dobiva se dijeljenjem iznosa s faktorom (1 + stopa inflacije) na potenciju broja godina. Za 10.000,00 € pri 3,9 % kroz 10 godina to je 10.000 / 1,039^10 ≈ 6.820,94 €. Isti princip koristi kalkulator i za usporedbu nominalnog i realnog prinosa ulaganja.' }
     ]
   }
 };
@@ -6100,12 +6100,12 @@ const CPI = {
   1999: 4.0, 2000: 4.6, 2001: 3.8, 2002: 1.7, 2003: 1.8, 2004: 2.1, 2005: 3.3, 2006: 3.2, 2007: 2.9,
   2008: 6.1, 2009: 2.4, 2010: 1.1, 2011: 2.3, 2012: 3.4, 2013: 2.2, 2014: -0.2, 2015: -0.5,
   2016: -1.1, 2017: 1.1, 2018: 1.5, 2019: 0.8, 2020: 0.1, 2021: 2.6, 2022: 10.8, 2023: 8.0,
-  2024: 3.0, 2025: 3.6, 2026: 4.5
+  2024: 3.0, 2025: 3.6, 2026: 3.9
 };
 const CPI_ZADNJA = 2026;
 const CPI_PRVA = 1999;
 // Za koje razdoblje vrijedi zadnja (nepotpuna) godina u serijama.
-const ZADNJE_RAZDOBLJE = 'lipanj 2026.';
+const ZADNJE_RAZDOBLJE = 'srpanj 2026.';
 // Plaće kasne mjesec dana za inflacijom (DZS ih objavljuje sredinom idućeg mjeseca).
 const ZADNJE_PLACE = 'svibanj 2026.';
 // HNB i HANFA objavljuju sa svojim zaostatkom pa svaki izvor ima svoj datum.
@@ -6125,23 +6125,45 @@ const PLACE_GOD = [
   [2025, 1350, 1168, 1895, 1630], [2026, 1552, 1324, 2178, 1821]
 ];
 
-// Struktura potrošačke košarice (ECOICOP težine, DZS) + godišnje stope po skupinama.
-// Težine DZS revidira jednom godišnje; vrijednosti provjeriti uz svaku objavu.
-// VAŽNO: ponderirani zbroj Σ(w·r)/100 mora davati glavnu godišnju stopu
-// (TRZISTE.inflacija i POK_KAT.inflacija), inače stranica pokazuje dvije brojke.
+// Struktura potrošačke košarice: 13 skupina po ECOICOP, ver. 2.
+// SVE VRIJEDNOSTI SU OBJAVLJENE, NIŠTA SE NE IZVODI UNATRAG.
+// Izvor: prilog priopćenja CIJ-2026-1-1/7 (srpanj 2026.),
+// cij-2026-1-1_7_tablice-hr.xlsx, list T1:
+//   w = stupac "Ponderi" (DZS ga objavljuje u PROMILIMA, ovdje /10 = %)
+//   r = stupac "VII. 2026. / VII. 2025." (godišnja stopa promjene, %)
+// Σw = 100,000 %. Pondere DZS revidira jednom godišnje.
+//
+// VAŽNO, obrnuto od onoga što je ovdje prije pisalo: Σ(w·r)/100 NE daje
+// naslovnu godišnju stopu i to NIJE greška. Za srpanj 2026. zbroj doprinosa je
+// 3,77 %, a naslovna stopa 3,9 %. CPI se agregira preko indeksa i ulančavanja,
+// ne kao ponderirani prosjek zaokruženih stopa po skupinama; isto "odstupanje"
+// ima i samo priopćenje (zbroj objavljenih doprinosa = 3,76 pp). Zato se zbroj
+// nigdje ne smije prikazati kao "ukupna inflacija" — vidi kos.sredinaLabel,
+// kos.negTxt i kos.objasnjenje.
+//
+// Prethodne vrijednosti (do 19.8.2026.) bile su ECOICOP ver. 1 s 12 skupina i
+// stopama koje se NISU poklapale s objavljenima ni za jedan mjesec — bile su
+// obrnuto izvedene da Σ(w·r)/100 ispadne točno 4,50. Ne vraćati taj pristup.
+//
+// Imena su skraćena za prikaz u kartici; službeni nazivi skupina 04, 05, 12 i 13
+// su duži ("Stanovanje, voda, električna energija, plin i ostala goriva";
+// "Pokućstvo, oprema za kuću i redovito održavanje kućanstava"; "Usluge
+// osiguranja i financijske usluge"; "Osobna njega, socijalna zaštita i razna
+// roba i usluge").
 const KOSARICA = [
-  { ime: 'Hrana i bezalkoholna pića', w: 23.9, r: 1.8 },
-  { ime: 'Stanovanje, voda i energija', w: 14.6, r: 13.2 },
-  { ime: 'Prijevoz', w: 13.8, r: 3.0 },
-  { ime: 'Restorani i hoteli', w: 9.2, r: 8.1 },
-  { ime: 'Ostala dobra i usluge', w: 6.8, r: 3.7 },
-  { ime: 'Namještaj i oprema za kuću', w: 6.3, r: -0.6 },
-  { ime: 'Rekreacija i kultura', w: 6.1, r: 6.5 },
-  { ime: 'Odjeća i obuća', w: 5.4, r: -0.6 },
-  { ime: 'Alkoholna pića i duhan', w: 5.2, r: 1.8 },
-  { ime: 'Zdravstvo', w: 3.6, r: 5.0 },
-  { ime: 'Komunikacije', w: 3.5, r: 2.4 },
-  { ime: 'Obrazovanje', w: 1.6, r: 3.0 }
+  { ime: 'Hrana i bezalkoholna pića', w: 26.918, r: -0.1 },
+  { ime: 'Stanovanje, voda i energija', w: 15.007, r: 12.2 },
+  { ime: 'Prijevoz', w: 13.931, r: 8.2 },
+  { ime: 'Odjeća i obuća', w: 7.124, r: -4.2 },
+  { ime: 'Pokućstvo i oprema za kuću', w: 6.072, r: -1.1 },
+  { ime: 'Informacije i komunikacije', w: 6.026, r: 3.0 },
+  { ime: 'Restorani i usluge smještaja', w: 5.529, r: 6.3 },
+  { ime: 'Osobna njega i ostalo', w: 5.116, r: 3.2 },
+  { ime: 'Alkoholna pića i duhan', w: 4.977, r: 3.7 },
+  { ime: 'Rekreacija, sport i kultura', w: 3.935, r: 2.8 },
+  { ime: 'Zdravstvo', w: 2.805, r: 4.9 },
+  { ime: 'Osiguranje i financijske usluge', w: 1.927, r: 3.9 },
+  { ime: 'Usluge obrazovanja', w: 0.633, r: -2.0 }
 ];
 
 const CALC_OBITELJ = { placa: 'placa', kredit: 'krediti', refi: 'krediti', opcije: 'krediti', zatvoriti: 'krediti', kamata: 'ulaganje', inflacija: 'inflacija', povijest: 'inflacija' };
@@ -8343,7 +8365,7 @@ class Component extends DCLogic {
       '{KR_STAMB_GOD}': pct(KS_SER.STAMBENI[ZI - 12], 2), '{KR_GOTOV_GOD}': pct(KS_SER.GOTOVINSKI[ZI - 12], 2),
       '{KR_DIFF_20K7G}': eur(_anuFaq(20000, _kNG, 7) - _anuFaq(20000, _kNS, 7), 0),
       '{STUP3_CLANOVI}': nf(0).format(STUP3.clanovi),
-      '{CPI}': pct(tz('inflacija'), 2), '{HPI_RAST}': pct(tz('hpi'), 1),
+      '{CPI}': pct(tz('inflacija'), 1), '{HPI_RAST}': pct(tz('hpi'), 1),
       '{KOSARICA_100}': eur(100 * (1 + tz('inflacija') / 100), 2),
       '{NEK_GOD}': NEK_AKT[NEK_AKT.length - 1][0] + '.', '{NEK_DOZVOLE}': nf(0).format(NEK_AKT[NEK_AKT.length - 1][1]), '{NEK_KUPOPROD}': nf(0).format(NEK_AKT[NEK_AKT.length - 1][2]),
       '{MIROVINA}': eur(tz('mirovina'), 2), '{MIR_RATIO}': pct(tz('mirovina') / tz('placaProsjek') * 100, 1),
@@ -8728,7 +8750,7 @@ class Component extends DCLogic {
     grupa(({ rast: ['sStopa'], cilj: ['gPrinos'], renta: ['dPrinos'], opcije: s.oInvestOpen ? ['oPrinos'] : [] })[_tk], 15,
       (x) => 'Prinos od ' + pct(x, 2) + ' godišnje je vrlo optimističan. Dugoročni prosjek globalnog indeksnog portfelja je oko 7 %.');
     grupa(({ inflacija: ['iStopa'], rast: s.sInflOn ? ['sInflacija'] : [], cilj: s.gInflOn ? ['gInflacija'] : [], kredit: s.kInfOpen ? ['kInfStopa'] : [], opcije: s.oInfOpen ? ['oInfStopa'] : [] })[_tk], 12,
-      (x) => 'Inflacija od ' + pct(x, 1) + ' godišnje je iznimno visoka. Zadnja objavljena godišnja stopa u Hrvatskoj je oko 4,5 %.');
+      (x) => 'Inflacija od ' + pct(x, 1) + ' godišnje je iznimno visoka. Zadnja objavljena godišnja stopa u Hrvatskoj je oko 3,9 %.');
     grupa(({ kredit: ['kGodine'], refi: ['rGodine'], zatvoriti: ['zGodine'], opcije: ['oMax'] })[_tk], 40,
       () => 'Rok otplate duži od 40 godina banke u pravilu ne odobravaju.');
     grupa(({ rast: ['sGodine'], cilj: ['gGodine'], inflacija: ['iGodine'] })[_tk], 60,
@@ -9734,7 +9756,7 @@ class Component extends DCLogic {
         // Sredina donuta gleda kosSvi (izvorni redoslijed), jer je kosHover
         // izvorni indeks skupine, a kosLista se sortira i filtrira.
         sredinaVal: aktKos ? aktKos.glavna : (jeUdio ? pct(ukDopr, 2) : pct(kosPozZbroj, 2)),
-        sredinaLabel: aktKos ? aktKos.ime : (jeUdio ? 'ukupna godišnja inflacija' : 'zbroj pozitivnih doprinosa'),
+        sredinaLabel: aktKos ? aktKos.ime : (jeUdio ? 'zbroj doprinosa po skupinama' : 'zbroj pozitivnih doprinosa'),
         sredinaDetalj: aktKos ? 'udio ' + aktKos.udio + ' · stopa ' + aktKos.stopa : '',
         imaDetalj: !!aktKos,
         imaNeg: !jeUdio && kosNeg.length > 0, negLista: kosNegLista,
@@ -9742,13 +9764,13 @@ class Component extends DCLogic {
         sortStopa: { str: s.kosSort === 'stopa' ? (s.kosSmjer === 'asc' ? ' ↑' : ' ↓') : '', c: s.kosSort === 'stopa' ? ACC : SOFT },
         sortGlavna: (() => { const kol = jeUdio ? 'udio' : 'dopr'; const a = s.kosSort === kol;
           return { str: a ? (s.kosSmjer === 'asc' ? ' ↑' : ' ↓') : '', c: a ? ACC : SOFT }; })(),
-        negTxt: 'Ove skupine nisu na prstenu jer segment ne može imati negativnu površinu. Njihov doprinos oduzima se od zbroja: bez njih bi inflacija bila viša. Skupine: '
+        negTxt: 'Ove skupine nisu na prstenu jer segment ne može imati negativnu površinu. Njihov doprinos oduzima se od zbroja: bez njih bi zbroj doprinosa bio viši. Skupine: '
           + kosNeg.map((k) => k.ime.toLowerCase() + ' ' + pct(k.dopr, 2)).join(', ')
-          + ' pa je nakon njihova odbitka ukupna stopa ' + pct(ukDopr, 2) + '.',
+          + ' pa je nakon njihova odbitka zbroj doprinosa ' + pct(ukDopr, 2) + '.',
         naslovStupca: jeUdio ? 'Udio u košarici' : 'Doprinos inflaciji',
         objasnjenje: jeUdio
           ? 'Udio pokazuje koliko svaka skupina teži u košarici prosječnog kućanstva. Promjena cijene kategorije s većim udjelom ima veći utjecaj na ukupnu inflaciju.'
-          : 'Doprinos je udio pomnožen sa stopom te skupine: pokazuje koliko je svaka dodala ukupnoj inflaciji od ' + pct(ukDopr, 2) + '.'
+          : 'Doprinos je udio pomnožen sa stopom te skupine: pokazuje koliko je svaka dodala zbroju doprinosa od ' + pct(ukDopr, 2) + '. Taj se zbroj razlikuje od naslovne stope od ' + pct(tz('inflacija'), 1) + ' jer se CPI agregira preko indeksa, ne kao ponderirani prosjek stopa po skupinama.'
       },
       kosChips: {
           udio: { act: jeUdio ? '1' : '0', c: jeUdio ? '#FFF' : SOFT },
