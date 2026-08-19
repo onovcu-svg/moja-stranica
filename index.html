@@ -7310,11 +7310,50 @@ class Component extends DCLogic {
 
     if (t === 'opcije') {
       const c = o.o;
+      // Ista rečenica ide na dva mjesta (sazetak i usporedba.recenica ispod) -
+      // definirana jednom da se ne razidju ako se ikad izmijeni. Za razliku
+      // od kredita (anuiteti/rate), ovdje smjer nikad nije dvosmislen: duži
+      // rok MATEMATICKI uvijek ima manju ratu i vecu-ili-jednaku kamatu (anu()
+      // eksplicitno rjesava i i===0, 8138), pa nema potrebe za granjanjem po
+      // predznaku niti za "zanemarivo" iznimkom - potvrdjeno uzivo na 0% stopi.
+      const uspRecenica = 'Duži rok spušta mjesečnu obvezu za ' + c.razlika + ', ali ukupna kamata raste s ' + c.kratkiKam + ' na ' + c.dugiKam + '.';
+      // parseHR (vec koristen nize za "Razlika u ukupnoj kamati") - buildPdf
+      // prima samo vec formatirani o.o, ne sirove brojeve, pa se za predznak
+      // po retku tablice parsira natrag isto kao postojeci kod.
+      const dRed = (d) => (d >= 0 ? '+' : '−') + eur(Math.abs(d), 2);
+      const uspRedovi = [
+        { a: 'Mjesečni anuitet', b: c.dugiAnu, c: c.kratkiAnu, d: dRed((parseHR(c.kratkiAnu) || 0) - (parseHR(c.dugiAnu) || 0)) },
+        { a: 'Ukupna kamata', b: c.dugiKam, c: c.kratkiKam, d: dRed((parseHR(c.kratkiKam) || 0) - (parseHR(c.dugiKam) || 0)) },
+        { a: 'Ukupno plaćeno', b: c.dugiUk, c: c.kratkiUk, d: dRed((parseHR(c.kratkiUk) || 0) - (parseHR(c.dugiUk) || 0)) },
+        { a: 'Potrebna plaća (pravilo 45 %)', b: c.dugiMin, c: c.kratkiMin, d: dRed((parseHR(c.kratkiMin) || 0) - (parseHR(c.dugiMin) || 0)) }
+      ];
+      // "U danasnjem novcu" samo uz ukljucenu inflaciju - zamjenjuje staru
+      // zasebnu sekciju "UTJECAJ INFLACIJE" (iste dvije brojke), da se ne
+      // ponove na dva mjesta u istom PDF-u.
+      if (s.oInfOpen) {
+        uspRedovi.push({ a: 'U današnjem novcu', b: c.dugiUkReal, c: c.kratkiUkReal, d: dRed((parseHR(c.kratkiUkReal) || 0) - (parseHR(c.dugiUkReal) || 0)) });
+      }
+      // Osnovnih 9 redaka (opRezBaza) - isto sto je "REZULTAT IZRACUNA"
+      // oduvijek prikazivao za ovaj kalkulator. Investicijski redci (nize) su
+      // NOVI u ovom krugu - dodani da stignu u mail, ali se vec prikazuju u
+      // zasebnoj sekciji "AKO SE RAZLIKA ULAZE" pa im rezPdf ne treba
+      // duplicirati prikaz - isti obrazac kao pdfRezPdf kod kredita (d2df1df).
+      // Osnovnih 9 REZULTAT IZRACUNA redaka NAMJERNO ostaju u rezPdf
+      // nedirnuti iako se sada preklapaju i s novom tablicom "USPOREDBA
+      // DUZEG I KRACEG ROKA" - to je veca, zasebna odluka o restrukturiranju
+      // koju ovaj krug ne rjesava (izvan odobrenog opsega), prijavljeno
+      // korisniku u odgovoru.
+      const opRezBaza = [
+        R('Anuitet na duži rok', c.dugiAnu), R('Ukupna kamata, duži rok', c.dugiKam), R('Ukupno plaćeno, duži rok', c.dugiUk),
+        R('Anuitet na kraći rok', c.kratkiAnu), R('Ukupna kamata, kraći rok', c.kratkiKam), R('Ukupno plaćeno, kraći rok', c.kratkiUk),
+        R('Razlika u mjesečnoj obvezi', c.razlika),
+        R('Potrebna plaća za duži rok', c.dugiMin), R('Potrebna plaća za kraći rok', c.kratkiMin)
+      ];
       return base({
         naslov: 'Kraći ili duži rok otplate',
         rataLabel: 'Razlika u mjesečnoj obvezi', rata: c.razlika,
         male: [{ l: 'Anuitet na ' + c.dugiRok, v: c.dugiAnu }, { l: 'Anuitet na ' + c.kratkiRok, v: c.kratkiAnu }, { l: 'Razlika u ukupnoj kamati', v: eur(Math.max(0, (parseHR(c.dugiKam) || 0) - (parseHR(c.kratkiKam) || 0)), 2) }],
-        sazetak: 'Duži rok spušta mjesečnu obvezu za ' + c.razlika + ', ali ukupna kamata raste s ' + c.kratkiKam + ' na ' + c.dugiKam + '.',
+        sazetak: uspRecenica,
         param: [
           R('Iznos kredita', eur(n('oIznos'), 2)),
           R('Kamatna stopa', pct(n('oStopa'), 2)),
@@ -7324,19 +7363,47 @@ class Component extends DCLogic {
           s.oInvestOpen && s.oInvestiraj ? R('Očekivani godišnji prinos', pct(n('oPrinos'), 2) + ' (pretpostavka)') : null,
           s.oInvestOpen && n('oDodatna') > 0 ? R('Dodatna mjesečna uplata', eur(n('oDodatna'), 2)) : null
         ].filter(Boolean),
-        rez: [
-          R('Anuitet na duži rok', c.dugiAnu), R('Ukupna kamata, duži rok', c.dugiKam), R('Ukupno plaćeno, duži rok', c.dugiUk),
-          R('Anuitet na kraći rok', c.kratkiAnu), R('Ukupna kamata, kraći rok', c.kratkiKam), R('Ukupno plaćeno, kraći rok', c.kratkiUk),
-          R('Razlika u mjesečnoj obvezi', c.razlika),
-          R('Potrebna plaća za duži rok', c.dugiMin), R('Potrebna plaća za kraći rok', c.kratkiMin)
-        ],
+        rez: opRezBaza.concat([
+          // Investicijski scenarij (sekcije nize) ne ide u mail - isti razlog
+          // kao kod kredita (posaljiIzvjestaj salje samo rataLabel/rata/male/
+          // rez/param). tockaM/skracenje (o objektu, 9579/9581) su ovdje
+          // NAMJERNO ne prekopirani doslovno - "187. mjesec (15,6 god.)" i
+          // "53 mj. (4,4 god.)" ne prolaze nijedan obrazac u report.js (broj+
+          // tocka+rijec+zagrada). Umjesto toga goli brojevi (tockaMBroj/
+          // skracenjeMj, 9581-9584) uz RE_BROJ_RIJEC oblik "X mjesec"/"X
+          // godina" (bez tocke iza broja - RE_BROJ_RIJEC ne dopusta tocku
+          // koja nije dio decimalnog zareza/tocke ispred znamenke).
+          s.oInvestOpen ? R('Mjesečni iznos ulaganja', c.mjInv) : null,
+          s.oInvestOpen ? R('Vrijednost ulaganja nakon 20 g.', c.inv20) : null,
+          s.oInvestOpen ? R('Vrijednost ulaganja nakon ' + c.dugiRok, c.inv30) : null,
+          s.oInvestOpen ? (c.imaTocku ? R('Ulaganje prestiže dug u', c.tockaMBroj + ' mjesec') : R('Ulaganje prestiže dug', 'nikad')) : null,
+          s.oInvestOpen && c.imaTocku ? R('Skraćenje otplate', nf(1).format(c.skracenjeMj / 12) + ' godina') : null
+        ].filter(Boolean)),
+        // rezPdf: sto PDF prikazuje pod "REZULTAT IZRACUNA" - BEZ
+        // investicijskih redaka (ti se vec vide u "AKO SE RAZLIKA ULAZE"
+        // nize). Osnovnih 9 ostaje (vidi napomenu uz opRezBaza iznad).
+        rezPdf: opRezBaza,
+        imaUsporedba: true,
+        usporedba: {
+          naslov: 'USPOREDBA DUŽEG I KRAĆEG ROKA', recenica: uspRecenica,
+          pretpostavke: 'Iznos: ' + eur(n('oIznos'), 2) + ' · Stopa: ' + pct(n('oStopa'), 2) + ' · Duži rok: ' + c.dugiRok + ' · Kraći rok: ' + c.kratkiRok
+            + (s.oInvestOpen && s.oInvestiraj ? ' · Prinos ulaganja: ' + pct(n('oPrinos'), 2) + ' (pretpostavka)' : '')
+            + (s.oInfOpen ? ' · Inflacija: ' + pct(Math.max(0, n('oInfStopa')), 2) + ' (pretpostavka)' : ''),
+          c0: '', c1: 'DUŽI ROK', c2: 'KRAĆI ROK', c3: 'RAZLIKA',
+          redovi: uspRedovi
+        },
         sekcije: [
           s.oInvestOpen ? {
             naslov: 'AKO SE RAZLIKA ULAŽE', imaNota: true,
             nota: 'Usporedba pretpostavlja da razliku doista ulažeš svaki mjesec, bez preskakanja, i da prinos ostaje na unesenoj razini. Prijevremena otplata je siguran prinos jednak kamatnoj stopi, ulaganje nije.',
             redovi: [
               R('Mjesečni iznos ulaganja', c.mjInv),
-              R('Vrijednost uloženog nakon ' + c.kratkiRok, c.inv20),
+              // Popravljena oznaka (20.8.2026): inv20 je UVIJEK fiksna
+              // 20-godisnja tocka (Math.min(239,...), 8207), ne stvarni
+              // kratkiRok - stara oznaka "nakon {kratkiRok}" je davala krivi
+              // tekst kad korisnik postavi kraci rok razlicit od 20 godina.
+              // Sam izracun (inv20) NIJE dirniut, samo oznaka.
+              R('Vrijednost uloženog nakon 20 g.', c.inv20),
               R('Vrijednost uloženog nakon ' + c.dugiRok, c.inv30),
               c.imaTocku ? R('Ulaganje prestiže dug u', c.tockaM) : R('Ulaganje ne prestiže dug', '–'),
               c.imaTocku ? R('Vrijednost ulaganja u toj točki', c.tockaInv) : null,
@@ -7344,13 +7411,6 @@ class Component extends DCLogic {
               c.imaTocku ? R('Ušteda kamate ako se tada zatvori', c.tockaUsteda) : null,
               c.imaTocku ? R('Skraćenje otplate', c.skracenje) : null
             ].filter(Boolean)
-          } : null,
-          s.oInfOpen ? {
-            naslov: 'UTJECAJ INFLACIJE', imaNota: false, nota: '',
-            redovi: [
-              R('Ukupno plaćeno, duži rok, u današnjem novcu', c.dugiUkReal),
-              R('Ukupno plaćeno, kraći rok, u današnjem novcu', c.kratkiUkReal)
-            ]
           } : null
         ].filter(Boolean),
         metoda: [
@@ -9577,6 +9637,11 @@ class Component extends DCLogic {
         ispravljenoTxt: 'Kraći rok mora biti manji od dužeg pa je ispravljen na ' + oMinG + ' god.',
         mjInv: eur(mjInv), inv20: eur(inv20, 2), inv30: eur(inv30, 2),
         imaTocku: prviM > 0, tockaM: prviM + '. mjesec (' + nf(1).format(prviM / 12) + ' god.)',
+        // Goli brojevi (ne formatirani tekst) - buildPdf() prima samo ovaj,
+        // vec formatirani "o.o" objekt, pa su mu za mail (RE_BROJ_RIJEC,
+        // jedan broj + jedna rijec) potrebne sirove vrijednosti bez "mj./god."
+        // ugradjenih u isti string kao kod tockaM/skracenje nize.
+        tockaMBroj: prviM, skracenjeMj: Math.max(0, oMaxM - prviM),
         tockaGl: eur(prviGl, 2), tockaInv: eur(prviInv, 2), tockaUsteda: eur(Math.max(0, ustKam), 2),
         skracenje: prviM > 0 ? (oMaxM - prviM) + ' mj. (' + nf(1).format((oMaxM - prviM) / 12) + ' god.)' : '–',
         chart: _ho.items, hoverAktivan: _ho.hoverAktivan, hoverLeft: _ho.hoverLeft, hoverTxt: _ho.hoverTxt, hoverTransform: _ho.hoverTransform, invBolje: mjInv > 0
