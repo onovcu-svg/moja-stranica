@@ -6379,21 +6379,69 @@ class Component extends DCLogic {
       }
     }
     // history.scrollRestoration = 'manual': iskljucuje preglednikovo VLASTITO
-    // vracanje skrol pozicije na popstate (natrag/naprijed) - ono bi se inace
-    // izvrsilo asinkrono i mogло poništiti window.scrollTo(0,0) nekoliko redaka
-    // niže. Pravilo je: svaka stranica se uvijek otvara na vrhu, bez iznimke.
+    // vracanje skrol pozicije na popstate. Probano je 'auto' (prepustiti
+    // pregledniku, bez ikakvog pamcenja u kodu) - uzivo testirano i ODBACENO:
+    // _onPopState nize poziva setState, a React re-render je ASINKRON, pa
+    // preglednik pokusa vratiti poziciju dok DOM jos prikazuje staru stranicu
+    // (druge visine); kad React tren kasnije prerenda na stvarnu stranicu,
+    // preglednik ne ponavlja pokusaj - pozicija ostaje 0. Potvrdjeno kontrolnim
+    // testom: ista provjera radi besprijekorno kod PRAVE (pune) navigacije, gdje
+    // renderanje nije asinkrono. Zato aplikacija sama pamti poziciju (nize) i
+    // vraca je istom setState callbacku gdje se vec zove _syncUrl - to je
+    // trenutak kad je DOM vec commitao NOVU stranicu (React garancija).
     try { if (window.history && 'scrollRestoration' in window.history) window.history.scrollRestoration = 'manual'; } catch (e) {}
+    // _scrollMem: putanja -> zadnja zabiljezena window.scrollY na toj putanji.
+    // Kljuc je cisti pathname, ne puni URL - provjereno da je dovoljan: jedino
+    // mjesto koje radi pushState je _syncUrl (nize), i ono to radi ISKLJUCIVO
+    // kad se pathname promijeni (window.location.pathname !== path), pa svaki
+    // zapis povijesti koji ova aplikacija stvori ima pathname razlicit od
+    // prethodnog. Stranica ne koristi ni query string ni hash za stanje.
+    // Polja koja NE mijenjaju pathname (npr. gMode kod kamate) nikad ne stvore
+    // zaseban zapis povijesti pa nemaju ni sto "vratiti" na popstate.
+    this._scrollMem = {};
+    // Prigusenje na ~100ms - u kodu ne postoji opci debounce/throttle helper
+    // (_onResize nize takodjer nema throttle, poziva se direktno), pa je ovo
+    // najmanja lokalna verzija: dok je scroll u tijeku, upis se dogodi
+    // najvise jednom u ~100ms, a zadnji upis uvijek stigne unutar ~100ms
+    // nakon sto se skrolanje zaustavi (scroll eventovi prestanu, timer istekne
+    // i upise zadnju vrijednost).
+    this._scrollMemTimer = null;
+    this._onScrollMem = () => {
+      if (this._scrollMemTimer) return;
+      this._scrollMemTimer = setTimeout(() => {
+        this._scrollMemTimer = null;
+        this._scrollMem[window.location.pathname] = window.scrollY;
+      }, 100);
+    };
+    window.addEventListener('scroll', this._onScrollMem, { passive: true });
     // Callback (_syncUrl) je nuzan i ovdje, ne samo na go()/goCalc() pozivima -
     // inace title/meta/canonical ostaju sa stranice koju je korisnik napustio
-    // nakon pritiska na "natrag"/"naprijed" u pregledniku. Isto vrijedi za
-    // skrol na vrh - "natrag"/"naprijed" ne smije ostaviti korisnika usred
-    // stranice, kao ni bilo koja druga navigacija.
+    // nakon pritiska na "natrag"/"naprijed" u pregledniku.
     this._onPopState = () => {
       // menuOpen: false - _stateFromPath ni u jednoj grani ne gasi mobilni
       // meni (za razliku od go()/goCalc()/blogVeza()/applyStopa()), pa je
       // ostajao otvoren nakon Natrag/Naprijed dok se ruta ispod njega mijenjala.
-      this.setState(Object.assign({}, this._stateFromPath(window.location.pathname), { menuOpen: false }), () => this._syncUrl());
-      window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0;
+      this.setState(Object.assign({}, this._stateFromPath(window.location.pathname), { menuOpen: false }), () => {
+        this._syncUrl();
+        // Vraceno tek OVDJE (setState callback), ne izvan njega - DOM u ovom
+        // trenutku vec prikazuje novu stranicu (React garancija za setState
+        // callback), pa je document.documentElement.scrollHeight ispravan za
+        // novu stranicu, ne za staru koju je korisnik napustio.
+        const saved = this._scrollMem[window.location.pathname];
+        const max = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+        // Bez zapamcene pozicije (npr. prvi posjet toj ruti u ovoj sesiji, ili
+        // osvjezavanje stranice - _scrollMem je u memoriji, gubi se na reload)
+        // pada na 0, bez greske - dosadasnje ponasanje za taj slucaj.
+        // Math.min uz max: ako je nova stranica sad KRACA od zapamcene
+        // pozicije (npr. filter promijenio broj kartica), scrollTo na staru
+        // (preveliku) vrijednost preglednik sam tiho zakvaci na dno - Math.min
+        // to radi eksplicitno, umjesto da se oslanjamo na to tiho ponasanje.
+        window.scrollTo(0, typeof saved === 'number' ? Math.min(saved, max) : 0);
+      });
+      // resetHScroll() OSTAJE: horizontalne cip-trake/tablice se i dalje moraju
+      // resetirati na popstate, to je odvojeno od vertikalnog skrola stranice i
+      // resetHScroll() nikad nije dirao window/document scrollTop - vidi
+      // definiciju funkcije.
       this.resetHScroll();
     };
     window.addEventListener('popstate', this._onPopState);
@@ -6425,32 +6473,32 @@ class Component extends DCLogic {
     this.loadMarket();
     this.loadYt();
     setTimeout(() => this.watchSocial(), 60);
-    // scrollActiveChipsIntoView() ovdje (ne u resize listeneru ispod) - pokriva
-    // izravno otvaranje rute čiji aktivni cip nije prvi u traci (npr. deep-link
-    // na /kalkulatori/zatvoriti). Ponovljeno na istim checkpointima kao syncSegs()
-    // jer sirina cipova ovisi o ucitanom fontu. Ovo je iskljucivo za calc/calcsub
-    // (kalkulatori) - scrollActiveChipsIntoView() namjerno preskace pok/mir.
-    this.syncSegs(); this.scrollActiveChipsIntoView();
-    setTimeout(() => { this.syncSegs(); this.scrollActiveChipsIntoView(); }, 120);
-    setTimeout(() => { this.syncSegs(); this.scrollActiveChipsIntoView(); }, 600);
-    window.addEventListener('load', () => { this.syncSegs(); this.scrollActiveChipsIntoView(); });
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { this.syncSegs(); this.scrollActiveChipsIntoView(); });
-    // pok/mir (Pokazatelji): NAMJERNO ne isti pristup s vise checkpointa - na
-    // stvarnom uredjaju (hladni font s mreze, font-display:swap) svaki bi
+    // syncSegs() (pokazivac/indikator): siguran na vise checkpointa, ne mice
+    // skrol, pa se i dalje ponavlja dok se sirina cipova ne slegne s ucitanim
+    // fontom (font-display:swap).
+    this.syncSegs();
+    setTimeout(() => this.syncSegs(), 120);
+    setTimeout(() => this.syncSegs(), 600);
+    window.addEventListener('load', () => this.syncSegs());
+    // scrollActiveChipsIntoView(): NAMJERNO ne isti pristup s vise checkpointa
+    // kao syncSegs() - na stvarnom uredjaju (hladni font s mreze) svaki bi
     // checkpoint mogao izracunati drugaciju poziciju dok se sirina cipova
     // slaze, sto se vidi kao "poskakivanje" (potvrdjeno na iPhoneu, vidi
-    // NOTES.md §3). Zato tocno JEDNO pozicioniranje: cim fontovi zavrse
-    // ucitavanje (document.fonts.ready), uz ~1s fallback za slucaj da se
-    // ready nikad ne razrijesi. _pokChipsPositioned sprjecava da oba (ready
-    // i fallback) pozicioniraju dvaput.
-    this._pokChipsPositioned = false;
-    const positionPokChipsOnce = () => {
-      if (this._pokChipsPositioned) return;
-      this._pokChipsPositioned = true;
-      this.scrollActivePokChipsIntoView();
+    // NOTES.md §3 - vrijedilo je za pok/mir, sad vrijedi za sve trake jer je
+    // isti minimalni-pomak obrazac primijenjen posvuda). Zato tocno JEDNO
+    // pozicioniranje po mountu: cim fontovi zavrse ucitavanje
+    // (document.fonts.ready), uz ~1s fallback za slucaj da se ready nikad ne
+    // razrijesi. _chipsPositioned sprjecava da oba (ready i fallback)
+    // pozicioniraju dvaput. Izravno otvaranje rute ciji aktivni cip nije prvi
+    // u traci (npr. deep-link na /kalkulatori/zatvoriti) time je pokriveno.
+    this._chipsPositioned = false;
+    const positionChipsOnce = () => {
+      if (this._chipsPositioned) return;
+      this._chipsPositioned = true;
+      this.scrollActiveChipsIntoView();
     };
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(positionPokChipsOnce);
-    setTimeout(positionPokChipsOnce, 1000);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(positionChipsOnce);
+    setTimeout(positionChipsOnce, 1000);
     this._segRs = () => this.syncSegs();
     window.addEventListener('resize', this._segRs);
     // Rotacija pokazatelja: 5 s vidljivo + 0,4 s prijelaz.
@@ -6508,7 +6556,19 @@ class Component extends DCLogic {
       const el = grupe[i];
       const ind = el.querySelector('[data-seg-ind]');
       const act = el.querySelector('[data-seg-active="1"]');
-      if (!ind || !act) continue;
+      if (!act) {
+        // Nijedan cip u ovoj traci nije aktivan (npr. obitelji-cipovi na
+        // /kalkulatori hubu, gdje CALC_OBITELJ['hub'] ne postoji pa je act
+        // ispravno null) - kolabiraj indikator i vrati boju SVIH cipova na
+        // SOFT. Bez ovoga indikator i boja ostaju gdje su bili prije odlaska
+        // s prethodne, stvarno aktivne stranice (potvrdjeno uzivo: nakon
+        // /kalkulatori/placa pa "Svi kalkulatori", "Plaća" ostaje bijela na
+        // crvenom iako joj je data-seg-active="0").
+        if (ind) ind.style.width = '0px';
+        el.querySelectorAll('button').forEach((b) => { b.style.color = 'var(--soft)'; });
+        continue;
+      }
+      if (!ind) continue;
       const w = act.offsetWidth;
       ind.style.left = act.offsetLeft + 'px';
       ind.style.width = w + 'px';
@@ -6588,6 +6648,8 @@ class Component extends DCLogic {
   componentWillUnmount() {
     window.removeEventListener('resize', this._onResize);
     if (this._onPopState) window.removeEventListener('popstate', this._onPopState);
+    if (this._onScrollMem) window.removeEventListener('scroll', this._onScrollMem);
+    clearTimeout(this._scrollMemTimer);
     if (window.visualViewport && this._onVVResize) {
       window.visualViewport.removeEventListener('resize', this._onVVResize);
       window.visualViewport.removeEventListener('scroll', this._onVVResize);
@@ -6614,8 +6676,7 @@ class Component extends DCLogic {
   // skrol poziciju stare. Trake s cipovima ([data-seg]) IMAJU aktivni cip
   // (data-seg-active="1") - njih se ne vraca na 0 (moglo bi ga sakriti ako je
   // u sredini/na kraju trake), nego se aktivni cip skrola u vidljivi dio -
-  // vidi scrollActiveChipsIntoView() (calc/calcsub) i
-  // scrollActivePokChipsIntoView() (pok/mir, drugaciji - minimalni - pristup).
+  // vidi scrollActiveChipsIntoView(), isti obrazac za SVE trake.
   resetHScroll() {
     if (typeof document === 'undefined') return;
     document.querySelectorAll('[data-hscroll]').forEach((el) => { el.scrollLeft = 0; });
@@ -6623,48 +6684,35 @@ class Component extends DCLogic {
     // odmah nakon setState-a, prije nego se novi data-seg-active commita u DOM
     // - bez odgode bismo jos uvijek nasli STARI aktivni cip. rAF je nepouzdan
     // (preglednici ga suspendiraju za tabove bez fokusa), setTimeout se uvijek
-    // izvrsi.
-    setTimeout(() => { this.scrollActiveChipsIntoView(); this.scrollActivePokChipsIntoView(); }, 0);
+    // izvrsi. NAMJERNO ne dira vertikalni (window/document) skrol - to je
+    // odvojeno, vidi _onPopState i go()/goCalc().
+    setTimeout(() => { this.scrollActiveChipsIntoView(); }, 0);
   }
-  // Centrira aktivni cip u svakoj [data-seg] traci OSIM pok/mir (vidi
-  // scrollActivePokChipsIntoView), umjesto da ga scrollLeft:0 ostavi izvan
-  // vidljivog dijela. Namjerno odvojeno od syncSegs() (koji se zove na SVAKI
-  // render) - poziva se samo pri stvarnoj promjeni sekcije/kalkulatora
-  // (resetHScroll) i jednom pri mountu, nikad pri svakoj promjeni stanja, jer
-  // bi inace nasilno vracalo rucni skrol korisnika.
-  // NAMJERNO ne koristi scrollIntoView: taj API prolazi kroz SVE scroll-
-  // ancestore (ukljucivo stranicu), pa je i uz block:'nearest' znao povuci
-  // vertikalni skrol cijele stranice (potvrdjeno na iPhoneu - Pokazatelji su
-  // se otvarali usred grafa umjesto na vrhu). container.scrollLeft se
-  // postavlja izravno pa fizicki ne moze dirati window/document skrol.
+  // Minimalni pomak u SVAKOJ [data-seg] traci, NIKAD centriranje. Prijasnja
+  // verzija je centrirala aktivni cip za calc/calcsub, a pok/mir su imali
+  // zaseban, minimalni pristup (vidi NOTES.md §3: centriranje pomice traku i
+  // kad nije nuzno - "poskakivanje"). Uklonjeno grananje: prag preljeva ovisi
+  // o fontu i duljini naziva, razlicito po traci i po uredjaju, pa je ISTI
+  // slucaj koji je pogadjao pok/mir mogao (i jest, potvrdjeno uzivo) pogoditi
+  // bilo koju drugu traku - centriranje aktivnog PRVOG cipa u traci koja
+  // prelijeva davalo je scrollLeft > 0 i odsijecalo mu lijevi rub (npr.
+  // "Bruto 1 → Neto" na uzem uredjaju). Ako je aktivni cip vec potpuno
+  // vidljiv, scrollLeft se uopce ne dira; inace se pomakne bas onoliko da rub
+  // cipa (+12px razmaka) sjedne na rub trake. NAMJERNO bez animacije: i CSS
+  // scroll-behavior:smooth i el.scrollTo({behavior:'smooth'}) su se u
+  // testiranju pokazali nepouzdani (scrollLeft se ponekad uopce nije
+  // pomaknuo - vidi NOTES.md §3). Ispravna pozicija ima prednost pred glatkim
+  // klizanjem; izravna dodjela scrollLeft-a je jedini nacin koji je pouzdano
+  // radio u svim testovima. NAMJERNO ne koristi scrollIntoView: taj API
+  // prolazi kroz SVE scroll-ancestore (ukljucivo stranicu), pa je i uz
+  // block:'nearest' znao povuci vertikalni skrol cijele stranice (potvrdjeno
+  // na iPhoneu - Pokazatelji su se otvarali usred grafa umjesto na vrhu).
+  // container.scrollLeft se postavlja izravno pa fizicki ne moze dirati
+  // window/document skrol. Bez aktivnog cipa (rijedak edge-case) vraca na 0.
   scrollActiveChipsIntoView() {
     if (typeof document === 'undefined') return;
-    document.querySelectorAll('[data-seg]').forEach((el) => {
-      const name = el.getAttribute('data-seg');
-      if (name === 'pok' || name === 'mir') return; // te dvije ide preko scrollActivePokChipsIntoView()
-      const act = el.querySelector('[data-seg-active="1"]');
-      if (!act) return;
-      const target = act.offsetLeft + act.offsetWidth / 2 - el.clientWidth / 2;
-      const max = el.scrollWidth - el.clientWidth;
-      el.scrollLeft = Math.max(0, Math.min(target, max));
-    });
-  }
-  // pok/mir (Pokazatelji): minimalni pomak, ne centriranje. Razlog (vidi
-  // NOTES.md §3): centriranje na svaki klik pomice traku i kad nije nuzno
-  // ("poskakivanje"). Ovdje: ako je aktivni cip vec potpuno vidljiv, scrollLeft
-  // se uopce ne dira; inace se pomakne bas onoliko da rub cipa (+12px razmaka)
-  // sjedne na rub trake. NAMJERNO bez animacije: i CSS scroll-behavior:smooth
-  // i el.scrollTo({behavior:'smooth'}) su se u testiranju pokazali nepouzdani
-  // (scrollLeft se ponekad uopce nije pomaknuo - vidi NOTES.md §3). Ispravna
-  // pozicija ima prednost pred glatkim klizanjem; izravna dodjela scrollLeft-a
-  // je jedini nacin koji je pouzdano radio u svim testovima.
-  // Bez aktivnog cipa (rijedak edge-case) vraca na 0.
-  scrollActivePokChipsIntoView() {
-    if (typeof document === 'undefined') return;
     const PAD = 12;
-    ['pok', 'mir'].forEach((name) => {
-      const el = document.querySelector('[data-seg="' + name + '"]');
-      if (!el) return;
+    document.querySelectorAll('[data-seg]').forEach((el) => {
       const act = el.querySelector('[data-seg-active="1"]');
       if (!act) { el.scrollLeft = 0; return; }
       const viewLeft = el.scrollLeft;
