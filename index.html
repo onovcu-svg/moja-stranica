@@ -9678,10 +9678,14 @@ class Component extends DCLogic {
         kuceNaslov: nkRast >= 0 ? 'Koliko je nekretnina poskupjela' : 'Koliko je nekretnina pojeftinila',
         rastLabel: nkRast >= 0 ? 'Ukupni rast' : 'Ukupni pad',
         rastPrikaz: nkRast >= 0 ? pct(nkRast, 1) : pct(Math.abs(nkRast), 1),
+        // "Danas" je ovdje ranije značilo "zadnja godina u nizu" - od filtriranja
+        // Q1 2026 iz izračuna (HPI_PUNE) to više nisu ista stvar (v. IZVORI.md).
+        // Obje grane sad pišu stvarnu godinu, gramatički paralelno s prvom
+        // polovicom rečenice ("kojim si <godina> mogao kupiti...").
         kuceTxt: 'Prosječna cijena nekretnina u razdoblju ' + nkPrvi[0] + '. – ' + nkZadnji[0] + '. '
           + (nkRast >= 0 ? 'porasla je za ' + pct(nkRast, 1) : 'pala je za ' + pct(Math.abs(nkRast), 1))
           + '. Za isti novac kojim si ' + nkPrvi[0] + '. mogao kupiti stan od 50 m², '
-          + (nkZadnji[0] === NK_ZADNJA ? 'danas' : nkZadnji[0] + '.') + ' možeš kupiti '
+          + nkZadnji[0] + '. si mogao kupiti '
           + nf(1).format(50 / (nkZadnji[1] / nkPrvi[1])) + ' m².',
         aktChart: nkAktChart, aktGridLines: nkAktGridLines,
         jeKupoprodaje: !nkJeDozvole,
