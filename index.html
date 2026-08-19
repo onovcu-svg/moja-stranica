@@ -256,8 +256,8 @@
   <main>
     <section style="max-width:1180px;margin:0 auto;padding:clamp(60px,10vh,124px) clamp(18px,4vw,36px) clamp(40px,7vh,68px);text-align:center;animation:onFade .6s ease both">
       <h1 style="font-weight:700;font-size:clamp(40px,7.6vw,86px);line-height:1.02;letter-spacing:-.042em;margin:0 auto clamp(18px,3vh,26px);max-width:16ch;text-wrap:balance">Novac nije kompliciran.</h1>
-      <p style="font-weight:400;font-size:clamp(17px,2.1vw,22px);line-height:1.5;letter-spacing:-.015em;color:var(--ink);max-width:46ch;margin:0 auto 14px;text-wrap:pretty"><strong style="font-weight:600">O novcu je hrvatski portal za financijsku pismenost.</strong> Besplatni kalkulatori, najvažniji domaći pokazatelji i edukativni sadržaji, prilagođeni hrvatskom kontekstu.</p>
-      <p style="font-weight:300;font-size:clamp(15px,1.7vw,17.5px);line-height:1.55;color:var(--soft);max-width:52ch;margin:0 auto clamp(26px,4vh,36px);text-wrap:pretty"><strong style="font-weight:600">O novcu</strong> ti pomaže razumjeti prije nego što doneseš odluku.</p>
+      <p style="font-weight:400;font-size:clamp(17px,2.1vw,22px);line-height:1.5;letter-spacing:-.015em;color:var(--ink);max-width:46ch;margin:0 auto 14px;text-wrap:pretty"><strong style="font-weight:600">„O novcu” je hrvatski portal za financijsku pismenost.</strong> Besplatni kalkulatori, najvažniji domaći pokazatelji i edukativni sadržaji, prilagođeni hrvatskom kontekstu.</p>
+      <p style="font-weight:300;font-size:clamp(15px,1.7vw,17.5px);line-height:1.55;color:var(--soft);max-width:52ch;margin:0 auto clamp(26px,4vh,36px);text-wrap:pretty"><strong style="font-weight:600">„O novcu”</strong> ti pomaže razumjeti prije nego što doneseš odluku.</p>
       <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
         <button sc-camel-on-click="{{ on.tabCalc }}" style="background:var(--acc);color:#FFF;border:none;border-radius:980px;padding:18px 36px;cursor:pointer;font-weight:600;font-size:clamp(16px,1.8vw,18.5px);letter-spacing:-.015em;box-shadow:0 8px 30px rgba(220,38,38,.28);transition:opacity .2s,transform .2s" style-hover="opacity:.9;transform:scale(1.04)">Isprobaj kalkulatore →</button>
         <button sc-camel-on-click="{{ on.tabB2b }}" style="background:transparent;color:var(--ink);border:1px solid var(--line2);border-radius:980px;padding:18px 32px;cursor:pointer;font-weight:600;font-size:clamp(16px,1.8vw,18.5px);letter-spacing:-.015em;transition:all .2s" style-hover="border-color:var(--ink);transform:scale(1.03)">Edukacije za tvrtke</button>
@@ -2745,6 +2745,7 @@
         <h1 style="font-weight:700;font-size:clamp(32px,5.2vw,60px);line-height:1.02;letter-spacing:-.04em;margin:0 auto 16px;max-width:20ch;text-wrap:balance">Sve o novcu, bez sitnog tiska.</h1>
         <p style="font-weight:300;font-size:clamp(15.5px,1.7vw,18px);color:var(--soft);max-width:48ch;margin:0 auto;line-height:1.5">Redoviti videi i pisani vodiči, svaki s konkretnim brojem na kraju.</p>
       </div>
+      <sc-if value="{{ imaVrste }}">
       <div style="display:flex;justify-content:center;margin-bottom:14px">
         <div data-seg="blogvrsta" style="position:relative;display:inline-flex;padding:4px;background:var(--sec);border-radius:980px;gap:2px;max-width:100%;overflow-x:auto">
           <span data-seg-ind="1" style="position:absolute;top:4px;bottom:4px;left:4px;width:0;background:var(--acc);border-radius:980px;box-shadow:0 1px 6px rgba(220,38,38,.35);transition:left .32s cubic-bezier(.4,0,.2,1),width .32s cubic-bezier(.4,0,.2,1);pointer-events:none"></span>
@@ -2753,6 +2754,7 @@
           </sc-for>
         </div>
       </div>
+      </sc-if>
       <sc-if value="{{ imaKats }}" hint-placeholder-val="{{ true }}">
       <div style="display:flex;justify-content:center;margin-bottom:clamp(28px,4vh,40px)">
         <div data-seg="blogkat" data-seg-wrap="1" style="position:relative;display:flex;flex-wrap:wrap;justify-content:center;padding:3px;background:var(--sec);border-radius:20px;gap:2px;max-width:100%">
@@ -3852,6 +3854,9 @@
             </div>
             <h2 style="font-weight:700;font-size:clamp(26px,3.4vw,38px);line-height:1.08;letter-spacing:-.035em;margin:0 0 8px;text-wrap:balance">Investiram svaki mjesec</h2>
             <p style="font-weight:300;font-size:15px;line-height:1.55;color:var(--soft);margin:0;max-width:56ch;text-wrap:pretty">Četiri portfelja u aplikaciji Genius: ETF Start, S&amp;P 500, BET i Lucija. Prva tri kreću u srpnju 2024., Lucija u kolovozu 2025. Svaki mjesec objavljujem uplate i stanje, bez uljepšavanja.</p>
+            <div style="border-left:2px solid var(--line2);padding-left:14px;margin:14px 0 0;max-width:56ch">
+              <p style="font-weight:300;font-size:12.5px;line-height:1.55;color:var(--soft);margin:0;text-wrap:pretty">Dugogodišnji sam zaposlenik InterCapitala i trenutačno Growth Strategist u Geniusu. Ni ovaj prikaz ni ijedna objava o Geniusu nisu plaćeni oglas ni suradnja.</p>
+            </div>
           </div>
           <div style="text-align:right;flex-shrink:0">
             <div style="font-weight:300;font-size:12.5px;color:var(--soft);margin-bottom:5px">Stanje na dan</div>
@@ -4043,8 +4048,8 @@
       <div style="background:var(--tint);border:1px solid var(--line);border-radius:20px;padding:clamp(24px,3.2vw,40px)">
         <div style="font-weight:600;font-size:13px;letter-spacing:.04em;color:var(--acc);margin-bottom:14px">Filozofija kanala</div>
         <h2 style="font-weight:700;font-size:clamp(24px,3.2vw,36px);line-height:1.12;letter-spacing:-.03em;margin:0 0 18px;max-width:34ch;text-wrap:balance">Zašto kanal postoji i tko ga financira.</h2>
-        <p style="font-weight:300;font-size:clamp(15.5px,1.6vw,17.5px);line-height:1.65;color:var(--soft);margin:0 0 16px;max-width:74ch;text-wrap:pretty">YouTube kanal pokrenuo sam početkom 2024. s ciljem da educiram prosječnog Hrvata i pomognem mu izbjeći najčešće greške, one koje sam često i sam radio. Nemam uski fokus na jedno područje: cilj mi je obraditi sve dodirne točke pojedinca s financijskim sustavom i graditi dobre financijske navike, od plaće i poreza do kredita, mirovine i ulaganja.</p>
-        <p style="font-weight:300;font-size:clamp(15.5px,1.6vw,17.5px);line-height:1.65;color:var(--soft);margin:0 0 16px;max-width:74ch;text-wrap:pretty">Institucije koje spominjem u videima spominjem jer zaista i sam koristim te proizvode i vjerujem da su korisni mojoj publici.</p>
+        <p style="font-weight:300;font-size:clamp(15.5px,1.6vw,17.5px);line-height:1.65;color:var(--soft);margin:0 0 16px;max-width:74ch;text-wrap:pretty">Nakon 15-ak godina držanja različitih edukacija u profesionalnoj ulozi, 2024. sam pokrenuo YouTube kanal. Želim educirati prosječnog Hrvata i pomoći mu izbjeći najčešće greške, one koje sam često i sam radio. Na YouTube kanalu nemam uski fokus na jedno područje: cilj mi je obraditi sve dodirne točke pojedinca s financijskim sustavom i graditi dobre financijske navike, od plaće i poreza do kredita, mirovine i ulaganja.</p>
+        <p style="font-weight:300;font-size:clamp(15.5px,1.6vw,17.5px);line-height:1.65;color:var(--soft);margin:0 0 16px;max-width:74ch;text-wrap:pretty">Institucije i proizvode koje spominjem u videima ističem jer ih zaista i sam koristim i vjerujem da su korisni mojoj publici.</p>
         <p style="font-weight:300;font-size:clamp(15.5px,1.6vw,17.5px);line-height:1.65;color:var(--soft);margin:0;max-width:74ch;text-wrap:pretty">Kanal se financira od firmi koje žele podržati širenje opće financijske pismenosti, kao i od edukacija koje održavam po poduzećima.</p>
       </div>
     </section>
@@ -7941,6 +7946,12 @@ class Component extends DCLogic {
     // Vrsta objave: 'video' (reklama za YouTube video) ili 'blog' (kratki tekst).
     // Bez polja vrsta objava se smatra videom ako ima yt id.
     const vrstaOd = (o) => (o.vrsta === 'blog' || !o.yt) ? 'Blog' : 'Video';
+    // Traka "Sve objave/Video/Blog" ima smisla samo ako obje vrste stvarno
+    // postoje - isti obrazac kao imaKats. Racuna se iz CIJELOG OBJAVE, ne iz
+    // uVrsti (koji je vec filtriran po s.vrstaF), inace bi trakа nestala cim
+    // se odabere jedna vrsta. Danas su sve objave 'Video' pa je ovo false;
+    // pojavi se sama cim prva objava dobije vrsta:'blog'.
+    const imaVrste = new Set(OBJAVE.map(vrstaOd)).size > 1;
     const uVrsti = OBJAVE.filter((o) => s.vrstaF === 'Sve' || vrstaOd(o) === s.vrstaF);
     // Prikazuju se samo kategorije koje unutar odabrane vrste imaju barem jednu objavu.
     const REDOSLIJED = ['Investiranje', 'Krediti', 'Mirovina', 'Nekretnine', 'Kartice', 'Štednja', 'Navike', 'Plaća'];
@@ -9806,7 +9817,7 @@ class Component extends DCLogic {
       trzistePotpis: s.trzisteIzvor + ' · ' + s.trzisteMjesec + (s.trzisteStatus === 'live' ? '' : ' · zadnji poznati podaci'),
 
       moduli: moduli,
-      imaKats: kats.length > 1, nemaObjava: uVrsti.filter((o) => aktKat === 'Sve' || o.kat === aktKat).length === 0,
+      imaKats: kats.length > 1, imaVrste: imaVrste, nemaObjava: uVrsti.filter((o) => aktKat === 'Sve' || o.kat === aktKat).length === 0,
       // vrstaF ne mijenja rutu - dosljedno s filteri (kategorija) ispod, koji
       // nikad nije skakao. resetHScroll() takoder uklonjen: data-seg="blogvrsta"
       // ima samo 3 kratke oznake, ne prelazi sirinu ni na 320px, i /blog nema
