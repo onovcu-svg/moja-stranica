@@ -8550,15 +8550,20 @@ class Component extends DCLogic {
       zarBoja: x.a && x.a.zarada < 0 ? SOFT : ACC,
       pri: x.a && isFinite(x.a.mwr) ? pZnak(x.a.mwr) + pct(Math.abs(x.a.mwr), 2) : '–',
       priBoja: x.a && x.a.mwr < 0 ? SOFT : ACC,
-      go: () => { this.setState({ projPort: x.k }); if (typeof window !== 'undefined') { window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; } this.resetHScroll(); }
+      // projPort ne mijenja rutu (v. NOTES.md §3) - scrollTo(0,0) uklonjen.
+      // resetHScroll() OSTAJE: data-seg="projport" ima overflow-x:auto i
+      // stvarno moze prijeci sirinu na uzem ekranu, a tablica "Svi portfelji"
+      // nekoliko redaka nize je [data-hscroll] (min-width:640px) - klik na
+      // redak (ovaj isti go()) mora vratiti tu tablicu na lijevi rub.
+      go: () => { this.setState({ projPort: x.k }); this.resetHScroll(); }
     }));
     const projPortChips = [{ k: 'uk', label: 'Sve zajedno' }].concat(PORTFELJI.meta.map((m) => ({ k: m.k, label: m.kratko }))).map((x) => ({
       label: x.label, act: s.projPort === x.k ? '1' : '0', c: s.projPort === x.k ? '#FFF' : SOFT,
-      go: () => { this.setState({ projPort: x.k }); if (typeof window !== 'undefined') { window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; } this.resetHScroll(); }
+      go: () => { this.setState({ projPort: x.k }); this.resetHScroll(); }
     }));
     const projPerChips = PROJ_GODINE.map((g) => ({ k: g, label: g + '.' })).concat([{ k: 'sve', label: 'Od početka' }]).map((x) => ({
       label: x.label, act: s.projPer === x.k ? '1' : '0', c: s.projPer === x.k ? '#FFF' : SOFT,
-      go: () => { this.setState({ projPer: x.k }); if (typeof window !== 'undefined') { window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; } this.resetHScroll(); }
+      go: () => { this.setState({ projPer: x.k }); this.resetHScroll(); }
     }));
 
     // Hover na svim stupičastim grafovima, isti obrazac kao na grafu inflacije.
@@ -9278,7 +9283,11 @@ class Component extends DCLogic {
           })),
           tabovi: STUP2.map((x, ix) => {
             const a = s.mirKat === ix, c = seg(a);
-            return { label: 'Kategorija ' + x.k, bg: c.bg, c: c.c, sh: c.sh, act: c.act, go: () => { this.setState({ mirKat: ix, kosHover: -1 }); if (typeof window !== 'undefined') { window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; } this.resetHScroll(); } };
+            // mirKat ne mijenja rutu - scrollTo(0,0) uklonjen. resetHScroll()
+            // TAKOĐER uklonjen: ova traka je data-seg="pok2" bez overflow-x
+            // (display:flex, tri kartice flex:1, ne moze prijeci sirinu), i
+            // mirovinski dio stranice nema nijedan [data-hscroll] element.
+            return { label: 'Kategorija ' + x.k, bg: c.bg, c: c.c, sh: c.sh, act: c.act, go: () => this.setState({ mirKat: ix, kosHover: -1 }) };
           }),
           // Ilustrativna projekcija: 100 €/mj. kroz 40 godina, po prosječnom
           // desetogodišnjem MIREX prinosu svake kategorije (mjesečno ukamaćivanje).
@@ -9798,7 +9807,11 @@ class Component extends DCLogic {
 
       moduli: moduli,
       imaKats: kats.length > 1, nemaObjava: uVrsti.filter((o) => aktKat === 'Sve' || o.kat === aktKat).length === 0,
-      vrsteFilteri: ['Sve', 'Video', 'Blog'].map((v) => ({ label: v === 'Sve' ? 'Sve objave' : v, act: s.vrstaF === v ? '1' : '0', c: s.vrstaF === v ? '#FFF' : SOFT, go: () => { this.setState({ vrstaF: v, filter: 'Sve' }); if (typeof window !== 'undefined') { window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; } this.resetHScroll(); } })),
+      // vrstaF ne mijenja rutu - dosljedno s filteri (kategorija) ispod, koji
+      // nikad nije skakao. resetHScroll() takoder uklonjen: data-seg="blogvrsta"
+      // ima samo 3 kratke oznake, ne prelazi sirinu ni na 320px, i /blog nema
+      // [data-hscroll] element.
+      vrsteFilteri: ['Sve', 'Video', 'Blog'].map((v) => ({ label: v === 'Sve' ? 'Sve objave' : v, act: s.vrstaF === v ? '1' : '0', c: s.vrstaF === v ? '#FFF' : SOFT, go: () => this.setState({ vrstaF: v, filter: 'Sve' }) })),
       filteri: kats.map((k) => ({ label: k, act: aktKat === k ? '1' : '0', c: aktKat === k ? '#FFF' : SOFT, go: () => this.setState({ filter: k }) })),
       objave: uVrsti.filter((o) => aktKat === 'Sve' || o.kat === aktKat).map((o) => {
         // otvoriClanak izvucen u imenovanu funkciju da ga i otvori (postojece

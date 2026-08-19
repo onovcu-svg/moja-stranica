@@ -152,20 +152,33 @@ Zadnje ažuriranje: 18. 8. 2026., 20:27
     pozicije ima prednost pred glatkim klizanjem. Ako se poslije pokaže da
     animacija na stvarnom uređaju ipak radi, može se dodati naknadno, ali
     provjeriti uživo na uređaju, ne osloniti se na automatizirano testiranje.
-- **Pravilo: svaka stranica se uvijek otvara na vrhu, bez iznimke.** Vrijedi za
-  svaku navigaciju: `go()`, `goCalc()`, `blogVeza()`, izravno otvaranje URL-a,
-  promjenu kategorije/podtaba (Pokazatelji, Projekti, Blog), otvaranje i
-  zatvaranje blog članka, i gumb natrag/naprijed u pregledniku. U kodu ne
-  postoji nijedan link koji cilja određeni dio stranice (kotva/hash) - nema
-  legitimnog razloga da bilo koja navigacija ostavi korisnika usred stranice.
-  `_onPopState` (natrag/naprijed) do 18.8. NIJE resetirao skrol - popravljeno
-  dodavanjem istog `window.scrollTo(0,0)` + `resetHScroll()` poziva, i
-  postavljanjem `history.scrollRestoration = 'manual'` u `componentDidMount()`
-  da preglednikovo vlastito vraćanje skrol pozicije na popstate ne poništi taj
-  reset asinkrono. Provjereno uživo na svim putovima (430px): go() (svih 7
-  odredišta), goCalc(), deep-link, promjena kategorije u Pokazateljima/
-  Projektima/Blogu, otvaranje/zatvaranje članka, natrag/naprijed, blogVeza -
-  svaki na vrhu, s vidljivim aktivnim cipom gdje je primjenjivo.
+- **Skrol na vrh ide točno onda kad se promijeni vrijednost koju `_pathFor()`
+  čita** — `tab`, `calcTab`, `pokKat`, `blogOpen` — dakle kad se stvarno
+  mijenja URL. Promjena bilo kojeg drugog polja stanja (čip unutar kartice,
+  podtab, filter, smjer, model otplate) NIKAD ne skrola, koliko god vizualno
+  velika promjena bila.
+  Prijašnja formulacija ("bez iznimke", uz nabrajanje "kategorije/podtaba") bila
+  je izvor greške: `mirKat` i `projPort` su tretirani kao "podtab" po analogiji
+  s `pokKat`, iako prvi ne mijenjaju rutu a `pokKat` mijenja. Provjera je
+  mehanička: mijenja li kontrola `_pathFor()` izlaz.
+  U kodu ne postoji nijedan link koji cilja određeni dio stranice (kotva/hash) -
+  nema legitimnog razloga da bilo koja PRAVA navigacija ostavi korisnika usred
+  stranice. `_onPopState` (natrag/naprijed) do 18.8. NIJE resetirao skrol -
+  popravljeno dodavanjem istog `window.scrollTo(0,0)` + `resetHScroll()`
+  poziva, i postavljanjem `history.scrollRestoration = 'manual'` u
+  `componentDidMount()` da preglednikovo vlastito vraćanje skrol pozicije na
+  popstate ne poništi taj reset asinkrono.
+  Provjereno 19.8.2026: svih 16 mjesta koja mijenjaju rutu ispravno skaču;
+  nijedno mjesto ne mijenja rutu bez reseta skrola. Uklonjen `scrollTo(0,0)` s
+  pet mjesta koja rutu NISU mijenjala: `projTab`/`projPortChips`/`projPerChips`
+  (projPort/projPer), `mirKat` (2. stup A/B/C), `vrstaF` (blog Sve/Video/Blog) -
+  potonji radi konzistentnosti s `filter` (kategorija), koji nikad nije skakao.
+  `resetHScroll()` OSTAJE na `projTab`/`projPortChips`/`projPerChips`: traka
+  `data-seg="projport"` stvarno ima `overflow-x:auto`, a tablica "Svi
+  portfelji" je `[data-hscroll]` (`min-width:640px`) - oboje se moraju vratiti
+  na lijevi rub pri promjeni. Uklonjen je s `mirKat` (traka `data-seg="pok2"`
+  nema `overflow-x`, ne može prijeći širinu) i s `vrstaF` (traka ima samo 3
+  kratke oznake, `/blog` nema nijedan `[data-hscroll]`).
 - **Publication ID ostaje u git historyju** — nije eksploatabilan bez API ključa,
   rewrite historyja nije vrijedan rizika.
 - **GitHub Pages ugašen** (17.8.) — bila je druga živa kopija na
