@@ -4332,7 +4332,7 @@
             </div>
             <div>
               <div style="font-weight:600;font-size:10.5px;letter-spacing:.08em;color:#DC2626;padding-bottom:7px;border-bottom:1px solid #E4E4E7">REZULTAT IZRAČUNA</div>
-              <sc-for list="{{ pdf.rez }}" as="r" hint-placeholder-count="6">
+              <sc-for list="{{ pdf.rezPdf }}" as="r" hint-placeholder-count="6">
                 <div style="display:flex;justify-content:space-between;gap:14px;padding:7px 0;border-bottom:1px solid #F4F4F5">
                   <span style="font-weight:400;font-size:11.5px;color:#52525B;min-width:0">{{ r.l }}</span>
                   <span style="font-weight:600;font-size:11.5px;text-align:right;white-space:nowrap;flex-shrink:0">{{ r.v }}</span>
@@ -4340,6 +4340,28 @@
               </sc-for>
             </div>
           </div>
+
+          <sc-if value="{{ pdf.imaUsporedba }}">
+          <div class="on-pdf-block" style="margin-top:24px">
+            <div style="font-weight:600;font-size:10.5px;letter-spacing:.08em;color:#DC2626;padding-bottom:7px;border-bottom:1px solid #E4E4E7">{{ pdf.usporedba.naslov }}</div>
+            <div style="font-weight:400;font-size:12px;line-height:1.5;margin-top:10px">{{ pdf.usporedba.recenica }}</div>
+            <div style="font-weight:400;font-size:10.5px;color:#71717A;margin-top:8px">{{ pdf.usporedba.pretpostavke }}</div>
+            <div style="display:flex;gap:10px;padding:8px 0;margin-top:10px;border-bottom:1px solid #09090B;font-weight:600;font-size:10.5px;color:#71717A;letter-spacing:.02em">
+              <span style="flex:1.5">{{ pdf.usporedba.c0 }}</span>
+              <span style="flex:1;text-align:right">{{ pdf.usporedba.c1 }}</span>
+              <span style="flex:1;text-align:right">{{ pdf.usporedba.c2 }}</span>
+              <span style="flex:1;text-align:right">{{ pdf.usporedba.c3 }}</span>
+            </div>
+            <sc-for list="{{ pdf.usporedba.redovi }}" as="u" hint-placeholder-count="5">
+              <div style="display:flex;gap:10px;padding:6px 0;border-bottom:1px solid #F4F4F5;font-size:11.5px">
+                <span style="flex:1.5;font-weight:600">{{ u.a }}</span>
+                <span style="flex:1;text-align:right;white-space:nowrap">{{ u.b }}</span>
+                <span style="flex:1;text-align:right;white-space:nowrap">{{ u.c }}</span>
+                <span style="flex:1;text-align:right;font-weight:600;white-space:nowrap">{{ u.d }}</span>
+              </div>
+            </sc-for>
+          </div>
+          </sc-if>
 
           <sc-for list="{{ pdf.sekcije }}" as="sek" hint-placeholder-count="1">
             <div class="on-pdf-block" style="margin-top:24px">
@@ -7154,9 +7176,17 @@ class Component extends DCLogic {
         naslov: '', kad: kad, rataLabel: '', rata: '', male: [], sazetak: '',
         param: [], rez: [], sekcije: [], imaTabela: false,
         tabela: { naslov: '', c0: '', c1: '', c2: '', c3: '', c4: '', redovi: [], nota: '' },
+        imaUsporedba: false,
+        usporedba: { naslov: '', recenica: '', pretpostavke: '', c0: '', c1: '', c2: '', c3: '', redovi: [] },
         metoda: [M_ZAOKR], izvori: [IZ_UNOS], zigovi: ZIGOVI
       }, x);
       r.rataSize = String(r.rata).length > 11 ? '26px' : '34px';
+      // rezPdf: sto PDF prikazuje pod "REZULTAT IZRACUNA". Devet od deset
+      // grana ovdje ga nikad eksplicitno ne postavlja - fallback na rez znaci
+      // da im se prikaz uopce ne mijenja. Samo kredit (koji NE ide kroz base,
+      // gradi pdfKredit izravno) postavlja rezPdf drugacije od rez, da izbjegne
+      // dupliciranje s "USPOREDBA MODELA OTPLATE".
+      r.rezPdf = r.rezPdf || r.rez;
       return r;
     };
     const t = s.calcTab === 'kamata' ? s.gMode : s.calcTab;
@@ -7682,8 +7712,10 @@ class Component extends DCLogic {
     // Utjecaj inflacije na buduće anuitete: svaka uplata diskontira se na današnju vrijednost.
     const kInf = Math.max(0, this.num(s.kInfStopa, 0)) / 100;
     const kInfM = Math.pow(1 + kInf, 1 / 12) - 1;
-    let kSad = 0;
-    wE.rows.forEach((r) => { kSad += (r.rata + (r.ex || 0)) / Math.pow(1 + kInfM, r.m); });
+    // Generalizirano iz izracuna koji je vrijedio samo za odabrani model
+    // (wE.rows) - treba i za usporedbu oba modela odjednom (nize).
+    const diskontirano = (rows) => rows.reduce((sum, r) => sum + (r.rata + (r.ex || 0)) / Math.pow(1 + kInfM, r.m), 0);
+    const kSad = diskontirano(wE.rows);
     const kZadnjiNom = wE.rows.length ? wE.rows[wE.rows.length - 1].rata : 0;
     const kZadnjiReal = kZadnjiNom / Math.pow(1 + kInfM, wE.rows.length);
     const kPrvaReal10 = wE.prva / Math.pow(1 + kInf, 10);
@@ -7708,6 +7740,55 @@ class Component extends DCLogic {
     const zadnjaPuna = jeAnu ? (punaRate.length ? punaRate[punaRate.length - 1].rata : wE.prva) : wE.zadnja;
     const razlikaKam = Math.abs(A.totInt - R.totInt);
     const razlikaMj = Math.abs(A.prva - R.prva);
+
+    // ── USPOREDBA MODELA OTPLATE (PDF sekcija) ───────────────
+    // Zadnja rata za OBA modela neovisno o odabranom kTip (razlikuje se od
+    // zadnjaPuna iznad, koji vrijedi samo za trenutno odabrani wE). Anuitet:
+    // isti "balon" filter kao zadnjaPuna. Rate: R.zadnja je vec tocno to sto
+    // schedule2() vraca (vidi 7a24501 - ista popravka koja je uvela to polje).
+    const aPunaRate = A.rows.filter((r) => r.bal > 0.01);
+    const aZadnja = aPunaRate.length ? aPunaRate[aPunaRate.length - 1].rata : A.prva;
+    // Potpisane razlike (Rate − Anuitet), ne apsolutne - smjer odlucuje koja
+    // se recenica i koji predznak u tablici koristi.
+    const dTot = R.totInt - A.totInt;
+    const dPrva = R.prva - A.prva;
+    const uspDZadnja = R.zadnja - aZadnja;
+    const jeRateJeftinija = dTot <= 0;
+    // Zaokruzeno na cent - "jeftinije za 0,00 €" bi bilo pogresno frazirano
+    // ako je razlika stvarno nula (npr. kamatna stopa 0%, oba modela postanu
+    // identicna: rata bez kamate = P/n konstantno, isto kao anuitet).
+    const zanemarivo = Math.round(Math.abs(dTot) * 100) === 0;
+    const uspZnak = (d) => (d >= 0 ? '+' : '−') + eur(Math.abs(d), 2);
+    let uspZakljucak;
+    if (zanemarivo) {
+      uspZakljucak = 'Anuiteti i rate ovdje koštaju gotovo jednako — razlika u ukupnoj kamati je zanemariva.';
+    } else if (jeRateJeftinija) {
+      // Tipican slucaj: rata ima manju ukupnu kamatu (nikad vecu, za isti
+      // iznos/stopu/rok bez prijevremene otplate), a vecu prvu ratu.
+      uspZakljucak = dPrva > 0
+        ? 'Rate su ukupno jeftinije za ' + eur(Math.abs(dTot), 2) + ', ali na početku plaćaš ' + eur(Math.abs(dPrva), 2) + ' više mjesečno.'
+        : 'Rate su jeftinije i ukupno (za ' + eur(Math.abs(dTot), 2) + ') i mjesečno na početku (za ' + eur(Math.abs(dPrva), 2) + ').';
+    } else {
+      // Obrambena grana - matematicki se ne ocekuje bez prijevremene otplate,
+      // ali s njom (razliciti ucinci na dva modela) teoretski moguce.
+      uspZakljucak = dPrva < 0
+        ? 'Anuiteti su ukupno jeftiniji za ' + eur(Math.abs(dTot), 2) + ', ali na početku plaćaš ' + eur(Math.abs(dPrva), 2) + ' više mjesečno.'
+        : 'Anuiteti su jeftiniji i ukupno (za ' + eur(Math.abs(dTot), 2) + ') i mjesečno na početku (za ' + eur(Math.abs(dPrva), 2) + ').';
+    }
+    const uspPretpostavke = 'Iznos: ' + eur(kAmt, 2) + ' · Stopa: ' + pct(kRate, 2) + ' · Rok: ' + Math.round(months / 12) + ' god.'
+      + (s.kInfOpen ? ' · Inflacija: ' + pct(Math.max(0, this.num(s.kInfStopa, 0)), 2) + ' (pretpostavka)' : '');
+    const uspRedovi = [
+      { a: 'Prva mjesečna obveza', b: eur(A.prva, 2), c: eur(R.prva, 2), d: uspZnak(dPrva) },
+      { a: 'Zadnja mjesečna obveza', b: eur(aZadnja, 2), c: eur(R.zadnja, 2), d: uspZnak(uspDZadnja) },
+      { a: 'Ukupno plaćeno banci', b: eur(kAmt + A.totInt, 2), c: eur(kAmt + R.totInt, 2), d: uspZnak(dTot) },
+      { a: 'Ukupna kamata', b: eur(A.totInt, 2), c: eur(R.totInt, 2), d: uspZnak(dTot) }
+    ];
+    // "U danasnjem novcu" samo ako je inflacija ukljucena - bez unesene
+    // pretpostavke o inflaciji "danasnja vrijednost" nema znacenje.
+    if (s.kInfOpen) {
+      const aSad = diskontirano(A.rows), rSad = diskontirano(R.rows);
+      uspRedovi.push({ a: 'U današnjem novcu', b: eur(aSad, 2), c: eur(rSad, 2), d: uspZnak(rSad - aSad) });
+    }
 
     // ── CILJ ULAGANJA (obrnuti izračun) ──────────────────────
     const fv = (P0, pmt, r, n) => (r === 0 ? P0 + pmt * n : P0 * Math.pow(1 + r, n) + pmt * (Math.pow(1 + r, n) - 1) / r);
@@ -8635,6 +8716,11 @@ class Component extends DCLogic {
     // isti obrazac (RE_TRAJANJE_1) koji 'Stvarno trajanje otplate' gore vec
     // koristi. pdfGod (tablica po godinama) se NE duplicira za oba modela -
     // za 20 godina bilo bi 40 redaka, neprikladno za mail.
+    // Snimka PRIJE dodavanja usporedbe - PDF prikazuje OVU pod "REZULTAT
+    // IZRACUNA" (pdfKredit.rezPdf, nize), da se pet redaka ispod ne ponove i
+    // u novoj vizualnoj tablici "USPOREDBA MODELA OTPLATE". pdfRez (puni,
+    // s usporedbom kad je ukljucena) i dalje ide u mail, nedirano.
+    const pdfRezPdf = pdfRez.slice();
     if (s.kUsporedi) {
       pdfRez.push({ l: 'Mjesečna obveza, anuitet → rata', v: eur(A.prva, 2) + ' → ' + eur(R.prva, 2) });
       pdfRez.push({ l: 'Ukupna kamata, anuitet → rata', v: eur(A.totInt, 2) + ' → ' + eur(R.totInt, 2) });
@@ -8740,6 +8826,16 @@ class Component extends DCLogic {
       male: [{ l: 'Ukupno plaćeno', v: eur(kUk, 2) }, { l: 'Ukupna kamata', v: eur(wE.totInt, 2) }, { l: 'Trajanje otplate', v: trajanjeTxt(wE.months) }],
       sazetak: 'Na posuđenih ' + eur(kAmt, 2) + ' banci se vrati ' + eur(kUk, 2) + ', od čega je ' + eur(wE.totInt, 2) + ' kamata, odnosno ' + pct(wE.totInt / (kUk || 1) * 100) + ' ukupno plaćenog iznosa.',
       param: pdfParam, rez: pdfRez,
+      // rezPdf: sto PDF prikazuje pod "REZULTAT IZRACUNA" - snimka BEZ
+      // usporedbe (pdfRezPdf, iznad), da se ne ponavlja s "USPOREDBA MODELA
+      // OTPLATE" nize. rez (puni, iznad) ostaje nedirnut - to salje mail.
+      rezPdf: pdfRezPdf,
+      imaUsporedba: s.kUsporedi,
+      usporedba: {
+        naslov: 'USPOREDBA MODELA OTPLATE', recenica: uspZakljucak, pretpostavke: uspPretpostavke,
+        c0: '', c1: 'ANUITETI', c2: 'RATE', c3: 'RAZLIKA',
+        redovi: uspRedovi
+      },
       sekcije: [
         jeKomb ? { naslov: 'PRIJELAZ S FIKSNE NA VARIJABILNU STOPU', redovi: pdfKomb, imaNota: true, nota: 'Ukupna kamata i trajanje u tablici rezultata već uključuju obje stope.' } : null,
         imaExtra ? { naslov: 'PRIJEVREMENA OTPLATA', redovi: pdfExtra, imaNota: false, nota: '' } : null,

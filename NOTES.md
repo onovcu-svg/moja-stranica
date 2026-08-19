@@ -73,6 +73,20 @@ Zadnje ažuriranje: 19. 8. 2026., 21:12
   remeti. `screen and` u uvjetu jamči da se pravilo nikad ne aktivira pri
   `@media print`. (Napomena: `calc()` nazivnik mora biti duljina, npr. `794px`,
   ne goli broj — inače preglednik tiho odbaci cijelu `zoom` deklaraciju.)
+- **4-stupčana usporedbena tablica STANE na 430px** — izmjereno (20.8.2026,
+  kredit) s realnim i ekstremnim iznosima (7 znamenki, `−2.469.135,78 €`) i
+  dugim labelama ("Prva mjesečna obveza"). Nijedna ćelija horizontalno ne
+  prelijeva; duge labele se prelamaju u dva retka (isti kompromis kao PDF-ova
+  vlastita tablica). Relevantno ako se ikad odluči prenijeti usporedbu na
+  ekran — danas je takva tablica samo u PDF-u (`pdf.usporedba`, kredit).
+- **`pdf.rezPdf` je snimka `pdfRez`-a prije dodavanja usporedbe modela
+  otplate** (kredit, 20.8.2026). PDF prikazuje `rezPdf` pod "REZULTAT
+  IZRAČUNA", mail i dalje dobiva puni `rez` (nedirano, i dalje isti pet
+  redaka iz `7119b9d`) — bez ovoga bi PDF prikazao usporedbu dvaput, jednom
+  kao plošne retke i jednom kao tablicu "USPOREDBA MODELA OTPLATE". `base()`
+  ima `r.rezPdf = r.rezPdf || r.rez`, pa ostalih devet grana `buildPdf`-a
+  ne treba dirati — nikad eksplicitno ne postavljaju `rezPdf`, pa im se
+  prikaz uopće ne mijenja.
 - **Dinamički title/description po ruti** (`getMeta()`, poziva se iz `_syncUrl()`
   na svaku promjenu rute, uključivo popstate). Naslovi kalkulatora/pokazatelja/
   statičnih stranica su ručno pisani, blog naslov dolazi iz `OBJAVE[].naslov`
