@@ -105,6 +105,17 @@ Zadnja potpuna provjera: 18. 8. 2026. (inflacija ažurirana 19. 8. 2026. na srpa
   "prosječnu mirovinu" (npr. 879,28 € za 40+ godina staža) — nisu istog obuhvata.
 - Udio u plaći se računa prema neto plaći za svibanj 2026. (1.552 €), dakle
   mirovina i plaća NISU iz istog mjeseca. Tako to radi i HZMO.
+- **`ZADNJE_HZMO` i `ZADNJE_HANFA` su ODVOJENE konstante i moraju ostati
+  odvojene.** HZMO (1. stup, ovaj odjeljak) i HANFA (2./3. stup, odjeljak
+  ispod) su različite institucije s vlastitim kalendarima objave. Da danas
+  obje nose "lipanj 2026." je slučajnost dvaju trenutno usklađenih ciklusa,
+  ne strukturno jamstvo — sutra HZMO može objaviti novi mjesec dok je HANFA
+  još na starom, ili obrnuto. Spajanje u jednu konstantu bilo bi tiho
+  pogrešno točno onog dana kad se ciklusi razmaknu.
+- `STUP1.mirovina40Mjesec` je **treća**, neovisna vrijednost (danas svibanj
+  2026., mjesec iza `ZADNJE_HZMO`): razrada za 40+ godina staža unutar ISTE
+  HZMO objave kasni jedan mjesec za glavnom brojkom. Ne spajati ni s
+  `ZADNJE_HZMO` — dokazana druga vintage, ne nepažnja.
 
 ## Mirovinski fondovi (2. i 3. stup)
 

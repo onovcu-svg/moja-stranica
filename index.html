@@ -3113,12 +3113,12 @@
           <div style="container-type:inline-size;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:clamp(20px,2.4vw,24px)">
             <div style="white-space:nowrap;font-weight:700;font-size:clamp(19px,8.8cqi,30px);letter-spacing:-.04em;line-height:1">{{ s1.mirovina }}</div>
             <div style="font-weight:500;font-size:14px;margin-top:12px;line-height:1.3">Prosječna starosna mirovina</div>
-            <div style="font-weight:300;font-size:12.5px;color:var(--soft);margin-top:4px;line-height:1.4">bez međunarodnih ugovora · {{ s1.mirovinaMjesec }}</div>
+            <div style="font-weight:300;font-size:12.5px;color:var(--soft);margin-top:4px;line-height:1.4">bez međunarodnih ugovora · {{ s1.razdoblje }}</div>
           </div>
           <div style="container-type:inline-size;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:clamp(20px,2.4vw,24px)">
             <div style="white-space:nowrap;font-weight:700;font-size:clamp(19px,8.8cqi,30px);letter-spacing:-.04em;line-height:1">{{ s1.pokrivenostPlacom }}</div>
             <div style="font-weight:500;font-size:14px;margin-top:12px;line-height:1.3">Mirovina u odnosu na plaću</div>
-            <div style="font-weight:300;font-size:12.5px;color:var(--soft);margin-top:4px;line-height:1.4">naspram plaće od {{ s1.placa }} (svibanj 2026.)</div>
+            <div style="font-weight:300;font-size:12.5px;color:var(--soft);margin-top:4px;line-height:1.4">naspram plaće od {{ s1.placa }} ({{ s1.placaMjesec }})</div>
           </div>
           <div style="container-type:inline-size;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:clamp(20px,2.4vw,24px)">
             <div style="white-space:nowrap;font-weight:700;font-size:clamp(19px,8.8cqi,30px);letter-spacing:-.04em;line-height:1">{{ s1.mirovina40 }}</div>
@@ -5601,6 +5601,11 @@ const SEKTORI = [
 
 // ── MIROVINSKI SUSTAV ─────────────────────────────────────────
 // 1. stup: HZMO, aktualna statistika (lipanj 2026., isplata u srpnju).
+// HZMO (1. stup) je institucija ODVOJENA od HANFA-e (2./3. stup, ZADNJE_HANFA)
+// - vlastiti kalendar objave, ne isti izvor. NE spajati s ZADNJE_HANFA iako
+// danas nose istu vrijednost - to je slucajnost dvaju trenutno usklađenih
+// ciklusa, ne strukturno jamstvo. Vidi IZVORI.md, odjeljak "Mirovine (1. stup)".
+const ZADNJE_HZMO = 'lipanj 2026.';
 const STUP1 = {
   osiguranici: 1798712,
   umirovljenici: 1233886,
@@ -5608,14 +5613,19 @@ const STUP1 = {
   // VAŽNO: HZMO objavljuje "statistika za mjesec X, isplata u mjesecu X+1".
   // Ovdje se svugdje koristi mjesec NA KOJI SE PODATAK ODNOSI, ne mjesec isplate.
   prosjecnaMirovina: 721.73,   // ukupna starosna, bez međunarodnih ugovora, lipanj 2026.
-  mirovinaMjesec: 'lipanj 2026.',
   mirovina40: 879.17,          // 40+ godina staža, ZOMO, svibanj 2026.
   mirovina40Bez: 1030.72,      // 40+ staža, bez međunarodnih ugovora, svibanj 2026.
+  // NAMJERNO odvojen od razdoblje/ZADNJE_HZMO: "40+ godina staža" razrada
+  // kasni jedan mjesec za glavnom brojkom ISTE HZMO objave (svibanj vs lipanj).
+  // Ne spajati - dokazana druga vintage, ne nepažnja.
   mirovina40Mjesec: 'svibanj 2026.',
   prosjecnaPlaca: 1552,        // DZS, svibanj 2026. (isti izvor kao tab Rad & plaće)
   stopaDoprinosa: 15,          // I. stup, % bruto plaće
   prosjecnaBruto: 2178,
-  razdoblje: 'lipanj 2026.',
+  // Prije su ovdje bila dva polja (razdoblje + mirovinaMjesec) s uvijek istom
+  // vrijednošću - spojeno u jedno jer nijedno mjesto u predlošku ne očekuje
+  // da se razlikuju (provjereno: svaki ima točno jednog čitatelja u templateu).
+  razdoblje: ZADNJE_HZMO,
   udioMirovinaURashodima: 97, // % rashoda HZMO-a otpada na same mirovine
   proracunUkupno: 39.8,       // mlrd €, ukupni proračunski rashodi RH 2026.
   udioUProracunu: 33          // % proračuna: mirovine i ostale naknade građanima
@@ -5894,6 +5904,13 @@ const CALC_META = {
     izvor: 'Prosječne kamatne stope na nove poslove · HNB',
     savjet: 'Krediti mogu biti jako dobar ili jako opasan alat. Ako su dobri uvjeti i koriste se odgovorno, mogu puno pomoći u ostvarenju životnih ciljeva. Ali, ako se koriste na pogrešan način i po lošim uvjetima, korisniku mogu donijeti velike probleme. Prije samog potpisa obavezno prouči sve opcije i potrudi se pronaći najpovoljniju jer na dugi rok može donijeti veliku razliku!',
     faq: [
+      // 3 %, 7 % i 6,25 % su ILUSTRATIVNE brojke, ne trenutne stope - namjerno
+      // NE tokenizirano. Nenamjenski je u trenutku pisanja bio ~6 % (odatle
+      // 6,25 %); stvarna stopa danas je 5,42 % (v. {KR_GOTOV_NOM}), ali token
+      // ovdje ne bi radio: 5,42 % je NIŽE od pretpostavljenog prinosa (7 %),
+      // pa bi "razlika se gubi" izgubilo smisao - cijela poanta rečenice je
+      // da su stope blizu. Provjeri prije ikakve izmjene: treba li rečenica
+      // preformulaciju, ne samo zamjenu broja.
       { p: 'Isplati li se više prijevremena otplata kredita ili ulaganje?', o: 'Ako je kamatna stopa na kredit veća od realnog očekivanog prinosa ulaganja nakon poreza, prijevremena otplata je matematički isplativija, i to bez rizika. Pri stambenom kreditu od 3 % i očekivanom prinosu portfelja od 7 % ulaganje je u prosjeku bolje, ali kod nenamjenskog kredita od 6,25 % razlika se gubi, a rizik ostaje.' },
       { p: 'Koja je razlika između anuiteta i rate?', o: 'Anuitet je jednak mjesečni iznos u kojem se udio kamate s vremenom smanjuje, a udio glavnice raste. Rata znači jednaku glavnicu svaki mjesec pa je ukupan mjesečni iznos na početku veći i postupno pada. Otplata u ratama ukupno je jeftinija, ali zahtijeva veći početni budžet.' },
       { p: 'Naplaćuje li banka naknadu za prijevremenu otplatu?', o: 'Kod stambenih kredita naknade nema. Kod ostalih vrsta kredita (npr. gotovinskih ili potrošačkih) banka je može naplatiti. Prije uplate obavezno provjeri svoje uvjete u ugovoru, jer naknada može pojesti dio uštede na kamati koju kalkulator pokazuje.' }
@@ -5954,6 +5971,10 @@ const CALC_META = {
       { t: 'Naknada za prijevremenu otplatu nije uključena, provjeri je u ugovoru prije odluke.' }
     ],
     izvor: 'Anuitetski obračun · preostala glavnica = sadašnja vrijednost preostalih anuiteta',
+    // 6 % i 3 % su ILUSTRATIVNE brojke, isti razlog kao kredit.faq[0]: potječu
+    // iz vremena kad je nenamjenski bio ~6 %, namjerno NE tokenizirano jer bi
+    // stvarna stopa (5,42 %, {KR_GOTOV_NOM}) promijenila poantu rečenice
+    // ("teško ga je nadmašiti"), ne samo broj. Provjeri prije izmjene.
     savjet: 'Prije nego zatvoriš kredit, usporedi dvije brojke: preostalu kamatu koju izbjegavaš i prinos koji bi isti novac donio uložen. Zatvaranje kredita je siguran prinos u visini kamatne stope. Kod nenamjenskog kredita od 6 % teško ga je nadmašiti, a kod stambenog od 3 % vrlo često možeš. I provjeri naknadu za prijevremenu otplatu prije nego išta odlučiš.',
     faq: [
       { p: 'Zašto mi je ostalo toliko duga kad je pola anuiteta već plaćeno?', o: 'Kod anuitetske otplate svaki anuitet sadrži kamatu na preostali dug i ostatak koji ide na glavnicu. Na početku je dug najveći pa kamata pojede najveći dio anuiteta, a glavnica se otplaćuje sporo. Zato je nakon polovice roka otplaćeno znatno manje od polovice glavnice. Kalkulator pokazuje točan omjer u svakom trenutku.' },
@@ -9216,10 +9237,13 @@ class Component extends DCLogic {
           omjerTxt: '1 : ' + nf(2).format(d.omjer),
           osiguranici: nf(0).format(d.osiguranici),
           umirovljenici: nf(0).format(d.umirovljenici),
-          mirovina: eur(d.prosjecnaMirovina), mirovinaMjesec: d.mirovinaMjesec, mirovina40Mjesec: d.mirovina40Mjesec,
+          mirovina: eur(d.prosjecnaMirovina), mirovina40Mjesec: d.mirovina40Mjesec,
           mirovina40: eur(d.mirovina40),
           mirovina40Bez: eur(d.mirovina40Bez),
           placa: eur(d.prosjecnaPlaca, 0),
+          // Isti izvor kao ZADNJE_PLACE (v. komentar uz STUP1.prosjecnaPlaca) -
+          // sigurno vezanje, ne nova sjena-kopija.
+          placaMjesec: ZADNJE_PLACE,
           pokrivenostPlacom: pct(d.prosjecnaMirovina / d.prosjecnaPlaca * 100, 1),
           pokrivenost40: pct(d.mirovina40 / d.prosjecnaPlaca * 100, 1),
           rashodiGod: nf(1).format(TEK[1]) + ' mlrd €',
@@ -9360,9 +9384,7 @@ class Component extends DCLogic {
         poticaj: pct(STUP3.poticaj, 0), poticajMax: eur(STUP3.poticajMax),
         udioRadnih: pct(STUP3.clanovi / STUP1.osiguranici * 100, 1),
         posvakom: nf(0).format(Math.round(STUP3.imovina * 1e9 / STUP3.clanovi)) + ' €',
-        razdoblje: STUP3.razdoblje
       },
- mjHnb: ZADNJE_HNB, mjPlace: ZADNJE_PLACE, mjHanfa: ZADNJE_HANFA,
       // Diskretna oznaka izvora ispod svakog grafikona. Datumi se vuku iz istih
       // konstanti kao i podaci pa se osvježavaju zajedno s njima.
       src: {
