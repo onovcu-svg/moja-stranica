@@ -470,7 +470,23 @@ Development okruženje je zaključano na Hobby planu — ne treba.
 - **Rate limit off-by-one**: propušta 6 zahtjeva prije blokade, ne 5.
 - **`syncSegs` prebojava aktivni čip i nikad ne vrati boju** (6517). Nakon PDF
   print pregleda aktivni čip može ostati crven na crvenom do prve promjene
-  čipa. Srednja pouzdanost — izvedeno iz koda, nije reproducirano uživo.
+  čipa.
+
+  Uzrok utvrđen 19.8.2026: kad `@media print` postavi `main` na
+  `display:none`, aktivni čip ima `offsetWidth === 0`, pa grana `if (w <= 0)`
+  postavi boju na `var(--acc)` kao fallback i nikad je ne vrati kad se `main`
+  vrati. Reproducirano na `/kalkulatori/kredit`, sve četiri `[data-seg]` trake
+  (calc, calcsub, kmod, ktip) — aktivni čip ostaje crven na crvenom,
+  nečitljiv. Indikatori ostaju ispravni.
+
+  Dio je šireg problema: **zatvaranje PDF pregleda ne obnavlja stanje
+  stranice.** Drugi simptom, potvrđen na desktopu: nakon zatvaranja pregleda
+  sadržaj se prekida i ispod ostaje prazan prostor do dna, a desna kolona je
+  odsječena. Rješavati zajedno.
+
+  Napomena o testiranju: `window.print()` blokira headless preglednik nativnim
+  dijalogom, pa se CSS posljedica mora simulirati. Konačna potvrda popravka
+  traži stvarni preglednik.
 - **`<input type="email">` sam obrezuje razmake** po WHATWG specifikaciji,
   prije nego JS vidi vrijednost. Trim u tri forme (`d280f9f`) je dodan radi
   dosljednosti s `posaljiIzvjestaj`, ne zato što je rupa bila iskoristiva.
