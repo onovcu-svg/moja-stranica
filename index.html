@@ -7642,8 +7642,13 @@ class Component extends DCLogic {
     const ikIznos = Math.max(0, ikDana) * ikDnevno;
     const ikGreska = !ikValid ? 'Unesi oba datuma.' : (ikDana < 0 ? 'Datum prvog anuiteta mora biti nakon datuma isplate.' : '');
 
+    // Kod anuiteta zadnji redak moze biti mali "balon" ostatak (Math.min ga
+    // skrese) pa se za prikaz uzima zadnja PUNA rata prije njega. Kod modela
+    // "rate" svaki mjesec ima drugaciju ratu jer kamata pada (normalan
+    // nastavak niza, ne anomalija) - filter bi ondje netocno odbacio stvarno
+    // zadnji redak, pa se za taj model uzima wE.zadnja izravno.
     const punaRate = wE.rows.filter((r) => r.bal > 0.01);
-    const zadnjaPuna = punaRate.length ? punaRate[punaRate.length - 1].rata : wE.prva;
+    const zadnjaPuna = jeAnu ? (punaRate.length ? punaRate[punaRate.length - 1].rata : wE.prva) : wE.zadnja;
     const razlikaKam = Math.abs(A.totInt - R.totInt);
     const razlikaMj = Math.abs(A.prva - R.prva);
 
