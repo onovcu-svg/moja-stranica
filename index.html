@@ -8625,6 +8625,23 @@ class Component extends DCLogic {
     ];
     if (!jeAnu) pdfRez.push({ l: 'Raspon rate, prva → zadnja', v: eur(wE.prva, 0) + ' → ' + eur(zadnjaPuna, 0) });
     if (jeKomb) pdfRez.push({ l: 'Mjesečna obveza nakon prijelaza', v: eur(_mjPrij, 2) });
+    // "Usporedi anuitete i rate" (ekran: usp/k.usporedi, 7634) je do sada
+    // stizala samo na ekran - PDF i mail su sadrzavali samo odabrani model.
+    // Sekcije (nize) ne idu u mail (posaljiIzvjestaj salje samo rataLabel/
+    // rata/male/rez/param), zato ide OVDJE, u pdfRez, ne u zaseban sekcije
+    // unos. A/R su vec izracunati gore (7610-7611) neovisno o ovom togglu.
+    // Raspon format (RE_RASPON) za sve sto je u eurima; trajanje ne moze u
+    // raspon (RE_RASPON trazi € na obje strane) pa ide kao dva zasebna reda,
+    // isti obrazac (RE_TRAJANJE_1) koji 'Stvarno trajanje otplate' gore vec
+    // koristi. pdfGod (tablica po godinama) se NE duplicira za oba modela -
+    // za 20 godina bilo bi 40 redaka, neprikladno za mail.
+    if (s.kUsporedi) {
+      pdfRez.push({ l: 'Mjesečna obveza, anuitet → rata', v: eur(A.prva, 2) + ' → ' + eur(R.prva, 2) });
+      pdfRez.push({ l: 'Ukupna kamata, anuitet → rata', v: eur(A.totInt, 2) + ' → ' + eur(R.totInt, 2) });
+      pdfRez.push({ l: 'Ukupno plaćeno banci, anuitet → rata', v: eur(kAmt + A.totInt, 2) + ' → ' + eur(kAmt + R.totInt, 2) });
+      pdfRez.push({ l: 'Trajanje otplate, anuitet', v: trajanjeTxt(A.months) });
+      pdfRez.push({ l: 'Trajanje otplate, rata', v: trajanjeTxt(R.months) });
+    }
     const pdfKomb = !jeKomb ? [] : [
       { l: 'Fiksna stopa do prijelaza', v: pct(kRate, 2) },
       { l: (jeAnu ? 'Anuitet' : 'Rata') + ' u fiksnom periodu', v: eur(_mjObv, 2) },
