@@ -3598,51 +3598,17 @@
         <div style="font-weight:300;font-size:11px;color:var(--soft);margin-top:18px;padding-top:10px;border-top:1px solid var(--line)">Izvor: Ministarstvo prostornoga uređenja, graditeljstva i državne imovine · podaci za 2026.</div>
       </div>
 
+      <!-- Aktivnost tržišta: nekoć graf dozvola/kupoprodaja (NEK_AKT), uklonjen
+           jer nijedna od 8 neovisno provjerenih vrijednosti nije odgovarala
+           izvoru (kupoprodaje 79-87% previsoke, smjer promjene obrnut).
+           Zamjenska kartica koristi dvije brojke iz istog DZS priopćenja kao
+           HPI_RAST (CIJ-2026-2-1/1) - broj i vrijednost prodanih stambenih
+           objekata. Brojke su hardkodirane i ažuriraju se ZAJEDNO s HPI-jem,
+           iz istog priopćenja - vidi IZVORI.md, "Nekretnine - indeks cijena". -->
       <div style="margin-top:clamp(20px,3vh,28px);background:var(--card);border:1px solid var(--line);border-radius:18px;padding:clamp(20px,2.8vw,28px)">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:22px">
-          <div style="min-width:0">
-            <div style="font-weight:600;font-size:16.5px;letter-spacing:-.025em;margin-bottom:5px">{{ nek.aktNaslov }}</div>
-            <div style="font-weight:300;font-size:13px;color:var(--soft);line-height:1.5;max-width:60ch;text-wrap:pretty">{{ nek.aktOpis }}</div>
-          </div>
-          <div style="display:flex;gap:7px;flex-shrink:0">
-            <button sc-camel-on-click="{{ on.nekDozvole }}" style="background:{{ nekChips.dozvole.bg }};color:{{ nekChips.dozvole.c }};border:1px solid {{ nekChips.dozvole.bd }};border-radius:980px;padding:8px 16px;cursor:pointer;font-weight:500;font-size:13px;transition:all .2s">Dozvole</button>
-            <button sc-camel-on-click="{{ on.nekKupoprodaje }}" style="background:{{ nekChips.kupoprodaje.bg }};color:{{ nekChips.kupoprodaje.c }};border:1px solid {{ nekChips.kupoprodaje.bd }};border-radius:980px;padding:8px 16px;cursor:pointer;font-weight:500;font-size:13px;transition:all .2s">Kupoprodaje</button>
-          </div>
-        </div>
-        <sc-if value="{{ nek.jeKupoprodaje }}">
-        <div style="display:flex;gap:7px;flex-wrap:wrap;margin:-8px 0 18px">
-          <button sc-camel-on-click="{{ on.nekStanovi }}" style="background:{{ nekVrstaChips.stanovi.bg }};color:{{ nekVrstaChips.stanovi.c }};border:1px solid {{ nekVrstaChips.stanovi.bd }};border-radius:980px;padding:7px 15px;cursor:pointer;font-weight:500;font-size:12.5px;transition:all .2s">Stanovi</button>
-          <button sc-camel-on-click="{{ on.nekKuce }}" style="background:{{ nekVrstaChips.kuce.bg }};color:{{ nekVrstaChips.kuce.c }};border:1px solid {{ nekVrstaChips.kuce.bd }};border-radius:980px;padding:7px 15px;cursor:pointer;font-weight:500;font-size:12.5px;transition:all .2s">Kuće</button>
-          <button sc-camel-on-click="{{ on.nekUkupno }}" style="background:{{ nekVrstaChips.ukupno.bg }};color:{{ nekVrstaChips.ukupno.c }};border:1px solid {{ nekVrstaChips.ukupno.bd }};border-radius:980px;padding:7px 15px;cursor:pointer;font-weight:500;font-size:12.5px;transition:all .2s">Ukupno</button>
-        </div>
-        </sc-if>
-        <div style="position:relative;min-height:38px;margin-bottom:2px">
-          <sc-if value="{{ nek.aktHoverAktivan }}">
-            <span style="position:absolute;left:{{ nek.aktHoverLeft }};transform:{{ nek.aktHoverTransform }};background:var(--ink);color:var(--bg);font-weight:600;font-size:12px;padding:5px 12px;border-radius:980px;pointer-events:none;max-width:min(100%,300px);line-height:1.35;text-align:center;text-wrap:pretty">{{ nek.aktHoverTxt }}</span>
-          </sc-if>
-        </div>
-        <div style="position:relative;display:flex;align-items:flex-end;gap:clamp(3px,.8vw,7px);height:170px">
-          <sc-for list="{{ nek.aktGridLines }}" as="gl" hint-placeholder-count="2">
-            <div style="position:absolute;left:0;right:0;top:{{ gl.top }};border-top:1px dashed var(--line2);pointer-events:none"><span style="position:absolute;right:0;bottom:2px;background:var(--card);padding-left:6px;font-weight:500;font-size:10.5px;color:var(--soft)">{{ gl.val }}</span></div>
-          </sc-for>
-          <sc-for list="{{ nek.aktChart }}" as="a" hint-placeholder-count="11">
-            <div title="{{ a.tip }}" sc-camel-on-mouse-enter="{{ a.enter }}" sc-camel-on-mouse-leave="{{ a.leave }}" style="flex:1;min-width:0;height:100%;display:flex;align-items:flex-end;cursor:default;opacity:{{ a.op }};transition:opacity .2s ease">
-              <div style="flex:1;background:var(--acc);height:{{ a.h }};border-radius:3px 3px 0 0;transition:height .4s ease"></div>
-            </div>
-          </sc-for>
-        </div>
-        <div style="display:flex;gap:clamp(3px,.8vw,7px);border-top:1px solid var(--line2);padding-top:8px">
-          <sc-for list="{{ nek.aktChart }}" as="a" hint-placeholder-count="11">
-            <div style="flex:1;min-width:0;text-align:{{ a.align }};font-weight:400;font-size:10px;color:var(--soft);white-space:nowrap;overflow:visible">{{ a.label }}</div>
-          </sc-for>
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:20px;padding-top:18px;border-top:1px solid var(--line)">
-          <div><div style="font-weight:300;font-size:12px;color:var(--soft);margin-bottom:5px">Razdoblje</div><div style="font-weight:600;font-size:16px;letter-spacing:-.02em">{{ nek.aktRazdoblje }}</div></div>
-          <div><div style="font-weight:300;font-size:12px;color:var(--soft);margin-bottom:5px">Zadnja godina</div><div style="font-weight:600;font-size:16px;letter-spacing:-.02em">{{ nek.aktZadnja }}</div><div style="font-weight:300;font-size:11px;color:var(--soft);margin-top:3px">{{ nek.aktZadnjaGod }}</div></div>
-          <div><div style="font-weight:300;font-size:12px;color:var(--soft);margin-bottom:5px">Promjena kroz razdoblje</div><div style="font-weight:600;font-size:16px;letter-spacing:-.02em;color:var(--acc)">{{ nek.aktRast }}</div></div>
-          <div><div style="font-weight:300;font-size:12px;color:var(--soft);margin-bottom:5px">Najjača godina</div><div style="font-weight:600;font-size:16px;letter-spacing:-.02em">{{ nek.aktVrhGod }}</div></div>
-        </div>
-        <div style="font-weight:300;font-size:11px;color:var(--soft);margin-top:16px;padding-top:10px;border-top:1px solid var(--line)">{{ nek.aktIzvor }}</div>
+        <div style="font-weight:600;font-size:16.5px;letter-spacing:-.025em;margin-bottom:10px">Aktivnost tržišta</div>
+        <div style="font-weight:300;font-size:13.5px;line-height:1.6;color:var(--soft);text-wrap:pretty">Prodano je 42,2 % manje stambenih objekata nego u istom razdoblju godinu prije, a njihova ukupna vrijednost bila je manja za 35,4 % ({{ nek.aktRazdoblje }}).</div>
+        <div style="font-weight:300;font-size:11px;color:var(--soft);margin-top:18px;padding-top:10px;border-top:1px solid var(--line)">Izvor: DZS, indeksi cijena stambenih objekata · {{ nek.aktRazdoblje }}</div>
       </div>
       </sc-if>
 
@@ -5403,7 +5369,7 @@ const BLOG_VEZE = {
     { a: 'calc:kredit', tip: 'Kalkulator', n: 'Izračun kredita', o: 'Otplatni plan i učinak prijevremene otplate.' }
   ],
   'zasto-cijene-nekretnina-rastu': [
-    { a: 'pok:nekretnine', tip: 'Pokazatelj', n: 'Nekretnine', o: 'Indeks cijena, cijena kvadrata po gradovima, dozvole i kupoprodaje.' },
+    { a: 'pok:nekretnine', tip: 'Pokazatelj', n: 'Nekretnine', o: 'Indeks cijena, cijena kvadrata po gradovima.' },
     { a: 'calc:kredit', tip: 'Kalkulator', n: 'Izračun kredita', o: 'Koliki bi anuitet nosila kupnja po današnjim cijenama.' }
   ],
   'lazi-o-novcu': [
@@ -5637,19 +5603,7 @@ const HPI_GOD = [
 // Vidi IZVORI.md, "Nekretnine - indeks cijena".
 const HPI_GOD_NEPUNA = 2026;
 const HPI_PUNE = HPI_GOD_NEPUNA == null ? HPI_GOD : HPI_GOD.filter((r) => r[0] !== HPI_GOD_NEPUNA);
-// Aktivnost trzista. Dozvole: DZS, izdane gradevinske dozvole (mjesecno).
-// Kupoprodaje: eNekretnine, broj evidentiranih transakcija po vrsti nekretnine
-// (godisnje). Stanovi = stan/apartman, kuce = stambena zgrada / obiteljska kuca.
-// [godina, dozvole, kupoprodaje stanova, kupoprodaje kuca]
-const NEK_AKT = [
-  [2015, 6720, 22400, 12800], [2016, 7480, 25100, 13900], [2017, 8410, 28300, 15100],
-  [2018, 9060, 30200, 15800], [2019, 9690, 31600, 16400], [2020, 9280, 29400, 16900],
-  [2021, 10810, 35800, 19700], [2022, 11240, 37100, 19200], [2023, 10380, 32600, 17300],
-  [2024, 10920, 34700, 18100], [2025, 11610, 36400, 18900]
-];
 const ZADNJE_HPI = 'prvo tromjesečje 2026.';
-const ZADNJE_DOZVOLE = 'lipanj 2026.';
-const ZADNJE_NEK = '2025. (objava 2026.)';
 const NEK_PROSJEK_M2 = 2440;
 
 // ── KAMATNE STOPE KREDITNIH INSTITUCIJA ──────────────────────
@@ -5711,10 +5665,15 @@ const POK_KAT = {
   },
   nekretnine: {
     naslov: 'Nekretnine', izvor: 'DZS i eNekretnine · tržište stambenih nekretnina',
-    bluf: 'Cijene stambenih nekretnina u Hrvatskoj u godinu su dana porasle {HPI_RAST}, a od 2015. su se više nego udvostručile. U {NEK_GOD} izdano je {NEK_DOZVOLE} građevinskih dozvola i evidentirano {NEK_KUPOPROD} kupoprodaja stanova.',
+    bluf: 'Cijene stambenih nekretnina u Hrvatskoj u godinu su dana porasle {HPI_RAST}, a od 2015. su se više nego udvostručile.',
     stat: [
       { val: '{HPI_RAST}', label: 'Godišnji rast cijena', sub: 'indeks DZS · {RAZD_NEK}', d: 0.8 },
-      { val: '{NEK_KUPOPROD}', label: 'Kupoprodaja stanova', sub: 'eNekretnine · 2025.', d: 4.9 }
+      // 3,3 % je kvartalni rast (Q1 2026 vs Q4 2025), isto DZS priopćenje kao
+      // HPI_RAST (CIJ-2026-2-1/1) - azurira se ZAJEDNO s njim, ne zasebno.
+      // d = ista brojka kao val (isti obrazac kao "Mjesecna promjena cijena"
+      // kod inflacije) jer je val vec sam po sebi stopa promjene - nema
+      // odvojenog podatka o "promjeni promjene" da bi d predstavljao nesto drugo.
+      { val: '3,3 %', label: 'Kvartalni rast cijena', sub: 'u odnosu na prethodno tromjesečje · {RAZD_NEK}', d: 3.3 }
     ]
   },
   krediti: {
@@ -6247,7 +6206,7 @@ const META_POK = {
   inflacija: { title: 'Inflacija u Hrvatskoj: aktualni podaci' + SUFIKS, desc: 'Godišnja i mjesečna stopa inflacije u Hrvatskoj po indeksu potrošačkih cijena (CPI) Državnog zavoda za statistiku, kroz posljednjih nekoliko godina.' },
   place: { title: 'Plaće u Hrvatskoj: prosjek i medijan' + SUFIKS, desc: 'Prosječna i medijalna neto i bruto plaća u Hrvatskoj, zakonska minimalna plaća za 2026. i kretanje plaća kroz vrijeme, po podacima DZS-a.' },
   krediti: { title: 'Kamatne stope na kredite u Hrvatskoj' + SUFIKS, desc: 'Prosječne kamatne stope na nove stambene i gotovinske kredite u Hrvatskoj te ukupan iznos novoodobrenih kredita, po podacima HNB-a svaki mjesec.' },
-  nekretnine: { title: 'Cijene nekretnina u Hrvatskoj' + SUFIKS, desc: 'Godišnji rast cijena stambenih nekretnina u Hrvatskoj, prosječna cijena kvadrata u Zagrebu i Splitu te broj kupoprodaja stanova po podacima DZS-a.' },
+  nekretnine: { title: 'Cijene nekretnina u Hrvatskoj' + SUFIKS, desc: 'Koliko rastu cijene nekretnina u Hrvatskoj — indeks cijena stambenih objekata prema DZS-u, kretanje po tipu objekta i aktivnost tržišta.' },
   mirovine: { title: 'Mirovinski sustav Hrvatske u brojkama' + SUFIKS, desc: 'Prosječna starosna mirovina, omjer zaposlenih i umirovljenika te raspodjela članova drugog mirovinskog stupa po kategorijama rizika ulaganja.' },
 };
 
@@ -6334,7 +6293,7 @@ class Component extends DCLogic {
     c: { ime: '', email: '', poruka: '', tema: 'suradnja' }, ktSent: false, ktBurst: false, ktErr: '', ktHp: '', ktSlanje: false,
     // Vrijeme montiranja aplikacije - forme koriste ovo za "prebrzo poslano" provjeru (isti princip kao honeypot).
     formLoadedAt: Date.now(),
-    nlEmail: '', nlSent: false, nlBurst: false, nlPrivola: false, nlErr: '', nlSlanje: false, nlHp: '', blogOpen: null, filter: 'Sve', vrstaF: 'Sve', faqOpen: 0, pokFaqOpen: 0, pokOd: 2010, pokDo: 2026, mirStup: '1', mirKat: 0, mirScenView: 'iznos', plOd: 2010, plDo: 2026, nekOd: 2015, nekDo: 2026, nekHover: -1, nekAkt: 'dozvole', nekVrsta: 'stanovi', nekAktHover: -1, ksOd: 2019, ksDo: 2026, ksVrsta: 'stambeni', ksHover: -1, ksIznos: 'stambeni', ksIznosHover: -1, kosMode: 'udio', kosSort: 'auto', kosSmjer: 'desc', kosHover: -1, placaHover: -1, kamoHover: -1, gh: {}, povHover: -1, placeMode: 'neto', placeHover: -1, faqSveOpen: 'a0', calcFaqOpen: 0, pokKat: 'inflacija', projPort: 'uk', projPer: 'sve',
+    nlEmail: '', nlSent: false, nlBurst: false, nlPrivola: false, nlErr: '', nlSlanje: false, nlHp: '', blogOpen: null, filter: 'Sve', vrstaF: 'Sve', faqOpen: 0, pokFaqOpen: 0, pokOd: 2010, pokDo: 2026, mirStup: '1', mirKat: 0, mirScenView: 'iznos', plOd: 2010, plDo: 2026, nekOd: 2015, nekDo: 2026, nekHover: -1, ksOd: 2019, ksDo: 2026, ksVrsta: 'stambeni', ksHover: -1, ksIznos: 'stambeni', ksIznosHover: -1, kosMode: 'udio', kosSort: 'auto', kosSmjer: 'desc', kosHover: -1, placaHover: -1, kamoHover: -1, gh: {}, povHover: -1, placeMode: 'neto', placeHover: -1, faqSveOpen: 'a0', calcFaqOpen: 0, pokKat: 'inflacija', projPort: 'uk', projPer: 'sve',
     // Najnoviji podatak na portalu; pojedini pokazatelji nose vlastiti datum.
     trziste: TRZISTE, trzisteMjesec: ZADNJE_RAZDOBLJE, trzisteIzvor: 'HNB · DZS · HANFA', trzisteStatus: 'fallback',
     tickIx: 0, tickFade: false, ytLive: null, ytShown: 0, ytInfoOpen: false
@@ -8312,9 +8271,9 @@ class Component extends DCLogic {
       return t.val;
     };
     const _kNS = KS_SER.STAMBENI[ZI], _kES = KS_SER.EKSSTAMBENI[ZI], _kNG = KS_SER.GOTOVINSKI[ZI], _kEG = KS_SER.EKSGOTOVINSKI[ZI], _kNP = KS_SER.PREKORACENJE[ZI], _kNK = KS_SER.KARTICE[ZI];
-    // Zadnji OBJAVLJENI redak (neovisno o klizacu plOd/plDo), isti obrazac
-    // kao NEK_AKT.length-1 nize - tokeni u sazetku/FAQ-u prezentiraju se kao
-    // apsolutne sluzbene brojke ("Prosjecna neto placa u Hrvatskoj iznosi..."),
+    // Zadnji OBJAVLJENI redak (neovisno o klizacu plOd/plDo) - tokeni u
+    // sazetku/FAQ-u prezentiraju se kao apsolutne sluzbene brojke
+    // ("Prosjecna neto placa u Hrvatskoj iznosi..."),
     // pa ne smiju ovisiti o korisnikovom odabranom rasponu na /pokazatelji/place.
     // plZadnji (gore) OSTAJE vezan za klizac - koristi se samo za karticu s
     // odabranim razdobljem, ne za ove tokene.
@@ -8329,7 +8288,6 @@ class Component extends DCLogic {
       '{STUP3_CLANOVI}': nf(0).format(STUP3.clanovi),
       '{CPI}': pct(tz('inflacija'), 1), '{HPI_RAST}': pct(tz('hpi'), 1),
       '{KOSARICA_100}': eur(100 * (1 + tz('inflacija') / 100), 2),
-      '{NEK_GOD}': NEK_AKT[NEK_AKT.length - 1][0] + '.', '{NEK_DOZVOLE}': nf(0).format(NEK_AKT[NEK_AKT.length - 1][1]), '{NEK_KUPOPROD}': nf(0).format(NEK_AKT[NEK_AKT.length - 1][2]),
       '{MIROVINA}': eur(tz('mirovina'), 2), '{MIR_RATIO}': pct(tz('mirovina') / tz('placaProsjek') * 100, 1),
       '{STUP2_CLANOVI_MIL}': nf(2).format(STUP2_UK / 1e6) + ' milijuna', '{STUP2_B_PCT}': pct(STUP2[1].clanova / STUP2_UK * 100, 2),
       '{KR_IZNOSSTAMB}': nf(1).format(KS_IZNOSSTAMBENI[ZI]) + ' milijuna eura', '{KR_IZNOSGOTOV}': nf(1).format(KS_IZNOSGOTOVINSKI[ZI]) + ' milijuna eura',
@@ -8379,26 +8337,6 @@ class Component extends DCLogic {
     const NK_MAX = 76, nkOmjer = nkZadnji[1] / nkPrvi[1];
     const nkKucaSiva = NK_MAX;
     const nkKucaCrvena = Math.round(NK_MAX * nkOmjer);
-    // Aktivnost trzista: dozvole ili kupoprodaje, ista godisnja serija.
-    const nkJeDozvole = s.nekAkt !== 'kupoprodaje';
-    const nkVrsta = s.nekVrsta || 'stanovi';
-    // Kupoprodaje se citaju po vrsti nekretnine; ukupno je zbroj stanova i kuca.
-    const nkVal = (r) => (nkJeDozvole ? r[1] : (nkVrsta === 'kuce' ? r[3] : (nkVrsta === 'ukupno' ? r[2] + r[3] : r[2])));
-    const nkImenica = nkJeDozvole ? ' dozvola' : (nkVrsta === 'kuce' ? ' kupoprodaja kuća' : (nkVrsta === 'ukupno' ? ' kupoprodaja' : ' kupoprodaja stanova'));
-    const nkAktVrh = Math.max.apply(null, NEK_AKT.map(nkVal));
-    const nkAktStep = Math.pow(10, Math.max(0, Math.floor(Math.log10(nkAktVrh || 1)) - 1));
-    const nkAktOsMax = Math.ceil(nkAktVrh / nkAktStep) * nkAktStep;
-    const nkAktGridLines = [1, 0.5].map((f) => ({ top: (100 - f * 100).toFixed(1) + '%', val: nf(0).format(nkAktOsMax * f) }));
-    const nkAktN = NEK_AKT.length;
-    const nkAktChart = NEK_AKT.map((r, ix) => ({
-      h: (nkVal(r) / nkAktOsMax * 100).toFixed(1) + '%',
-      label: osLbl(ix, nkAktN, r[0], ix === nkAktN - 1, r[0] + '.'), align: osAlign(ix, nkAktN),
-      tip: r[0] + '., ' + nf(0).format(nkVal(r)) + nkImenica,
-      op: s.nekAktHover < 0 || s.nekAktHover === ix ? '1' : '.45',
-      enter: () => this.setState({ nekAktHover: ix }), leave: () => this.setState({ nekAktHover: -1 })
-    }));
-    const nkAktAkt = s.nekAktHover >= 0 && s.nekAktHover < nkAktN ? NEK_AKT[s.nekAktHover] : null;
-    const nkAktPrvi = NEK_AKT[0], nkAktZadnji = NEK_AKT[nkAktN - 1];
 
     const jeUdio = s.kosMode === 'udio';
     const ukDopr = KOSARICA.reduce((a, k) => a + k.w * k.r / 100, 0);
@@ -9350,8 +9288,6 @@ class Component extends DCLogic {
         hnbStope: 'Izvor: HNB, tablica G2: kamatne stope kreditnih institucija na kredite kućanstvima (novi poslovi), vagani mjesečni prosjeci · zadnji podatak: ' + ZADNJE_HNB,
         hnbIznosi: 'Izvor: HNB, tablica G2: iznosi novih poslova u milijunima eura · zadnji podatak: ' + ZADNJE_HNB,
         dzsHpi: 'Izvor: DZS, indeks cijena stambenih objekata · zadnji podatak: ' + ZADNJE_HPI,
-        dzsDozvole: 'Izvor: DZS, izdane građevinske dozvole · zadnji podatak: ' + ZADNJE_DOZVOLE,
-        enekAkt: 'Izvor: eNekretnine, evidentirane kupoprodaje · zadnji podatak: ' + ZADNJE_NEK,
         projekt: 'Izvor: vlastita evidencija projekta · stanje: ' + PROJ_STANJE
       },
       isHub: s.calcTab === 'hub', nijeHub: s.calcTab !== 'hub',
@@ -9588,8 +9524,6 @@ class Component extends DCLogic {
         Object.keys(POK_KAT).forEach((k) => { red.forEach((n) => { if (POK_KAT[k].izvor.indexOf(n) >= 0) nadeni[n] = true; }); });
         return red.filter((n) => nadeni[n]).join(' · ');
       })(),
-      nekChips: { dozvole: chip(nkJeDozvole), kupoprodaje: chip(!nkJeDozvole) },
-      nekVrstaChips: { stanovi: chip(nkVrsta === 'stanovi'), kuce: chip(nkVrsta === 'kuce'), ukupno: chip(nkVrsta === 'ukupno') },
       nek: {
         od: nkOd + '.', do: nkDo + '.', odNum: nkOd, doNum: nkDo, minGod: NK_PRVA, maxGod: NK_ZADNJA,
         chart: nkChart,
@@ -9619,28 +9553,11 @@ class Component extends DCLogic {
           + '. Za isti novac kojim si ' + nkPrvi[0] + '. mogao kupiti stan od 50 m², '
           + nkZadnji[0] + '. si mogao kupiti '
           + nf(1).format(50 / (nkZadnji[1] / nkPrvi[1])) + ' m².',
-        aktChart: nkAktChart, aktGridLines: nkAktGridLines,
-        jeKupoprodaje: !nkJeDozvole,
-        aktNaslov: nkJeDozvole ? 'Izdane građevinske dozvole' : (nkVrsta === 'kuce' ? 'Kupoprodaje obiteljskih kuća' : (nkVrsta === 'ukupno' ? 'Kupoprodaje stambenih nekretnina' : 'Kupoprodaje stanova')),
-        aktOpis: nkJeDozvole
-          ? 'Broj izdanih građevinskih dozvola po godinama. Dozvole su najbrži pokazatelj: pokazuju što će se graditi za godinu ili dvije.'
-          : (nkVrsta === 'kuce'
-            ? 'Broj evidentiranih kupoprodaja stambenih zgrada i obiteljskih kuća po godinama, iz registra eNekretnine.'
-            : (nkVrsta === 'ukupno'
-              ? 'Zbroj kupoprodaja stanova i obiteljskih kuća po godinama, iz registra eNekretnine. Poslovni prostori i zemljišta nisu uključeni.'
-              : 'Broj evidentiranih kupoprodaja stanova i apartmana po godinama, iz registra eNekretnine.')),
-        aktHoverAktivan: !!nkAktAkt,
-        aktHoverTxt: nkAktAkt ? (nkAktAkt[0] + '., ' + nf(0).format(nkVal(nkAktAkt)) + nkImenica) : '',
-        aktHoverLeft: (((s.nekAktHover + 0.5) / (nkAktN || 1)) * 100).toFixed(3) + '%',
-        aktHoverTransform: (() => { const p = ((s.nekAktHover + 0.5) / (nkAktN || 1)) * 100; return p < 18 ? 'translateX(0)' : (p > 82 ? 'translateX(-100%)' : 'translateX(-50%)'); })(),
-        aktZadnja: nf(0).format(nkVal(nkAktZadnji)),
-        aktZadnjaGod: nkAktZadnji[0] + '.',
-        aktRast: pct((nkVal(nkAktZadnji) / nkVal(nkAktPrvi) - 1) * 100, 1),
-        aktRazdoblje: nkAktPrvi[0] + '. – ' + nkAktZadnji[0] + '.',
-        aktVrhGod: NEK_AKT.slice().sort((a, b) => nkVal(b) - nkVal(a))[0][0] + '.',
-        aktIzvor: nkJeDozvole
-          ? 'Izvor: DZS, izdane građevinske dozvole, godišnji zbroj · zadnja cijela godina: 2025. (DZS objavljuje mjesečno, zadnji mjesec: ' + ZADNJE_DOZVOLE + ')'
-          : 'Izvor: eNekretnine, evidentirane kupoprodaje' + (nkVrsta === 'kuce' ? ' obiteljskih kuća' : (nkVrsta === 'ukupno' ? ' stanova i kuća' : ' stanova')) + ' · zadnji podatak: ' + ZADNJE_NEK
+        // Aktivnost trzista (dozvole/kupoprodaje graf) uklonjena - vidi
+        // IZVORI.md, "Nekretnine - aktivnost trzista". Razdoblje zamjenske
+        // kartice vezano na ZADNJE_HPI, ne hardkodirano, jer brojke dolaze
+        // iz istog DZS priopcenja kao HPI_RAST i azuriraju se zajedno.
+        aktRazdoblje: ZADNJE_HPI
       },
       jeMirovine: s.pokKat === 'mirovine',
       jePlace: s.pokKat === 'place',
@@ -9976,15 +9893,10 @@ class Component extends DCLogic {
         // smjera (naziv uzlazno, brojke silazno).
         nekOd: (e) => { const v = parseInt(e.target.value, 10); this.setState((st) => ({ nekOd: v, nekDo: Math.max(v, this.num(st.nekDo, 2026)) })); },
         nekDo: (e) => { const v = parseInt(e.target.value, 10); this.setState((st) => ({ nekDo: v, nekOd: Math.min(v, this.num(st.nekOd, 2015)) })); },
-        nekDozvole: () => this.setState({ nekAkt: 'dozvole', nekAktHover: -1 }),
-        nekKupoprodaje: () => this.setState({ nekAkt: 'kupoprodaje', nekAktHover: -1 }),
         ksOd: (e) => { const v = parseInt(e.target.value, 10); this.setState((st) => ({ ksOd: v, ksDo: Math.max(v, this.num(st.ksDo, 2026)), ksHover: -1, ksIznosHover: -1 })); },
         ksDo: (e) => { const v = parseInt(e.target.value, 10); this.setState((st) => ({ ksDo: v, ksOd: Math.min(v, this.num(st.ksOd, 2012)), ksHover: -1, ksIznosHover: -1 })); },
         ksIznStambeni: () => this.setState({ ksIznos: 'stambeni', ksIznosHover: -1 }),
         ksIznGotovinski: () => this.setState({ ksIznos: 'gotovinski', ksIznosHover: -1 }),
-        nekStanovi: () => this.setState({ nekVrsta: 'stanovi', nekAktHover: -1 }),
-        nekKuce: () => this.setState({ nekVrsta: 'kuce', nekAktHover: -1 }),
-        nekUkupno: () => this.setState({ nekVrsta: 'ukupno', nekAktHover: -1 }),
         plNeto: () => this.setState({ placeMode: 'neto' }), plBruto: () => this.setState({ placeMode: 'bruto' }),
         mirScenIznos: () => this.setState({ mirScenView: 'iznos' }), mirScenPrinos: () => this.setState({ mirScenView: 'prinos' }),
         kosUdio: () => this.setState({ kosMode: 'udio', kosSort: 'auto' }), kosDoprinos: () => this.setState({ kosMode: 'doprinos', kosSort: 'auto' }),

@@ -196,6 +196,41 @@ Zadnja potpuna provjera: 18. 8. 2026. (inflacija ažurirana 19. 8. 2026. na srpa
 - Napomena: DZS od Q1 2026. objavljuje i stope promjene broja i vrijednosti
   prodanih objekata. Q1 2026: broj −42,2 %, vrijednost −35,4 % godišnje.
 
+## Nekretnine — aktivnost tržišta
+
+- **ODLUKA (19.8.2026): tablica `NEK_AKT` (dozvole i kupoprodaje po
+  godinama, graf "Aktivnost tržišta") uklonjena je u cijelosti.** Razlog:
+  od 8 neovisno provjerenih vrijednosti (7 godina dozvola prema DZS-ovim
+  godišnjim priopćenjima GRAD-*-3-2, i 2025. kupoprodaje prema MPGI/EIZ
+  "Pregledu tržišta nekretnina RH 2025.") nijedna nije odgovarala izvoru.
+  Kupoprodaje su bile **79–87 % previsoke** (36.400 nasuprot stvarnih 20.293
+  kupoprodaja stanova; 18.900 nasuprot 10.097 kuća, 2025.), a smjer je bio
+  **obrnut** — portal je prikazivao rast dok je tržište kupoprodaja stvarno
+  palo 21,7 % u 2025. i 9,7 % u 2024. Dozvole su odstupale do 10,2 % uz tri
+  obrnuta smjera promjene (2018., 2023., 2025.) od sedam provjerenih godina.
+  Komentar uz konstantu nije nosio nikakvu ogradu (za razliku od `HPI_GOD`/
+  `SEKTORI`, koji su imali "FALLBACK") — prikazivao se s punim samopouzdanjem
+  kao objavljena brojka.
+- **Rekonstrukcija nije moguća.** MPGI-jev prilog po JLS-ovima ima potisnute
+  vrijednosti (zbroj po JLS-ovima podcjenjuje ukupni broj kupoprodaja za
+  2,7–11,3 %, ovisno o godini) i nije usporediv prije 2018. jer se sustav
+  eNekretnine tek punio podacima — broj JLS-ova bez ijednog zabilježenog
+  podatka pada s 206 (2012.) na 14 (2018.), pa rast "kupoprodaja kuća" s
+  2.112 na 10.217 u tom razdoblju odražava pokrivenost baze, ne stvarno
+  tržište.
+- Na mjesto uklonjenog grafa dolazi kartica "Aktivnost tržišta" sa stopama
+  promjene broja i vrijednosti prodanih stambenih objekata — **iz ISTOG DZS
+  priopćenja kao `HPI_RAST`** (CIJ-2026-2-1/1, vidi napomenu iznad: Q1 2026.
+  broj −42,2 %, vrijednost −35,4 %). Brojke su hardkodirane i **ažuriraju se
+  ZAJEDNO s HPI-jem**, ne zasebno — nema novog ritma objave za pratiti,
+  period je vezan na `ZADNJE_HPI`.
+- Izvori korišteni za provjeru (nisu stalni izvori portala, samo za ovu
+  provjeru): DZS, "Izdane građevinske dozvole u [godini]" (GRAD-*-3-2 serija,
+  https://podaci.dzs.hr/hr/podaci/gradevinarstvo/gradevinske-dozvole/); MPGI
+  i Ekonomski institut Zagreb, "Pregled tržišta nekretnina Republike
+  Hrvatske" (godišnja publikacija, https://www.eizg.hr/publikacije/
+  serijske-publikacije/pregled-trzista-nekretnina-republike-hrvatske/4273).
+
 ## Nekretnine — cijena po gradu
 
 - **ODLUKA (18.8.2026): portal NE prikazuje cijene po gradu.** Tablica
