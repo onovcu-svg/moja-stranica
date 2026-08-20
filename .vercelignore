@@ -1,0 +1,16 @@
+# Interni radni fileovi - NIKAD ne smiju biti javno dostupni na produkciji.
+# Otkriveno 20.8.2026: NOTES.md/AUDIT-2026-08-18.md/IZVORI.md su bili
+# posluzivani kao pravi staticki fileovi (200, stvarni sadrzaj), za razliku
+# od README.md/vercel.json/.gitignore koji ispravno padaju na SPA fallback -
+# Vercel njih posebno prepoznaje i preskace, ove tri ne. Vidi NOTES.md §3.
+NOTES.md
+AUDIT-2026-08-18.md
+IZVORI.md
+
+# NAMJERNO NIJE ovdje: scripts/ - .vercelignore iskljucuje iz CIJELOG
+# uploada, ne samo iz javnog posluzivanja, pa bi buildCommand
+# ("node scripts/check-meta-sync.js") pukao s "Cannot find module"
+# (potvrdeno na stvarnom Vercel buildu 20.8.2026). check-meta-sync.js
+# time ostaje javno dostupan kao staticki file (isto kao support.js) -
+# prihvatljivo jer ne sadrzi tajne ni anti-bot detalje, za razliku od
+# tri datoteke iznad.
