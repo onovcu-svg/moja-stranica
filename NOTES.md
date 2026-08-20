@@ -516,6 +516,20 @@ Development okruženje je zaključano na Hobby planu — ne treba.
 - **`<input type="email">` sam obrezuje razmake** po WHATWG specifikaciji,
   prije nego JS vidi vrijednost. Trim u tri forme (`d280f9f`) je dodan radi
   dosljednosti s `posaljiIzvjestaj`, ne zato što je rupa bila iskoristiva.
+- **`kSlobodno` (prijevremene uplate kod kredita) nema gornju granicu.**
+  Gumb "+ Dodaj još jednu uplatu" (`index.html`, `dodajUplatu`) može se
+  klikati neograničeno — zaštita je samo vizualna (crveni rub kod
+  nemonotonog mjeseca), ne sprječava unos. Zato raspored uplata ide u
+  izvještaj kao JEDAN sažeti redak ("N uplata, prva u X. mjesecu, zadnja u
+  Y. mjesecu"), ne redak po uplati — inače bi dovoljno uplata raznijelo
+  `report.js` cap od 30 u `rez` i mail bi tiho pukao na 400 (isti obrazac
+  koji je NOTES.md §3 već triput zabilježio).
+- **Tri kalkulatora (refi, zatvoriti, cilj) nisu mogli poslati mail od
+  `dec1d4a`.** Otkriveno tek sustavnom provjerom svih redaka u `male`/`rez`/
+  `param` protiv `report.js` obrazaca, 19.8.2026. — dosad se svaki nalaz ovog
+  tipa otkrivao slučajno, testiranjem jednog kalkulatora odjednom. PRAVILO:
+  nakon svake izmjene u `buildPdf`, `male`, `rez` ili `param`, provjeriti
+  prolazi li vrijednost obrasce — a ne samo testirati jedan kalkulator.
 
 ### iOS-specifično — ne može se reproducirati u Chromeu
 Auto-zoom na inpute, ponašanje visual viewporta pri tipkovnici, `height:100%`

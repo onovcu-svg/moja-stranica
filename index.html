@@ -7247,17 +7247,41 @@ class Component extends DCLogic {
           _pdfNadj ? null : R('Viša stopa, ručni unos', pct(_pdfVisa, _pdfVisa % 1 ? 1 : 0)),
           R('Broj djece', String(Math.round(n('djeca')))),
           R('Uzdržavani članovi', String(Math.round(n('uzdrzavani')))),
-          R('Olakšica', s.mladi === 'do25' ? 'Do 25 godina, povrat 100 %' : (s.mladi === 'do30' ? 'Od 25 do 30 godina, povrat 50 %' : (s.mladi === 'povratnik' ? 'Povratnik iz inozemstva, povrat 100 %' : 'Nema'))),
-          R('Invalidnost', s.inv ? (s.invTip === 'puni' ? '100 % invaliditet ili doplatak za tuđu pomoć i njegu, koeficijent 1,0' : 'Djelomična invalidnost, koeficijent 0,3') : 'Nema'),
-          s.invUzdrz ? R('Invalidnost uzdržavanog člana', Math.max(1, Math.round(n('invUzdrzBroj', 1))) + '× ' + (s.invUzdrzTip === 'puni' ? 'koeficijent 1,0' : 'koeficijent 0,3')) : null
+          // NALAZ 19.8.2026: dodatna dva retka otkrivena usput dok se
+          // popravljao susjedni redak (× ispod) - postotak usred recenice
+          // ("...povrat 100 %", "100 % invaliditet...") ne prolazi nijedan
+          // obrazac, isti razlog kao cilj/rezOpis. "Olakšica" je bezuvjetan
+          // redak pa je svaki placa mail s mladi!=='ne' vracao 400; "Invalidnost"
+          // je bezuvjetan i pada samo za invTip==='puni'. RE_KOMBO ("tekst (N %)")
+          // pokriva Olakšicu; Invalidnost preoblikovana da prati vec-ispravan
+          // "dio" obrazac (pridjev + ", koeficijent X" - bez %).
+          R('Olakšica', s.mladi === 'do25' ? 'Do 25 godina (100 %)' : (s.mladi === 'do30' ? 'Od 25 do 30 godina (50 %)' : (s.mladi === 'povratnik' ? 'Povratnik iz inozemstva (100 %)' : 'Nema'))),
+          R('Invalidnost', s.inv ? (s.invTip === 'puni' ? 'Potpuna invalidnost, koeficijent 1,0' : 'Djelomična invalidnost, koeficijent 0,3') : 'Nema'),
+          // NALAZ 19.8.2026: × (U+00D7) nije slovo ni u dopustenom skupu -
+          // zamijenjen ASCII slovom "x", znacenje nepromijenjeno.
+          s.invUzdrz ? R('Invalidnost uzdržavanog člana', Math.max(1, Math.round(n('invUzdrzBroj', 1))) + 'x ' + (s.invUzdrzTip === 'puni' ? 'koeficijent 1,0' : 'koeficijent 0,3')) : null
         ].filter((x) => x && x.v !== ''),
         rez: [
           R('Bruto 1', p.bruto), R('Doprinos I. stup, 15 %', p.mio1), R('Doprinos II. stup, 5 %', p.mio2),
           R('Dohodak', p.dohodak), R('Osobni odbitak (koeficijent ' + nf(1).format(this.odbitakKoef()) + ')', p.odbitak), R('Porezna osnovica', p.osnovica),
-          R('Porez na dohodak', p.porez), R('Neto plaća', p.neto),
+          // NALAZ 20.8.2026: primijenjena stopa (%) se prije nije nigdje
+          // prikazivala u izvjestaju - samo generican "Porez na dohodak" bez
+          // stope. p.labelJedna/labelNiza/labelVisa vec postoje (koriste se na
+          // ekranu, 877/880-881) i vec su provjereni protiv RE_LABELA (v.
+          // komentar uz 9118). Kod imaVisu retci se DODAJU uz postojeci
+          // ukupni, ne umjesto njega.
+          p.samoNiza ? R(p.labelJedna, p.porez) : R('Porez na dohodak', p.porez),
+          p.imaVisu ? R(p.labelNiza, p.porezNiza) : null,
+          p.imaVisu ? R(p.labelVisa, p.porezVisa) : null,
+          R('Neto plaća', p.neto),
+          // Umanjenje osnovice I. stupa (nize placa/nize doprinose): stvarna
+          // komponenta izracuna (this.umanjenje(), 7057), prije se nigdje nije
+          // spominjala - ni na ekranu kao rezultat (samo kao napomena, 789-792),
+          // ni u PDF-u, ni u mailu.
+          o.imaUm ? R('Umanjenje osnovice I. stupa', o.umIznos) : null,
           R('Zdravstveno osiguranje, 16,5 %', p.zdravstvo), R('Bruto 2, trošak poslodavca', p.bruto2),
           R(s.mladi === 'ne' ? 'Ukupno porezno opterećenje' : 'Porezno opterećenje prije povrata', p.efektivno)
-        ].concat(s.mladi === 'ne' ? [] : [
+        ].filter(Boolean).concat(s.mladi === 'ne' ? [] : [
           R('Povrat poreza, mjesečni ekvivalent', p.povratMj),
           R('Porezno opterećenje nakon povrata', p.efektivnoPovrat)
         ]),
@@ -7287,6 +7311,31 @@ class Component extends DCLogic {
     if (t === 'refi') {
       const r = o.r;
       const scen = s.rSlobOpen ? r.scen : r.scen.slice(0, 2);
+      // NALAZ 20.8.2026: cijela usporedba scenarija (naslov/rok/anuitet/
+      // kamata/usteda) postojala je samo u tabela (PDF-only) - mail je nosio
+      // isključivo trenutno stanje postojećeg kredita, ne i nijedan od
+      // ponuđenih scenarija refinanciranja, iako je usporedba scenarija smisao
+      // ovog kalkulatora (isti obrazac kao usporedba anuiteta/rata kod
+      // kredita, 7119b9d). scen ima najviše 3 elementa (hardkodiran niz,
+      // 8263) - namjerno IZOSTAVLJENI "kamata" i "ukupno" po scenariju:
+      // usteda vec nosi tu informaciju (razlika u kamati), dodavanje oba bi
+      // udvostručilo broj redaka bez nove odluke-relevantne brojke.
+      const najScen = scen.find((x) => x.najbolji) || scen[0];
+      const scenRedovi = [];
+      scen.forEach((x) => {
+        // x.rok ("15 god. 7 mj. (187 mj.)") ne prolazi nijedan obrazac u
+        // report.js - x.rokKratko je isti broj u vec-provjerenom
+        // trajanjeTxt() obliku (RE_TRAJANJE_1), izracunat na izvoru
+        // (renderVals(), 8263) jer trajanjeTxt nije u dosegu ovdje u buildPdf-u
+        // (odvojena metoda) - potvrdjeno uzivo prije ovog commita.
+        scenRedovi.push(R(x.naslov + ', rok', x.rokKratko));
+        scenRedovi.push(R(x.naslov + ', anuitet', x.anuitet));
+        scenRedovi.push(R(x.naslov + ', ušteda na kamati', x.usteda));
+      });
+      // Zaseban redak umjesto oznake po retku - x.oznaka je prazan string za
+      // dva od tri scenarija, a prazan string pada na isValidnaVrijednost u
+      // report.js (zahtijeva !!v).
+      if (najScen) scenRedovi.push(R('Preporučeni scenarij (najveća ušteda)', najScen.naslov));
       return base({
         naslov: 'Refinanciranje kredita',
         rataLabel: 'Sadašnji anuitet', rata: r.anuitet,
@@ -7304,13 +7353,24 @@ class Component extends DCLogic {
           R('Sadašnji anuitet', r.anuitet), R('Ukupna kamata postojećeg kredita', r.ukKamata),
           R('Već plaćena glavnica', r.placenaGl), R('Već plaćena kamata', r.placenaKam),
           R('Preostala glavnica', r.preostalaGl), R('Preostala kamata', r.preostalaKam),
-          R('Preostalo trajanje', r.ostMj), R('Nova kamatna stopa', r.novaStopa)
-        ],
+          // NALAZ 20.8.2026: r.ostMj ("264 mj. (22,0 god.)") ne prolazi
+          // nijedan obrazac u report.js zbog zagrada (RE_OZNAKA ih ne
+          // dopusta) i redoslijeda jedinica (ne odgovara RE_TRAJANJE_2).
+          // Bezuvjetan redak, pa je SVAKI refi mail vracao 400. r.ostMjKratko
+          // ("22,0 god.") nosi isti podatak, vec ispravnog oblika, vec se
+          // koristi u male (7332) za isti kalkulator - ne uvoditi treci oblik.
+          R('Preostalo trajanje', r.ostMjKratko), R('Nova kamatna stopa', r.novaStopa)
+        ].concat(scenRedovi),
         imaTabela: true,
         tabela: {
           naslov: 'SCENARIJI REFINANCIRANJA', c0: 'SCENARIJ', c1: 'ROK', c2: 'ANUITET', c3: 'UKUPNA KAMATA', c4: 'UŠTEDA',
           redovi: scen.map((x) => ({ a: x.naslov, b: x.rok, c: x.anuitet, d: x.kamata, e: x.usteda })),
-          nota: 'Ušteda je razlika između preostale kamate na postojećem kreditu i ukupne kamate u tom scenariju. Ne uključuje naknadu za prijevremenu otplatu ni troškove obrade novog kredita, koje treba oduzeti od uštede.'
+          // NALAZ 20.8.2026: sc.ukupno (ukupno vraćaš po scenariju) nije
+          // prije stizao ni u PDF - tablica ima samo 5 stupaca, svih 5 već
+          // zauzeto. PDF nema cap ni validaciju pa ide u nota tekst, bez
+          // dirania dijeljenog tabela predloška (koji koristi i kredit).
+          nota: 'Ušteda je razlika između preostale kamate na postojećem kreditu i ukupne kamate u tom scenariju. Ne uključuje naknadu za prijevremenu otplatu ni troškove obrade novog kredita, koje treba oduzeti od uštede. Ukupno vraćaš (glavnica + kamata) po scenariju: '
+            + scen.map((x) => x.naslov + ' ' + x.ukupno).join(', ') + '.'
         },
         metoda: [
           M_ANU,
@@ -7452,7 +7512,12 @@ class Component extends DCLogic {
       return base({
         naslov: 'Zatvoriti kredit ili ne',
         rataLabel: 'Iznos za zatvaranje danas', rata: z.zatvaranje,
-        male: [{ l: 'Ušteda na kamati', v: z.usteda }, { l: 'Otplaćeno anuiteta', v: z.placenoMj.replace(' od ', '/').replace(' anuiteta', '') }, { l: 'Anuitet', v: z.anuitet }],
+        // NALAZ 19.8.2026: transformacija "45 od 300 anuiteta" -> "45/300"
+        // uvodila je kosu crtu, koju nijedan obrazac u report.js ne dopusta -
+        // ovaj redak je bezuvjetan pa je SVAKI zatvoriti mail vracao 400.
+        // z.placenoMj bez transformacije je cist tekst (slova+brojevi+razmaci),
+        // prolazi RE_OZNAKA bez izmjene, i citljiviji je od skracenog oblika.
+        male: [{ l: 'Ušteda na kamati', v: z.usteda }, { l: 'Otplaćeno anuiteta', v: z.placenoMj }, { l: 'Anuitet', v: z.anuitet }],
         sazetak: 'Za zatvaranje kredita danas plaćaš ' + z.zatvaranje + ' i izbjegavaš ' + z.usteda + ' kamate koja bi tek dospjela.',
         param: [
           R('Iznos kredita', eur(n('zIznos'), 2)),
@@ -7498,7 +7563,16 @@ class Component extends DCLogic {
           R('Očekivani godišnji prinos', pct(n('sStopa'), 2) + ' (pretpostavka)'),
           R('Razdoblje ulaganja', Math.round(n('sGodine', 1)) + ' god.'),
           s.sInflOn ? R('Očekivana inflacija', pct(n('sInflacija'), 1) + ' (pretpostavka)') : null,
-          s.sLifecycle ? R('Faza isplate', x.isplGodTxt + ' po ' + x.isplataTxt + ' mjesečno') : null
+          // NALAZ 19.8.2026: spojeni redak ugradjivao je € usred recenice
+          // ("X god. po Y € mjesecno") - ne prolazi nijedan obrazac.
+          // Razdvojeno u dva cista retka, oba vec gotova, sigurna polja
+          // (isplGodTxt "X god.", isplataTxt eur()).
+          s.sLifecycle ? R('Trajanje faze isplate', x.isplGodTxt) : null,
+          s.sLifecycle ? R('Mjesečna isplata', x.isplataTxt) : null,
+          // NALAZ 20.8.2026: sIsplataRast se unosi i ulazi u izracun (isplRast,
+          // 8028) ali se nigdje nije prikazivao - ni na ekranu, ni u PDF-u, ni
+          // u mailu. Isti obrazac kao susjedni "Godišnji rast uplate" (7497).
+          s.sLifecycle ? R('Godišnji rast isplate', pct(n('sIsplataRast'), 1)) : null
         ].filter(Boolean),
         rez: [
           R(s.sLifecycle ? 'Vrijednost na kraju faze uplate' : 'Vrijednost na kraju', x.konacno), R('Ukupno uplaćeno', x.uplaceno),
@@ -7541,8 +7615,13 @@ class Component extends DCLogic {
           o.gTrazimUplatu ? R('Očekivani godišnji prinos', pct(n('gPrinos'), 2) + ' (pretpostavka)') : R('Mjesečna uplata', eur(n('gUplata'), 2)),
           s.gInflOn ? R('Očekivana inflacija', pct(n('gInflacija'), 1) + ' (pretpostavka)') : null
         ].filter(Boolean),
+        // NALAZ 19.8.2026: "Uvjet" (g.rezOpis, npr. "uz prinos od 7,00 %
+        // godisnje") ugradjuje % ili € usred recenice - ne prolazi nijedan
+        // obrazac u report.js. Bezuvjetan redak, pa je SVAKI cilj mail vracao
+        // 400. Redak je i cist duplikat - ista brojka (prinos ili uplata) vec
+        // ispravno stize u param gore (7600), samo u vec-ispravnom obliku.
         rez: [
-          R(g.rezLabel, g.rez), R('Uvjet', g.rezOpis),
+          R(g.rezLabel, g.rez),
           R('Ukupno uplaćeno', g.uplaceno), R('Zarada', g.zarada), R('Udio zarade', g.udioZarade),
           R('Stanje na kraju', g.konacno)
         ],
@@ -8249,6 +8328,15 @@ class Component extends DCLogic {
         naslov: ['Isti broj godina otplate', 'Sličan iznos anuiteta', 'Slobodan unos roka'][ix],
         opis: ['Zadržavaš preostalo trajanje kredita', ix === 1 && s2Isti ? 'Uz ovu stopu anuitet ne može ostati sličan, a rok kraći' : 'Anuitet ostaje sličan, kredit se skraćuje', 'Ti biraš rok otplate'][ix],
         rok: rokTxt(mj), anuitet: eur(a), ukupno: eur(rBal + kam, 2), kamata: eur(kam, 2),
+        // rokKratko: isti trajanjeTxt() format koji kredit vec koristi (RE_
+        // TRAJANJE_1, "X g. Y mj."), za mail retke nize. rokTxt() ovdje ("X
+        // god. Y mj. (Z mj.)") NE prolazi nijedan obrazac u report.js - ostaje
+        // u tabela (PDF-only, gdje validacija ne vrijedi), rokKratko je
+        // zaseban, mail-siguran format iste vrijednosti. trajanjeTxt() je u
+        // dosegu ovdje (ista renderVals() metoda, definirana ranije, 7750) -
+        // NIJE u dosegu unutar buildPdf() (odvojena metoda), zato se racuna
+        // ovdje na izvoru, ne tamo gdje se redak gradi.
+        rokKratko: trajanjeTxt(mj),
         usteda: eur(Math.max(0, rPreostKam - kam), 2), ustedaPoz: rPreostKam - kam > 0,
         razlikaRate: eur(Math.abs(a - rAnu), 0) + (a - rAnu >= 0 ? ' veći' : ' manji') + ' od sadašnjeg anuiteta',
         imaVrijemeUsteda: mj !== s1Mj,
@@ -8776,6 +8864,34 @@ class Component extends DCLogic {
     if (imaExtra) {
       pdfParam.push({ l: 'Prijevremena otplata', v: FREQ_LBL[s.kExtraFreq] || '—' });
       pdfParam.push({ l: 'Cilj dodatnih uplata', v: s.kEfekt === 'skrati' ? 'Skraćivanje roka otplate' : 'Smanjenje mjesečne rate' });
+      // NALAZ 20.8.2026: kod slobodnog rasporeda (mjesec+iznos po svakoj
+      // uplati) sam raspored se nigdje nije prikazivao, samo agregatni ucinak.
+      // JEDAN sazeti redak, NE redak po uplati - kSlobodno nema gornju granicu
+      // (gumb "+ Dodaj jos jednu uplatu" se moze klikati neograniceno, vidi
+      // NOTES.md §5), pa bi redak-po-uplati mogao raznijeti report.js cap od
+      // 30 i mail bi tiho pukao na 400. Isti filter kao buildExtras() (7095-
+      // 7097) da sazetak odgovara onome sto stvarno ulazi u izracun.
+      if (s.kExtraFreq === 'slobodno') {
+        const slobValid = s.kSlobodno
+          .map((x) => ({ m: Math.round(this.num(x.mj, 0)), amount: Math.max(0, this.num(x.iznos, 0)) }))
+          .filter((x) => x.m >= 1 && x.m <= months && x.amount > 0)
+          .sort((a, b) => a.m - b.m);
+        if (slobValid.length > 0) {
+          // Hrvatska brojevna slaganja (nominativ): 1 uplata, 2-4 uplate,
+          // 5+ uplata, uz iznimku 11-14 (uvijek "uplata").
+          const brojUplataNom = (n) => {
+            const d = n % 10, dd = n % 100;
+            if (d === 1 && dd !== 11) return n + ' uplata';
+            if (d >= 2 && d <= 4 && (dd < 12 || dd > 14)) return n + ' uplate';
+            return n + ' uplata';
+          };
+          const prviM = slobValid[0].m, zadnjiM = slobValid[slobValid.length - 1].m;
+          const slobTxt = slobValid.length === 1
+            ? '1 uplata u ' + prviM + '. mjesecu'
+            : brojUplataNom(slobValid.length) + ', prva u ' + prviM + '. mjesecu, zadnja u ' + zadnjiM + '. mjesecu';
+          pdfParam.push({ l: 'Raspored prijevremenih uplata', v: slobTxt });
+        }
+      }
     }
     if (s.kInfOpen) pdfParam.push({ l: 'Očekivana godišnja inflacija', v: pct(Math.max(0, this.num(s.kInfStopa, 0)), 2) + ' (pretpostavka)' });
     const pdfRez = [
@@ -9305,7 +9421,11 @@ class Component extends DCLogic {
         isplataIzracunata: eur(dIsp0, 2),
         ukupno: eur(dUk, 2), zadnja: eur(dZadnja, 2), ostatak: eur(Math.max(0, dBal), 2),
         bezPrinosa: bPrazno ? mjTxt(bMj) : 'neograničeno',
-        dobitak: bPrazno && dPrazno ? mjTxt(Math.max(0, dMj - bMj)) : '–',
+        // NALAZ 19.8.2026: '–' je en-dash (U+2013), nije ASCII crtica iz
+        // obrasca - ne prolazi nijedan obrazac u report.js. Zamijenjeno
+        // rijecju 'neograničeno', istom koju bezPrinosa/trajanje iznad vec
+        // koriste za isti slucaj (dosljednost, ne novi oblik).
+        dobitak: bPrazno && dPrazno ? mjTxt(Math.max(0, dMj - bMj)) : 'neograničeno',
         za30: eur(d30), chart: _hd.items, hoverAktivan: _hd.hoverAktivan, hoverLeft: _hd.hoverLeft, hoverTxt: _hd.hoverTxt, hoverTransform: _hd.hoverTransform, prazno: dPrazno,
         prinosTxt: pct(Math.max(0, this.num(s.dPrinos, 0)), 2)
       },
