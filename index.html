@@ -7002,6 +7002,18 @@ class Component extends DCLogic {
   setObj(o, k) { return (e) => this.setState((s) => { const n = Object.assign({}, s[o]); n[k] = e.target.value; return { [o]: n, [o === 'f' ? 'b2bErr' : 'ktErr']: '' }; }); }
   pick(o, k, v) { return () => this.setState((s) => { const n = Object.assign({}, s[o]); n[k] = v; return { [o]: n }; }); }
 
+  // Zajednicko biranje poruke za sve 4 forme koje salju POST (nl/kt/b2b/mail):
+  // prazan gumb bez ikakve reakcije bio je jedini nacin da tihi honeypot
+  // return (nlSubmit) prodje neopazeno - vidi NOTES.md §5. AbortError dolazi
+  // od timeouta (AbortController u svakom submitu), status 429 iz rateLimited()
+  // na sve tri API rute (isti obrazac). Sve ostalo zadrzava postojecu, po formi
+  // specificnu genericku poruku (fallback parametar).
+  _porukaGreske(err, fallback) {
+    if (err && err.name === 'AbortError') return 'Poslužitelj ne odgovara. Provjeri internetsku vezu i pokušaj ponovno.';
+    if (err && err.status === 429) return 'Previše pokušaja u kratkom vremenu. Pokušaj ponovno za nekoliko minuta.';
+    return fallback;
+  }
+
   // Slanje izvještaja na mail. Frontend samo prosljeđuje podatke vlastitom
   // endpointu (/api/report): on generira mail i, ako je oznaceno i uz
   // eksplicitnu privolu, dodaje adresu u beehiiv publikaciju. API kljucevi
@@ -7026,13 +7038,26 @@ class Component extends DCLogic {
       hp: this.state.mailHp, t0: this.state.formLoadedAt,
     };
     this.setState({ mailSlanje: true, mailErr: '' });
-    fetch('/api/report', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
-      .then((r) => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json().catch(() => ({})); })
+    // AbortController: ako odgovor ne stigne u 12s (dovoljno za spor mobilni
+    // internet i hladan start serverless funkcije, dovoljno kratko da gumb ne
+    // ostane zaglavljen na "Šaljem…" bez objašnjenja), fetch se prekida i
+    // .catch() dobiva AbortError - _porukaGreske ga prepoznaje.
+    const _ctrl = new AbortController();
+    const _timeout = setTimeout(() => _ctrl.abort(), 12000);
+    fetch('/api/report', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), signal: _ctrl.signal })
+      .then((r) => {
+        clearTimeout(_timeout);
+        if (!r.ok) { const e = new Error('HTTP ' + r.status); e.status = r.status; throw e; }
+        return r.json().catch(() => ({}));
+      })
       .then(() => {
         this.setState({ mailSent: true, mailSlanje: false, mailSentNaslov: pdf.naslov || '', mailBurst: true });
         setTimeout(() => this.setState({ mailBurst: false }), 750);
       })
-      .catch(() => this.setState({ mailSlanje: false, mailErr: 'Slanje nije uspjelo. Pokušaj ponovno ili preuzmi PDF.' }));
+      .catch((err) => {
+        clearTimeout(_timeout);
+        this.setState({ mailSlanje: false, mailErr: this._porukaGreske(err, 'Slanje nije uspjelo. Pokušaj ponovno ili preuzmi PDF.') });
+      });
   }
 
   odbitakKoef() {
@@ -10344,6 +10369,8 @@ class Component extends DCLogic {
           if (!f.tvrtka.trim() || !f.osoba.trim() || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { this.setState({ b2bErr: 'Popuni tvrtku, kontakt osobu i ispravan e-mail.' }); return; }
           if (this.state.b2bSlanje) return;
           this.setState({ b2bSlanje: true, b2bErr: '' });
+          const _ctrl = new AbortController();
+          const _timeout = setTimeout(() => _ctrl.abort(), 12000);
           fetch('/api/contact', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -10352,13 +10379,21 @@ class Component extends DCLogic {
               velicina: f.velicina, format: f.format, poruka: f.poruka,
               hp: this.state.b2bHp, t0: this.state.formLoadedAt,
             }),
+            signal: _ctrl.signal,
           })
-            .then((r) => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json().catch(() => ({})); })
+            .then((r) => {
+              clearTimeout(_timeout);
+              if (!r.ok) { const e = new Error('HTTP ' + r.status); e.status = r.status; throw e; }
+              return r.json().catch(() => ({}));
+            })
             .then(() => {
               this.setState({ b2bSent: true, b2bErr: '', b2bBurst: true, b2bSlanje: false });
               setTimeout(() => this.setState({ b2bBurst: false }), 750);
             })
-            .catch(() => this.setState({ b2bSlanje: false, b2bErr: 'Slanje nije uspjelo. Pokušaj ponovno ili piši na kontakt@onovcu.hr.' }));
+            .catch((err) => {
+              clearTimeout(_timeout);
+              this.setState({ b2bSlanje: false, b2bErr: this._porukaGreske(err, 'Slanje nije uspjelo. Pokušaj ponovno ili piši na kontakt@onovcu.hr.') });
+            });
         },
         b2bReset: () => this.setState({ b2bSent: false, f: { tvrtka: '', osoba: '', email: '', velicina: '21-100', format: 'zivo', poruka: '' } }),
         cIme: this.setObj('c', 'ime'), cEmail: this.setObj('c', 'email'), cPoruka: this.setObj('c', 'poruka'),
@@ -10374,6 +10409,8 @@ class Component extends DCLogic {
           if (!c.ime.trim() || !c.poruka.trim() || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { this.setState({ ktErr: 'Popuni ime, ispravan e-mail i poruku.' }); return; }
           if (this.state.ktSlanje) return;
           this.setState({ ktSlanje: true, ktErr: '' });
+          const _ctrl = new AbortController();
+          const _timeout = setTimeout(() => _ctrl.abort(), 12000);
           fetch('/api/contact', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -10381,13 +10418,21 @@ class Component extends DCLogic {
               tip: 'kontakt', ime: c.ime, email, poruka: c.poruka, tema: c.tema,
               hp: this.state.ktHp, t0: this.state.formLoadedAt,
             }),
+            signal: _ctrl.signal,
           })
-            .then((r) => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json().catch(() => ({})); })
+            .then((r) => {
+              clearTimeout(_timeout);
+              if (!r.ok) { const e = new Error('HTTP ' + r.status); e.status = r.status; throw e; }
+              return r.json().catch(() => ({}));
+            })
             .then(() => {
               this.setState({ ktSent: true, ktErr: '', ktBurst: true, ktSlanje: false });
               setTimeout(() => this.setState({ ktBurst: false }), 750);
             })
-            .catch(() => this.setState({ ktSlanje: false, ktErr: 'Slanje nije uspjelo. Pokušaj ponovno ili piši na kontakt@onovcu.hr.' }));
+            .catch((err) => {
+              clearTimeout(_timeout);
+              this.setState({ ktSlanje: false, ktErr: this._porukaGreske(err, 'Slanje nije uspjelo. Pokušaj ponovno ili piši na kontakt@onovcu.hr.') });
+            });
         },
         ktReset: () => this.setState({ ktSent: false, c: { ime: '', email: '', poruka: '', tema: 'suradnja' } }),
         nlEmail: this.setS('nlEmail'),
@@ -10395,9 +10440,15 @@ class Component extends DCLogic {
         nlPrivola: (e) => this.setState({ nlPrivola: !!e.target.checked, nlErr: '' }),
         // GDPR: prijava prolazi samo uz valjanu adresu I izricitu privolu.
         // nlHp je honeypot: skriveno polje koje ljudi nikad ne vide ni ne popune,
-        // pa bilo koja vrijednost u njemu znaci bota - tiho odbijamo, bez greske.
+        // pa bilo koja vrijednost u njemu obicno znaci bota. NALAZ 20.8.2026:
+        // prijavljen slucaj (Edge/Windows, nije reproduciran) gdje je gumb
+        // izgledao mrtav - vjerojatno je nesto izvan nase kontrole (autofill i
+        // slicno) upisalo vrijednost u ovo polje pravom korisniku. Poruka ispod
+        // ne odaje detekciju botu, ali covjeku daje izlaz - zahtjev se i dalje
+        // NE salje, ni ovdje ni na serveru (api/subscribe.js ima svoju,
+        // odvojenu provjeru).
         nlSubmit: () => {
-          if (this.state.nlHp) return;
+          if (this.state.nlHp) return this.setState({ nlErr: 'Prijava nije uspjela. Pokušaj s drugim preglednikom ili nam piši na kontakt@onovcu.hr.' });
           // Trim PRIJE validacije - isti obrazac kao posaljiIzvjestaj (6893).
           // Regex zabranjuje razmake, pa netrimana adresa s vodecim/pratecim
           // razmakom (cesto pri kopiranju) izgleda ispravna na ekranu, a padne test.
@@ -10408,13 +10459,22 @@ class Component extends DCLogic {
           this.setState({ nlSlanje: true, nlErr: '' });
           // privola: true - eksplicitan signal servera da je korisnik zaista
           // oznacio kvacicu (server sad to i provjerava, vidi api/subscribe.js).
-          fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, privola: true, hp: this.state.nlHp, t0: this.state.formLoadedAt }) })
-            .then((r) => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json().catch(() => ({})); })
+          const _ctrl = new AbortController();
+          const _timeout = setTimeout(() => _ctrl.abort(), 12000);
+          fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, privola: true, hp: this.state.nlHp, t0: this.state.formLoadedAt }), signal: _ctrl.signal })
+            .then((r) => {
+              clearTimeout(_timeout);
+              if (!r.ok) { const e = new Error('HTTP ' + r.status); e.status = r.status; throw e; }
+              return r.json().catch(() => ({}));
+            })
             .then(() => {
               this.setState({ nlSent: true, nlSlanje: false, nlErr: '', nlBurst: true });
               setTimeout(() => this.setState({ nlBurst: false }), 750);
             })
-            .catch(() => this.setState({ nlSlanje: false, nlErr: 'Prijava nije uspjela. Pokušaj ponovno.' }));
+            .catch((err) => {
+              clearTimeout(_timeout);
+              this.setState({ nlSlanje: false, nlErr: this._porukaGreske(err, 'Prijava nije uspjela. Pokušaj ponovno.') });
+            });
         }
       }
     };
