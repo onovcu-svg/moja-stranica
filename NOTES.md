@@ -105,6 +105,39 @@ Zadnje ažuriranje: 20. 8. 2026., 12:41
   mounta pa njih nije trebalo braniti. `<title>` jest, pa `_guardTitle()` drži
   `MutationObserver` na `<title>` elementu koji odmah vrati željenu vrijednost
   čim je support.js prepiše — bez izmjene same `support.js` datoteke.
+- **Nova ruta ili blog članak — tri mjesta, jedna provjera (20.8.2026).**
+  Otkad postoji Edge Middleware za social-share crawlere (`middleware.js`,
+  opcija 8 iz nalaza o og: tagovima — vidi §6), ruta→meta podatak postoji na
+  **tri** mjesta koja moraju ostati usklađena: `getMeta()`/`META_*` tablice
+  (plus `OBJAVE[].naslov` za blog naslove) u `index.html` (klijent i
+  Google/JS-crawleri), ručna mirror-tablica u `middleware.js`
+  (social-share crawleri bez JS-a) i `sitemap.xml` (popis URL-ova). Pri
+  dodavanju bilo koje nove rute:
+  1. Upiši title/desc u odgovarajuću `META_*` tablicu u `index.html`, kao i
+     danas (za blog: naslov u `OBJAVE`, opis u `META_BLOG_DESC`).
+  2. Upiši isti title/desc u mirror-tablicu u `middleware.js`.
+  3. Dodaj URL u `sitemap.xml` (osim namjerno izvan-sitemapa ruta poput
+     `/kalkulatori/refi` — vidi komentar u kodu).
+  4. Pokreni `node scripts/check-meta-sync.js` — mora ispisati "usklađeno"
+     prije commita. Isti skript je i Vercelov `buildCommand`
+     (`vercel.json`), pa razilaženje blokira deploy i ako se ručni korak
+     preskoči — vidi niže što napraviti ako sam skript lažno blokira.
+  **Ako `check-meta-sync.js` blokira deploy lažno** (greška u samoj skripti,
+  ne stvarno razilaženje tablica) — ovo se traži u trenutku kad nešto gori,
+  pa koraci moraju biti brzi i bez razmišljanja:
+  1. **Prvo: Instant Rollback.** Vercel dashboard → Deployments → zadnji
+     poznati ispravan deployment → "..." → *Promote to Production* (ili
+     *Instant Rollback* ako je ponuđen). Ovo vraća produkciju na stare,
+     poznato ispravne bajtove trenutno, bez ikakvog builda — ispravan prvi
+     potez bez obzira zašto je zadnji deploy pao.
+  2. **Ako baš treba otići live sa TRENUTNIM kodom unatoč skripti:** Project
+     Settings → Build & Development Settings → *Build Command* → override
+     na prazno (ili `echo skip`) → pokreni novi deploy. Ovo isporučuje
+     trenutni kod bez pokretanja provjere.
+  3. **Odmah zatim, ne kasnije: vrati `Build Command` na
+     `node scripts/check-meta-sync.js`.** Dok override stoji, drift se više
+     ne blokira ni za jedan sljedeći deploy, tiho — točno ono što ovaj
+     mehanizam treba spriječiti.
 - **`componentDidUpdate(prevProps, prevState)` u `Component` NIKAD ne dobiva
   pravi `prevState`.** Otkriveno 18.8. dok se popravljao reset stanja pri
   promjeni kalkulatora: `support.js`-ov wrapper (`StreamableComponent`, vidi

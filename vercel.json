@@ -1,4 +1,6 @@
 {
+  "buildCommand": "node scripts/check-meta-sync.js",
+  "outputDirectory": ".",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
