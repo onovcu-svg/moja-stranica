@@ -644,6 +644,10 @@ obrada. Testirati na pravom uređaju.
       djelomičnim sadržajem — loše za korisnika i za indeksiranje. Vidi §5.
 - [ ] **Neovisno otvaranje FAQ-a po grupi.** `faqSveOpen` je jedna dijeljena
       vrijednost, pa je samo jedno pitanje otvoreno na cijeloj stranici.
+- [ ] Preispitati jesu li /kalkulatori/refi, /opcije i /zatvoriti stvarno samo
+      "pod-scenariji" kreditnog kalkulatora. Svaki ima vlastitu rutu, naslov i
+      opis, a "Refinanciranje kredita: isplati li se?" je pretraživani upit.
+      Danas su namjerno izvan sitemapa (komentar u kodu, 6227-6229).
 
 ### Sporedno
 - Domena `onovcu.hr` istječe **13. 11. 2026.** (registrar: Hrvatski Telekom /
