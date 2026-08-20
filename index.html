@@ -4331,6 +4331,14 @@
               </sc-for>
             </div>
             <div>
+            <!-- imaRezPdf: false samo za /kalkulatori/opcije (rezPdf: [] tamo) -
+                 taj kalkulator nema "glavni" rezultat, sve je vec u tablici
+                 "USPOREDBA..." nize (dokazano 1:1 preklapanje, vidi NALAZ prije
+                 ovog commita). Ostatak grida (UNESENI PODACI, lijevo) ostaje
+                 nedirnut - desna polovica prazna, ne razvucena preko cijele
+                 sirine, isti izgled kao sto lijevi stupac vec ima za sve
+                 kalkulatore. -->
+            <sc-if value="{{ pdf.imaRezPdf }}" hint-placeholder-val="{{ true }}">
               <div style="font-weight:600;font-size:10.5px;letter-spacing:.08em;color:#DC2626;padding-bottom:7px;border-bottom:1px solid #E4E4E7">REZULTAT IZRAČUNA</div>
               <sc-for list="{{ pdf.rezPdf }}" as="r" hint-placeholder-count="6">
                 <div style="display:flex;justify-content:space-between;gap:14px;padding:7px 0;border-bottom:1px solid #F4F4F5">
@@ -4338,6 +4346,7 @@
                   <span style="font-weight:600;font-size:11.5px;text-align:right;white-space:nowrap;flex-shrink:0">{{ r.v }}</span>
                 </div>
               </sc-for>
+            </sc-if>
             </div>
           </div>
 
@@ -7187,6 +7196,12 @@ class Component extends DCLogic {
       // gradi pdfKredit izravno) postavlja rezPdf drugacije od rez, da izbjegne
       // dupliciranje s "USPOREDBA MODELA OTPLATE".
       r.rezPdf = r.rezPdf || r.rez;
+      // imaRezPdf: kontrolira prikazuje li se "REZULTAT IZRACUNA" uopce.
+      // Prazan niz je jedini slucaj kad je false - danas samo opcije
+      // (rezPdf: [] tamo, taj kalkulator nema "glavni" rezultat neovisan o
+      // usporedbi, dokazano 1:1 preklapanje sa "USPOREDBA..." tablicom).
+      // Devet od deset grana ima neprazan rez pa im se ovime nista ne mijenja.
+      r.imaRezPdf = r.rezPdf.length > 0;
       return r;
     };
     const t = s.calcTab === 'kamata' ? s.gMode : s.calcTab;
@@ -7379,10 +7394,17 @@ class Component extends DCLogic {
           s.oInvestOpen ? (c.imaTocku ? R('Ulaganje prestiže dug u', c.tockaMBroj + ' mjesec') : R('Ulaganje prestiže dug', 'nikad')) : null,
           s.oInvestOpen && c.imaTocku ? R('Skraćenje otplate', nf(1).format(c.skracenjeMj / 12) + ' godina') : null
         ].filter(Boolean)),
-        // rezPdf: sto PDF prikazuje pod "REZULTAT IZRACUNA" - BEZ
-        // investicijskih redaka (ti se vec vide u "AKO SE RAZLIKA ULAZE"
-        // nize). Osnovnih 9 ostaje (vidi napomenu uz opRezBaza iznad).
-        rezPdf: opRezBaza,
+        // rezPdf: PRAZAN - "REZULTAT IZRACUNA" izlazi iz PDF-a za ovaj
+        // kalkulator. Dokazano (NALAZ, 20.8.2026): svih 9 redaka opRezBaza
+        // ima tocan par u tablici "USPOREDBA..." nize (svaka vrijednost,
+        // 1:1) - ovaj kalkulator nema "glavni" rezultat neovisan o usporedbi
+        // (za razliku od kredita, gdje imaRezPdf ostaje true). base() (7183)
+        // iz ovoga izvodi imaRezPdf:false, sto u predlosku (~4325) gasi
+        // samu sekciju - lijevi stupac (UNESENI PODACI) ostaje na pola
+        // sirine, desni prazan, ne razvucen preko cijele A4 sirine.
+        // Mail NIJE pogoden - rez (gore) je jedini kanal koji posaljiIzvjestaj
+        // cita, potpuno odvojen od rezPdf.
+        rezPdf: [],
         imaUsporedba: true,
         usporedba: {
           naslov: 'USPOREDBA DUŽEG I KRAĆEG ROKA', recenica: uspRecenica,
@@ -8890,6 +8912,10 @@ class Component extends DCLogic {
       // usporedbe (pdfRezPdf, iznad), da se ne ponavlja s "USPOREDBA MODELA
       // OTPLATE" nize. rez (puni, iznad) ostaje nedirnut - to salje mail.
       rezPdf: pdfRezPdf,
+      // Uvijek neprazan (6+ redaka bez obzira na stanje) - kredit ZA RAZLIKU
+      // od opcije ima "glavni" rezultat neovisan o usporedbi (brojke za
+      // trenutno odabrani model). imaRezPdf: true ovdje, nikad se ne gasi.
+      imaRezPdf: pdfRezPdf.length > 0,
       imaUsporedba: s.kUsporedi,
       usporedba: {
         naslov: 'USPOREDBA MODELA OTPLATE', recenica: uspZakljucak, pretpostavke: uspPretpostavke,
