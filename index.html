@@ -7020,6 +7020,13 @@ class Component extends DCLogic {
   // nikad ne idu u preglednik. "Preuzmi PDF" (pdfPrint/window.print) je
   // potpuno odvojena, nedirana funkcija - ovo je dodatni kanal, ne zamjena.
   posaljiIzvjestaj() {
+    // NALAZ 20.8.2026: server na popunjen honeypot vraca lazni 200 {ok:true}
+    // (namjerno, da bot ne sazna da je otkriven, api/report.js) - pravi
+    // korisnik kojem se polje slucajno popuni (isti obrazac kao nlSubmit,
+    // e93703e) inace vidi punu potvrdu bez ikad poslane poruke. Klijentska
+    // provjera ovdje ne odaje detekciju botu, ali covjeku daje izlaz - server
+    // je nedirnut, ostaje isti za bota koji ne izvrsava JS.
+    if (this.state.mailHp) return this.setState({ mailErr: 'Izvještaj nije poslan. Pokušaj s drugim preglednikom ili nam piši na kontakt@onovcu.hr.' });
     const adr = String(this.state.mailAdr || '').trim();
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(adr)) {
       return this.setState({ mailErr: 'Upiši ispravnu e-mail adresu.' });
@@ -10359,8 +10366,13 @@ class Component extends DCLogic {
         b2bHp: this.setS('b2bHp'),
         // b2bHp je honeypot (skriveno polje, botovi ga popune, ljudi ga ne vide);
         // formLoadedAt sluzi za "prebrzo poslano" provjeru - oboje se salju na server,
-        // gdje se stvarno provjeravaju (klijentska provjera je samo brzi izlaz).
+        // gdje se stvarno provjeravaju. NALAZ 20.8.2026: server na popunjen
+        // honeypot vraca lazni 200 (namjerno, protiv botova, api/contact.js) -
+        // klijentska provjera ispod ne mijenja server, samo sprjecava da pravi
+        // korisnik s pogodenim honeypotom (isti obrazac kao nlSubmit, e93703e)
+        // vidi laznu potvrdu umjesto poruke.
         b2bSubmit: () => {
+          if (this.state.b2bHp) return this.setState({ b2bErr: 'Zahtjev nije poslan. Pokušaj s drugim preglednikom ili nam piši na kontakt@onovcu.hr.' });
           const f = this.state.f;
           // Trim PRIJE validacije - isti obrazac kao posaljiIzvjestaj (6893).
           // Regex zabranjuje razmake, pa netrimana adresa s vodecim/pratecim
@@ -10400,7 +10412,13 @@ class Component extends DCLogic {
         temaSuradnja: this.pick('c', 'tema', 'suradnja'), temaRadionica: this.pick('c', 'tema', 'radionica'),
         temaSponzorstvo: this.pick('c', 'tema', 'sponzorstvo'), temaMediji: this.pick('c', 'tema', 'mediji'), temaPitanje: this.pick('c', 'tema', 'pitanje'),
         ktHp: this.setS('ktHp'),
+        // NALAZ 20.8.2026: server na popunjen honeypot vraca lazni 200
+        // (namjerno, protiv botova, api/contact.js) - klijentska provjera
+        // ispod ne mijenja server, samo sprjecava da pravi korisnik s
+        // pogodenim honeypotom (isti obrazac kao nlSubmit, e93703e) vidi
+        // laznu potvrdu umjesto poruke.
         ktSubmit: () => {
+          if (this.state.ktHp) return this.setState({ ktErr: 'Poruka nije poslana. Pokušaj s drugim preglednikom ili nam piši na kontakt@onovcu.hr.' });
           const c = this.state.c;
           // Trim PRIJE validacije - isti obrazac kao posaljiIzvjestaj (6893).
           // Regex zabranjuje razmake, pa netrimana adresa s vodecim/pratecim
