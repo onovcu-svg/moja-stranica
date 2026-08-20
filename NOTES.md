@@ -571,9 +571,7 @@ Development okruženje je zaključano na Hobby planu — ne treba.
 - **Tri kalkulatora (refi, zatvoriti, cilj) nisu mogli poslati mail od
   `dec1d4a`.** Otkriveno tek sustavnom provjerom svih redaka u `male`/`rez`/
   `param` protiv `report.js` obrazaca, 19.8.2026. — dosad se svaki nalaz ovog
-  tipa otkrivao slučajno, testiranjem jednog kalkulatora odjednom. PRAVILO:
-  nakon svake izmjene u `buildPdf`, `male`, `rez` ili `param`, provjeriti
-  prolazi li vrijednost obrasce — a ne samo testirati jedan kalkulator.
+  tipa otkrivao slučajno, testiranjem jednog kalkulatora odjednom.
 - **`sekcije` ne stižu u mail ni za jedan kalkulator.** `posaljiIzvjestaj` šalje
   samo `naslov`/`sazetak`/`rataLabel`/`rata`/`male`/`rez`/`param`. Sve izvedeno
   kao sekcija automatski nedostaje u mailu — 11 potvrđenih slučajeva
@@ -585,9 +583,6 @@ Development okruženje je zaključano na Hobby planu — ne treba.
   provjeriti prolazi li vrijednost `report.js` obrasce** — i to za SVE
   kalkulatore, ne samo za onaj koji se mijenja. Tri kalkulatora bila su
   bezuvjetno slomljena i to se otkrilo tek sustavnom provjerom 19.8.2026.
-- **`kSlobodno` (prijevremene uplate) nema gornju granicu** — gumb "Dodaj još
-  jednu uplatu" može se klikati neograničeno. Zato raspored uplata ide u
-  izvještaj kao jedan sažeti redak.
 
 ### iOS-specifično — ne može se reproducirati u Chromeu
 Auto-zoom na inpute, ponašanje visual viewporta pri tipkovnici, `height:100%`
