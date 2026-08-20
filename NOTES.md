@@ -4,7 +4,7 @@ Radni dnevnik projekta. Odluke, ograničenja i otvorene stavke.
 **Claude Code: pročitaj ovaj file prije svakog većeg zadatka i ažuriraj ga kad
 se donese nova odluka ili zatvori stavka.**
 
-Zadnje ažuriranje: 19. 8. 2026., 21:12
+Zadnje ažuriranje: 20. 8. 2026., 11:47
 
 ---
 
@@ -402,6 +402,50 @@ Development okruženje je zaključano na Hobby planu — ne treba.
   prikazivao rast dok je tržište palo 21,7 % (2025.) i 9,7 % (2024.).
   Zamijenjeno karticom sa stopama promjene iz DZS priopćenja (−42,2 % broj,
   −35,4 % vrijednost) i kvartalnim rastom 3,3 %.
+- **"Rata prva → zadnja" za model rata** (`7a24501`) — filter `bal > 0.01`
+  odbacivao je zadnji mjesec i prikazivao pretposljednju ratu. Za anuitete ima
+  smisla (zadnja rata je ostatak), za rate nema — svaki mjesec ima drugačiju
+  ratu jer kamata pada.
+- **Gumb natrag, odsječeni čip, pilula na hubu** (`6d0c638`) — `_onPopState` je
+  bezuvjetno zvao `scrollTo(0,0)`; native `scrollRestoration` ne pomaže u SPA
+  jer preglednik pokušava vratiti poziciju dok React još prikazuje staru
+  stranicu. Rješenje: `_scrollMem` (pathname → scrollY), prigušen upis,
+  vraćanje u callbacku `setState`-a.
+  `scrollActiveChipsIntoView()` je centrirao aktivni čip, pa je prvi i širi čip
+  ostajao odsječen — sad pomak samo ako čip nije vidljiv, na svim `[data-seg]`
+  trakama.
+  `syncSegs()` na `if (!act) continue` nije kolabirao indikator ni vratio boju.
+- **`syncSegs` boja i `pdfClose`** (`58a3aa5`) — `syncSegs` nikad nije imao
+  povratni put za boju: grana `if (w <= 0)` postavlja `var(--acc)` kad je `main`
+  skriven pri ispisu, ništa je nije vraćalo. `pdfClose` sad okida sintetički
+  `resize`. **Drugi simptom (odsječen sadržaj nakon zatvaranja PDF pregleda)
+  nije se ponovio nakon ovog popravka, ali uzrok nije bio dokazan.**
+- **Usporedba anuiteta i rata u PDF i mail** (`7119b9d`, `d2df1df`) — ekran je
+  prikazivao usporedbu, izvoz samo anuitete. Pet redaka u `pdfRez` za mail,
+  zasebna PDF sekcija s rečenicom zaključka i tablicom. `pdf.rezPdf` je snimka
+  prije usporedbe; `base()` ima `r.rezPdf = r.rezPdf || r.rez` pa ostalih 9
+  grana ne treba mijenjati.
+- **Isti obrazac na "Kraći ili duži rok"** (`5046f35`, `bcf465e`) — plus
+  uklonjen "REZULTAT IZRAČUNA" iz PDF-a za taj kalkulator, jer se svih 9 redaka
+  100 % preklapalo s novom tablicom. Cijeli taj kalkulator JEST usporedba;
+  nema "odabranog rezultata" kao kod kredita.
+- **Tri kalkulatora nisu mogla poslati mail** (`8b6685e`) — sustavna provjera
+  svih redaka u `male`/`rez`/`param` za svih 10 kalkulatora našla je osam
+  vrijednosti koje ne prolaze `report.js` validaciju. Bezuvjetne: refi
+  ("264 mj. (22,0 god.)"), zatvoriti ("45/300"), cilj (postotak u rečenici),
+  plaća s olakšicom mladih i s invaliditetom. Uvjetne: plaća `×`,
+  kamata/rast faza isplate, renta `–`.
+  Uz to dodani ulazi koji nisu stizali nigdje: `sIsplataRast`, primijenjena
+  porezna stopa po gradu, umanjenje osnovice I. stupa, sažeti raspored
+  prijevremenih uplata, `sc.ukupno` u PDF.
+- **`color-scheme` prati temu** (`b28c4e9`, `b0bc593`) — nikad nije bio
+  postavljen, pa je preglednik bojao native kontrole (datalist gradova, dva
+  `<input type="date">`, scrollbar) prema OS preferenciji umjesto prema temi
+  na portalu. Korisnik s tamnom OS temom i svijetlim portalom vidio je taman
+  popup s tamnim tekstom.
+  `:root, html, body` dijele jedno pravilo, pa je `light` bio postavljen
+  izravno na `body` — izravna vrijednost pobjeđuje naslijeđenu, trebao je par
+  na `html.on-dark body`.
 
 ### Riješeno 17. 8. 2026.
 - **Deep-linkovi slomljeni na 23/30 URL-ova.** `./support.js` na ruti s dva
@@ -530,6 +574,20 @@ Development okruženje je zaključano na Hobby planu — ne treba.
   tipa otkrivao slučajno, testiranjem jednog kalkulatora odjednom. PRAVILO:
   nakon svake izmjene u `buildPdf`, `male`, `rez` ili `param`, provjeriti
   prolazi li vrijednost obrasce — a ne samo testirati jedan kalkulator.
+- **`sekcije` ne stižu u mail ni za jedan kalkulator.** `posaljiIzvjestaj` šalje
+  samo `naslov`/`sazetak`/`rataLabel`/`rata`/`male`/`rez`/`param`. Sve izvedeno
+  kao sekcija automatski nedostaje u mailu — 11 potvrđenih slučajeva
+  (detalji prijelaza na kombiniranu stopu, prijevremena otplata, interkalarna
+  kamata, godišnji iznosi plaće, faza isplate, "gdje si u otplati" i drugo).
+  Rješava se jednom izmjenom, ali ona dira `report.js` — kod koji je bio
+  otvoreni mail relay — pa je odgođeno.
+- **PRAVILO: nakon svake izmjene u `buildPdf`, `male`, `rez` ili `param`,
+  provjeriti prolazi li vrijednost `report.js` obrasce** — i to za SVE
+  kalkulatore, ne samo za onaj koji se mijenja. Tri kalkulatora bila su
+  bezuvjetno slomljena i to se otkrilo tek sustavnom provjerom 19.8.2026.
+- **`kSlobodno` (prijevremene uplate) nema gornju granicu** — gumb "Dodaj još
+  jednu uplatu" može se klikati neograničeno. Zato raspored uplata ide u
+  izvještaj kao jedan sažeti redak.
 
 ### iOS-specifično — ne može se reproducirati u Chromeu
 Auto-zoom na inpute, ponašanje visual viewporta pri tipkovnici, `height:100%`
@@ -547,7 +605,11 @@ obrada. Testirati na pravom uređaju.
       sigurnosna blokada, lažna potvrda formi, netočni podaci, FAQ spoj,
       meta/rute/klizači, pristupačnost. Preostalo je zapisano u §5 "Poznato,
       namjerno neriješeno" i §6 "Poslije lansiranja".
-- [ ] Layout provjera cijele stranice na 430px
+- [x] **Layout provjera cijele stranice na 430px.** Prošao ju je Marko na
+      uređaju 19.8.2026: svi kalkulatori, sve kategorije Pokazatelja,
+      naslovnica, projekti, edukacija, statične stranice, blog članak, u
+      svijetloj i tamnoj temi. Nalazi iz tog prolaza (odsječeni čip, pilula na
+      hubu, gumb natrag) popravljeni u `6d0c638`.
 - [ ] **Fiksna traka s rezultatom sjedne usred ekrana na iOS-u.** Pojavi se
       preko sadržaja kad se prvi put montira DOK je tipkovnica otvorena; nakon
       zatvaranja i ponovnog otvaranja je ispravno na dnu. Reproducirano na
@@ -603,7 +665,9 @@ obrada. Testirati na pravom uređaju.
       kompliciran."), hrvatskim niskim-visokim navodnicima „..." — isti par
       koji projekt već koristi na 42 druga mjesta (npr. „Spremi kao PDF").
       Logotip, meta/og/JSON-LD i sve ostale sekcije nedirani.
-- [ ] Provjera sitemapa i svih ruta
+- [x] **Provjera sitemapa i svih ruta (`eec9a1d`).** Svih 36 ruta hidrira
+      čisto s jedinstvenim naslovom, sitemap ima 33 URL-a, robots.txt
+      ispravan, canonical i og:url već postavljeni na onovcu.hr.
 - [x] **Finalni test svih formi.** Testirano na produkciji 18.8.2026. sa
       stvarnim Resendom: kontakt, Mediji (tema ispravna), B2B, izvještaj
       kredita (anuiteti i rate), izvještaj plaće (bonus), newsletter s
@@ -648,6 +712,18 @@ obrada. Testirati na pravom uređaju.
       "pod-scenariji" kreditnog kalkulatora. Svaki ima vlastitu rutu, naslov i
       opis, a "Refinanciranje kredita: isplati li se?" je pretraživani upit.
       Danas su namjerno izvan sitemapa (komentar u kodu, 6227-6229).
+- [ ] **`sekcije` u mail** — vidi §5. Jedna izmjena rješava 11 slučajeva.
+- [ ] **Dokument s poznatim greškama** — sve otvoreno i namjerno neriješeno na
+      jednom mjestu, s ozbiljnošću i procjenom. Danas razasuto po §5, §6 i
+      `AUDIT-2026-08-18.md`.
+- [ ] **Revizija cijele stranice vanjskim alatom** — tehnički, SEO i AEO
+      parametri plus provjera činjenica, na `onovcu.hr` nakon spajanja domene.
+- [ ] **`AZURIRANJE.md`** — vodič za ručno ažuriranje podataka. Nalaz za njega
+      je pripremljen, dokument nije napisan.
+- [ ] **Korekcije tekstova u PDF-u.**
+- [ ] **Upit institucijama (DZS, HNB, HZMO, HANFA)** o strojno čitljivim
+      izvorima i o najavi revizija objavljenih podataka, kroz zahtjev za
+      ponovnu uporabu informacija.
 
 ### Sporedno
 - Domena `onovcu.hr` istječe **13. 11. 2026.** (registrar: Hrvatski Telekom /
