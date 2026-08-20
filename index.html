@@ -121,6 +121,17 @@
   @media (max-width: 767px) {
     [data-fs="sm"] { font-size: 16px !important; }
   }
+  /* NALAZ 20.8.2026: tooltip broja YT pretplatnika (.on-yt-tooltip) je fiksne
+     sirine (min(340px,78vw)) i uvijek vezan uz ikonu (left:-10px), bez provjere
+     ima li mjesta - na 360-430px izlazi 170-185px izvan desnog ruba. Ispod
+     767px (isti prag kao [data-fs="sm"] iznad, ne novi) postaje puna sirina,
+     fiksiran uz dno ekrana, potpuno neovisan o poziciji ikone - otporniji na
+     buduce promjene teksta/layouta od pracenja ikone na uzem pragu. Iznad
+     767px ostaje kako je danas (position:absolute, vezan uz ikonu) - desktop
+     nedirnut. !important nuzan da pobjedi inline style. */
+  @media (max-width: 767px) {
+    .on-yt-tooltip { position: fixed !important; left: 12px !important; right: 12px !important; top: auto !important; bottom: 16px !important; width: auto !important; }
+  }
   /* Visual viewport na iOS-u: html,body{height:100%} iz support.js (FULL_PAGE_CSS)
      zajedno s nasim vlastitim overflow-x:hidden (koji po CSS specifikaciji
      automatski promovira overflow-y u auto) cini body internim scroll-
@@ -363,7 +374,16 @@
     </section>
 
     <!-- SOCIAL PROOF / PRATI -->
-    <section ref="{{ socialRef }}" style="border-top:1px solid var(--line);background:var(--bg);transition:background .35s ease">
+    <!-- NALAZ 20.8.2026: overflow:clip lokalno na ovoj sekciji, NE globalno na
+         html/body (ono ostaje overflow-x:visible, vidi §3 - dokumentirana
+         odluka zbog position:sticky headera/tickera, koji su izvan ove sekcije
+         i njome nedirani). Obuzdava .on-yt-tooltip na desktopu/tabletu (>767px,
+         gdje ostaje position:absolute) da ne siri layout viewport cijele
+         stranice kad se otvori - isti razred kao Android overflow (18864f2),
+         vidljivo tek nakon interakcije. Ispod 767px tooltip je position:fixed
+         (vidi media query gore) pa ionako izlazi iz ove sekcije - clip ovdje
+         ga ne dira. -->
+    <section ref="{{ socialRef }}" style="border-top:1px solid var(--line);background:var(--bg);transition:background .35s ease;overflow:clip">
       <div style="max-width:1180px;margin:0 auto;padding:clamp(26px,4vh,40px) clamp(18px,4vw,36px);display:flex;align-items:center;justify-content:space-between;gap:clamp(16px,3vw,36px);flex-wrap:wrap">
         <div style="min-width:0">
           <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
@@ -372,7 +392,7 @@
             <span style="position:relative;display:inline-flex">
               <button sc-camel-on-click="{{ on.toggleYtInfo }}" title="Zanimljivost" style="width:19px;height:19px;padding:0;border-radius:50%;border:1px solid var(--line2);background:var(--card);color:var(--soft);cursor:pointer;font-weight:600;font-size:11.5px;line-height:1;display:flex;align-items:center;justify-content:center;transition:all .2s" style-hover="border-color:var(--acc);color:var(--acc)">i</button>
               <sc-if value="{{ ytInfoOpen }}">
-                <div style="position:absolute;left:-10px;top:28px;z-index:30;width:min(340px,78vw);background:var(--card);border:1px solid var(--line2);border-radius:14px;box-shadow:var(--shUp);padding:16px 18px;animation:onSheet .2s ease both;text-align:left">
+                <div class="on-yt-tooltip" style="position:absolute;left:-10px;top:28px;z-index:30;width:min(340px,78vw);background:var(--card);border:1px solid var(--line2);border-radius:14px;box-shadow:var(--shUp);padding:16px 18px;animation:onSheet .2s ease both;text-align:left">
                   <div style="font-weight:600;font-size:13px;letter-spacing:-.01em;margin-bottom:8px">Utrka s hrvatskim gradovima</div>
                   <p style="font-weight:300;font-size:13.5px;line-height:1.6;color:var(--soft);margin:0 0 12px;text-wrap:pretty">{{ ytUtrka }}</p>
                   <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
