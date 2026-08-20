@@ -4,7 +4,7 @@ Radni dnevnik projekta. Odluke, ograničenja i otvorene stavke.
 **Claude Code: pročitaj ovaj file prije svakog većeg zadatka i ažuriraj ga kad
 se donese nova odluka ili zatvori stavka.**
 
-Zadnje ažuriranje: 20. 8. 2026., 11:47
+Zadnje ažuriranje: 20. 8. 2026., 12:41
 
 ---
 
@@ -583,6 +583,23 @@ Development okruženje je zaključano na Hobby planu — ne treba.
   provjeriti prolazi li vrijednost `report.js` obrasce** — i to za SVE
   kalkulatore, ne samo za onaj koji se mijenja. Tri kalkulatora bila su
   bezuvjetno slomljena i to se otkrilo tek sustavnom provjerom 19.8.2026.
+- **Datalist popup za grad/općinu nečitljiv je u macOS Safariju.** Kad se popis
+  prijedloga suzi na dva ili manje, popup postaje taman s tamnim tekstom.
+  S tri ili više prijedloga je čitljiv.
+  Opseg, provjereno na uređaju 20.8.2026:
+  - macOS Safari: pogođeno
+  - macOS Chrome: radi ispravno
+  - iOS Safari: ne koristi popup nego popis iznad tipkovnice, nije pogođeno
+  Sve pod kontrolom stranice je čisto: `color-scheme` ispravno daje `light` na
+  `<html>`, `<body>` i samom inputu (`b28c4e9`, `b0bc593`), nijedno CSS pravilo
+  ne cilja `datalist`/`option`, popup je 100 % native i ne postoji u DOM-u pa
+  se ne može ni izmjeriti ni stilizirati.
+  Jedini potpun popravak bio bi zamjena `<datalist>` prilagođenom padajućom
+  listom — pola dana rada uz nove rizike (fokus, tipkovnica, pristupačnost,
+  pozicioniranje, mobilno ponašanje) u polju koje danas radi u tri od četiri
+  okruženja. Odgođeno.
+  Ublažavanje: korisnik može upisati naziv grada ručno i portal ga prepoznaje;
+  popis je pomoć, ne jedini put.
 
 ### iOS-specifično — ne može se reproducirati u Chromeu
 Auto-zoom na inpute, ponašanje visual viewporta pri tipkovnici, `height:100%`
