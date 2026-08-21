@@ -9053,7 +9053,7 @@ class Component extends DCLogic {
       { t: jeAnu
         ? 'Anuitet je izračunat standardnom formulom A = G × i ÷ (1 − (1 + i)^−n), gdje je G glavnica, i mjesečna kamatna stopa (godišnja ÷ 12), a n broj mjeseci. Mjesečna obveza je stalna, a odnos kamate i glavnice se s vremenom mijenja.'
         : 'Kod otplate u ratama glavnica se dijeli na jednake mjesečne dijelove (G ÷ n), a kamata se svaki mjesec obračunava na preostali dug. Rata je zato najveća na početku i pada do kraja otplate.' },
-      { t: 'Kamata se svaki mjesec obračunava na stanje duga s kraja prethodnog mjeseca, uz konformni mjesečni obračun (godišnja stopa ÷ 12).' },
+      { t: 'Kamata se svaki mjesec obračunava na stanje duga s kraja prethodnog mjeseca, uz proporcionalni mjesečni obračun (godišnja stopa ÷ 12).' },
       jeKomb
         ? { t: 'Do kraja fiksnog perioda vrijedi fiksna stopa. Nakon toga preostali dug se raspoređuje na ostatak roka po stopi EURIBOR + marža, uz pretpostavku da EURIBOR ostaje na unesenoj razini do kraja otplate.' }
         : { t: 'Izračun pretpostavlja da kamatna stopa ostaje nepromijenjena kroz cijeli rok otplate.' },
