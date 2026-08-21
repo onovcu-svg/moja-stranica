@@ -5594,47 +5594,51 @@ const MIROVINE_FIN = [
   [2028, 11.0, 6.8, 'projekcija']
 ];
 
-// 2. stup: HANFA, mjesečno izvješće (lipanj 2026.) + zakonska ograničenja.
+// 2. stup: HANFA, mjesečno izvješće (srpanj 2026.) + zakonska ograničenja.
 // Izvor: HANFA, mjesečno izvješće (xlsx), vidi PODACI-KALKULATORI.md za mapu listova.
 // prinos12 = zadnjih 12 mjeseci, ytd = od početka godine, prinos10 = prosječni
-// godišnji u zadnjih 10 godina. Prve dvije su iz lipnja 2026.; desetogodišnji
+// godišnji u zadnjih 10 godina. Prve dvije su iz srpnja 2026.; desetogodišnji
 // prosjek je okvirna vrijednost dok se ne poveže s listom 6.
-// ── SVE BROJKE ISPOD SU IZ HANFA-INA MJESEČNOG IZVJEŠĆA mi-07_26.xlsx ────
-// (podaci za lipanj 2026.). Mapa listova je u PODACI-KALKULATORI.md.
+// ── SVE BROJKE ISPOD SU IZ HANFA-INA MJESEČNOG IZVJEŠĆA mi-08_26.xlsx ────
+// (podaci za srpanj 2026.). Mapa listova je u PODACI-KALKULATORI.md.
 // Tablica 1.1 članstvo · 1.2 članovi po dobi · 1.8 neto imovina ·
 // 1.9 MIREX prinosi · 1.10 struktura ulaganja.
 // uvjet: HANFA, brošura "Mirovinski sustav" (svibanj 2024.) -
 // https://www.hanfa.hr/media/m1vbwsni/brošura-mirovinski-sustav-1-_compressed.pdf
 // Polje se trenutno nigdje ne prikazuje (provjereno: nema "{{ ... .uvjet }}"
 // u predlošku) - ispravljeno svejedno jer je bilo netocno.
+// imovina (Dionice/Obveznice/... struktura ulaganja, tablica 1.10) se
+// TAKOĐER nigdje ne prikazuje (provjereno grepom i uživo, klikom kroz sve tri
+// kategorije na /pokazatelji/mirovine - vidi NOTES.md §5) - ne ažurirati
+// uzalud svaki mjesec dok se ne poveže s predloškom ili ne obriše.
 const STUP2 = [
-  { k: 'A', clanova: 558804, imovinaMil: 1771.4, prinos12: 21.80, ytd: 12.60, prinos10: 9.39,
+  { k: 'A', clanova: 567105, imovinaMil: 1821.6, prinos12: 18.13, ytd: 12.71, prinos10: 9.10,
     limit: 'najviše 70 % u dionice', uvjet: 'u njoj možeš biti do 10 godina prije mirovine, iznimno do 5 na zahtjev',
     imovina: [['Dionice', 33.2], ['Obveznice', 34.6], ['Investicijski fondovi', 22.8], ['Novac i depoziti', 7.5], ['Ostalo', 2.3]] },
-  { k: 'B', clanova: 1779254, imovinaMil: 25443.7, prinos12: 11.94, ytd: 6.52, prinos10: 5.69,
+  { k: 'B', clanova: 1777582, imovinaMil: 25494.0, prinos12: 9.64, ytd: 6.34, prinos10: 5.53,
     limit: 'najviše 40 % u dionice', uvjet: 'dostupna u bilo kojem trenutku',
     imovina: [['Dionice', 27.2], ['Obveznice', 54.6], ['Investicijski fondovi', 12.3], ['Novac i depoziti', 4.7], ['Ostalo', 1.2]] },
-  { k: 'C', clanova: 74992, imovinaMil: 1513.6, prinos12: 1.73, ytd: 0.85, prinos10: 2.56,
+  { k: 'C', clanova: 73584, imovinaMil: 1481.1, prinos12: 1.24, ytd: 0.62, prinos10: 2.48,
     limit: 'najviše 10 % u dionice, najmanje 60 % u obveznice', uvjet: 'dostupna neovisno o dobi, nije obvezna',
     imovina: [['Obveznice', 87.4], ['Novac i depoziti', 11.8], ['Investicijski fondovi', 1.4]] }
 ];
-const STUP2_UK = 2413050;          // Tablica 1.1, kraj lipnja 2026.
-const STUP2_IMOVINA_MIL = 28728.7; // Tablica 1.8, ukupna neto imovina OMF-ova
+const STUP2_UK = 2418271;          // Tablica 1.1, kraj srpnja 2026.
+const STUP2_IMOVINA_MIL = 28796.7; // Tablica 1.8, ukupna neto imovina OMF-ova
 // Tablica 1.2: zbroj članova kategorije B u dobnim skupinama ispod 55 godina
-// (≤18 236 · 19-24 6.324 · 25-29 135.461 · 30-34 218.310 · 35-39 263.648 ·
-//  40-44 298.528 · 45-49 297.201 · 50-54 255.774)
-const STUP2_B_ISPOD55 = 1475482;
+// (≤18 255 · 19-24 6.081 · 25-29 132.343 · 30-34 216.982 · 35-39 262.970 ·
+//  40-44 298.043 · 45-49 297.812 · 50-54 256.279)
+const STUP2_B_ISPOD55 = 1470765;
 
-// 3. stup: HANFA (lipanj 2026.) + Zakon o dobrovoljnim mirovinskim fondovima.
-// HANFA mi-07_26.xlsx, lipanj 2026.: tablice 1.11 i 1.18 (članstvo),
+// 3. stup: HANFA (srpanj 2026.) + Zakon o dobrovoljnim mirovinskim fondovima.
+// HANFA mi-08_26.xlsx, srpanj 2026.: tablice 1.11 i 1.18 (članstvo),
 // 1.15 i 1.22 (neto imovina otvorenih i zatvorenih dobrovoljnih fondova).
 const STUP3 = {
-  otvoreni: 459871, zatvoreni: 51919,
-  clanovi: 459871 + 51919,
-  imovinaOtvoreni: 1499.97, imovinaZatvoreni: 304.47, // mil €
-  imovina: (1499.97 + 304.47) / 1000,
+  otvoreni: 461932, zatvoreni: 51950,
+  clanovi: 461932 + 51950,
+  imovinaOtvoreni: 1503.30, imovinaZatvoreni: 305.49, // mil €
+  imovina: (1503.30 + 305.49) / 1000,
   poticaj: 15, poticajMax: 99.54,
-  razdoblje: 'lipanj 2026.'
+  razdoblje: 'srpanj 2026.'
 };
 
 // ── NEKRETNINE ───────────────────────────────────────────────
@@ -5807,7 +5811,7 @@ const POK_FAQ_MIR = [
 ];
 
 const POK_FAQ = [
-  { p: 'Koliko ljudi štedi u 3. mirovinskom stupu?', o: 'U dobrovoljnim mirovinskim fondovima (3. stup) štedi {STUP3_CLANOVI} članova, s ukupnom imovinom od 1,80 milijardi eura (HANFA, {RAZD_MIR}). To je nešto više od četvrtine osiguranika prvog stupa. Država na uplate u 3. stup dodaje državnu potporu od 15 % na uplaćeno, do zakonskog maksimuma godišnje.' },
+  { p: 'Koliko ljudi štedi u 3. mirovinskom stupu?', o: 'U dobrovoljnim mirovinskim fondovima (3. stup) štedi {STUP3_CLANOVI} članova, s ukupnom imovinom od {STUP3_IMOVINA} mlrd € (HANFA, {RAZD_MIR}). To je nešto više od četvrtine osiguranika prvog stupa. Država na uplate u 3. stup dodaje državnu potporu od 15 % na uplaćeno, do zakonskog maksimuma godišnje.' },
   // Izvor: HANFA, brošura "Mirovinski sustav" (svibanj 2024.) -
   // https://www.hanfa.hr/media/m1vbwsni/brošura-mirovinski-sustav-1-_compressed.pdf
   // Prelazak u C nije obvezan (ranija tvrdnja bila netočna) - dostupan neovisno
@@ -6065,8 +6069,8 @@ const ZADNJE_RAZDOBLJE = 'srpanj 2026.';
 const ZADNJE_PLACE = 'svibanj 2026.';
 // HNB i HANFA objavljuju sa svojim zaostatkom pa svaki izvor ima svoj datum.
 const ZADNJE_HNB = 'lipanj 2026.';
-// Zadnje objavljeno mjesečno izvješće HANFA-e (mi-07_26.xlsx = podaci za lipanj).
-const ZADNJE_HANFA = 'lipanj 2026.';
+// Zadnje objavljeno mjesečno izvješće HANFA-e (mi-08_26.xlsx = podaci za srpanj).
+const ZADNJE_HANFA = 'srpanj 2026.';
 
 // Plaće po godinama (DZS): godišnji prosjek; zadnja godina je zadnji objavljeni mjesec.
 // Medijalna plaća objavljuje se tek od 2016., ranije godine imaju null.
@@ -8684,7 +8688,7 @@ class Component extends DCLogic {
       '{KR_DIFF_SG}': nf(2).format(_kNG - _kNS) + ' postotna boda', '{KR_STAMB_EKS_DIFF}': nf(2).format(_kES - _kNS) + ' postotnih bodova', '{KR_GOTOV_EKS_DIFF}': nf(2).format(_kEG - _kNG) + ' postotnih bodova',
       '{KR_STAMB_GOD}': pct(KS_SER.STAMBENI[ZI - 12], 2), '{KR_GOTOV_GOD}': pct(KS_SER.GOTOVINSKI[ZI - 12], 2),
       '{KR_DIFF_20K7G}': eur(_anuFaq(20000, _kNG, 7) - _anuFaq(20000, _kNS, 7), 0),
-      '{STUP3_CLANOVI}': nf(0).format(STUP3.clanovi),
+      '{STUP3_CLANOVI}': nf(0).format(STUP3.clanovi), '{STUP3_IMOVINA}': nf(2).format(STUP3.imovina),
       '{CPI}': pct(tz('inflacija'), 1), '{HPI_RAST}': pct(tz('hpi'), 1),
       '{KOSARICA_100}': eur(100 * (1 + tz('inflacija') / 100), 2),
       '{MIROVINA}': eur(tz('mirovina'), 2), '{MIR_RATIO}': pct(tz('mirovina') / tz('placaProsjek') * 100, 1),
