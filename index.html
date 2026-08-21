@@ -5715,8 +5715,8 @@ const POK_KAT = {
     naslov: 'Mirovinski sustav', izvor: 'HZMO i HANFA · mirovinski sustav',
     bluf: 'Na jednog umirovljenika u Hrvatskoj dolazi 1,46 zaposlenih, a prosječna starosna mirovina iznosi {MIROVINA}, odnosno {MIR_RATIO} prosječne neto plaće. U 2. stupu je {STUP2_CLANOVI_MIL} članova, od kojih je {STUP2_B_PCT} u kategoriji B, a u dobrovoljnom 3. stupu štedi {STUP3_CLANOVI} ljudi.',
     stat: [
-      { val: '1 : 1,46', label: 'Zaposlenih po umirovljeniku', sub: 'HZMO · {RAZD_MIR}', d: 0.05 },
-      { val: '{MIROVINA}', label: 'Prosječna starosna mirovina', sub: 'bez međ. ugovora · {RAZD_MIR}', d: 0.45 },
+      { val: '1 : 1,46', label: 'Zaposlenih po umirovljeniku', sub: 'HZMO · {RAZD_HZMO}', d: 0.05 },
+      { val: '{MIROVINA}', label: 'Prosječna starosna mirovina', sub: 'bez međ. ugovora · {RAZD_HZMO}', d: 0.45 },
       { val: '{MIR_RATIO}', label: 'Mirovina u odnosu na plaću', sub: 'naspram 1.552,00 € neto', d: -0.3 },
       { val: '{STUP2_B_PCT}', label: 'Članova u kategoriji B', sub: 'najveća kategorija 2. stupa', d: -0.4 }
     ]
@@ -8696,6 +8696,7 @@ class Component extends DCLogic {
       // {RAZD_KRED}/{RAZD_MIR}/{RAZD_INF} - nema smisla imati dva imena za
       // istu vrijednost.
       '{RAZD_INF}': ZADNJE_RAZDOBLJE, '{RAZD_PLACE}': ZADNJE_PLACE, '{RAZD_MIR}': ZADNJE_HANFA,
+      '{RAZD_HZMO}': ZADNJE_HZMO,
       '{RAZD_NEK}': ZADNJE_HPI, '{RAZD_KRED}': ZADNJE_HNB
     };
     const faqSub = (txt) => { let o = txt; for (const k in faqTokens) o = o.split(k).join(faqTokens[k]); return o; };
