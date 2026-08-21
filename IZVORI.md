@@ -7,7 +7,7 @@ odakle. Prije svake izmjene brojke: otvori izvor, prepiši, zapiši razdoblje.
 **Pravilo: isključivo primarni izvor (DZS, HNB, HZMO, HANFA, APN, NN).
 Nikad medijski portal, nikad agregator, nikad drugi kalkulator.**
 
-Zadnja potpuna provjera: 18. 8. 2026. (inflacija ažurirana 19. 8. 2026. na srpanj)
+Zadnja potpuna provjera: 21. 8. 2026. (inflacija ažurirana 19. 8. 2026. na srpanj)
 
 ---
 
@@ -53,9 +53,12 @@ Zadnja potpuna provjera: 18. 8. 2026. (inflacija ažurirana 19. 8. 2026. na srpa
 
 - Izvor: DZS, priopćenja "Prosječne mjesečne neto i bruto plaće"
 - Pregled: https://podaci.dzs.hr/hr/podaci/trziste-rada/
-- Zadnje korišteno: svibanj 2026. — https://podaci.dzs.hr/2026/hr/121467
+- Zadnje korišteno: lipanj 2026. — RAD-2026-1-1/6, https://podaci.dzs.hr/2026/hr/121493
+  (prethodno svibanj 2026. — https://podaci.dzs.hr/2026/hr/121467)
 - Ritam: mjesečno, s ~2 mjeseca zaostatka (zato ZADNJE_PLACE kasni za CPI-om)
 - Provjereno 18.8.2026: neto 1.552 €, bruto 2.178 €, medijalna neto 1.324 € — poklapa se.
+- Provjereno 21.8.2026: neto 1.555 €, bruto 2.184 €, medijalna neto 1.345 €,
+  medijalna bruto 1.850 € — poklapa se.
 - Minimalna bruto plaća: Uredba Vlade RH, NN 132/2025 → 1.050,00 € za 2026.
   https://mrosp.gov.hr/vijesti/minimalna-placa-za-2026-godinu-1-050-eura-bruto/13826
   Mijenja se jednom godišnje, uredbom u listopadu za sljedeću godinu.
@@ -116,6 +119,16 @@ Zadnja potpuna provjera: 18. 8. 2026. (inflacija ažurirana 19. 8. 2026. na srpa
   "prosječnu mirovinu" (npr. 879,28 € za 40+ godina staža) — nisu istog obuhvata.
 - Udio u plaći se računa prema neto plaći za svibanj 2026. (1.552 €), dakle
   mirovina i plaća NISU iz istog mjeseca. Tako to radi i HZMO.
+- **Udjeli mirovine u plaći (46,50 % i 56,65 %) se PREUZIMAJU od HZMO-a, ne
+  računaju iz `prosjecnaMirovina`/`prosjecnaPlaca`.** HZMO ih objavljuje
+  doslovno, s izričito navedenim razdobljem plaće koje koristi u tom
+  izračunu — obično mjesec starije od zadnje DZS objave, jer HZMO svoj
+  izvještaj sastavlja prije nego DZS objavi noviji mjesec. Pri svakom
+  ažuriranju upisati OBA broja iz izvora: i postotak i razdoblje plaće
+  (`STUP1.udioPlace`/`udio40Place`/`placaMjesec`) — ne preračunavati ih sami
+  niti pretpostaviti da je to razdoblje isto kao `ZADNJE_PLACE` (DZS).
+- Provjereno 21.8.2026: 879,28 € (40+ godina staža), 46,50 % i 56,65 % —
+  poklapa se doslovno s izvorom.
 - **`ZADNJE_HZMO` i `ZADNJE_HANFA` su ODVOJENE konstante i moraju ostati
   odvojene.** HZMO (1. stup, ovaj odjeljak) i HANFA (2./3. stup, odjeljak
   ispod) su različite institucije s vlastitim kalendarima objave. Da danas
