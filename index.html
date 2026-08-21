@@ -3146,7 +3146,7 @@
           <div style="container-type:inline-size;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:clamp(20px,2.4vw,24px)">
             <div style="white-space:nowrap;font-weight:700;font-size:clamp(19px,8.8cqi,30px);letter-spacing:-.04em;line-height:1">{{ s1.mirovina40 }}</div>
             <div style="font-weight:500;font-size:14px;margin-top:12px;line-height:1.3">Uz 40 i više godina staža</div>
-            <div style="font-weight:300;font-size:12.5px;color:var(--soft);margin-top:4px;line-height:1.4">{{ s1.pokrivenost40 }} prosječne plaće · {{ s1.mirovina40Mjesec }}</div>
+            <div style="font-weight:300;font-size:12.5px;color:var(--soft);margin-top:4px;line-height:1.4">{{ s1.pokrivenost40 }} plaće za {{ s1.placaMjesec }} · iznos za {{ s1.mirovina40Mjesec }}</div>
           </div>
           <div style="container-type:inline-size;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:clamp(20px,2.4vw,24px)">
             <div style="white-space:nowrap;font-weight:700;font-size:clamp(19px,8.8cqi,30px);letter-spacing:-.04em;line-height:1;color:var(--acc)">{{ s1.rashodiGod }}</div>
@@ -5565,7 +5565,7 @@ const STUP1 = {
   // VAŽNO: HZMO objavljuje "statistika za mjesec X, isplata u mjesecu X+1".
   // Ovdje se svugdje koristi mjesec NA KOJI SE PODATAK ODNOSI, ne mjesec isplate.
   prosjecnaMirovina: 721.73,   // ukupna starosna, bez međunarodnih ugovora, lipanj 2026.
-  mirovina40: 879.17,          // 40+ godina staža, ZOMO, svibanj 2026.
+  mirovina40: 879.28,          // 40+ godina staža, ZOMO, svibanj 2026.
   mirovina40Bez: 1030.72,      // 40+ staža, bez međunarodnih ugovora, svibanj 2026.
   // NAMJERNO odvojen od razdoblje/ZADNJE_HZMO: "40+ godina staža" razrada
   // kasni jedan mjesec za glavnom brojkom ISTE HZMO objave (svibanj vs lipanj).
@@ -5574,6 +5574,21 @@ const STUP1 = {
   prosjecnaPlaca: 1552,        // DZS, svibanj 2026. (isti izvor kao tab Rad & plaće)
   stopaDoprinosa: 15,          // I. stup, % bruto plaće
   prosjecnaBruto: 2178,
+  // HZMO doslovno objavljuje ova dva udjela u istom priopćenju (ne računamo
+  // mi iz mirovina/plaća) - vidi IZVORI.md, "Mirovine (1. stup)".
+  // "...njen udio u prosječnoj netoplaći zaposlenih u pravnim osobama u
+  // Republici Hrvatskoj za svibanj 2026. (1552 eura) iznosi 46,50%."
+  // "...udio u prosječnoj netoplaći ... iznosi 56,65%" (za mirovina40=879,28).
+  udioPlace: 46.50,      // objavljeni udio prosječne starosne mirovine u plaći
+  udio40Place: 56.65,    // objavljeni udio mirovine za 40+ godina staža u plaći
+  // Razdoblje plaće koje HZMO koristi za oba udjela iznad. NIJE ZADNJE_PLACE
+  // (DZS razdoblje) - HZMO redovito kasni mjesec za DZS-om. Provjeriti ovo
+  // polje pri svakoj HZMO objavi, ne pretpostaviti da se poklapa s DZS-om.
+  // Neovisno o mirovina40Mjesec: to je HZMO-ov vlastiti kalendar (kasni
+  // mjesec za glavnom HZMO objavom), ovo je DZS-ov kalendar na koji se HZMO
+  // poziva u svom izračunu - dva različita izvora koja se danas slučajno
+  // poklapaju, ne strukturno jamstvo.
+  placaMjesec: 'svibanj 2026.',
   // Prije su ovdje bila dva polja (razdoblje + mirovinaMjesec) s uvijek istom
   // vrijednošću - spojeno u jedno jer nijedno mjesto u predlošku ne očekuje
   // da se razlikuju (provjereno: svaki ima točno jednog čitatelja u templateu).
@@ -5721,7 +5736,7 @@ const POK_KAT = {
     stat: [
       { val: '1 : 1,46', label: 'Zaposlenih po umirovljeniku', sub: 'HZMO · {RAZD_HZMO}', d: 0.05 },
       { val: '{MIROVINA}', label: 'Prosječna starosna mirovina', sub: 'bez međ. ugovora · {RAZD_HZMO}', d: 0.45 },
-      { val: '{MIR_RATIO}', label: 'Mirovina u odnosu na plaću', sub: 'naspram 1.552,00 € neto', d: -0.3 },
+      { val: '{MIR_RATIO}', label: 'Mirovina u odnosu na plaću', sub: 'naspram plaće od {STUP1_PLACA} · HZMO, {RAZD_PLACE_HZMO}', d: -0.3 },
       { val: '{STUP2_B_PCT}', label: 'Članova u kategoriji B', sub: 'najveća kategorija 2. stupa', d: -0.4 }
     ]
   },
@@ -8691,7 +8706,11 @@ class Component extends DCLogic {
       '{STUP3_CLANOVI}': nf(0).format(STUP3.clanovi), '{STUP3_IMOVINA}': nf(2).format(STUP3.imovina),
       '{CPI}': pct(tz('inflacija'), 1), '{HPI_RAST}': pct(tz('hpi'), 1),
       '{KOSARICA_100}': eur(100 * (1 + tz('inflacija') / 100), 2),
-      '{MIROVINA}': eur(tz('mirovina'), 2), '{MIR_RATIO}': pct(tz('mirovina') / tz('placaProsjek') * 100, 1),
+      '{MIROVINA}': eur(tz('mirovina'), 2),
+      // Preuzeto doslovno od HZMO-a (STUP1.udioPlace), ne računa se iz
+      // tz('mirovina')/tz('placaProsjek') - vidi komentar uz STUP1.
+      '{MIR_RATIO}': pct(STUP1.udioPlace, 2),
+      '{STUP1_PLACA}': eur(STUP1.prosjecnaPlaca, 2), '{RAZD_PLACE_HZMO}': STUP1.placaMjesec,
       '{STUP2_CLANOVI_MIL}': nf(2).format(STUP2_UK / 1e6) + ' milijuna', '{STUP2_B_PCT}': pct(STUP2[1].clanova / STUP2_UK * 100, 2),
       '{KR_IZNOSSTAMB}': nf(1).format(KS_IZNOSSTAMBENI[ZI]) + ' milijuna eura', '{KR_IZNOSGOTOV}': nf(1).format(KS_IZNOSGOTOVINSKI[ZI]) + ' milijuna eura',
       // Razdoblje po kategoriji, iz ISTIH konstanti kao pokDatum (v. gore) -
@@ -9601,11 +9620,13 @@ class Component extends DCLogic {
           mirovina40: eur(d.mirovina40),
           mirovina40Bez: eur(d.mirovina40Bez),
           placa: eur(d.prosjecnaPlaca, 0),
-          // Isti izvor kao ZADNJE_PLACE (v. komentar uz STUP1.prosjecnaPlaca) -
-          // sigurno vezanje, ne nova sjena-kopija.
-          placaMjesec: ZADNJE_PLACE,
-          pokrivenostPlacom: pct(d.prosjecnaMirovina / d.prosjecnaPlaca * 100, 1),
-          pokrivenost40: pct(d.mirovina40 / d.prosjecnaPlaca * 100, 1),
+          // NIJE ZADNJE_PLACE (DZS razdoblje) - vlastito STUP1.placaMjesec,
+          // HZMO redovito kasni mjesec za DZS-om. Vidi komentar uz STUP1.
+          placaMjesec: d.placaMjesec,
+          // Preuzeto doslovno od HZMO-a, ne računa se iz mirovina/plaća -
+          // vidi komentar uz STUP1.udioPlace/udio40Place.
+          pokrivenostPlacom: pct(d.udioPlace, 2),
+          pokrivenost40: pct(d.udio40Place, 2),
           rashodiGod: nf(1).format(TEK[1]) + ' mlrd €',
           tekucaGod: TEK[0] + '.',
           rashodiMj: nf(0).format(Math.round(TEK[1] * 1000 / 12)) + ' mil. €',
