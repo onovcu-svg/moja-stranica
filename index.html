@@ -374,23 +374,27 @@
     </section>
 
     <!-- SOCIAL PROOF / PRATI -->
-    <!-- NALAZ 20.8.2026: overflow:clip lokalno na ovoj sekciji, NE globalno na
-         html/body (ono ostaje overflow-x:visible, vidi §3 - dokumentirana
-         odluka zbog position:sticky headera/tickera, koji su izvan ove sekcije
-         i njome nedirani). Obuzdava .on-yt-tooltip na desktopu/tabletu (>767px,
-         gdje ostaje position:absolute) da ne siri layout viewport cijele
-         stranice kad se otvori - isti razred kao Android overflow (18864f2),
-         vidljivo tek nakon interakcije. Ispod 767px tooltip je position:fixed
-         (vidi media query gore) pa ionako izlazi iz ove sekcije - clip ovdje
-         ga ne dira. -->
-    <section ref="{{ socialRef }}" style="border-top:1px solid var(--line);background:var(--bg);transition:background .35s ease;overflow:clip">
+    <!-- NALAZ 20.8.2026, ispravljeno 21.8.2026: overflow-x:clip lokalno na ovoj
+         sekciji, NE globalno na html/body (ono ostaje overflow-x:visible, vidi
+         §3 - dokumentirana odluka zbog position:sticky headera/tickera, koji su
+         izvan ove sekcije i njome nedirani). Obuzdava .on-yt-tooltip na
+         desktopu/tabletu (>767px, gdje ostaje position:absolute) da ne siri
+         layout viewport cijele stranice kad se otvori - isti razred kao Android
+         overflow (18864f2), vidljivo tek nakon interakcije. Ispod 767px tooltip
+         je position:fixed (vidi media query gore) pa ionako izlazi iz ove
+         sekcije - clip ovdje ga ne dira.
+         Bio je pun `overflow:clip` (obje osi) - rezao je i OKOMITO, pa se na
+         desktopu (tooltip position:absolute, visi 236,9px) tooltip odsijecao na
+         granici sekcije (117,5px), vidljiv samo naslov. `overflow-x:clip`
+         zadrzava zastitu od vodoravnog sirenja bez diranja okomite osi. -->
+    <section ref="{{ socialRef }}" style="border-top:1px solid var(--line);background:var(--bg);transition:background .35s ease;overflow-x:clip">
       <div style="max-width:1180px;margin:0 auto;padding:clamp(26px,4vh,40px) clamp(18px,4vw,36px);display:flex;align-items:center;justify-content:space-between;gap:clamp(16px,3vw,36px);flex-wrap:wrap">
         <div style="min-width:0">
           <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
             <span style="font-weight:700;white-space:nowrap;font-size:clamp(19px,12.9cqi,44px);letter-spacing:-.045em;line-height:1;color:var(--acc);font-variant-numeric:tabular-nums">{{ ytSubs }}</span>
             <span style="font-weight:300;font-size:clamp(14.5px,1.6vw,17px);color:var(--soft)">pretplatnika na YouTube kanalu</span>
             <span style="position:relative;display:inline-flex">
-              <button sc-camel-on-click="{{ on.toggleYtInfo }}" title="Zanimljivost" style="width:19px;height:19px;padding:0;border-radius:50%;border:1px solid var(--line2);background:var(--card);color:var(--soft);cursor:pointer;font-weight:600;font-size:11.5px;line-height:1;display:flex;align-items:center;justify-content:center;transition:all .2s" style-hover="border-color:var(--acc);color:var(--acc)">i</button>
+              <button sc-camel-on-click="{{ on.toggleYtInfo }}" title="Zanimljivost" style="width:19px;height:19px;padding:0;border-radius:50%;border:1px solid var(--acc);background:var(--card);color:var(--acc);cursor:pointer;font-weight:600;font-size:11.5px;line-height:1;display:flex;align-items:center;justify-content:center;transition:all .2s" style-hover="background:var(--tint)">i</button>
               <sc-if value="{{ ytInfoOpen }}">
                 <div class="on-yt-tooltip" style="position:absolute;left:-10px;top:28px;z-index:30;width:min(340px,78vw);background:var(--card);border:1px solid var(--line2);border-radius:14px;box-shadow:var(--shUp);padding:16px 18px;animation:onSheet .2s ease both;text-align:left">
                   <div style="font-weight:600;font-size:13px;letter-spacing:-.01em;margin-bottom:8px">Utrka s hrvatskim gradovima</div>
