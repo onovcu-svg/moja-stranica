@@ -3238,7 +3238,7 @@
               <div style="container-type:inline-size">
                 <div style="white-space:nowrap;font-weight:700;font-size:clamp(30px,13cqi,58px);letter-spacing:-.045em;line-height:1">{{ s2.cijena.ljudi }}</div>
               </div>
-              <div style="font-weight:400;font-size:clamp(15px,1.8vw,18px);line-height:1.5;margin-top:14px;max-width:52ch;text-wrap:pretty;opacity:.95">članova kategorije B ima 10 ili više godina do mirovine pa bi mogli biti u kategoriji A. Većina ih nije birala: raspoređeni su automatski i tako ostali. Kategoriju je moguće besplatno promijeniti jednom godišnje.</div>
+              <div style="font-weight:400;font-size:clamp(15px,1.8vw,18px);line-height:1.5;margin-top:14px;max-width:52ch;text-wrap:pretty;opacity:.95">članova kategorije B koji imaju 10 ili više godina do mirovine i mogli bi biti u kategoriji A. Najveći dio njih nije odabrao svoj mirovinski fond, nego su automatski raspoređeni po starim pravilima i nikada nisu ništa učinili po tom pitanju. Kategoriju je moguće promijeniti jednom godišnje, premalo ljudi koristi tu mogućnost.</div>
             </div>
           </div>
           <div style="font-weight:300;font-size:11px;color:var(--soft);margin-top:16px;padding-top:10px;border-top:1px solid var(--line)">{{ src.hanfa }}</div>
@@ -5603,15 +5603,19 @@ const MIROVINE_FIN = [
 // (podaci za lipanj 2026.). Mapa listova je u PODACI-KALKULATORI.md.
 // Tablica 1.1 članstvo · 1.2 članovi po dobi · 1.8 neto imovina ·
 // 1.9 MIREX prinosi · 1.10 struktura ulaganja.
+// uvjet: HANFA, brošura "Mirovinski sustav" (svibanj 2024.) -
+// https://www.hanfa.hr/media/m1vbwsni/brošura-mirovinski-sustav-1-_compressed.pdf
+// Polje se trenutno nigdje ne prikazuje (provjereno: nema "{{ ... .uvjet }}"
+// u predlošku) - ispravljeno svejedno jer je bilo netocno.
 const STUP2 = [
   { k: 'A', clanova: 558804, imovinaMil: 1771.4, prinos12: 21.80, ytd: 12.60, prinos10: 9.39,
-    limit: 'najviše 70 % u dionice', uvjet: 'dostupna do 10 godina prije mirovine',
+    limit: 'najviše 70 % u dionice', uvjet: 'u njoj možeš biti do 10 godina prije mirovine, iznimno do 5 na zahtjev',
     imovina: [['Dionice', 33.2], ['Obveznice', 34.6], ['Investicijski fondovi', 22.8], ['Novac i depoziti', 7.5], ['Ostalo', 2.3]] },
   { k: 'B', clanova: 1779254, imovinaMil: 25443.7, prinos12: 11.94, ytd: 6.52, prinos10: 5.69,
-    limit: 'najviše 40 % u dionice', uvjet: 'zadana kategorija, dostupna svima',
+    limit: 'najviše 40 % u dionice', uvjet: 'dostupna u bilo kojem trenutku',
     imovina: [['Dionice', 27.2], ['Obveznice', 54.6], ['Investicijski fondovi', 12.3], ['Novac i depoziti', 4.7], ['Ostalo', 1.2]] },
   { k: 'C', clanova: 74992, imovinaMil: 1513.6, prinos12: 1.73, ytd: 0.85, prinos10: 2.56,
-    limit: 'najviše 10 % u dionice, najmanje 60 % u obveznice', uvjet: 'obvezna u zadnjih 5 godina prije mirovine',
+    limit: 'najviše 10 % u dionice, najmanje 60 % u obveznice', uvjet: 'dostupna neovisno o dobi, nije obvezna',
     imovina: [['Obveznice', 87.4], ['Novac i depoziti', 11.8], ['Investicijski fondovi', 1.4]] }
 ];
 const STUP2_UK = 2413050;          // Tablica 1.1, kraj lipnja 2026.
@@ -5709,12 +5713,12 @@ const POK_KAT = {
   },
   mirovine: {
     naslov: 'Mirovinski sustav', izvor: 'HZMO i HANFA · mirovinski sustav',
-    bluf: 'Na jednog umirovljenika u Hrvatskoj dolazi 1,46 zaposlenih, a prosječna starosna mirovina iznosi {MIROVINA}, odnosno {MIR_RATIO} prosječne neto plaće. U 2. stupu je {STUP2_CLANOVI_MIL} članova, od kojih je {STUP2_B_PCT} u zadanoj kategoriji B, a u dobrovoljnom 3. stupu štedi {STUP3_CLANOVI} ljudi.',
+    bluf: 'Na jednog umirovljenika u Hrvatskoj dolazi 1,46 zaposlenih, a prosječna starosna mirovina iznosi {MIROVINA}, odnosno {MIR_RATIO} prosječne neto plaće. U 2. stupu je {STUP2_CLANOVI_MIL} članova, od kojih je {STUP2_B_PCT} u kategoriji B, a u dobrovoljnom 3. stupu štedi {STUP3_CLANOVI} ljudi.',
     stat: [
       { val: '1 : 1,46', label: 'Zaposlenih po umirovljeniku', sub: 'HZMO · {RAZD_MIR}', d: 0.05 },
       { val: '{MIROVINA}', label: 'Prosječna starosna mirovina', sub: 'bez međ. ugovora · {RAZD_MIR}', d: 0.45 },
       { val: '{MIR_RATIO}', label: 'Mirovina u odnosu na plaću', sub: 'naspram 1.552,00 € neto', d: -0.3 },
-      { val: '{STUP2_B_PCT}', label: 'Članova u kategoriji B', sub: 'zadana kategorija 2. stupa', d: -0.4 }
+      { val: '{STUP2_B_PCT}', label: 'Članova u kategoriji B', sub: 'najveća kategorija 2. stupa', d: -0.4 }
     ]
   },
   nekretnine: {
@@ -5804,7 +5808,11 @@ const POK_FAQ_MIR = [
 
 const POK_FAQ = [
   { p: 'Koliko ljudi štedi u 3. mirovinskom stupu?', o: 'U dobrovoljnim mirovinskim fondovima (3. stup) štedi {STUP3_CLANOVI} članova, s ukupnom imovinom od 1,80 milijardi eura (HANFA, {RAZD_MIR}). To je nešto više od četvrtine osiguranika prvog stupa. Država na uplate u 3. stup dodaje državnu potporu od 15 % na uplaćeno, do zakonskog maksimuma godišnje.' },
-  { p: 'Što znače kategorije A, B i C u 2. mirovinskom stupu?', o: 'Kategorije se razlikuju po dopuštenom udjelu dionica: A je najagresivnija i dostupna do 10 godina prije mirovine, B je uravnotežena i zadana kategorija u koju je raspoređeno oko 74 % članova, a C ulaže gotovo isključivo u obveznice i obvezna je u posljednjih 5 godina prije mirovine. Prelazak između kategorija je besplatan jednom godišnje.' },
+  // Izvor: HANFA, brošura "Mirovinski sustav" (svibanj 2024.) -
+  // https://www.hanfa.hr/media/m1vbwsni/brošura-mirovinski-sustav-1-_compressed.pdf
+  // Prelazak u C nije obvezan (ranija tvrdnja bila netočna) - dostupan neovisno
+  // o dobi. REGOS automatski prebacuje samo A u B, deset godina prije uvjeta.
+  { p: 'Što znače kategorije A, B i C u 2. mirovinskom stupu?', o: 'Kategorije se razlikuju po dopuštenom udjelu dionica. A je najagresivnija: u njoj možeš biti do deset godina prije mirovine, a iznimno i do pet ako sam podneseš zahtjev. Nakon toga te REGOS automatski prebacuje u B. B je uravnotežena kategorija, u njoj možeš biti u bilo kojem trenutku. C ulaže gotovo isključivo u obveznice i u nju možeš prijeći kad god želiš, neovisno o dobi, ali nije obvezna. Iz C natrag u B moguće je samo ako je do mirovine ostalo više od šest mjeseci. Kategoriju možeš besplatno promijeniti jednom godišnje.' },
 ];
 
 // Po kalkulatoru: kratke upute za korištenje, stručni komentar autora i FAQ.
@@ -9688,7 +9696,7 @@ class Component extends DCLogic {
           })),
           mladiB: nf(0).format(STUP2_B_ISPOD55),
           mladiPct: pct(STUP2_B_ISPOD55 / STUP2[1].clanova * 100, 0),
-          // Cijena zadane kategorije: koliko bi ista imovina donijela u A
+          // Cijena kategorije B: koliko bi ista imovina donijela u A
           // umjesto u B, mjereno razlikom desetogodišnjih prosjeka MIREX-a.
           cijena: (() => {
             const clanovaB = STUP2[1].clanova;
