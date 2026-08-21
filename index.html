@@ -5526,7 +5526,7 @@ const OBJAVE = [
 // Fallback / zadnje poznate vrijednosti. Zamjenjuju se podacima s API-ja u loadMarket().
 const TRZISTE = [
   { id: 'inflacija', label: 'Godišnja inflacija (CPI)', kratko: 'CPI, Hrvatska', izvor: 'DZS', datum: 'srpanj 2026.', val: 3.9, prev: 4.5, dec: 1 },
-  { id: 'placaProsjek', label: 'Prosječna neto plaća', kratko: 'DZS, mjesečno', izvor: 'DZS', datum: 'svibanj 2026.', val: 1552, prev: 1552, fmt: 'eur' },
+  { id: 'placaProsjek', label: 'Prosječna neto plaća', kratko: 'DZS, mjesečno', izvor: 'DZS', datum: 'lipanj 2026.', val: 1555, prev: 1552, fmt: 'eur' },
   { id: 'mirovina', label: 'Prosječna starosna mirovina', kratko: 'HZMO, bez međunarodnih ugovora', izvor: 'HZMO', datum: 'lipanj 2026.', val: 721.73, prev: 721.28, fmt: 'eur', dec: 2 },
   { id: 'stambeni', label: 'Stambeni kredit', kratko: 'novi poslovi, prosjek', izvor: 'HNB', datum: 'lipanj 2026.', val: 2.90, prev: 2.92 },
   { id: 'hpi', label: 'Rast cijena nekretnina', kratko: 'indeks cijena, godišnje', izvor: 'DZS', datum: 'prvo tromjesečje 2026.', val: 14.3, prev: 10.2, per: 'od prošlog tromjesečja', dec: 1 }
@@ -5726,7 +5726,7 @@ const POK_KAT = {
     stat: [
       { val: '{PL_PROSJEK}', label: 'Prosječna neto plaća', sub: 'mjesečno · {RAZD_PLACE}', d: 0 },
       { val: '{PL_MEDIJAN}', label: 'Medijalna neto plaća', sub: 'polovica zaposlenih zarađuje manje', d: 5 },
-      { val: '2.178,00 €', label: 'Prosječna bruto plaća', sub: 'Bruto 1, mjesečno', d: -2 },
+      { val: '2.184,00 €', label: 'Prosječna bruto plaća', sub: 'Bruto 1, mjesečno', d: -2 },
       { val: '1.050,00 €', label: 'Minimalna bruto plaća', sub: 'zakonski minimum za 2026.', d: 0 }
     ]
   },
@@ -6081,7 +6081,7 @@ const CPI_PRVA = 1999;
 // Za koje razdoblje vrijedi zadnja (nepotpuna) godina u serijama.
 const ZADNJE_RAZDOBLJE = 'srpanj 2026.';
 // Plaće kasne mjesec dana za inflacijom (DZS ih objavljuje sredinom idućeg mjeseca).
-const ZADNJE_PLACE = 'svibanj 2026.';
+const ZADNJE_PLACE = 'lipanj 2026.';
 // HNB i HANFA objavljuju sa svojim zaostatkom pa svaki izvor ima svoj datum.
 const ZADNJE_HNB = 'lipanj 2026.';
 // Zadnje objavljeno mjesečno izvješće HANFA-e (mi-08_26.xlsx = podaci za srpanj).
@@ -6096,7 +6096,7 @@ const PLACE_GOD = [
   [2016, 776, 671, 1089, 937], [2017, 790, 683, 1109, 954], [2018, 823, 712, 1155, 993],
   [2019, 861, 745, 1209, 1040], [2020, 894, 773, 1255, 1079], [2021, 941, 814, 1321, 1136],
   [2022, 1002, 867, 1407, 1210], [2023, 1131, 978, 1588, 1366], [2024, 1265, 1094, 1776, 1527],
-  [2025, 1350, 1168, 1895, 1630], [2026, 1552, 1324, 2178, 1821]
+  [2025, 1350, 1168, 1895, 1630], [2026, 1555, 1345, 2184, 1850]
 ];
 
 // Struktura potrošačke košarice: 13 skupina po ECOICOP, ver. 2.
