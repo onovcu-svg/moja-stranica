@@ -7576,6 +7576,7 @@ class Component extends DCLogic {
           M_ANU,
           T('Oba roka računaju se na isti iznos i istu kamatnu stopu pa je razlika u ukupnoj kamati posljedica isključivo trajanja.'),
           T('Potrebna plaća procijenjena je iz pravila da anuitet ne bi trebao prelaziti oko 45 % neto primanja; banke mogu primjenjivati i strože kriterije, a u obzir uzeti i dodatne prihode osim neto plaće.'),
+          s.oInvestOpen ? T('Prinos na uloženu razliku pripisuje se mjesečno (godišnji ÷ 12).') : null,
           s.oInvestOpen ? M_PRETP : null,
           s.oInfOpen ? T('Iznos u današnjem novcu dobiven je diskontiranjem ukupno plaćenog po unesenoj godišnjoj stopi inflacije.') : null,
           M_ZAOKR
@@ -7708,7 +7709,7 @@ class Component extends DCLogic {
         }] : [],
         metoda: [
           T('Potrebna uplata rješava se iz formule buduće vrijednosti anuiteta uz zadani prinos, rok i početni iznos; potreban prinos traži se numerički, iterativnim traženjem stope koja daje traženi iznos.'),
-          T('Prinos se pripisuje mjesečno, uz uplatu na kraju svakog mjeseca.'),
+          T('Prinos se pripisuje mjesečno (godišnji ÷ 12), uz uplatu na kraju svakog mjeseca.'),
           M_PRETP,
           M_ZAOKR
         ],
