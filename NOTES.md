@@ -4,7 +4,7 @@ Radni dnevnik projekta. Odluke, ograničenja i otvorene stavke.
 **Claude Code: pročitaj ovaj file prije svakog većeg zadatka i ažuriraj ga kad
 se donese nova odluka ili zatvori stavka.**
 
-Zadnje ažuriranje: 20. 8. 2026., 12:41
+Zadnje ažuriranje: 21. 8. 2026., 20:27
 
 ---
 
@@ -284,6 +284,11 @@ Zadnje ažuriranje: 20. 8. 2026., 12:41
 - **`sazetak` više ne ide u mail.** Proza se ne može validirati (10 predložaka
   × ternari unutar svakog). Klijent ga i dalje šalje, server ga ignorira. Mail
   nosi `rez`/`male`/`param`. Ako se ikad vrati, treba mu vlastiti mehanizam.
+- **`savjet` i `metoda` ne idu u mail.** `posaljiIzvjestaj` šalje samo
+  `naslov`/`sazetak`/`rataLabel`/`rata`/`male`/`rez`/`param`. `metoda` se ne
+  šalje uopće, `savjet` se nikad ni ne čita u `buildPdf`. Ista klasa slobodne
+  proze kao `sazetak` — ne može se validirati. Izmjene tih tekstova ne diraju
+  `report.js`.
 - **`reply_to` u `contact.js` (153) NIJE ranjivost.** Primatelj je fiksan
   (`CONTACT_TO_EMAIL`), a adresa pošiljatelja je već vidljiva u tijelu maila
   prije nego odgovoriš. Ne dirati.
@@ -494,6 +499,63 @@ Development okruženje je zaključano na Hobby planu — ne treba.
   container. Popravljeno na 8 mjesta + `resetHScroll()` za horizontalne kontejnere.
 - **Bijeli prostor ispod footera na mobilnom** — vidi §3.
 
+### Riješeno 20.–21. 8. 2026.
+- **`color-scheme` prati odabranu temu** (`b28c4e9`, `b0bc593`) — nikad nije bio
+  postavljen, pa je preglednik bojao native kontrole (datalist gradova, dva
+  `<input type="date">`, scrollbar) prema OS preferenciji umjesto prema temi na
+  portalu. `:root, html, body` dijele jedno pravilo, pa je `light` bio postavljen
+  izravno na `body` — izravna vrijednost pobjeđuje naslijeđenu, trebao je par
+  na `html.on-dark body`.
+- **`/kalkulatori/povijest` dodan u sitemap** (`eec9a1d`) — samostalan kalkulator
+  istog ranga kao inflacija. Za razliku od refi/opcije/zatvoriti nema komentar
+  koji objašnjava izostanak. `lastmod` namjerno nije dodan: bez build koraka
+  tražio bi ručno održavanje za 33 URL-a, a netočan `lastmod` je gori od
+  izostanka.
+- **Forme: nijedan put ne završava bez povratne informacije** (`e93703e`,
+  `d139825`) — honeypot grana bila je jedini put kroz `nlSubmit` bez ikakvog
+  traga. Prijavljeno da se dogodilo u Edgeu na Windowsu; uzrok nije reproduciran
+  (ne radi ni u InPrivate, Edge na macOS-u radi), pa se ne popravlja uzrok nego
+  se svaki ishod čini vidljivim. Dodani: poruka za honeypot, vlastita poruka za
+  429, i timeout od 12 s na sve četiri forme.
+  Uz to: kontakt, B2B i report na popunjen honeypot vraćali su **lažni 200
+  {ok:true}** — korisnik je vidio punu potvrdu, poruka nikad nije poslana.
+  Dodana klijentska provjera; server je nediran.
+- **Tooltip pretplatnika izlazio izvan ekrana** (`d506ea7`) — apsolutno
+  pozicioniran s `left:-10px` i širinom `min(340px, 78vw)`, bez provjere prostora.
+  Ozbiljnije: otvaranje je širilo layout viewport s 430 na 600px, pa je cijela
+  stranica postajala vodoravno skrolabilna. Ispod 767px sad `position:fixed`,
+  `left:12px`, `right:12px`. `overflow:clip` na omotaču sekcije, lokalno —
+  `overflow-x:visible` na html/body NIJE diran.
+- **Interne radne datoteke bile javno dostupne** (`b7e0b51`) — `NOTES.md`,
+  `AUDIT-2026-08-18.md` i `IZVORI.md` servirali su se kao pravi statički fileovi.
+  `NOTES.md` sadrži imena honeypot polja, vremenski prag i brojke rate limita.
+  Riješeno `.vercelignore`-om. `scripts/` i `middleware.js` ostaju javni —
+  bezopasni, isti obrazac kao `support.js`.
+- **Social-share crawleri dobivaju ispravne `og:` tagove** (`6a207cf`) —
+  `_applyMeta()` postavlja ih JavaScriptom, a LinkedIn, WhatsApp i Slack ga ne
+  izvršavaju, pa je svaka podijeljena podstranica pokazivala meta naslovnice.
+  Edge Middleware prepoznaje crawlera po User-Agentu i vraća minimalan HTML s
+  ispravnim tagovima. Običan posjetitelj i Googlebot dobivaju bajt-identičan
+  `index.html` — provjereno MD5 usporedbom.
+- **Traka s pokazateljima vodi isključivo na Pokazatelje** (`2d3140f`) — tri od
+  pet stavki vodile su na kalkulatore i usput tiho postavljale polja koja
+  korisnik ne vidi (`sInflacija` u kalkulatoru ulaganja, `kGodine: 25` i
+  `kIznos: 150000` u kreditu — brojke koje nisu ni iz `TRZISTE` ni izračunate).
+  Sad sve vode na svoj pokazatelj i ne diraju nijedno polje. `hint` uklonjen —
+  postojao je samo kao `title` atribut, nevidljiv na mobitelu.
+- **Netočne tvrdnje o kategorijama mirovinskih fondova** (`6c030cc`, `1113b23`) —
+  portal je tvrdio da je kategorija C obvezna zadnjih pet godina prije mirovine.
+  HANFA brošura kaže suprotno: u C se ulazi neovisno o dobi, prelazak iz B u C
+  je dobrovoljan, REGOS automatski prebacuje samo A u B. Uz to riječ "zadana" uz
+  kategoriju B uklonjena na tri mjesta — REGOS danas raspoređuje u A, visok udio
+  u B je nasljeđe ranijih pravila.
+- **Preciznije formulacije** (`bb89f2c`, `db83bf8`, `809b1a6`, `42ac38d`) —
+  neoporezivi primici i kreditna sposobnost ("banke ih ne moraju uzeti" umjesto
+  "ne ulaze"); naziv metode obračuna kamate ispravljen iz "konformni" u
+  "proporcionalni" (konformna je geometrijska konverzija); dopunjen opis metode
+  za "cilj" i za uloženu razliku kod "kraćeg ili dužeg roka"; "Blog & Videi"
+  preimenovan u "Blog & Video".
+
 ### Poznato, namjerno neriješeno
 - **`{{ a.d }}` i slični placeholderi u SVG atributima** (`index.html:822` i
   `3762` za `d`/`transform`, `3615` i `3622` za `width`/`height` kućica).
@@ -633,6 +695,14 @@ Development okruženje je zaključano na Hobby planu — ne treba.
   okruženja. Odgođeno.
   Ublažavanje: korisnik može upisati naziv grada ručno i portal ga prepoznaje;
   popis je pomoć, ne jedini put.
+- **`STUP2[*].uvjet` je mrtvo polje** — opisuje pravila o kategorijama, nigdje
+  se ne prikazuje. Ispravljeno je 20.8.2026. jer je sadržavalo netočnu tvrdnju,
+  ali ostaje neprikazano.
+- **Kalkulator ulaganja koristi proporcionalni obračun** (`godišnja ÷ 12`), ne
+  konformni. Prijavio korisnik 20.8.2026. Svjesna odluka radi usporedivosti s
+  drugim kalkulatorima; metoda je navedena u PDF sekciji "Kako je izračunato"
+  za sva tri moda i za uloženu razliku. Razlika je oko 2,6 % kroz 20 godina i
+  ide u smjeru optimističnijeg rezultata.
 
 ### iOS-specifično — ne može se reproducirati u Chromeu
 Auto-zoom na inpute, ponašanje visual viewporta pri tipkovnici, `height:100%`
@@ -725,7 +795,15 @@ obrada. Testirati na pravom uređaju.
       Bez ranijeg izbora poštuje `prefers-color-scheme`. Kad `localStorage`
       nije dostupan (privatni tab), tema se mijenja ali se ne pamti, bez
       greške. Politika privatnosti dopunjena istim commitom.
-- [ ] **Povezati `onovcu.hr` u Vercel Domains — ZADNJA STAVKA**
+- [x] **Povezati `onovcu.hr` u Vercel Domains — ZADNJA STAVKA.** Portal je
+      lansiran 20.8.2026. Gola domena je Production, `www` radi 308 redirect
+      na nju, što se poklapa s canonical tagovima. DNS je već bio postavljen u
+      Cloudflareu (A zapis 76.76.21.21 i CNAME `cname.vercel-dns.com`, proxy
+      isključen).
+      Vercel Hobby plan zadržan — uvjeti ograničavaju komercijalnu upotrebu na
+      naplatu, oglašavanje prodaje i plaćeni rad na sajtu, ništa od toga se ne
+      primjenjuje. Repo je osobni, ne org-owned. Hobby dopušta 50 domena po
+      projektu.
 
 ### Poslije lansiranja
 - [ ] **Migracija na build** (Vite/Astro). Rješava: Babel u pregledniku,
