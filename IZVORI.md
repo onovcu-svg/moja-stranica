@@ -133,10 +133,12 @@ Zadnja potpuna provjera: 18. 8. 2026. (inflacija ažurirana 19. 8. 2026. na srpa
 - Izvor: HANFA, mjesečno izvješće
 - Pregled svih mjesečnih izvješća: https://www.hanfa.hr/statistika/mjesecna-izvjesca/
 - RSS (globalan, sve HANFA vijesti, ne samo statistika): https://hanfa.hr/rss
-- Zadnje korišteno: lipanj 2026. — https://hanfa.hr/vijesti/mjesecno-izvjesce-za-lipanj-2026
+- Zadnje korišteno: srpanj 2026. — https://hanfa.hr/vijesti/mjesecno-izvjesce-za-srpanj-2026
 - Ritam: mjesečno
 - Provjereno 18.8.2026: kategorija B 73,73 % (A 23,16 %, C 3,11 %),
   neto imovina OMF-ova 28,7 mlrd € — poklapa se.
+- Provjereno 21.8.2026: kategorija B 73,51 % (A 23,45 %, C 3,04 %),
+  neto imovina OMF-ova 28,8 mlrd € — poklapa se.
 
 ## Nekretnine — indeks cijena
 
