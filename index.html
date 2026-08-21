@@ -228,7 +228,7 @@
     <!-- STICKY TICKER -->
     <div style="border-top:1px solid var(--line);background:var(--sec);transition:background .35s ease">
       <div style="max-width:1180px;margin:0 auto;padding:0 clamp(18px,4vw,36px);height:36px;display:flex;align-items:center;justify-content:space-between;gap:14px;overflow:hidden">
-        <button sc-camel-on-click="{{ tick.apply }}" title="{{ tick.hint }}" style="background:none;border:none;padding:0;display:flex;align-items:baseline;gap:9px;cursor:pointer;min-width:0;white-space:nowrap;overflow:hidden;color:var(--ink);opacity:{{ tickOp }};transition:opacity .4s ease">
+        <button sc-camel-on-click="{{ tick.apply }}" style="background:none;border:none;padding:0;display:flex;align-items:baseline;gap:9px;cursor:pointer;min-width:0;white-space:nowrap;overflow:hidden;color:var(--ink);opacity:{{ tickOp }};transition:opacity .4s ease">
           <span style="font-weight:700;font-size:14px;letter-spacing:-.02em;flex-shrink:0">{{ tick.val }}</span>
           <span style="font-weight:400;font-size:12.5px;color:var(--soft);overflow:hidden;text-overflow:ellipsis">{{ tick.label }}</span>
           <span style="font-weight:500;font-size:11.5px;color:{{ tick.deltaColor }};flex-shrink:0">{{ tick.arrow }}</span>
@@ -5525,11 +5525,11 @@ const OBJAVE = [
 
 // Fallback / zadnje poznate vrijednosti. Zamjenjuju se podacima s API-ja u loadMarket().
 const TRZISTE = [
-  { id: 'inflacija', label: 'Godišnja inflacija (CPI)', kratko: 'CPI, Hrvatska', izvor: 'DZS', datum: 'srpanj 2026.', val: 3.9, prev: 4.5, hint: 'Primijeni u inflacijskom kalkulatoru', dec: 1 },
-  { id: 'placaProsjek', label: 'Prosječna neto plaća', kratko: 'DZS, mjesečno', izvor: 'DZS', datum: 'svibanj 2026.', val: 1552, prev: 1552, hint: 'Izračunaj bruto za prosječnu plaću', fmt: 'eur' },
-  { id: 'mirovina', label: 'Prosječna starosna mirovina', kratko: 'HZMO, bez međunarodnih ugovora', izvor: 'HZMO', datum: 'lipanj 2026.', val: 721.73, prev: 721.28, hint: 'Otvori pokazatelje mirovinskog sustava', fmt: 'eur', dec: 2 },
-  { id: 'stambeni', label: 'Stambeni kredit', kratko: 'novi poslovi, prosjek', izvor: 'HNB', datum: 'lipanj 2026.', val: 2.90, prev: 2.92, hint: 'Primijeni u kreditnom kalkulatoru' },
-  { id: 'hpi', label: 'Rast cijena nekretnina', kratko: 'indeks cijena, godišnje', izvor: 'DZS', datum: 'prvo tromjesečje 2026.', val: 14.3, prev: 10.2, hint: 'Otvori pokazatelje nekretnina', per: 'od prošlog tromjesečja', dec: 1 }
+  { id: 'inflacija', label: 'Godišnja inflacija (CPI)', kratko: 'CPI, Hrvatska', izvor: 'DZS', datum: 'srpanj 2026.', val: 3.9, prev: 4.5, dec: 1 },
+  { id: 'placaProsjek', label: 'Prosječna neto plaća', kratko: 'DZS, mjesečno', izvor: 'DZS', datum: 'svibanj 2026.', val: 1552, prev: 1552, fmt: 'eur' },
+  { id: 'mirovina', label: 'Prosječna starosna mirovina', kratko: 'HZMO, bez međunarodnih ugovora', izvor: 'HZMO', datum: 'lipanj 2026.', val: 721.73, prev: 721.28, fmt: 'eur', dec: 2 },
+  { id: 'stambeni', label: 'Stambeni kredit', kratko: 'novi poslovi, prosjek', izvor: 'HNB', datum: 'lipanj 2026.', val: 2.90, prev: 2.92 },
+  { id: 'hpi', label: 'Rast cijena nekretnina', kratko: 'indeks cijena, godišnje', izvor: 'DZS', datum: 'prvo tromjesečje 2026.', val: 14.3, prev: 10.2, per: 'od prošlog tromjesečja', dec: 1 }
 ];
 
 const FAQ = [
@@ -6404,19 +6404,28 @@ class Component extends DCLogic {
       .catch(() => this.setState({ trzisteStatus: 'fallback' }));
   }
 
-  applyStopa(id, v) {
+  // NALAZ 21.8.2026.: traka vodi ISKLJUCIVO na Pokazatelje, nikad na
+  // kalkulator - klik ne smije puniti nijedno polje kalkulatora (iStopa,
+  // sInflacija, smjer, iznos, kStopa, kGodine, kIznos). id dolazi iskljucivo
+  // iz TRZISTE (preko s.trziste -> tickList, vidi 8892) - live-update
+  // (6398) samo azurira val/prev postojecih stavki, nikad ne dodaje nove
+  // id-eve. Zato su grane 'depozit' i generciki else UKLONJENE, ne samo
+  // ostavljene neaktivne: one su bile jedini preostali put kojim bi ticker
+  // mogao puniti kalkulator, a upravo to iskljucujemo. Ako se ikad doda
+  // stavka na TRZISTE s id-em koji ne odgovara nijednoj grani ispod, klik
+  // ce tiho ne raditi nista - namjerno sigurniji ishod od ispadanja u
+  // kalkulator.
+  applyStopa(id) {
     return () => {
       // Sve grane: isti obrazac kao go()/goCalc() - _syncUrl PA scrollTo(0,0) PA
       // resetHScroll(). Prije je svih 5 imalo _syncUrl, ali nijedna nije vracala
       // skrol na vrh (NOTES.md §3: svaka navigacija, bez iznimke).
       const posaljiNaVrh = () => { if (typeof window !== 'undefined') { window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; } this.resetHScroll(); };
-      if (id === 'placaProsjek' || id === 'placaMedijan') { this.setState({ tab: 'calc', calcTab: 'placa', smjer: 'neto', iznos: Math.round(v), menuOpen: false }, () => this._syncUrl()); posaljiNaVrh(); }
-      else if (id === 'inflacija') { this.setState({ tab: 'calc', calcTab: 'inflacija', iStopa: v, sInflacija: v, menuOpen: false }, () => this._syncUrl()); posaljiNaVrh(); }
-      else if (id === 'depozit') { this.setState({ tab: 'calc', calcTab: 'kamata', sStopa: v, menuOpen: false }, () => this._syncUrl()); posaljiNaVrh(); }
+      if (id === 'placaProsjek' || id === 'placaMedijan') { this.setState({ tab: 'pok', pokKat: 'place', menuOpen: false }, () => this._syncUrl()); posaljiNaVrh(); }
+      else if (id === 'inflacija') { this.setState({ tab: 'pok', pokKat: 'inflacija', menuOpen: false }, () => this._syncUrl()); posaljiNaVrh(); }
       else if (id === 'mirovina') { this.setState({ tab: 'pok', pokKat: 'mirovine', mirStup: '1', menuOpen: false }, () => this._syncUrl()); posaljiNaVrh(); }
       else if (id === 'hpi') { this.setState({ tab: 'pok', pokKat: 'nekretnine', menuOpen: false }, () => this._syncUrl()); posaljiNaVrh(); }
-      else if (id === 'stambeni') { this.setState({ tab: 'calc', calcTab: 'kredit', kStopa: v, kGodine: 25, kIznos: 150000, menuOpen: false }, () => this._syncUrl()); posaljiNaVrh(); }
-      else { this.setState({ tab: 'calc', calcTab: 'kredit', kStopa: v, kGodine: 7, kIznos: 15000, menuOpen: false }, () => this._syncUrl()); posaljiNaVrh(); }
+      else if (id === 'stambeni') { this.setState({ tab: 'pok', pokKat: 'krediti', menuOpen: false }, () => this._syncUrl()); posaljiNaVrh(); }
     };
   }
 
@@ -8895,7 +8904,7 @@ class Component extends DCLogic {
       const prag = isEur ? 0.5 : 0.005;
       const period = x.per || 'od prošlog mjeseca';
       return {
-        label: x.label, kratko: x.kratko, hint: x.hint,
+        label: x.label, kratko: x.kratko,
         // Datum se veže uz pokazatelj, ne uz stranicu: DZS, HNB i HANFA
         // objavljuju u različitim ciklusima.
         potpis: (x.izvor || 'HNB · DZS') + ' · ' + (x.datum || ZADNJE_RAZDOBLJE),
@@ -8903,7 +8912,7 @@ class Component extends DCLogic {
         arrow: Math.abs(d) < prag ? '→' : (d > 0 ? '▲' : '▼'),
         delta: Math.abs(d) < prag ? 'bez promjene' : (isEur ? eur(Math.abs(d), 0) : nf(2).format(Math.abs(d)) + ' pp') + ' ' + period,
         deltaColor: Math.abs(d) < prag ? SOFT : (d > 0 ? ACC : SOFT),
-        apply: this.applyStopa(x.id, x.val)
+        apply: this.applyStopa(x.id)
       };
     });
 
