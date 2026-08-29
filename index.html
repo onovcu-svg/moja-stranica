@@ -5138,6 +5138,29 @@ const MODULI = [
 // Puni tekstovi blogova, po slugu. Zadnji odjeljak svakog teksta ("Pogledaj ... u videu")
 // izdvojen je u ctaNaslov / ctaUvod / ctaTocke i prikazuje se kao poziv na video.
 const BLOG_TEKST = {
+  'gdje-odlazi-tvoja-placa': {
+    ctaNaslov: 'Pogledaj video za cijeli obračun',
+    ctaUvod: 'U videu prolazim cijeli obračun korak po korak na ekranu, s točnim brojkama za svaki scenarij.',
+    ctaZakljucak: 'Kalkulator za svoj vlastiti obračun imaš na /kalkulatori/placa — upiši neto koji želiš i vidi koji bruto trebaš tražiti. To je brojka s kojom ulaziš u razgovor o plaći.',
+    ctaTocke: ['Koliko točno dobiješ po djetetu', 'Koliko iznosi razlika između Zagreba i susjednog grada', 'Kako se obračunava plaća od 10.000 eura i godišnji bonus', 'Kompletna lista neoporezivih primitaka s limitima, uključujući onu stavku koja nema gornju granicu'],
+    blocks: [
+      { t: 'p', x: 'Od bruto plaće ti prvo odlazi 20 posto za mirovinsko (15 posto u prvi stup, 5 posto u drugi), zatim se na ostatak obračunava porez na dohodak, ali tek nakon što se odbije osobni odbitak. Poslodavac povrh tvoje bruto plaće plaća i 16,5 posto zdravstvenog. Kod prosječne hrvatske bruto plaće od 2.000 eura to znači da poslodavac izdvoji oko 2.330 eura, a tebi na račun sjedne oko 1.370 eura. Razlika je više od 41 posto. I ne, nije magija, sve se da objasniti u par minuta.' },
+      { t: 'h', x: 'Zašto tvoja neto plaća nije ista kao ono što ti sjedne na račun' },
+      { t: 'p', x: 'Ovo je najveća zabluda oko plaće u Hrvatskoj. Ako na platnoj listi imaš topli obrok, prijevoz i još neki dodatak, to nije dio tvoje neto plaće. To su neoporezivi primici.' },
+      { t: 'p', x: 'Zvuči kao cjepidlačenje dok ne dođeš u situaciju gdje ćeš vidjeti tu razliku. Banka kod procjene kreditne sposobnosti često gleda samo neto plaću, a ne dodatke. Ako završiš na bolovanju, porodiljnom ili očinskom dopustu, osnovica ti je neto plaća. I u mirovinski fond ide postotak od bruto plaće, a ne od dodataka.' },
+      { t: 'p', x: 'Još jedna razlika koju ljudi previde: dodatke ti poslodavac najčešće može prestati isplaćivati jednostranom odlukom. Ugovorenu bruto plaću ti ne može tek tako smanjiti. Jedno je ugovorna stavka, drugo je gesta.' },
+      { t: 'p', x: 'Zato kad na razgovoru za posao čuješ "1.500 eura sa svim dodacima", to nije isto što i neto plaća od 1.500 eura.' },
+      { t: 'h', x: 'Što sve mijenja tvoj neto iznos' },
+      { t: 'p', x: 'Onih 1.370 eura nije fiksna brojka. Za istu bruto plaću, tvoj neto ovisi o nekoliko stvari.' },
+      { t: 'p', x: 'Grad u kojem živiš. Prirez više ne postoji, ali svaki grad i općina sada sami određuju stopu poreza na dohodak. Zagreb je na vrhu sa 23 posto, ali već nekoliko kilometara razlike u adresi može ti kroz godinu donijeti par stotina eura razlike.' },
+      { t: 'p', x: 'Broj djece i uzdržavanih članova. Osnovica osobnog odbitka je 600 eura, ali se množi koeficijentom koji raste sa svakim djetetom i svakim uzdržavanim članom obitelji. Ako imaš više djece, postoji scenarij u kojem ti osobni odbitak postane veći od dohotka, a tada se dio olakšice može prebaciti na drugog roditelja. Većina ljudi ne zna da to može napraviti.' },
+      { t: 'p', x: 'Tvoje godine. Olakšica za mlade ima dva razreda i vraća ti plaćeni porez na dohodak, automatski, bez ispunjavanja ijednog obrasca. Slična olakšica postoji i za povratnike iz inozemstva, ali ona ne ovisi o dobi.' },
+      { t: 'h', x: 'Što ti poslodavac smije isplatiti bez ijednog eura poreza' },
+      { t: 'p', x: 'Ova lista je prilično dugačka pa ću spomenuti samo one najčešće. Prehrana, prijevoz, prigodne nagrade, nagrada za radne rezultate, uplate u treći stup, police zdravstvenog osiguranja, naknade vezane uz djecu. Sve to poslodavac može isplatiti bez doprinosa i poreza, u okviru zadanih limita.' },
+      { t: 'p', x: 'Jedna stavka na toj listi mene je iskreno iznenadila. I to je upravo ona koju bi mnogi roditelji odmah tražili od poslodavca da znaju da postoji.' },
+      { t: 'p', x: 'Ali oprezno s time. U praksi se često događa da poslodavac neoporezivi primitak zapakira kao povišicu. Na papiru ti primanja rastu, a u stvarnosti ne raste ono što ti se računa za kredit, bolovanje i mirovinu.' }
+    ]
+  },
   'hrvatski-investicijski-racun-2027': {
     ctaNaslov: 'Pogledaj cijelu analizu u videu',
     ctaUvod: 'U tekstu si dobio osnovu, ali prave detalje ostavio sam za video. Tamo prolazim kroz sve što ti stvarno treba prije nego doneseš odluku:',
@@ -5412,6 +5435,9 @@ const BLOG_TEKST = {
 // this.blogVeza(): 'calc:<tab>' otvara kalkulator, 'calc:kamata:<gMode>' njegov
 // nacin rada, 'pok:<kategorija>' otvara pokazatelje.
 const BLOG_VEZE = {
+  'gdje-odlazi-tvoja-placa': [
+    { a: 'calc:placa', tip: 'Kalkulator', n: 'Obračun plaće', o: 'Upiši željeni neto iznos i vidi točno koji bruto trebaš tražiti na razgovoru za posao.' }
+  ],
   'hrvatski-investicijski-racun-2027': [
     { a: 'calc:kamata:rast', tip: 'Kalkulator', n: 'Rezultat ulaganja', o: 'Izračunaj koliko bi ti kroz godine donijela mjesečna uplata bez poreza na zaradu.' }
   ],
@@ -5469,6 +5495,10 @@ const BLOG_VEZE = {
 };
 
 const OBJAVE = [
+  { yt: 'KTdSyPXumFg', kat: 'Navike', datum: '28. kolovoza 2026.', slug: 'gdje-odlazi-tvoja-placa',
+    naslov: 'Sve o tvojoj plaći: gdje odlazi razlika od poslodavca do tebe?',
+    opis: 'U ugovoru ti piše iznos plaće, a na račun ti sjedne 40-ak posto manje? Nije prevara, tako funkcionira obračun!',
+    istaknuto: 'Poslodavac za tvoju plaću od 2.000 € bruto izdvoji 2.330 €, a tebi na račun sjedne oko 1.370 € — razlika veća od 41 posto.' },
   { yt: '9wnUlrjGiso', kat: 'Investiranje', datum: '31. srpnja 2026.', slug: 'hrvatski-investicijski-racun-2027',
     naslov: 'Hrvatski investicijski račun: kako ćeš od 2027. ulagati bez poreza na zaradu?',
     opis: 'Hrvatski investicijski račun (HIR) je poseban račun namijenjen ulaganju koji bi od 1. siječnja 2027. trebao omogućiti da ulažeš u dionice, ETF-ove i obveznice bez poreza na zaradu.',
@@ -6302,6 +6332,7 @@ const META_POK = {
 
 const META_BLOG_INDEX = { title: 'Blog i videi o osobnim financijama' + SUFIKS, desc: 'Članci i videi o plaćama, kreditima, ulaganju, mirovinama i financijskim navikama u Hrvatskoj, napisani jasno i bez financijskog žargona.' };
 const META_BLOG_DESC = {
+  'gdje-odlazi-tvoja-placa': 'Objašnjenje obračuna plaće u Hrvatskoj: koji doprinosi i porezi stoje između bruto iznosa u ugovoru i neto iznosa koji sjedne na račun.',
   'hrvatski-investicijski-racun-2027': 'Objašnjenje hrvatskog investicijskog računa koji od 2027. omogućuje ulaganje u dionice i ETF-ove bez poreza na zaradu, uz uvjet o domaćem tržištu.',
   'fiksna-ili-kombinirana-kamatna-stopa': 'Razlika između fiksne i kombinirane kamatne stope na stambeni kredit i zašto niža početna rata zapravo znači prijenos rizika s banke na tebe.',
   'zasto-kupujes-stvari-koje-ne-trebas': 'Tri psihološka mehanizma, dopamin, bol plaćanja i strah od oskudice, kojima marketing danas potiče kupnju stvari koje ti zapravo ne trebaju.',
