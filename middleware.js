@@ -56,7 +56,7 @@ const META_POK = {
   mirovine: { title: 'Mirovinski sustav Hrvatske u brojkama' + SUFIKS, desc: 'Prosječna starosna mirovina, omjer zaposlenih i umirovljenika te raspodjela članova drugog mirovinskog stupa po kategorijama rizika ulaganja.' },
 };
 
-const META_BLOG_INDEX = { title: 'Blog i videi o osobnim financijama' + SUFIKS, desc: 'Članci i videi o plaćama, kreditima, ulaganju, mirovinama i financijskim navikama u Hrvatskoj, napisani jasno i bez financijskog žargona.' };
+const META_BLOG_INDEX = { title: 'Blog i video sadržaj o osobnim financijama' + SUFIKS, desc: 'Članci i video sadržaj o plaćama, kreditima, ulaganju, mirovinama i financijskim navikama u Hrvatskoj, napisani jasno i bez financijskog žargona.' };
 // Spojeno OBJAVE[].naslov (index.html:5467) + META_BLOG_DESC (index.html:6268)
 // u jedan zapis po slugu, jer ovdje nema zasebnog OBJAVE izvora - vidi
 // napomenu o mirroru na vrhu datoteke.
