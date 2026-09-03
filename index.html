@@ -8867,7 +8867,11 @@ class Component extends DCLogic {
     // razici - vidi NOTES.md §3.
     const pokDatum = (() => {
       if (s.pokKat === 'place') return ZADNJE_PLACE;
-      if (s.pokKat === 'mirovine') return ZADNJE_HANFA;
+      // Mirovine imaju DVA izvora s vlastitim kalendarima - HZMO (1. stup) i
+      // HANFA (2./3. stup, i Sažetak koji miješa oba NEOVISNO o odabranom
+      // tabu). Kad se poklapaju, jedan datum; kad se razidju, oba, poredak
+      // prati labelu (HZMO prvi) - vidi pokDatumLabel niže i NOTES.md §5.
+      if (s.pokKat === 'mirovine') return ZADNJE_HZMO === ZADNJE_HANFA ? ZADNJE_HZMO : ZADNJE_HZMO + ' / ' + ZADNJE_HANFA;
       if (s.pokKat === 'krediti') return ZADNJE_HNB;
       if (s.pokKat === 'nekretnine') return ZADNJE_HPI;
       if (s.pokKat === 'inflacija') return ZADNJE_RAZDOBLJE;
@@ -8879,7 +8883,10 @@ class Component extends DCLogic {
     // Label uz pokDatum - "Zadnje ažuriranje" ne vrijedi za Nekretnine, koje
     // imaju tri razdoblja (vidi IZVORI.md); tamo banner tvrdi samo ono sto
     // pokDatum stvarno jest (indeks cijena), ne generalizirano "azuriranje".
-    const pokDatumLabel = s.pokKat === 'nekretnine' ? 'Indeks cijena' : 'Zadnje ažuriranje';
+    // Isti duh za Mirovine: umjesto generalizirane tvrdnje, banner imenuje oba
+    // izvora - HZMO i HANFA - pa pokDatum iznad zna prikazati jedan datum ili
+    // oba, bez ponavljanja imena u vrijednosti.
+    const pokDatumLabel = s.pokKat === 'nekretnine' ? 'Indeks cijena' : s.pokKat === 'mirovine' ? 'HZMO · HANFA' : 'Zadnje ažuriranje';
 
     // ── PROJEKT: Investiram svaki mjesec (stvarna evidencija) ─
     const pIme = { uk: 'Sve zajedno', etf: 'Genius ETF Start', sp: 'S&P 500', bet: 'BET (Rumunjska)', luc: 'Lucija (ETF + Kripto)' };
