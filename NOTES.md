@@ -4,7 +4,7 @@ Radni dnevnik projekta. Odluke, ograničenja i otvorene stavke.
 **Claude Code: pročitaj ovaj file prije svakog većeg zadatka i ažuriraj ga kad
 se donese nova odluka ili zatvori stavka.**
 
-Zadnje ažuriranje: 21. 8. 2026., 20:27
+Zadnje ažuriranje: 3. 9. 2026., 14:43
 
 ---
 
@@ -331,6 +331,9 @@ Zadnje ažuriranje: 21. 8. 2026., 20:27
   i preračunava se pri montiranju trake. Na desktopu i Androidu je korekcija
   uvijek 0, dakle no-op. **NE rješava iOS bug iz §6** — provjereno na uređaju
   dvaput. Ne graditi na pretpostavci da radi.
+- **`overflow: clip` reže obje osi.** Kad se štiti samo vodoravno širenje,
+  koristi `overflow-x: clip`. Shorthand je 20.8. odsjekao tooltip na desktopu
+  (`d506ea7` → `72ed82f`).
 
 ### Sadržaj
 - Kontakt uklonjen iz mobilnog izbornika, radi simetrije s desktopom. Forma
@@ -361,6 +364,56 @@ Development okruženje je zaključano na Hobby planu — ne treba.
 ---
 
 ## 5. Poznati problemi i njihova povijest
+
+### Riješeno 29. 8. – 1. 9. 2026.
+- **Tooltip pretplatnika odsijecao se na desktopu** (`72ed82f`) — `overflow: clip`
+  iz `d506ea7` reže OBJE osi, ne samo vodoravnu. Tooltip je na desktopu
+  `position:absolute` i viši od sekcije koja ga sadrži, pa se odsijecao na
+  njenoj granici — vidio se samo naslov. Zamijenjeno s `overflow-x: clip`.
+  **Pravilo: `overflow: clip` nikad kao shorthand kad se štiti samo jedna os.**
+  Ikona uz broj pretplatnika istaknuta crvenim obrubom i slovom — kartica koju
+  otvara sadrži zanimljiv sadržaj, a ikona je izgledala kao standardni info
+  gumb.
+- **Thumbnail najnovijeg videa bio je hardkodiran** (`f2d77f4`) —
+  `najVideo.thumb` je postojao i ispravno se računao iz `OBJAVE[0].yt`, ali se
+  nigdje nije koristio; `src` je imao upisan YouTube ID. Naslov i link na istoj
+  kartici ažurirali su se automatski, slika nije — pa bi svaki novi video dobio
+  stari thumbnail dok ga netko ručno ne promijeni. Popravljen mehanizam, ne
+  vrijednost.
+- **Novi blog članak** (`3426550`) — „Sve o tvojoj plaći", kategorija Navike.
+  Prvi članak otkad postoji middleware, dakle prvi stvarni test pravila o tri
+  mjesta. `check-meta-sync.js` prošao: 38 ruta, 15 slugova.
+  **Odluka: „posto" u blog prozi, „%" u kalkulatorima i pokazateljima.** Prije
+  je bilo izmiješano (6 članaka „posto", 3 „%"). Postojeći članci nisu mijenjani.
+- **Meta naslov bloga pratio „Videi"** (`5a82cdf`) — izbornik je promijenjen u
+  „Blog & Video" (`42ac38d`), ali meta naslov i opis ostali su na „videi".
+  Nesklad vidljiv u tabu i u rezultatima pretrage. Izmijenjeno na oba mjesta.
+- **Tekstovi u hero sekcijama** (`6770276`, `c84d1d4`, `577163e`) — novi naslov
+  i podnaslov na `/blog`, nova rečenica na `/projekti`, nova druga rečenica u
+  hero tekstu naslovnice.
+- **Plaće, lipanj 2026.** (`19ff14a`) — 1.555 € neto, 2.184 € bruto, 1.345 €
+  medijalna, 1.850 € medijalna bruto. `TRZISTE.placaProsjek` dobio stvarni
+  `prev` (1552) — dosad je bio jednak `val`, pa strelica u tickeru nikad nije
+  pokazivala promjenu.
+- **Udjeli mirovine u plaći preuzimaju se od HZMO-a** (`1d1047c`) — portal ih je
+  računao iz vlastitih konstanti. HZMO ih objavljuje doslovno, s izričito
+  navedenim razdobljem plaće koje koristi. Preuzimanje uklanja rizik razilaženja
+  kad DZS objavi noviji mjesec a HZMO još koristi stariji.
+  Usput ispravljeno: `STUP1.mirovina40` bio je 879,17 €, HZMO objavljuje
+  879,28 €. Razlika od 11 centi bila je uzrok zašto je izračun davao 56,6 %
+  umjesto 56,65 %.
+  Postotci se prikazuju na dvije decimale — na jednoj bi 56,65 % zaokružilo na
+  56,7 % i prestalo biti doslovno preuzeto.
+- **HZMO i HNB, srpanj 2026.** (`c4c30d1`) — mirovina 722,01 €, udjeli 46,43 %
+  i 56,57 %. HZMO sad računa s lipanjskom plaćom od 1.555 €, pa se
+  `STUP1.prosjecnaPlaca` konačno promijenila — to je bilo namjerno odgođeno u
+  `1d1047c`.
+  `mirovina40Mjesec` više nije zaseban literal nego čita `ZADNJE_HZMO` — izvor
+  ne navodi zaseban mjesec za tu brojku, pa je prijašnja tvrdnja o „mjesec iza"
+  povučena.
+  HNB: stambeni 2,91 % / EKS 3,27 %, gotovinski 5,39 % / EKS 5,71 %.
+  **Zamka: mediji su naveli „gotovinski 5,29 %" — to je redak „Za ostale
+  namjene", ne „Gotovinski nenamjenski krediti".**
 
 ### Riješeno 18. 8. 2026.
 - **Stanja kalkulatora "curila" na sljedeći kalkulator/sekciju.** Otvoreni
@@ -703,6 +756,16 @@ Development okruženje je zaključano na Hobby planu — ne treba.
   drugim kalkulatorima; metoda je navedena u PDF sekciji "Kako je izračunato"
   za sva tri moda i za uloženu razliku. Razlika je oko 2,6 % kroz 20 godina i
   ide u smjeru optimističnijeg rezultata.
+- **Banner na `/pokazatelji/mirovine` čita `ZADNJE_HANFA`**, a stranica ima tri
+  razdoblja: HANFA (2./3. stup), HZMO (1. stup) i plaću koju HZMO koristi za
+  udjele. Nekretnine su za isti problem dobile poseban label („Indeks cijena:
+  ..."), mirovine nisu. Otvoreno.
+- **Nizovi `KS_PREKORACENJE`, `KS_KARTICE`, `KS_OSTALE`, `KS_EKSOSTALE`,
+  `KS_IZNOSREVOLVING` nikad se ne indeksiraju** — mrtvi, ali se **ipak
+  ažuriraju** svaki mjesec jer su nizovi koji rastu; preskakanje bi ostavilo
+  rupu ako se ikad počnu prikazivati.
+- **Mrtva polja u `STUP1`:** `prosjecnaBruto`, `mirovina40Bez`. Ažuriraju se
+  radi točnosti izvora, ne prikazuju se.
 
 ### iOS-specifično — ne može se reproducirati u Chromeu
 Auto-zoom na inpute, ponašanje visual viewporta pri tipkovnici, `height:100%`
@@ -847,6 +910,15 @@ obrada. Testirati na pravom uređaju.
 - [ ] **Upit institucijama (DZS, HNB, HZMO, HANFA)** o strojno čitljivim
       izvorima i o najavi revizija objavljenih podataka, kroz zahtjev za
       ponovnu uporabu informacija.
+- [ ] **`llms.txt`** — sažet, strukturiran pregled portala za AI agente.
+- [ ] **Schema.org `WebApplication`** na rutama kalkulatora i `BlogPosting` na
+      člancima.
+- [ ] **Kontrast `--soft` u svijetloj temi** — `#71717A` na `--sec` daje 4,40:1,
+      ispod AA praga. Predloženo `#52525B`. Tamna tema nema problem.
+- [ ] **Format iznosa: „210 €" naspram „210,00 €"** na `/pokazatelji/place`, i
+      JSON-LD koji piše „600 €" gdje vidljivi FAQ piše „600,00 €".
+- [ ] **Čišćenje mrtvih polja** — `STUP2[*].uvjet`, `imovina` po kategoriji s
+      izvedenima, `STUP1.prosjecnaBruto`, `mirovina40Bez`.
 
 ### Sporedno
 - Domena `onovcu.hr` istječe **13. 11. 2026.** (registrar: Hrvatski Telekom /
