@@ -80,10 +80,15 @@ Zadnja potpuna provjera: 21. 8. 2026. (inflacija ažurirana 19. 8. 2026. na srpa
   kućanstvima (novi poslovi), vagani mjesečni prosjeci
 - Stranica: https://www.hnb.hr/statistika/statisticki-podaci/financijski-sektor/druge-monetarne-financijske-institucije/kreditne-institucije/kamatne-stope
 - Lokalna kopija tablice: `h-g2-2.xlsx` (nije u repozitoriju)
-- Zadnje korišteno: lipanj 2026.
+- Zadnje korišteno: srpanj 2026.
 - Ritam: mjesečno
 - Provjereno 18.8.2026: stambeni 2,90 %, gotovinski nenamjenski 5,42 %,
   novi stambeni krediti 316,59 mil € — poklapa se s kodom u decimalu.
+- Provjereno 1.9.2026: stambeni 2,91 %, gotovinski nenamjenski 5,39 %,
+  novi stambeni krediti 370,46 mil € — poklapa se s kodom u decimalu.
+  Lipanjske vrijednosti u tablici (prije ovog ažuriranja) poklapale su se s
+  onim što je portal imao, mapiranje stupaca potvrđeno neovisnim
+  preračunom "godišnje promjene" (ZI−12) iz postojećih nizova.
 - **ODLUKA (18.8.2026, revidirana 19.8.): portal prikazuje i nominalnu i
   EKS.** Kartice na vrhu prikazuju nominalnu (2,90 % stambeni, 5,42 %
   gotovinski), a tablica niže na istoj stranici ("Prosječne kamatne stope na
@@ -103,21 +108,37 @@ Zadnja potpuna provjera: 21. 8. 2026. (inflacija ažurirana 19. 8. 2026. na srpa
   pročitati cijeli zadnji objavljeni mjesec iznova, ne samo najnoviji.
 - Napomena: od siječnja 2023. svi podaci se odnose samo na kredite u eurima;
   povijesni redci uključuju kune s valutnom klauzulom.
+- **UPOZORENJE (1.9.2026): "Za ostale namjene" NIJE "Gotovinski nenamjenski
+  krediti".** Mediji su za srpanj 2026. navodili "gotovinski 5,29 %" — to je
+  redak "Za ostale namjene" (`KS_OSTALE`), portal koristi "Gotovinski
+  nenamjenski krediti" (`KS_GOTOVINSKI`, 5,39 % za srpanj). Dvije različite
+  kategorije u istoj tablici G2, lako se zamijene.
+- **ODLUKA (1.9.2026): svih 14 KS_* nizova ažurira se svaki mjesec**, uklj.
+  `KS_PREKORACENJE`/`KS_KARTICE`/`KS_OSTALE`/`KS_EKSOSTALE`/
+  `KS_IZNOSREVOLVING` koji se danas nigdje ne prikazuju (dead — nijedan se
+  ne indeksira s `[ZI]` u predlošku). Odstupa od pravila "ne ažuriraj mrtvo
+  polje" (vidi STUP2.imovina) jer su ovo rastući mjesečni nizovi dijeljene
+  duljine (`KS_MJ`) — preskakanje bi ih ostavilo kraćima od ostalih i
+  otvorilo rupu (`undefined`) ako se ikad počnu prikazivati. STUP2.imovina
+  nije taj slučaj: ondje se vrijednost PREPISUJE svaki mjesec, ne dodaje.
 
 ## Mirovine (1. stup)
 
 - Izvor: HZMO, "Aktualna statistika za <mjesec> — isplata u <mjesec+1>"
 - Pregled: https://www.mirovinsko.hr/hr/statistika/860
 - Pregled osnovnih podataka: https://www.mirovinsko.hr/hr/statistika/3757
-- Zadnje korišteno: lipanj 2026. (isplata u srpnju)
-  https://www.mirovinsko.hr/hr/aktualna-statistika-za-lipanj-2026-isplata-u-srpnju-2026/148
+- Zadnje korišteno: srpanj 2026. (isplata u kolovozu)
+  https://www.mirovinsko.hr/hr/aktualna-statistika-za-srpanj-2026-isplata-u-kolovozu-2026/148
+  (napomena 1.9.2026: stara URL adresa za lipanj sad preusmjerava/prikazuje isti,
+  najnoviji sadržaj — HZMO očito ne drži zasebne arhivirane stranice po mjesecu,
+  nego prepisuje istu adresu. Nema načina provjeriti prošlu objavu preko URL-a.)
 - Ritam: mjesečno; URL sadrži naziv mjeseca pa se mijenja svaki mjesec
 - Provjereno 18.8.2026: 721,73 € i 46,50 % i 1:1,46 — poklapa se u decimalu.
 - **Definicija koju portal prikazuje, ne mijenjati bez odluke:**
   prosječna UKUPNA starosna mirovina, ZOMO, BEZ međunarodnih ugovora
-  (lipanj 2026: 530.471 korisnika). HZMO objavljuje i druge brojke za
-  "prosječnu mirovinu" (npr. 879,28 € za 40+ godina staža) — nisu istog obuhvata.
-- Udio u plaći se računa prema neto plaći za svibanj 2026. (1.552 €), dakle
+  (srpanj 2026: 531.375 korisnika). HZMO objavljuje i druge brojke za
+  "prosječnu mirovinu" (npr. 879,69 € za 40+ godina staža) — nisu istog obuhvata.
+- Udio u plaći se računa prema neto plaći za lipanj 2026. (1.555 €), dakle
   mirovina i plaća NISU iz istog mjeseca. Tako to radi i HZMO.
 - **Udjeli mirovine u plaći (46,50 % i 56,65 %) se PREUZIMAJU od HZMO-a, ne
   računaju iz `prosjecnaMirovina`/`prosjecnaPlaca`.** HZMO ih objavljuje
@@ -129,6 +150,8 @@ Zadnja potpuna provjera: 21. 8. 2026. (inflacija ažurirana 19. 8. 2026. na srpa
   niti pretpostaviti da je to razdoblje isto kao `ZADNJE_PLACE` (DZS).
 - Provjereno 21.8.2026: 879,28 € (40+ godina staža), 46,50 % i 56,65 % —
   poklapa se doslovno s izvorom.
+- Provjereno 1.9.2026: 722,01 € i 46,43 % i 1:1,46 — poklapa se u decimalu.
+  879,69 € (40+ godina staža) i 56,57 % — poklapa se doslovno s izvorom.
 - **`ZADNJE_HZMO` i `ZADNJE_HANFA` su ODVOJENE konstante i moraju ostati
   odvojene.** HZMO (1. stup, ovaj odjeljak) i HANFA (2./3. stup, odjeljak
   ispod) su različite institucije s vlastitim kalendarima objave. Da danas
@@ -136,10 +159,18 @@ Zadnja potpuna provjera: 21. 8. 2026. (inflacija ažurirana 19. 8. 2026. na srpa
   ne strukturno jamstvo — sutra HZMO može objaviti novi mjesec dok je HANFA
   još na starom, ili obrnuto. Spajanje u jednu konstantu bilo bi tiho
   pogrešno točno onog dana kad se ciklusi razmaknu.
-- `STUP1.mirovina40Mjesec` je **treća**, neovisna vrijednost (danas svibanj
-  2026., mjesec iza `ZADNJE_HZMO`): razrada za 40+ godina staža unutar ISTE
-  HZMO objave kasni jedan mjesec za glavnom brojkom. Ne spajati ni s
-  `ZADNJE_HZMO` — dokazana druga vintage, ne nepažnja.
+- **ODLUKA (1.9.2026): `STUP1.mirovina40Mjesec` više NIJE zasebna vrijednost
+  — izjednačena je s `ZADNJE_HZMO`** (vezana na konstantu, ne kopirana kao
+  literal). Raniji zapis ("kasni jedan mjesec za glavnom brojkom ISTE HZMO
+  objave") bila je naša interpretacija bez oslonca u izvoru: provjereno
+  izravno u sirovom HTML-u objave za srpanj 2026, rečenica uz 879,69 € NE
+  navodi zaseban mjesec za tu brojku — jedini mjesec u rečenici
+  ("za lipanj 2026.") odnosi se na plaću u omjeru, isto kao i za glavnu
+  mirovinu. Dok izvor ne kaže drugačije, tretira se kao dio iste srpanjske
+  objave kao i ostatak stranice. **Ako se ikad pokaže da HZMO ovu brojku
+  stvarno objavljuje s drugim razdobljem** (npr. eksplicitno "za svibanj
+  2026." uz samu mirovinu, ne uz plaću), vratiti zaseban literal ovdje i
+  ukloniti vezu na `ZADNJE_HZMO`.
 
 ## Mirovinski fondovi (2. i 3. stup)
 
