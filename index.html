@@ -5590,7 +5590,7 @@ const OBJAVE = [
 // Fallback / zadnje poznate vrijednosti. Zamjenjuju se podacima s API-ja u loadMarket().
 const TRZISTE = [
   { id: 'inflacija', label: 'Godišnja inflacija (CPI)', kratko: 'CPI, Hrvatska', izvor: 'DZS', datum: 'srpanj 2026.', val: 3.9, prev: 4.5, dec: 1 },
-  { id: 'placaProsjek', label: 'Prosječna neto plaća', kratko: 'DZS, mjesečno', izvor: 'DZS', datum: 'lipanj 2026.', val: 1555, prev: 1552, fmt: 'eur' },
+  { id: 'placaProsjek', label: 'Prosječna neto plaća', kratko: 'DZS, mjesečno', izvor: 'DZS', datum: 'lipanj 2026.', val: 1555, prev: 1552, fmt: 'eur', dec: 2 },
   { id: 'mirovina', label: 'Prosječna starosna mirovina', kratko: 'HZMO, bez međunarodnih ugovora', izvor: 'HZMO', datum: 'srpanj 2026.', val: 722.01, prev: 721.73, fmt: 'eur', dec: 2 },
   { id: 'stambeni', label: 'Stambeni kredit', kratko: 'novi poslovi, prosjek', izvor: 'HNB', datum: 'srpanj 2026.', val: 2.91, prev: 2.90 },
   { id: 'hpi', label: 'Rast cijena nekretnina', kratko: 'indeks cijena, godišnje', izvor: 'DZS', datum: 'prvo tromjesečje 2026.', val: 14.3, prev: 10.2, per: 'od prošlog tromjesečja', dec: 1 }
@@ -5861,7 +5861,7 @@ const POK_FAQ_KRED = [
   { p: 'Kolika je kamatna stopa na stambeni kredit u Hrvatskoj?', o: 'Prosje\u010dna nominalna kamatna stopa na nove stambene kredite iznosi {KR_STAMB_NOM} (HNB, {RAZD_KRED}), a efektivna, koja uključuje i naknade, {KR_STAMB_EKS}. To je vagani prosjek svih banaka i svih novih ugovora u tom mjesecu pa tvoja ponuda može biti i niža i viša, ovisno o iznosu, roku, udjelu vlastitog učešća i tome jesi li klijent banke.' },
   { p: 'Zašto je gotovinski kredit skuplji od stambenog?', o: 'Zato što iza stambenog kredita stoji nekretnina kao zalog, a iza gotovinskog ne stoji ništa osim tvoje plaće. Razlika je trenutno {KR_DIFF_SG}: {KR_STAMB_NOM} naspram {KR_GOTOV_NOM}. Na 20.000 € kroz 7 godina to je oko {KR_DIFF_20K7G} više kamate.' },
   { p: 'Što je razlika između nominalne i efektivne kamatne stope?', o: 'Nominalna stopa je cijena samog novca. Efektivna kamatna stopa (EKS) uz nju uračunava i naknadu za obradu, procjenu, vođenje računa i police osiguranja pa pokazuje stvarnu cijenu kredita. Kod stambenih kredita razlika je {KR_STAMB_EKS_DIFF}, kod gotovinskih {KR_GOTOV_EKS_DIFF}. Ponude uspoređuj po EKS-u, ne po nominalnoj stopi.' },
-  { p: 'Koliko se Hrvati zadužuju?', o: 'U lipnju 2026. banke su odobrile {KR_IZNOSSTAMB} novih stambenih kredita i {KR_IZNOSGOTOV} gotovinskih nenamjenskih. Znači, mjesečno se više novca uzima za potrošnju nego za nekretnine. To je podatak koji rijetko dolazi u naslove, a puno govori o tome kako se u Hrvatskoj zapravo troši posuđeni novac.' },
+  { p: 'Koliko se Hrvati zadužuju?', o: 'Banke su odobrile {KR_IZNOSSTAMB} novih stambenih kredita i {KR_IZNOSGOTOV} gotovinskih nenamjenskih (HNB, {RAZD_KRED}). Znači, mjesečno se više novca uzima za potrošnju nego za nekretnine. To je podatak koji rijetko dolazi u naslove, a puno govori o tome kako se u Hrvatskoj zapravo troši posuđeni novac.' },
   { p: 'Vrijedi li objavljena prosječna stopa i za mene?', o: 'Ne nužno. HNB objavljuje vagani prosjek svih novih ugovora u mjesecu, gdje veći krediti nose veću težinu. Tvoja stopa ovisi o roku, iznosu, vrsti stope (fiksna ili promjenjiva), primanjima i tome primaš li plaću u toj banci. Prosjek koristi za orijentaciju i za provjeru je li ponuda koju si dobio bolja ili lošija od tržišta.' }
 ];
 
@@ -9697,7 +9697,7 @@ class Component extends DCLogic {
           mirovina: eur(d.prosjecnaMirovina), mirovina40Mjesec: d.mirovina40Mjesec,
           mirovina40: eur(d.mirovina40),
           mirovina40Bez: eur(d.mirovina40Bez),
-          placa: eur(d.prosjecnaPlaca, 0),
+          placa: eur(d.prosjecnaPlaca, 2),
           // NIJE ZADNJE_PLACE (DZS razdoblje) - vlastito STUP1.placaMjesec,
           // HZMO redovito kasni mjesec za DZS-om. Vidi komentar uz STUP1.
           placaMjesec: d.placaMjesec,
