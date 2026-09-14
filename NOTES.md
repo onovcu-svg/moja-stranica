@@ -962,8 +962,11 @@ obrada. Testirati na pravom uređaju.
 - [ ] **Upit institucijama (DZS, HNB, HZMO, HANFA)** o strojno čitljivim
       izvorima i o najavi revizija objavljenih podataka, kroz zahtjev za
       ponovnu uporabu informacija.
-- [ ] **Schema.org `WebApplication`** na rutama kalkulatora i `BlogPosting` na
-      člancima.
+- [x] Schema.org WebApplication — dodano
+- [ ] **BlogPosting po članku čeka SSR.** U statičkom head-u bio bi prisutan na
+      svakoj ruti, što Google tretira kao obmanjujuće strukturirane podatke —
+      kazna gasi rich results za cijelu domenu, ne samo za pogođenu stranicu.
+      Uz to datePublished traži parser za hrvatski datum, koji ne postoji.
 - [ ] **Kontrast `--soft` u svijetloj temi** — `#71717A` na `--sec` daje 4,40:1,
       ispod AA praga. Predloženo `#52525B`. Tamna tema nema problem.
 

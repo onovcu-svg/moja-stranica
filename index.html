@@ -178,10 +178,15 @@
 <meta name="twitter:image" content="https://onovcu.hr/assets/og-image.jpg">
 <link rel="canonical" href="https://onovcu.hr/">
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon="{&quot;token&quot;: &quot;0457a2ae0c0e4c36b230c7b27e72a45b&quot;}"></script>
+<!-- WebSite/Person/WebApplication su rucno pisani, ne generiraju se skriptom
+     (za razliku od FAQPage.mainEntity, vidi scripts/gen-faq-jsonld.js).
+     WebApplication.name/description su kopija META_CALC.hub.title (bez
+     SUFIKS-a)/desc - ako se ta dva promijene, uskladi i ovdje rucno. -->
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
 {"@type":"WebSite","@id":"https://onovcu.hr/#website","name":"O novcu","inLanguage":"hr-HR","publisher":{"@id":"https://onovcu.hr/#person"}},
 {"@type":"Person","@id":"https://onovcu.hr/#person","name":"Marko Bogdan","jobTitle":"Stručnjak za financijsku edukaciju","knowsAbout":["osobne financije","porez na dohodak","krediti","ulaganje","inflacija"],"sameAs":["https://www.linkedin.com/in/marko-bogdan-866b3877/","https://www.youtube.com/@onovcu?sub_confirmation=1"]},
+{"@type":"WebApplication","@id":"https://onovcu.hr/#webapp","name":"Besplatni financijski kalkulatori","description":"Kalkulatori plaće, kredita, ulaganja i inflacije za Hrvatsku u 2026., prilagođeni važećim propisima. Bez registracije, izračun ostaje u pregledniku.","url":"https://onovcu.hr/kalkulatori/hub","applicationCategory":"FinanceApplication","operatingSystem":"Any","browserRequirements":"Requires JavaScript","isAccessibleForFree":true,"featureList":["Kalkulator plaće 2026: bruto u neto","Kalkulator kredita: anuiteti i otplatni plan","Kalkulator ulaganja i složene kamate","Kalkulator inflacije za Hrvatsku","Koliko je novac izgubio na vrijednosti"],"isPartOf":{"@id":"https://onovcu.hr/#website"}},
 {"@type":"FAQPage","@id":"https://onovcu.hr/#faq","mainEntity":[
 {"@type":"Question","name":"Kako se izračunava neto plaća u Hrvatskoj u 2026.?","acceptedAnswer":{"@type":"Answer","text":"Iz bruto 1 plaće prvo se odbijaju doprinosi za mirovinsko osiguranje, 15 % za I. stup i 5 % za II. stup, čime se dobiva dohodak. Od dohotka se odbija osobni odbitak (osnovno 600,00 € mjesečno, uvećan za djecu i uzdržavane članove), a na ostatak se primjenjuje porezna stopa tvojega grada ili općine: niža do 5.000,00 € osnovice, viša iznad toga. Prirez više ne postoji zasebno, integriran je u porezne stope."}},
 {"@type":"Question","name":"Koja je razlika između Bruto 1 i Bruto 2 plaće?","acceptedAnswer":{"@type":"Answer","text":"Bruto 1 je ugovorena plaća iz koje se plaćaju doprinosi zaposlenika i porez na dohodak. Bruto 2 je ukupni trošak poslodavca, dakle Bruto 1 uvećan za doprinos za zdravstveno osiguranje od 16,5 %. Taj doprinos plaća poslodavac."}},
