@@ -6,9 +6,12 @@
 # AUDIT-2026-08-18.md promijenjen u uzorak AUDIT-*.md 14.9.2026. (dodan
 # AUDIT-BROJKE-2026-09-04.md) da svaki buduci audit-dokument bude pokriven
 # sam, bez rucnog dodavanja pri svakom novom nalazu.
+# AZURIRANJE.md dodan 14.9.2026. - vodic za rucno azuriranje podataka, isti
+# razred interne dokumentacije kao NOTES.md/IZVORI.md.
 NOTES.md
 AUDIT-*.md
 IZVORI.md
+AZURIRANJE.md
 
 # NAMJERNO NIJE ovdje: scripts/ - .vercelignore iskljucuje iz CIJELOG
 # uploada, ne samo iz javnog posluzivanja, pa bi buildCommand
