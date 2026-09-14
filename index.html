@@ -5138,6 +5138,29 @@ const MODULI = [
 // Puni tekstovi blogova, po slugu. Zadnji odjeljak svakog teksta ("Pogledaj ... u videu")
 // izdvojen je u ctaNaslov / ctaUvod / ctaTocke i prikazuje se kao poziv na video.
 const BLOG_TEKST = {
+  'najam-ili-kupnja-stana': {
+    ctaNaslov: 'Što ćeš dobiti u videu',
+    ctaUvod: 'U videu prolazim kroz cijeli izračun koji ti u 60 sekundi kaže gdje stojiš.',
+    ctaZakljucak: 'Na kraju kažem i svoje mišljenje, s kojim se dobar dio ljudi neće složiti.',
+    ctaTocke: ['Točna skala s graničnim brojkama', 'Službeni omjeri za Zagreb, Split i Osijek', 'Jedan podatak o hrvatskom tržištu najma zbog kojeg cijela rasprava dobiva drugi smisao', 'Koliko dugo točno treba planirati ostati u stanu da se kupnja isplati'],
+    blocks: [
+      { t: 'p', x: 'Postoji jednostavna formula koja ti kaže je li u tvom kvartu matematika na strani najma ili kupnje. Problem je što ta brojka rijetko presuđuje. Za odluku su puno više važnija pitanja koje formula uopće ne uzima u obzir: imaš li uopće izbor, koliko dugo planiraš ostati na jednom mjestu i kakav je najam kao način života u zemlji u kojoj tržište najma na papiru gotovo ne postoji.' },
+      { t: 'h', x: 'Imaš li uopće izbor?' },
+      { t: 'p', x: 'Svaki savjet o najmu i kupnji kreće s pretpostavkom da biraš. Za dio ljudi taj izbor jednostavno ne postoji i to nema veze s lošim upravljanjem novcem.' },
+      { t: 'p', x: 'Najčešće plaća nije dovoljna za kredit. Kod drugih je plaća dovoljna, ali nemaju učešće. Treba ti barem deset posto cijene, dakle 15, 20 ili 25 tisuća eura, plus još koju tisuću za same troškove kupnje.' },
+      { t: 'p', x: 'Treći razlog je kreditna sposobnost. Banke gledaju samo ono što vide, a dio primanja se često ne vidi. Tako dolazimo do apsurda da netko uredno može plaćati najam od 800 eura mjesečno, ali ne može dobiti kredit s ratom od 700 eura. Njemu najam nije izbor nego jedina opcija.' },
+      { t: 'h', x: 'Zašto prednosti najma kod nas često ne drže vodu' },
+      { t: 'p', x: 'Najam stvarno daje fleksibilnost, nizak ulazni trošak i mir oko održavanja. Ako bojler ode kvragu, zoveš gazdu. To su prave prednosti i ne treba ih umanjivati.' },
+      { t: 'p', x: 'Ali sve te prednosti pretpostavljaju uređeno tržište. Fleksibilnost je prednost samo ako ti biraš kada ćeš se seliti. Nije prednost ako se seliš prvog lipnja jer počinje sezona.' },
+      { t: 'p', x: 'Bez prijavljenog ugovora nema ni pravne zaštite. Nema otkaznog roka, nema zaštite od naglog podizanja najamnine, nema ničega. Novi zakon o najmu stanova to pokušava promijeniti, ali dio struke upozorava i na suprotan učinak.' },
+      { t: 'h', x: 'Koje su prednosti i nedostaci kupnje' },
+      { t: 'p', x: 'Kupnja ti daje sigurnost da te nitko ne izbacuje, prisilnu štednju kroz ratu i zaštitu od rasta najamnina. Ta zadnja stvar vrijedi samo ako ti je kamata fiksna kroz cijelo razdoblje otplate, pa dobro pogledaj što potpisuješ.' },
+      { t: 'p', x: 'Uzima ti slobodu. Potpišeš na trideset godina, a za pet godina dobiješ ponudu iz drugog grada ili ti se promijeni život. Podstanar se seli za mjesec dana, ti prodaješ stan mjesecima. Uz to, održavanje, pričuva i krov postaju tvoj trošak, i to svake godine do kraja.' },
+      { t: 'p', x: 'Kupnja nije "riješio sam sve probleme u životu" nego jedan set nedostataka mijenjaš drugim.' },
+      { t: 'h', x: 'Koliko dugo planiraš ostati u tom stanu?' },
+      { t: 'p', x: 'Ovo je vjerojatno najvažnije pitanje u cijeloj priči, a košta te nula eura. Ako je tvoj horizont kratak ili ti je karijera neizvjesna, najam nije kompromis nego jednostavno bolja odluka. Transakcijski troškovi pojedu svaku prednost kupnje prije nego što je stigneš ostvariti.' }
+    ]
+  },
   'gdje-odlazi-tvoja-placa': {
     ctaNaslov: 'Pogledaj video za cijeli obračun',
     ctaUvod: 'U videu prolazim cijeli obračun korak po korak na ekranu, s točnim brojkama za svaki scenarij.',
@@ -5435,6 +5458,9 @@ const BLOG_TEKST = {
 // this.blogVeza(): 'calc:<tab>' otvara kalkulator, 'calc:kamata:<gMode>' njegov
 // nacin rada, 'pok:<kategorija>' otvara pokazatelje.
 const BLOG_VEZE = {
+  'najam-ili-kupnja-stana': [
+    { a: 'calc:kredit', tip: 'Kalkulator', n: 'Izračun kredita', o: 'Izračunaj mjesečnu ratu i ukupnu kamatu za stan koji razmatraš kupiti, pa usporedi s najmom koji plaćaš danas.' }
+  ],
   'gdje-odlazi-tvoja-placa': [
     { a: 'calc:placa', tip: 'Kalkulator', n: 'Obračun plaće', o: 'Upiši željeni neto iznos i vidi točno koji bruto trebaš tražiti na razgovoru za posao.' }
   ],
@@ -5495,6 +5521,10 @@ const BLOG_VEZE = {
 };
 
 const OBJAVE = [
+  { yt: 'E2RtbGMyh1I', kat: 'Nekretnine', datum: '11. rujna 2026.', slug: 'najam-ili-kupnja-stana',
+    naslov: 'Najam ili kupnja stana: zašto ti kalkulator ne može dati odgovor',
+    opis: 'Postoji jednostavna formula koja ti kaže je li u tvom kvartu matematika na strani najma ili kupnje. Problem je što ta brojka rijetko presuđuje.',
+    istaknuto: 'Kupnja nije "riješio sam sve probleme u životu" nego jedan set nedostataka mijenjaš drugim.' },
   { yt: 'KTdSyPXumFg', kat: 'Navike', datum: '28. kolovoza 2026.', slug: 'gdje-odlazi-tvoja-placa',
     naslov: 'Sve o tvojoj plaći: gdje odlazi razlika od poslodavca do tebe?',
     opis: 'U ugovoru ti piše iznos plaće, a na račun ti sjedne 40-ak posto manje? Nije prevara, tako funkcionira obračun!',
@@ -6336,6 +6366,7 @@ const META_POK = {
 
 const META_BLOG_INDEX = { title: 'Blog i video sadržaj o osobnim financijama' + SUFIKS, desc: 'Članci i video sadržaj o plaćama, kreditima, ulaganju, mirovinama i financijskim navikama u Hrvatskoj, napisani jasno i bez financijskog žargona.' };
 const META_BLOG_DESC = {
+  'najam-ili-kupnja-stana': 'Najam ili kupnja stana u Hrvatskoj: zašto izbor, dužina boravka i stanje tržišta najma odlučuju više od same brojke.',
   'gdje-odlazi-tvoja-placa': 'Objašnjenje obračuna plaće u Hrvatskoj: koji doprinosi i porezi stoje između bruto iznosa u ugovoru i neto iznosa koji sjedne na račun.',
   'hrvatski-investicijski-racun-2027': 'Objašnjenje hrvatskog investicijskog računa koji od 2027. omogućuje ulaganje u dionice i ETF-ove bez poreza na zaradu, uz uvjet o domaćem tržištu.',
   'fiksna-ili-kombinirana-kamatna-stopa': 'Razlika između fiksne i kombinirane kamatne stope na stambeni kredit i zašto niža početna rata zapravo znači prijenos rizika s banke na tebe.',

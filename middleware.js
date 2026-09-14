@@ -61,6 +61,7 @@ const META_BLOG_INDEX = { title: 'Blog i video sadržaj o osobnim financijama' +
 // u jedan zapis po slugu, jer ovdje nema zasebnog OBJAVE izvora - vidi
 // napomenu o mirroru na vrhu datoteke.
 const META_BLOG = {
+  'najam-ili-kupnja-stana': { title: 'Najam ili kupnja stana: zašto ti kalkulator ne može dati odgovor' + SUFIKS, desc: 'Najam ili kupnja stana u Hrvatskoj: zašto izbor, dužina boravka i stanje tržišta najma odlučuju više od same brojke.' },
   'gdje-odlazi-tvoja-placa': { title: 'Sve o tvojoj plaći: gdje odlazi razlika od poslodavca do tebe?' + SUFIKS, desc: 'Objašnjenje obračuna plaće u Hrvatskoj: koji doprinosi i porezi stoje između bruto iznosa u ugovoru i neto iznosa koji sjedne na račun.' },
   'hrvatski-investicijski-racun-2027': { title: 'Hrvatski investicijski račun: kako ćeš od 2027. ulagati bez poreza na zaradu?' + SUFIKS, desc: 'Objašnjenje hrvatskog investicijskog računa koji od 2027. omogućuje ulaganje u dionice i ETF-ove bez poreza na zaradu, uz uvjet o domaćem tržištu.' },
   'fiksna-ili-kombinirana-kamatna-stopa': { title: 'Fiksna ili kombinirana kamatna stopa: gdje je skrivena zamka?' + SUFIKS, desc: 'Razlika između fiksne i kombinirane kamatne stope na stambeni kredit i zašto niža početna rata zapravo znači prijenos rizika s banke na tebe.' },
