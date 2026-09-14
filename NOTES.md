@@ -962,13 +962,9 @@ obrada. Testirati na pravom uređaju.
       opis, a "Refinanciranje kredita: isplati li se?" je pretraživani upit.
       Danas su namjerno izvan sitemapa (komentar u kodu, 6227-6229).
 - [ ] **`sekcije` u mail** — vidi §5. Jedna izmjena rješava 11 slučajeva.
-- [ ] **Dokument s poznatim greškama** — sve otvoreno i namjerno neriješeno na
-      jednom mjestu, s ozbiljnošću i procjenom. Danas razasuto po §5, §6 i
-      `AUDIT-2026-08-18.md`.
-- [ ] **Revizija cijele stranice vanjskim alatom** — tehnički, SEO i AEO
-      parametri plus provjera činjenica, na `onovcu.hr` nakon spajanja domene.
-- [ ] **`AZURIRANJE.md`** — vodič za ručno ažuriranje podataka. Nalaz za njega
-      je pripremljen, dokument nije napisan.
+- [x] Dokument s poznatim greškama — `POZNATE-GRESKE.md`.
+- [x] Revizija cijele stranice vanjskim alatom.
+- [x] `AZURIRANJE.md` — vodič za ručno ažuriranje podataka.
 - [ ] **Korekcije tekstova u PDF-u.**
 - [ ] **Upit institucijama (DZS, HNB, HZMO, HANFA)** o strojno čitljivim
       izvorima i o najavi revizija objavljenih podataka, kroz zahtjev za

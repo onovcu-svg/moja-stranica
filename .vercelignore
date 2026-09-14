@@ -8,10 +8,13 @@
 # sam, bez rucnog dodavanja pri svakom novom nalazu.
 # AZURIRANJE.md dodan 14.9.2026. - vodic za rucno azuriranje podataka, isti
 # razred interne dokumentacije kao NOTES.md/IZVORI.md.
+# POZNATE-GRESKE.md dodan 15.9.2026. - konsolidiran popis poznatih gresaka.
+# Uzorak AUDIT-*.md ga ne pokriva (drugaciji naziv), pa je zaseban redak.
 NOTES.md
 AUDIT-*.md
 IZVORI.md
 AZURIRANJE.md
+POZNATE-GRESKE.md
 
 # NAMJERNO NIJE ovdje: scripts/ - .vercelignore iskljucuje iz CIJELOG
 # uploada, ne samo iz javnog posluzivanja, pa bi buildCommand
