@@ -135,9 +135,36 @@ Zadnje ažuriranje: 3. 9. 2026., 14:43
      na prazno (ili `echo skip`) → pokreni novi deploy. Ovo isporučuje
      trenutni kod bez pokretanja provjere.
   3. **Odmah zatim, ne kasnije: vrati `Build Command` na
-     `node scripts/check-meta-sync.js`.** Dok override stoji, drift se više
-     ne blokira ni za jedan sljedeći deploy, tiho — točno ono što ovaj
-     mehanizam treba spriječiti.
+     `node scripts/check-meta-sync.js && node scripts/check-faq-jsonld-sync.js`
+     (vidi `vercel.json`).** Dok override stoji, drift se više ne blokira ni za
+     jedan sljedeći deploy, tiho — točno ono što ovaj mehanizam treba
+     spriječiti.
+- **JSON-LD FAQPage (`<head>`/`<helmet>`) generira se iz `FAQ` niza skriptom,
+  ne piše se ručno (14.9.2026).** Nalaz: JSON-LD je bio ručno prepisan jednom
+  i otad se razišao od vidljivog `FAQ`-a — ne samo u decimalama, nego su
+  nestale cijele rečenice iz tri od četiri odgovora. Treći slučaj tog obrasca
+  u projektu, uz `{CPI}` decimale i `report.js` validaciju (vidi bilješku o
+  `buildPdf`).
+  **Runtime generiranje (JS nakon renderа) namjerno odbačeno:** JSON-LD u
+  `<helmet>` je danas sirovi tekst, prisutan u HTML-u PRIJE hidracije — svaki
+  crawler koji ne izvršava JS (dio AI crawlera: GPTBot, ClaudeBot,
+  PerplexityBot i sl.) ga zato već vidi. Runtime generiranje bi im vratilo
+  prazan/zastario blok — regresija, ne popravak. Umetanje `{{ }}` tokena
+  izravno u JSON tekst također odbačeno — isti razred greške kao poznati
+  SVG-placeholder problem (§5), samo bi posljedica bila nevažeći JSON prije
+  hidracije, gore nego zastario-ali-valjan tekst koji postoji danas.
+  **Rješenje: generiranje na commit-vrijeme, ne u pregledniku.**
+  `scripts/gen-faq-jsonld.js` regexom izvuče `FAQ` niz (isti stil kao
+  `check-meta-sync.js`, bez eval-a) i upiše `Question`/`Answer` blok natrag u
+  `index.html` — pokreće se ručno kad se `FAQ` promijeni. Odvojena provjera,
+  `scripts/check-faq-jsonld-sync.js`, dio je `vercel.json` `buildCommand`-a
+  (dijeli funkcije s generatorom, ne duplicira regex) — razilaženje blokira
+  deploy, isti mehanizam kao ruta→meta provjera iznad. Middleware.js namjerno
+  NIJE dobio JSON-LD: aktivira se samo za 8 social-share crawlera
+  (Facebook/LinkedIn/Slack/WhatsApp/Twitter/Telegram/Discord) koji FAQPage
+  strukturirane podatke ne konzumiraju — Googlebot i svi ostali crawleri
+  prolaze `middleware.js` passthrough i dobivaju puni `index.html`, gdje
+  JSON-LD stvarno živi.
 - **`componentDidUpdate(prevProps, prevState)` u `Component` NIKAD ne dobiva
   pravi `prevState`.** Otkriveno 18.8. dok se popravljao reset stanja pri
   promjeni kalkulatora: `support.js`-ov wrapper (`StreamableComponent`, vidi
@@ -931,8 +958,6 @@ obrada. Testirati na pravom uređaju.
       člancima.
 - [ ] **Kontrast `--soft` u svijetloj temi** — `#71717A` na `--sec` daje 4,40:1,
       ispod AA praga. Predloženo `#52525B`. Tamna tema nema problem.
-- [ ] **Format iznosa: „210 €" naspram „210,00 €"** na `/pokazatelji/place`, i
-      JSON-LD koji piše „600 €" gdje vidljivi FAQ piše „600,00 €".
 - [ ] **Čišćenje mrtvih polja** — `STUP2[*].uvjet`, `imovina` po kategoriji s
       izvedenima, `STUP1.prosjecnaBruto`, `mirovina40Bez`.
 

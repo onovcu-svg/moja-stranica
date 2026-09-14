@@ -1,5 +1,5 @@
 {
-  "buildCommand": "node scripts/check-meta-sync.js",
+  "buildCommand": "node scripts/check-meta-sync.js && node scripts/check-faq-jsonld-sync.js",
   "outputDirectory": ".",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
