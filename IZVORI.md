@@ -1,6 +1,6 @@
 # IZVORI.md — odakle dolazi svaki podatak u Pokazateljima
 
-Sve brojke u `TRZISTE`, `SERIJE`, `CPI`, `KS_*`, `STUP*`, `HPI_GOD`, `NEK_*`
+Sve brojke u `TRZISTE`, `CPI`, `KS_*`, `STUP*`, `PLACE_GOD`, `HPI_GOD`
 su hardkodirane i ažuriraju se RUČNO. Ovaj file je jedini zapis o tome
 odakle. Prije svake izmjene brojke: otvori izvor, prepiši, zapiši razdoblje.
 
@@ -62,6 +62,8 @@ Zadnja potpuna provjera: 21. 8. 2026. (inflacija ažurirana 19. 8. 2026. na srpa
 - Minimalna bruto plaća: Uredba Vlade RH, NN 132/2025 → 1.050,00 € za 2026.
   https://mrosp.gov.hr/vijesti/minimalna-placa-za-2026-godinu-1-050-eura-bruto/13826
   Mijenja se jednom godišnje, uredbom u listopadu za sljedeću godinu.
+  **Od 14.9.2026. konstante `MIN_PLACA` i `MIN_PLACA_GODINA`** (prije bio
+  string literal zakopan izravno u kartici) — ažurirati oba polja, ne samo iznos.
 - Napomena: od siječnja 2026. podaci se iskazuju prema NKD-u 2025.
 - **`PLACE_GOD` (godišnji niz 2010.-2026., graf na `/pokazatelji/place`)
   zamijenjen stvarnim DZS vrijednostima 14.9.2026., nakon što je nalaz

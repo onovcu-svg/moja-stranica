@@ -5686,6 +5686,10 @@ const MIROVINE_FIN = [
 // (podaci za srpanj 2026.). Mapa listova je u PODACI-KALKULATORI.md.
 // Tablica 1.1 članstvo · 1.2 članovi po dobi · 1.8 neto imovina ·
 // 1.9 MIREX prinosi.
+// Zadnje objavljeno mjesečno izvješće HANFA-e (mi-08_26.xlsx = podaci za
+// srpanj) — premješteno ovamo (bilo uz ZADNJE_HNB) da je STUP3.razdoblje
+// može čitati kao konstantu, isti obrazac kao ZADNJE_HZMO prije STUP1.
+const ZADNJE_HANFA = 'srpanj 2026.';
 const STUP2 = [
   { k: 'A', clanova: 567105, imovinaMil: 1821.6, prinos12: 18.13, ytd: 12.71, prinos10: 9.10,
     limit: 'najviše 70 % u dionice' },
@@ -5709,7 +5713,7 @@ const STUP3 = {
   imovinaOtvoreni: 1503.30, imovinaZatvoreni: 305.49, // mil €
   imovina: (1503.30 + 305.49) / 1000,
   poticaj: 15, poticajMax: 99.54,
-  razdoblje: 'srpanj 2026.'
+  razdoblje: ZADNJE_HANFA
 };
 
 // ── NEKRETNINE ───────────────────────────────────────────────
@@ -5762,6 +5766,11 @@ const KS_IZNOSGOTOVINSKI = [null,null,null,null,null,null,null,null,null,null,nu
 const KS_IZNOSPOTROSACKI = [0.99,1.41,0.97,1.34,1.69,1.1,1.44,0.88,1.77,2.01,1.44,1.1,1.24,1.48,1.33,0.93,0.96,0.92,0.84,0.49,0.6,0.7,0.74,0.35,0.6,0.43,0.48,0.33,0.28,0.14,0.32,0.18,0.31,0.32,0.18,0.08,0.11,0.19,0.22,0.11,0.09,0.08,0.08,0.07,0.08,0.09,0.63,0.25,0.33,0.56,0.28,0.14,0.1,0.15,0.11,0.05,0.1,0.58,1.08,1.42,0.68,0.86,1.17,0.87,0.97,0.71,0.74,0.45,0.49,0.63,0.75,0.48,0.54,0.61,0.67,0.83,0.98,0.83,1.03,0.52,0.74,0.53,0.24,0.21,0.44,0.32,0.35,0.46,0.53,0.44,0.74,0.58,0.34,0.46,0.37,0.44,0.45,0.37,0.25,0.12,0.16,0.32,0.3,0.28,0.2,0.26,0.17,0.07,0.05,0.19,0.08,0.06,0.04,0.05,0.11,0.07,0.1,0.1,0.1,0.03,0.02,0.02,0.08,null,0.06,null,0.18,0.15,0.15,0.2,0.19,0.3,0.26,0.37,0.59,0.34,0.51,0.59,0.77,0.98,0.87,1.26,0.95,0.94,1.43,1.08,1.2,1.42,2.36,1.78,1.46,1.17,1.56,2.79,1.76,2.27,1.76,1.93,1.44,2.32,2.32,2.42,2.1,1.89,2.2,2.15,1.26,1.55,1.48,2.07,1.88,2,1.54,1.62,1.32];
 const KS_IZNOSREVOLVING = [1550.96,1497.27,1408.08,1603.66,1598.24,1592.95,1573.01,1573.11,1565.87,1595.71,1581.91,1573.28,1572.91,1546.6,1542.35,1559.23,1560.95,1543.19,1537.16,1534.5,1537.64,1547.45,1535.37,1529.91,1525.13,1504.43,1530.11,1541.88,1545.9,1533.57,1517.33,1506.71,1523.68,1535.89,1530.77,1531.58,1523.24,1497.16,1519.12,1527.48,1536.33,1530.03,1512.76,1504.82,1501.32,1512.87,1504.19,1492.64,1479.5,1470.4,1476.88,1479.85,1502.77,1505.69,1484.3,1473.96,1472.86,1489.27,1479.99,1459.62,1452.4,1427.74,1444.53,1445.05,1470.69,1468.16,1451.19,1434.94,1436.68,1456.25,1459.94,1486.35,1442.69,1403.67,1421.27,1433.91,1461.15,1475.05,1459.12,1450.93,1443.26,1465.78,1464.52,1434.1,1441.81,1422.31,1454.44,1471.17,1478.1,1480.31,1481.46,1454.63,1455.51,1472.03,1464.33,1455.19,1467.94,1447.86,1419.06,1361.79,1392.65,1399.42,1420.1,1422.34,1432.46,1436.39,1427.5,1356.17,1332.33,1310.41,1326.61,1305.98,1309.19,1322.13,1324.89,1326.44,1296.19,1297.47,1300.01,1268.92,1203.38,1195.06,1223.74,1236.52,1258.91,1264.12,1261.92,1266.81,1291.14,1302.73,1307.36,1222.68,1207.36,1195.48,1225.03,1223.66,1240.34,1231.25,1230.21,1237.82,1238.88,1248.18,1268.39,1226.23,1228.59,1221.17,1235.2,1241.19,1242.88,1218.08,1205.75,1209.3,1200.79,1421.32,1433.43,1403.23,1389.84,1361.59,1393.94,1395.75,1399.41,1396.08,1401.27,1403.26,1414.49,1443.97,1469.62,1443.17,1439.21,1425.72,1468.94,1476.85,1475.4,1486.39,1488.87];
 
+// Minimalna bruto plaća: Uredba Vlade RH, mijenja se jednom godišnje
+// (listopad, za sljedeću godinu) — vidi IZVORI.md, "Plaće".
+const MIN_PLACA = 1050;
+const MIN_PLACA_GODINA = 2026;
+
 const POK_KAT = {
   inflacija: {
     naslov: 'Inflacija', izvor: 'DZS · indeks potrošačkih cijena (CPI)',
@@ -5783,7 +5792,7 @@ const POK_KAT = {
       { val: '{PL_PROSJEK}', label: 'Prosječna neto plaća', sub: 'mjesečno · {RAZD_PLACE}', d: 0 },
       { val: '{PL_MEDIJAN}', label: 'Medijalna neto plaća', sub: 'mjesečno · {RAZD_PLACE} · polovica zaposlenih zarađuje manje', d: 5 },
       { val: '2.184,00 €', label: 'Prosječna bruto plaća', sub: 'Bruto 1, mjesečno', d: -2 },
-      { val: '1.050,00 €', label: 'Minimalna bruto plaća', sub: 'zakonski minimum za 2026.', d: 0 }
+      { val: '{MIN_PLACA}', label: 'Minimalna bruto plaća', sub: 'zakonski minimum za ' + MIN_PLACA_GODINA + '.', d: 0 }
     ]
   },
   mirovine: {
@@ -6123,14 +6132,14 @@ const CALC_META = {
 };
 
 // Prosječne godišnje stope inflacije (indeks potrošačkih cijena), DZS.
-// 2026. je zadnja objavljena godišnja stopa (lipanj 2026., prva procjena DZS),
-// a ne prosjek cijele godine. Vrijednosti za 2024. i 2025. treba potvrditi
-// protiv konačnih DZS objava (vidi PODACI-KALKULATORI.md).
+// Zadnja godina u nizu je zadnja objavljena KONAČNA godišnja stopa (isto
+// razdoblje kao ZADNJE_RAZDOBLJE), ne prosjek cijele godine — ažurira se
+// svaki mjesec dok se ne zaokruži puna kalendarska godina.
 const CPI = {
   1999: 4.0, 2000: 4.6, 2001: 3.8, 2002: 1.7, 2003: 1.8, 2004: 2.1, 2005: 3.3, 2006: 3.2, 2007: 2.9,
   2008: 6.1, 2009: 2.4, 2010: 1.1, 2011: 2.3, 2012: 3.4, 2013: 2.2, 2014: -0.2, 2015: -0.5,
   2016: -1.1, 2017: 1.1, 2018: 1.5, 2019: 0.8, 2020: 0.1, 2021: 2.6, 2022: 10.8, 2023: 8.0,
-  2024: 3.0, 2025: 3.6, 2026: 3.9
+  2024: 3.0, 2025: 3.7, 2026: 3.9
 };
 const CPI_ZADNJA = 2026;
 const CPI_PRVA = 1999;
@@ -6139,9 +6148,9 @@ const ZADNJE_RAZDOBLJE = 'srpanj 2026.';
 // Plaće kasne mjesec dana za inflacijom (DZS ih objavljuje sredinom idućeg mjeseca).
 const ZADNJE_PLACE = 'lipanj 2026.';
 // HNB i HANFA objavljuju sa svojim zaostatkom pa svaki izvor ima svoj datum.
+// ZADNJE_HANFA je premještena prije STUP2 (kao ZADNJE_HZMO prije STUP1) da je
+// STUP3.razdoblje može čitati kao konstantu, ne kao zaseban literal.
 const ZADNJE_HNB = 'srpanj 2026.';
-// Zadnje objavljeno mjesečno izvješće HANFA-e (mi-08_26.xlsx = podaci za srpanj).
-const ZADNJE_HANFA = 'srpanj 2026.';
 
 // Plaće po godinama (DZS): prosjek (neto/bruto) je GODIŠNJI prosjek, izravno
 // iz DZS-ovih godišnjih priopćenja (Narodne novine 2010.-2022., izravno u
@@ -8804,6 +8813,7 @@ class Component extends DCLogic {
       // tz('mirovina')/tz('placaProsjek') - vidi komentar uz STUP1.
       '{MIR_RATIO}': pct(STUP1.udioPlace, 2),
       '{STUP1_PLACA}': eur(STUP1.prosjecnaPlaca, 2), '{RAZD_PLACE_HZMO}': STUP1.placaMjesec,
+      '{MIN_PLACA}': eur(MIN_PLACA, 2),
       '{STUP2_CLANOVI_MIL}': nf(2).format(STUP2_UK / 1e6) + ' milijuna', '{STUP2_B_PCT}': pct(STUP2[1].clanova / STUP2_UK * 100, 2),
       '{KR_IZNOSSTAMB}': nf(1).format(KS_IZNOSSTAMBENI[ZI]) + ' milijuna eura', '{KR_IZNOSGOTOV}': nf(1).format(KS_IZNOSGOTOVINSKI[ZI]) + ' milijuna eura',
       // Razdoblje po kategoriji, iz ISTIH konstanti kao pokDatum (v. gore) -
