@@ -3546,7 +3546,7 @@
         <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:22px">
           <div style="min-width:0">
             <div style="font-weight:600;font-size:16.5px;letter-spacing:-.025em;margin-bottom:5px">Indeks cijena stambenih objekata</div>
-            <div style="font-weight:300;font-size:13px;color:var(--soft);line-height:1.5">DZS računa indeks od 2002. godine, 2015. = 100. Odaberi razdoblje koje te zanima.</div>
+            <div style="font-weight:300;font-size:13px;color:var(--soft);line-height:1.5">DZS računa indeks od 2002. godine, 2025. = 100. Odaberi razdoblje koje te zanima.</div>
           </div>
           <div style="display:flex;gap:clamp(14px,2.5vw,26px);align-items:flex-end;flex-shrink:0;flex-wrap:wrap">
             <div style="min-width:130px">
@@ -5727,14 +5727,15 @@ const STUP3 = {
 // ── NEKRETNINE ───────────────────────────────────────────────
 // FALLBACK: sve vrijednosti provjeriti prije produkcije, upute su u
 // IZVORI-PODATAKA.md. Indeks cijena stambenih objekata (DZS), godisnji
-// prosjek, 2015. = 100. Zadnja godina je zadnje objavljeno tromjesecje.
+// prosjek, 2025. = 100 (revidirani niz od 2.7.2026, vidi IZVORI.md).
+// Zadnja godina je zadnje objavljeno tromjesecje.
 // [godina, indeks]
 const HPI_GOD = [
-  [2002, 66.2], [2003, 72.4], [2004, 79.1], [2005, 87.6], [2006, 97.8],
-  [2007, 111.9], [2008, 122.3], [2009, 120.8], [2010, 116.7], [2011, 111.9],
-  [2012, 108.2], [2013, 104.1], [2014, 99.4], [2015, 100.0], [2016, 100.9],
-  [2017, 104.8], [2018, 111.4], [2019, 121.6], [2020, 130.7], [2021, 138.4],
-  [2022, 155.5], [2023, 175.0], [2024, 192.4], [2025, 215.6], [2026, 239.1]
+  [2002, 27.41], [2003, 32.09], [2004, 36.85], [2005, 41.63], [2006, 47.58],
+  [2007, 54.17], [2008, 54.76], [2009, 51.95], [2010, 48.67], [2011, 48.70],
+  [2012, 47.91], [2013, 45.98], [2014, 45.29], [2015, 44.04], [2016, 44.49],
+  [2017, 46.23], [2018, 49.24], [2019, 53.57], [2020, 57.50], [2021, 61.81],
+  [2022, 70.98], [2023, 79.54], [2024, 87.83], [2025, 100.00], [2026, 108.36]
 ];
 // HPI_GOD_NEPUNA oznacava KOJU godinu (ako ijednu) njezin redak u HPI_GOD
 // JOS NE predstavlja puni godisnji prosjek nego samo najnovije objavljeno
@@ -5866,9 +5867,9 @@ const POK_FAQ_KRED = [
 
 // FAQ za kategoriju Nekretnine. Ostale kategorije koriste POK_FAQ.
 const POK_FAQ_NEK = [
-  { p: 'Koliko su porasle cijene nekretnina u Hrvatskoj?', o: 'Indeks cijena stambenih objekata, koji DZS objavljuje tromjesečno, u godinu je dana porastao {HPI_RAST}, a od 2015. do 2025. za 115,6 %. Praktično: za isti novac kojim se 2015. kupovao stan od 50 m² 2025. se kupovalo 23,2 m². Cijene su padale od 2009. do 2014., a od 2015. rastu svake godine.' },
+  { p: 'Koliko su porasle cijene nekretnina u Hrvatskoj?', o: 'Indeks cijena stambenih objekata, koji DZS objavljuje tromjesečno, u godinu je dana porastao {HPI_RAST}, a od 2015. do 2025. za 127,1 %. Praktično: za isti novac kojim se 2015. kupovao stan od 50 m² 2025. se kupovalo 22,0 m². Cijene su padale od 2009. do 2015., a od 2016. rastu svake godine.' },
   { p: 'Jesu li prikazane cijene s PDV-om?', o: 'Indeks cijena stambenih objekata mjeri stvarne transakcijske cijene, u kojima je PDV uključen ako je nekretnina bila u sustavu PDV-a. Referentne cijene Ministarstva prostornoga uređenja objavljuju se bez PDV-a, jer je cijena bez poreza osnovica za mjere poput povrata poreza pri kupnji prve nekretnine. Kod novogradnje u sustavu PDV-a stvarna cijena koju plaćaš viša je za iznos poreza; kod kupnje od privatne osobe PDV se ne plaća.' },
-  { p: 'Kako se računa indeks cijena stambenih objekata?', o: 'DZS ga računa iz stvarnih kupoprodajnih transakcija koje mu prosljeđuje Porezna uprava, a ne iz oglasnih cijena. Metoda je hedonistička regresija, koja iz cijene izdvaja utjecaj svojstava nekretnine (veličina, lokacija, starost) pa indeks mjeri promjenu cijene, a ne promjenu strukture prodanih stanova. Baza je 2015. = 100.' },
+  { p: 'Kako se računa indeks cijena stambenih objekata?', o: 'DZS ga računa iz stvarnih kupoprodajnih transakcija koje mu prosljeđuje Porezna uprava, a ne iz oglasnih cijena. Metoda je hedonistička regresija, koja iz cijene izdvaja utjecaj svojstava nekretnine (veličina, lokacija, starost) pa indeks mjeri promjenu cijene, a ne promjenu strukture prodanih stanova. Baza je 2025. = 100.' },
   { p: 'Zašto nema podatka o cijeni najma?', o: 'Zato što ne postoji službena statistika razine najamnine koja bi izdržala isti standard kao ostali pokazatelji na portalu. Indeks stanarina unutar potrošačkih cijena pokazuje samo promjenu, ne iznos, a procjene najamnina po gradovima objavljuju se jednom godišnje i modelom. Kad se pojavi mjerodavan izvor, najam ide na ovu stranicu.' }
 ];
 
