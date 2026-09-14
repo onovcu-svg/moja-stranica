@@ -208,15 +208,24 @@ Zadnja potpuna provjera: 21. 8. 2026. (inflacija ažurirana 19. 8. 2026. na srpa
 - Provjereno 18.8.2026: godišnji rast **14,3 %** za Q1 2026. Ispravljeno u
   kodu (`1d74c37`), prikazuje se na sva tri mjesta s istim brojem decimala.
 - Novi ukupni indeks za Q1 2026. na bazi 2025 = 100 iznosi **108,36**
-  (korisno kao provjera kad se niz jednom zamijeni).
-- **ODLUKA (18.8.2026): `HPI_GOD` niz se NE mijenja prije lansiranja.**
-  Ispravlja se samo prikazana brojka rasta (11,0 % → 14,3 %), koja je ono što
-  korisnik čita i koja je potvrđena iz DZS priopćenja.
-  Obrazloženje: za graf trenda bazna godina je nebitna — oblik krivulje je
-  isti na 2015 = 100 i na 2025 = 100, bitno je samo da su sve točke na ISTOJ
-  bazi, što postojeći niz jest. Zamjena cijelog niza (revizija 2002.–2025. +
-  nova baza) ide **poslije lansiranja**, zajedno s migracijom i živim
-  podacima. Zapisano u NOTES.md §6.
+  — iskorišten 14.9.2026. kao zadnji (nepuni) redak zamijenjenog `HPI_GOD`
+  niza, vidi ODLUKU ispod.
+- **ODLUKA (18.8.2026): `HPI_GOD` niz se NE mijenja prije lansiranja — POVUČENA
+  14.9.2026.** Pretpostavka na kojoj je odluka počivala ("za graf trenda
+  bazna godina je nebitna — oblik krivulje je isti na 2015 = 100 i na
+  2025 = 100") vrijedi SAMO za čistu preskalaciju (množenje svake vrijednosti
+  konstantom). DZS-ova promjena baze od 2.7.2026. NIJE bila čista
+  preskalacija — uz novu bazu revidirane su i same vrijednosti niza.
+  DZS to i izričito navodi u fusnoti tablice: "Revidirani su podaci za
+  razdoblje od prvog tromjesečja 2002. do četvrtog tromjesečja 2025."
+  Odstupanje svake godine od onoga što bi dala čista preskalacija kretalo se
+  od −6,0 % do +10,5 %, dakle nije konstantno — dokaz da je riječ o pravoj
+  metodološkoj reviziji, ne samo o promjeni baze. Portal je do 8.9.2026.
+  prikazivao **115,6 %** ukupnog rasta 2015.–2025.; stvarna vrijednost po
+  revidiranom nizu je **127,1 %**. Cijeli `HPI_GOD` niz zamijenjen je
+  14.9.2026. revidiranim nizom (2025. = 100), zajedno sa svim hardkodiranim
+  tekstovima koji su spominjali staru bazu ("2015. = 100"). Zapisano u
+  NOTES.md §6.
 - **ODLUKA (18.8.2026): banner za Nekretnine ne kaže više "Zadnje ažuriranje"
   nego "Indeks cijena: prvo tromjesečje 2026."** — kategorija ima tri
   razdoblja (HPI Q1 2026., dozvole lipanj 2026., kupoprodaje 2025.) pa jedan
