@@ -122,6 +122,25 @@ Zadnje ažuriranje: 3. 9. 2026., 14:43
      prije commita. Isti skript je i Vercelov `buildCommand`
      (`vercel.json`), pa razilaženje blokira deploy i ako se ručni korak
      preskoči — vidi niže što napraviti ako sam skript lažno blokira.
+  **Od 14.9.2026. ovo je ČETIRI mjesta, ne tri: `/llms.txt` (korijen
+  repozitorija) je dodan kao sažet, ručno pisan pregled portala za AI
+  agente.** Pri dodavanju rute koja pripada u njegov opseg (kalkulatori,
+  pokazatelji, glavne statične rute — NE blog članci pojedinačno, `/llms.txt`
+  namjerno linka samo `/blog` kao ulaz, i NE `refi`/`opcije`/`zatvoriti`, iz
+  istog razloga kao sitemap) treba ga ažurirati ručno, istim naslovom/opisom
+  kao `META_*`. **`llms.txt` NIJE pokriven `check-meta-sync.js`-em ni bilo
+  kojom drugom provjerom** — razilaženje se neće otkriti samo od sebe.
+  Namjerno nije dodan mehanički check (kao za JSON-LD FAQPage, vidi niže):
+  `llms.txt` nije mehanička kopija `META_*` podataka nego uređivačka proza
+  (uvodni odlomak o autoru, grupiranje "Ostale rute", namjerno izostavljene
+  rute) — provjera bajt-za-bajt bi lažno pucala na svaku namjernu razliku.
+  Izvediva, uža provjera bi bila **samo provjera pokrivenosti**: da svaki URL
+  iz `sitemap.xml` (minus tri namjerno izostavljene kalkulator-rute i
+  pojedinačni blog slugovi) ima odgovarajući link negdje u `llms.txt`, bez
+  provjere teksta — isti opseg kao postojeća provjera "blog slug postoji u
+  sitemapu". Nije napravljeno u ovom prolazu; vrijedi razmotriti ako se broj
+  ruta poveća ili ako se pokaže da se ruta stvarno jednom zaboravi ažurirati
+  ovdje.
   **Ako `check-meta-sync.js` blokira deploy lažno** (greška u samoj skripti,
   ne stvarno razilaženje tablica) — ovo se traži u trenutku kad nešto gori,
   pa koraci moraju biti brzi i bez razmišljanja:
@@ -953,7 +972,6 @@ obrada. Testirati na pravom uređaju.
 - [ ] **Upit institucijama (DZS, HNB, HZMO, HANFA)** o strojno čitljivim
       izvorima i o najavi revizija objavljenih podataka, kroz zahtjev za
       ponovnu uporabu informacija.
-- [ ] **`llms.txt`** — sažet, strukturiran pregled portala za AI agente.
 - [ ] **Schema.org `WebApplication`** na rutama kalkulatora i `BlogPosting` na
       člancima.
 - [ ] **Kontrast `--soft` u svijetloj temi** — `#71717A` na `--sec` daje 4,40:1,

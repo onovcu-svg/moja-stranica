@@ -1,0 +1,32 @@
+# O novcu
+
+> Hrvatski portal za osobne financije. Besplatni kalkulatori plaće, kredita, ulaganja i inflacije te aktualni pokazatelji HNB-a i DZS-a. Bez registracije.
+
+Vodi ga Marko Bogdan. Osamnaest godina radi u financijskoj industriji, danas kao Growth Strategist u Genius by InterCapital i partner u InterCapitalu. Prvo je pokrenuo YouTube kanal, a kasnije i ovaj portal, s ciljem pomoći prosječnom čovjeku da donese dugoročno najbolju financijsku odluku. O novcu se govori isključivo u hrvatskom kontekstu: hrvatski porezi, banke, plaće i propisi.
+
+## Kalkulatori
+- [Kalkulator plaće 2026: bruto u neto](https://onovcu.hr/kalkulatori/placa): Izračunaj neto plaću iz bruta ili obratno po propisima za 2026., s doprinosima, osobnim odbitkom i poreznim stopama tvog grada ili općine.
+- [Kalkulator kredita: anuiteti i otplatni plan](https://onovcu.hr/kalkulatori/kredit): Izračunaj mjesečnu ratu, ukupnu kamatu i otplatni plan za stambeni ili gotovinski kredit, uz mogućnost prijevremene otplate i uštede na kamati.
+- [Kalkulator ulaganja i složene kamate](https://onovcu.hr/kalkulatori/kamata): Projiciraj rast redovnog mjesečnog ulaganja uz složenu kamatu, izračunaj potrebnu uplatu za cilj ili koliko dugo traje ušteđevina u isplati.
+- [Kalkulator inflacije za Hrvatsku](https://onovcu.hr/kalkulatori/inflacija): Izračunaj koliko je tvoj novac izgubio na vrijednosti zbog inflacije u Hrvatskoj, za bilo koje razdoblje, početni iznos i stopu inflacije.
+- [Koliko je novac izgubio na vrijednosti](https://onovcu.hr/kalkulatori/povijest): Izračunaj koliko je iznos iz prošlosti izgubio na kupovnoj moći do danas, po stvarnim godišnjim stopama inflacije Državnog zavoda za statistiku.
+
+## Pokazatelji
+- [Inflacija u Hrvatskoj: aktualni podaci](https://onovcu.hr/pokazatelji/inflacija): Godišnja i mjesečna stopa inflacije u Hrvatskoj po indeksu potrošačkih cijena (CPI) Državnog zavoda za statistiku, kroz posljednjih nekoliko godina.
+- [Plaće u Hrvatskoj: prosjek i medijan](https://onovcu.hr/pokazatelji/place): Prosječna i medijalna neto i bruto plaća u Hrvatskoj, zakonska minimalna plaća za 2026. i kretanje plaća kroz vrijeme, po podacima DZS-a.
+- [Mirovinski sustav Hrvatske u brojkama](https://onovcu.hr/pokazatelji/mirovine): Prosječna starosna mirovina, omjer zaposlenih i umirovljenika te raspodjela članova drugog mirovinskog stupa po kategorijama rizika ulaganja.
+- [Cijene nekretnina u Hrvatskoj](https://onovcu.hr/pokazatelji/nekretnine): Koliko rastu cijene nekretnina u Hrvatskoj — indeks cijena stambenih objekata prema DZS-u, kretanje po tipu objekta i aktivnost tržišta.
+- [Kamatne stope na kredite u Hrvatskoj](https://onovcu.hr/pokazatelji/krediti): Prosječne kamatne stope na nove stambene i gotovinske kredite u Hrvatskoj te ukupan iznos novoodobrenih kredita, po podacima HNB-a svaki mjesec.
+
+## Ostale rute
+- [Blog i video sadržaj o osobnim financijama](https://onovcu.hr/blog): Članci i video sadržaj o plaćama, kreditima, ulaganju, mirovinama i financijskim navikama u Hrvatskoj, napisani jasno i bez financijskog žargona.
+- [Česta pitanja o novcu](https://onovcu.hr/cesta-pitanja): Odgovori na najčešća pitanja o obračunu plaće, prijevremenoj otplati kredita i utjecaju inflacije na štednju u Hrvatskoj, kratko i jasno.
+- [Javni investicijski eksperimenti](https://onovcu.hr/projekti): Pratim uživo vlastito ulaganje u ETF-ove kroz nekoliko portfelja, s otvorenim brojkama i rezultatima.
+- [Financijska edukacija za tvrtke](https://onovcu.hr/edukacija): Radionice o osobnim financijama za zaposlenike, uživo ili online, prilagođene veličini tvrtke, formatu i temi koju tvrtka sama odabere.
+- [Marko Bogdan](https://onovcu.hr/o-meni): Autor portala O novcu piše o plaćama, kreditima i ulaganju u Hrvatskoj, nakon 18 godina u financijskoj industriji.
+- [Kontakt](https://onovcu.hr/kontakt): Kontaktiraj autora portala O novcu za suradnju, pitanja o kalkulatorima i pokazateljima ili prijedloge tema za blog i edukacije za tvrtke.
+
+## Pravne napomene
+- Izračuni kalkulatora izvršavaju se u pregledniku i nisu financijski savjet.
+- EURIBOR, inflacija i prinos ulaganja koje korisnik unosi u kalkulatore su njegove pretpostavke, ne objavljeni podaci ni prognoza portala.
+- [Politika privatnosti](https://onovcu.hr/politika-privatnosti)
