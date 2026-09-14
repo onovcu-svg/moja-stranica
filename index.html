@@ -5685,28 +5685,16 @@ const MIROVINE_FIN = [
 // ── SVE BROJKE ISPOD SU IZ HANFA-INA MJESEČNOG IZVJEŠĆA mi-08_26.xlsx ────
 // (podaci za srpanj 2026.). Mapa listova je u PODACI-KALKULATORI.md.
 // Tablica 1.1 članstvo · 1.2 članovi po dobi · 1.8 neto imovina ·
-// 1.9 MIREX prinosi · 1.10 struktura ulaganja.
-// uvjet: HANFA, brošura "Mirovinski sustav" (svibanj 2024.) -
-// https://www.hanfa.hr/media/m1vbwsni/brošura-mirovinski-sustav-1-_compressed.pdf
-// Polje se trenutno nigdje ne prikazuje (provjereno: nema "{{ ... .uvjet }}"
-// u predlošku) - ispravljeno svejedno jer je bilo netocno.
-// imovina (Dionice/Obveznice/... struktura ulaganja, tablica 1.10) se
-// TAKOĐER nigdje ne prikazuje (provjereno grepom i uživo, klikom kroz sve tri
-// kategorije na /pokazatelji/mirovine - vidi NOTES.md §5) - ne ažurirati
-// uzalud svaki mjesec dok se ne poveže s predloškom ili ne obriše.
+// 1.9 MIREX prinosi.
 const STUP2 = [
   { k: 'A', clanova: 567105, imovinaMil: 1821.6, prinos12: 18.13, ytd: 12.71, prinos10: 9.10,
-    limit: 'najviše 70 % u dionice', uvjet: 'u njoj možeš biti do 10 godina prije mirovine, iznimno do 5 na zahtjev',
-    imovina: [['Dionice', 33.2], ['Obveznice', 34.6], ['Investicijski fondovi', 22.8], ['Novac i depoziti', 7.5], ['Ostalo', 2.3]] },
+    limit: 'najviše 70 % u dionice' },
   { k: 'B', clanova: 1777582, imovinaMil: 25494.0, prinos12: 9.64, ytd: 6.34, prinos10: 5.53,
-    limit: 'najviše 40 % u dionice', uvjet: 'dostupna u bilo kojem trenutku',
-    imovina: [['Dionice', 27.2], ['Obveznice', 54.6], ['Investicijski fondovi', 12.3], ['Novac i depoziti', 4.7], ['Ostalo', 1.2]] },
+    limit: 'najviše 40 % u dionice' },
   { k: 'C', clanova: 73584, imovinaMil: 1481.1, prinos12: 1.24, ytd: 0.62, prinos10: 2.48,
-    limit: 'najviše 10 % u dionice, najmanje 60 % u obveznice', uvjet: 'dostupna neovisno o dobi, nije obvezna',
-    imovina: [['Obveznice', 87.4], ['Novac i depoziti', 11.8], ['Investicijski fondovi', 1.4]] }
+    limit: 'najviše 10 % u dionice, najmanje 60 % u obveznice' }
 ];
 const STUP2_UK = 2418271;          // Tablica 1.1, kraj srpnja 2026.
-const STUP2_IMOVINA_MIL = 28796.7; // Tablica 1.8, ukupna neto imovina OMF-ova
 // Tablica 1.2: zbroj članova kategorije B u dobnim skupinama ispod 55 godina
 // (≤18 255 · 19-24 6.081 · 25-29 132.343 · 30-34 216.982 · 35-39 262.970 ·
 //  40-44 298.043 · 45-49 297.812 · 50-54 256.279)
@@ -5750,7 +5738,6 @@ const HPI_GOD = [
 const HPI_GOD_NEPUNA = 2026;
 const HPI_PUNE = HPI_GOD_NEPUNA == null ? HPI_GOD : HPI_GOD.filter((r) => r[0] !== HPI_GOD_NEPUNA);
 const ZADNJE_HPI = 'prvo tromjesečje 2026.';
-const NEK_PROSJEK_M2 = 2440;
 
 // ── KAMATNE STOPE KREDITNIH INSTITUCIJA ──────────────────────
 // Izvor: HNB, Tablica G2 "Kamatne stope kreditnih institucija na kredite
@@ -8796,7 +8783,7 @@ class Component extends DCLogic {
       if (!t) { console.error('tz(): nepoznat TRZISTE id "' + id + '"'); return NaN; }
       return t.val;
     };
-    const _kNS = KS_SER.STAMBENI[ZI], _kES = KS_SER.EKSSTAMBENI[ZI], _kNG = KS_SER.GOTOVINSKI[ZI], _kEG = KS_SER.EKSGOTOVINSKI[ZI], _kNP = KS_SER.PREKORACENJE[ZI], _kNK = KS_SER.KARTICE[ZI];
+    const _kNS = KS_SER.STAMBENI[ZI], _kES = KS_SER.EKSSTAMBENI[ZI], _kNG = KS_SER.GOTOVINSKI[ZI], _kEG = KS_SER.EKSGOTOVINSKI[ZI];
     // Zadnji OBJAVLJENI redak (neovisno o klizacu plOd/plDo) - tokeni u
     // sazetku/FAQ-u prezentiraju se kao apsolutne sluzbene brojke
     // ("Prosjecna neto placa u Hrvatskoj iznosi..."),
@@ -8806,10 +8793,8 @@ class Component extends DCLogic {
     const plZadnjiPub = PLACE_GOD[PLACE_GOD.length - 1];
     const faqTokens = {
       '{PL_MEDIJAN}': eur(plZadnjiPub[2], 2), '{PL_PROSJEK}': eur(plZadnjiPub[1], 2), '{PL_RAZLIKA}': eur(plZadnjiPub[1] - plZadnjiPub[2], 2),
-      '{KR_STAMB_NOM}': pct(_kNS, 2), '{KR_STAMB_EKS}': pct(_kES, 2), '{KR_GOTOV_NOM}': pct(_kNG, 2), '{KR_GOTOV_EKS}': pct(_kEG, 2),
-      '{KR_PREKO_NOM}': pct(_kNP, 2), '{KR_KART_NOM}': pct(_kNK, 2),
+      '{KR_STAMB_NOM}': pct(_kNS, 2), '{KR_STAMB_EKS}': pct(_kES, 2), '{KR_GOTOV_NOM}': pct(_kNG, 2),
       '{KR_DIFF_SG}': nf(2).format(_kNG - _kNS) + ' postotna boda', '{KR_STAMB_EKS_DIFF}': nf(2).format(_kES - _kNS) + ' postotnih bodova', '{KR_GOTOV_EKS_DIFF}': nf(2).format(_kEG - _kNG) + ' postotnih bodova',
-      '{KR_STAMB_GOD}': pct(KS_SER.STAMBENI[ZI - 12], 2), '{KR_GOTOV_GOD}': pct(KS_SER.GOTOVINSKI[ZI - 12], 2),
       '{KR_DIFF_20K7G}': eur(_anuFaq(20000, _kNG, 7) - _anuFaq(20000, _kNS, 7), 0),
       '{STUP3_CLANOVI}': nf(0).format(STUP3.clanovi), '{STUP3_IMOVINA}': nf(2).format(STUP3.imovina),
       '{CPI}': pct(tz('inflacija'), 1), '{HPI_RAST}': pct(tz('hpi'), 1),
@@ -9744,17 +9729,14 @@ class Component extends DCLogic {
           pokrivenost40: pct(d.udio40Place, 2),
           rashodiGod: nf(1).format(TEK[1]) + ' mlrd €',
           tekucaGod: TEK[0] + '.',
-          rashodiMj: nf(0).format(Math.round(TEK[1] * 1000 / 12)) + ' mil. €',
-          rastDoKraja: nf(1).format(MIROVINE_FIN[MIROVINE_FIN.length - 1][1] - TEK[1]) + ' mlrd €',
           drzavaPct: pct(100 - TEK[2] / TEK[1] * 100, 0),
           doprinosiPct: pct(TEK[2] / TEK[1] * 100, 0),
           doprinosiGod: nf(1).format(TEK[2]) + ' mlrd €',
           razlikaGod: nf(1).format(TEK[1] - TEK[2]) + ' mlrd €',
-          razlikaMj: nf(0).format(Math.round((TEK[1] - TEK[2]) * 1000 / 12)) + ' mil. €',
           godine: MIROVINE_FIN.map((r) => {
             const pokr = r[2] / r[1] * 100, maxR = MIROVINE_FIN[MIROVINE_FIN.length - 1][1];
             return {
-              god: r[0] + '.', oznaka: r[3], tekuca: r[0] === TEK[0],
+              god: r[0] + '.', oznaka: r[3],
               rashodi: nf(1).format(r[1]) + ' mlrd €',
               doprinosi: nf(1).format(r[2]) + ' mlrd €',
               razlika: nf(1).format(r[1] - r[2]) + ' mlrd €',
@@ -9778,47 +9760,15 @@ class Component extends DCLogic {
       // ── 2. STUP ───────────────────────────────────────────
       s2: (() => {
         const kat = STUP2[Math.min(s.mirKat, STUP2.length - 1)];
-        const uk = kat.imovina.reduce((a, x) => a + x[1], 0) || 1;
-        const CX = 70, CY = 70, R1 = 64, R2 = 40;
-        const tp = (r, k) => [CX + r * Math.cos(k), CY + r * Math.sin(k)];
-        const PAL = s.dark ? ['#EF4444', '#FAFAFA', '#A1A1AA', '#52525B'] : ['#DC2626', '#09090B', '#71717A', '#C4C4C7'];
-        let kut = -Math.PI / 2;
-        const arcs = kat.imovina.map((x, ix) => {
-          const u = (x[1] / uk) * Math.PI * 2, doK = kut + u, vel = u > Math.PI ? 1 : 0;
-          const a = tp(R1, kut), b = tp(R1, doK), c = tp(R2, doK), d2 = tp(R2, kut), sr = kut + u / 2;
-          const dPath = u <= 0.0001 ? '' :
-            'M' + a[0].toFixed(2) + ',' + a[1].toFixed(2) + 'A' + R1 + ',' + R1 + ' 0 ' + vel + ',1 ' + b[0].toFixed(2) + ',' + b[1].toFixed(2) +
-            'L' + c[0].toFixed(2) + ',' + c[1].toFixed(2) + 'A' + R2 + ',' + R2 + ' 0 ' + vel + ',0 ' + d2[0].toFixed(2) + ',' + d2[1].toFixed(2) + 'Z';
-          kut = doK;
-          const pom = s.kosHover === ix ? 6 : 0;
-          return {
-            d: dPath, boja: PAL[ix % PAL.length], prazan: !dPath,
-            tr: 'translate(' + (Math.cos(sr) * pom).toFixed(2) + ',' + (Math.sin(sr) * pom).toFixed(2) + ')',
-            enter: () => this.setState({ kosHover: ix }), leave: () => this.setState({ kosHover: -1 })
-          };
-        }).filter((x) => !x.prazan);
-        const akt = s.kosHover >= 0 && kat.imovina[s.kosHover] ? kat.imovina[s.kosHover] : null;
         return {
-          slovo: kat.k, prinos12: pct(kat.prinos12, 2), ytd: pct(kat.ytd, 2), prinos10: pct(kat.prinos10, 1),
-          limit: kat.limit, uvjet: kat.uvjet,
-          udio: pct(kat.clanova / STUP2_UK * 100, 2), clanova: nf(0).format(kat.clanova),
-          imovinaKat: nf(1).format(kat.imovinaMil / 1000) + ' mlrd €',
-          poClanuKat: eur(kat.imovinaMil * 1e6 / kat.clanova, 0),
-          arcs: arcs,
-          sredinaVal: akt ? pct(akt[1], 1) : pct(kat.clanova / STUP2_UK * 100, 1),
-          sredinaLabel: akt ? akt[0] : 'članova u kategoriji ' + kat.k,
-          legenda: kat.imovina.map((x, ix) => ({
-            ime: x[0], udio: pct(x[1], 1), boja: PAL[ix % PAL.length],
-            op: s.kosHover < 0 || s.kosHover === ix ? '1' : '.45',
-            enter: () => this.setState({ kosHover: ix }), leave: () => this.setState({ kosHover: -1 })
-          })),
+          prinos12: pct(kat.prinos12, 2), ytd: pct(kat.ytd, 2), prinos10: pct(kat.prinos10, 1),
           tabovi: STUP2.map((x, ix) => {
             const a = s.mirKat === ix, c = seg(a);
             // mirKat ne mijenja rutu - scrollTo(0,0) uklonjen. resetHScroll()
             // TAKOĐER uklonjen: ova traka je data-seg="pok2" bez overflow-x
             // (display:flex, tri kartice flex:1, ne moze prijeci sirinu), i
             // mirovinski dio stranice nema nijedan [data-hscroll] element.
-            return { label: 'Kategorija ' + x.k, bg: c.bg, c: c.c, sh: c.sh, act: c.act, go: () => this.setState({ mirKat: ix, kosHover: -1 }) };
+            return { label: 'Kategorija ' + x.k, bg: c.bg, c: c.c, sh: c.sh, act: c.act, go: () => this.setState({ mirKat: ix }) };
           }),
           // Ilustrativna projekcija: 100 €/mj. kroz 40 godina, po prosječnom
           // desetogodišnjem MIREX prinosu svake kategorije (mjesečno ukamaćivanje).
@@ -9834,10 +9784,8 @@ class Component extends DCLogic {
           sviClanovi: nf(0).format(STUP2_UK),
           kategorije: STUP2.map((x) => ({
             slovo: x.k, udio: pct(x.clanova / STUP2_UK * 100, 2), w: (x.clanova / STUP2_UK * 100) + '%',
-            clanova: nf(0).format(x.clanova), prinos: pct(x.prinos12, 2), limit: x.limit
+            clanova: nf(0).format(x.clanova), limit: x.limit
           })),
-          mladiB: nf(0).format(STUP2_B_ISPOD55),
-          mladiPct: pct(STUP2_B_ISPOD55 / STUP2[1].clanova * 100, 0),
           // Cijena kategorije B: koliko bi ista imovina donijela u A
           // umjesto u B, mjereno razlikom desetogodišnjih prosjeka MIREX-a.
           cijena: (() => {
@@ -10147,13 +10095,11 @@ class Component extends DCLogic {
         hoverLeft: (((s.nekHover + 0.5) / (nkN || 1)) * 100).toFixed(3) + '%',
         hoverTransform: (() => { const p = ((s.nekHover + 0.5) / (nkN || 1)) * 100; return p < 18 ? 'translateX(0)' : (p > 82 ? 'translateX(-100%)' : 'translateX(-50%)'); })(),
         razdoblje: nkPrvi[0] + '. – ' + nkZadnji[0] + '.',
-        rast: pct(nkRast, 1), prosjekGod: pct(nkProsjekGod, 1),
+        prosjekGod: pct(nkProsjekGod, 1),
         indeksOd: '100', indeksDo: nf(1).format(100 * nkOmjer),
         godOd: nkPrvi[0] + '.', godDo: nkZadnji[0] + '.',
         kucaSiva: nkKucaSiva + 'px', kucaCrvena: nkKucaCrvena + 'px',
         kucaSivaW: Math.round(nkKucaSiva * 1.1) + 'px', kucaCrvenaW: Math.round(nkKucaCrvena * 1.1) + 'px',
-        stanOd: eur(NEK_PROSJEK_M2 * 50 / (nkZadnji[1] / nkPrvi[1]), 0),
-        stanDo: eur(NEK_PROSJEK_M2 * 50, 0),
         kuceNaslov: nkRast >= 0 ? 'Koliko je nekretnina poskupjela' : 'Koliko je nekretnina pojeftinila',
         rastLabel: nkRast >= 0 ? 'Ukupni rast' : 'Ukupni pad',
         rastPrikaz: nkRast >= 0 ? pct(nkRast, 1) : pct(Math.abs(nkRast), 1),

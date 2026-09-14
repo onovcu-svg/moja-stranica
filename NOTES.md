@@ -938,6 +938,9 @@ obrada. Testirati na pravom uređaju.
       2002.–2025. Postojeći niz (raspon 66–239) je stara baza. Namjerno
       odgođeno — za graf trenda baza je nebitna dok su sve točke na istoj.
       Linkovi i obrazloženje u `IZVORI.md`.
+- [ ] **`on.goPlaca` i sedam srodnih handlera** — funkcionalni skokovi na drugi
+      kalkulator, nikad zakačeni na element. `goHome` i `goHub` istog obrasca
+      jesu spojeni. Ako se prikazuju, traži dizajnersku odluku gdje i kako.
 - [ ] **Privola u beehiiv kao `custom_field`.** Serverska provjera radi
       (`d280f9f`), ali privola se ne zapisuje u beehiiv. Traži ručno kreiranje
       polja u beehiiv dashboardu prije nego kod može poslati `custom_fields`.
@@ -968,8 +971,6 @@ obrada. Testirati na pravom uređaju.
       člancima.
 - [ ] **Kontrast `--soft` u svijetloj temi** — `#71717A` na `--sec` daje 4,40:1,
       ispod AA praga. Predloženo `#52525B`. Tamna tema nema problem.
-- [ ] **Čišćenje mrtvih polja** — `STUP2[*].uvjet`, `imovina` po kategoriji s
-      izvedenima, `STUP1.prosjecnaBruto`, `mirovina40Bez`.
 
 ### Sporedno
 - Domena `onovcu.hr` istječe **13. 11. 2026.** (registrar: Hrvatski Telekom /
