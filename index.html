@@ -3388,16 +3388,16 @@
         </div>
         <div style="display:flex;gap:18px;flex-wrap:wrap;margin-top:16px;font-weight:300;font-size:12.5px;color:var(--soft)">
           <span style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;background:var(--acc);border-radius:50%"></span>Prosječna plaća</span>
-          <span style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;background:var(--soft);border-radius:50%"></span>Medijalna plaća</span>
+          <span style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;background:var(--soft);border-radius:50%"></span>Medijalna plaća (prosinac)</span>
           <span style="display:flex;align-items:center;gap:6px"><span style="width:9px;height:7px;border:1px dashed var(--line2);border-bottom:none;display:block"></span>podatak nije objavljen</span>
         </div>
-        <div style="font-weight:300;font-size:12.5px;color:var(--soft);margin-top:12px;line-height:1.55">DZS objavljuje medijalnu plaću tek od <strong style="color:var(--ink);font-weight:600">{{ pl.prvaMedijan }}</strong> godine. Za ranija razdoblja podatak ne postoji pa je na mjestu stupca isprekidana oznaka. Nije riječ o nuli, nego o tome da se veličina tada nije računala.</div>
+        <div style="font-weight:300;font-size:12.5px;color:var(--soft);margin-top:12px;line-height:1.55">DZS objavljuje medijalnu plaću isključivo mjesečno, ne kao godišnji prosjek — zato je medijan na grafu <strong style="color:var(--ink);font-weight:600">prosinačka</strong> vrijednost svake godine, dok je prosjek <strong style="color:var(--ink);font-weight:600">godišnji</strong> (iznimka je zadnji stupac: oba su za {{ pl.zadnjeMjesec }}, zadnji objavljeni mjesec). Medijan postoji tek od <strong style="color:var(--ink);font-weight:600">{{ pl.prvaMedijan }}</strong> godine; za ranija razdoblja podatak ne postoji pa je na mjestu stupca isprekidana oznaka — nije riječ o nuli.</div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:20px;padding-top:18px;border-top:1px solid var(--line)">
           <div><div style="font-weight:300;font-size:12px;color:var(--soft);margin-bottom:5px">Razdoblje</div><div style="font-weight:600;font-size:16px;letter-spacing:-.02em">{{ pl.razdoblje }}</div></div>
-          <div><div style="font-weight:300;font-size:12px;color:var(--soft);margin-bottom:5px">Rast prosjeka</div><div style="font-weight:600;font-size:16px;letter-spacing:-.02em;color:var(--acc)">{{ pl.rast }}</div><div style="font-weight:300;font-size:11px;color:var(--soft);margin-top:3px">od {{ pl.rastOd }}</div></div>
-          <div><div style="font-weight:300;font-size:12px;color:var(--soft);margin-bottom:5px">Rast medijana</div><div style="font-weight:600;font-size:16px;letter-spacing:-.02em;color:var(--acc)">{{ pl.rastMedijan }}</div><div style="font-weight:300;font-size:11px;color:var(--soft);margin-top:3px">od {{ pl.rastMedijanOd }}</div></div>
-          <div><div style="font-weight:300;font-size:12px;color:var(--soft);margin-bottom:5px">Zadnji prosjek</div><div style="font-weight:600;font-size:16px;letter-spacing:-.02em">{{ pl.zadnjaProsjek }}</div></div>
-          <div><div style="font-weight:300;font-size:12px;color:var(--soft);margin-bottom:5px">Zadnji medijan</div><div style="font-weight:600;font-size:16px;letter-spacing:-.02em">{{ pl.zadnjaMedijan }}</div></div>
+          <div><div style="font-weight:300;font-size:12px;color:var(--soft);margin-bottom:5px">Rast prosjeka</div><div style="font-weight:600;font-size:16px;letter-spacing:-.02em;color:var(--acc)">{{ pl.rast }}</div><div style="font-weight:300;font-size:11px;color:var(--soft);margin-top:3px">{{ pl.rastOd }}-{{ pl.rastDo }}</div></div>
+          <div><div style="font-weight:300;font-size:12px;color:var(--soft);margin-bottom:5px">Rast medijana</div><div style="font-weight:600;font-size:16px;letter-spacing:-.02em;color:var(--acc)">{{ pl.rastMedijan }}</div><div style="font-weight:300;font-size:11px;color:var(--soft);margin-top:3px">{{ pl.rastMedijanOd }} - {{ pl.rastMedijanDo }}</div></div>
+          <div><div style="font-weight:300;font-size:12px;color:var(--soft);margin-bottom:5px">Zadnji prosjek</div><div style="font-weight:600;font-size:16px;letter-spacing:-.02em">{{ pl.zadnjaProsjek }}</div><div style="font-weight:300;font-size:11px;color:var(--soft);margin-top:3px">{{ pl.zadnjaProsjekTip }}</div></div>
+          <div><div style="font-weight:300;font-size:12px;color:var(--soft);margin-bottom:5px">Zadnji medijan</div><div style="font-weight:600;font-size:16px;letter-spacing:-.02em">{{ pl.zadnjaMedijan }}</div><div style="font-weight:300;font-size:11px;color:var(--soft);margin-top:3px">{{ pl.zadnjaMedijanTip }}</div></div>
         </div>
         <sc-if value="{{ pl.imaMedijan }}">
         <div style="font-weight:300;font-size:12.5px;color:var(--soft);margin-top:14px;line-height:1.55">Razlika prosjeka i medijana iznosi <strong style="color:var(--ink);font-weight:600">{{ pl.jaz }}</strong> ili {{ pl.jazPct }} prosjeka. Prosjek podižu najviše plaće, pa je medijan bolji pokazatelj onoga što zarađuje tipičan zaposlenik.</div>
@@ -5794,7 +5794,7 @@ const POK_KAT = {
     bluf: 'Prosječna neto plaća u Hrvatskoj iznosi {PL_PROSJEK}, a medijalna {PL_MEDIJAN}. Polovica zaposlenih zarađuje manje od medijalnog iznosa.',
     stat: [
       { val: '{PL_PROSJEK}', label: 'Prosječna neto plaća', sub: 'mjesečno · {RAZD_PLACE}', d: 0 },
-      { val: '{PL_MEDIJAN}', label: 'Medijalna neto plaća', sub: 'polovica zaposlenih zarađuje manje', d: 5 },
+      { val: '{PL_MEDIJAN}', label: 'Medijalna neto plaća', sub: 'mjesečno · {RAZD_PLACE} · polovica zaposlenih zarađuje manje', d: 5 },
       { val: '2.184,00 €', label: 'Prosječna bruto plaća', sub: 'Bruto 1, mjesečno', d: -2 },
       { val: '1.050,00 €', label: 'Minimalna bruto plaća', sub: 'zakonski minimum za 2026.', d: 0 }
     ]
@@ -5882,7 +5882,7 @@ const POK_FAQ_INF = [
 
 // FAQ za kategoriju Plaće. Ostale kategorije koriste POK_FAQ.
 const POK_FAQ_PLACE = [
-  { p: 'Što znači medijalna plaća?', o: 'Medijalna plaća je iznos koji dijeli sve zaposlene točno na pola: polovica zarađuje manje, a polovica više od tog iznosa. Medijalna neto plaća u Hrvatskoj iznosi {PL_MEDIJAN}, dok je prosječna {PL_PROSJEK}.' },
+  { p: 'Što znači medijalna plaća?', o: 'Medijalna plaća je iznos koji dijeli sve zaposlene točno na pola: polovica zarađuje manje, a polovica više od tog iznosa. Medijalna neto plaća u Hrvatskoj iznosi {PL_MEDIJAN}, dok je prosječna {PL_PROSJEK} ({RAZD_PLACE}).' },
   { p: 'Koji mi je korisniji pokazatelj, prosječna ili medijalna plaća?', o: 'Za procjenu vlastite plaće u odnosu na tržište korisnija je medijalna, jer pokazuje kako zarađuje „tipičan" zaposlenik. Prosjek je koristan za makroekonomske usporedbe (npr. rast plaća kroz godine), ali ga malen broj vrlo visokih plaća može odvući prema gore.' },
   { p: 'Što govori razlika između prosječne i medijalne plaće?', o: 'Što je razlika veća, to su plaće neravnomjernije raspoređene, odnosno veći je jaz između manjine s visokim plaćama i većine ostalih. Trenutna razlika u Hrvatskoj iznosi {PL_RAZLIKA}.' },
 ];
@@ -6156,17 +6156,29 @@ const ZADNJE_HNB = 'srpanj 2026.';
 // Zadnje objavljeno mjesečno izvješće HANFA-e (mi-08_26.xlsx = podaci za srpanj).
 const ZADNJE_HANFA = 'srpanj 2026.';
 
-// Plaće po godinama (DZS): godišnji prosjek; zadnja godina je zadnji objavljeni mjesec.
-// Medijalna plaća objavljuje se tek od 2016., ranije godine imaju null.
-// [godina, neto prosjek, neto medijan, bruto prosjek, bruto medijan]
+// Plaće po godinama (DZS): prosjek (neto/bruto) je GODIŠNJI prosjek, izravno
+// iz DZS-ovih godišnjih priopćenja (Narodne novine 2010.-2022., izravno u
+// eurima 2023.-2025.). Medijan (neto/bruto) je PROSINAČKA vrijednost te
+// godine, ne godišnji prosjek - DZS medijalnu plaću objavljuje isključivo
+// mjesečno, nikad kao godišnji prosjek (provjereno u svih 7 godišnjih
+// priopćenja 2016.-2022. - nijedno je ne spominje). Ranije godine (do 2015.)
+// imaju null jer medijan tada još nije postojao.
+// Zadnja godina (2026.) je zadnji objavljeni MJESEC (lipanj), ne godišnji
+// prosjek ni prosinac - vidi PLACE_GOD_NEPUNA/PLACE_PUNE niže.
+// [godina, neto prosjek, neto medijan (prosinac), bruto prosjek, bruto medijan (prosinac)]
 const PLACE_GOD = [
-  [2010, 709, null, 995, null], [2011, 715, null, 1004, null], [2012, 719, null, 1009, null],
-  [2013, 727, null, 1021, null], [2014, 731, null, 1026, null], [2015, 758, null, 1064, null],
-  [2016, 776, 671, 1089, 937], [2017, 790, 683, 1109, 954], [2018, 823, 712, 1155, 993],
-  [2019, 861, 745, 1209, 1040], [2020, 894, 773, 1255, 1079], [2021, 941, 814, 1321, 1136],
-  [2022, 1002, 867, 1407, 1210], [2023, 1131, 978, 1588, 1366], [2024, 1265, 1094, 1776, 1527],
-  [2025, 1350, 1168, 1895, 1630], [2026, 1555, 1345, 2184, 1850]
+  [2010, 709, null, 1019, null], [2011, 722, null, 1035, null], [2012, 727, null, 1045, null],
+  [2013, 732, null, 1053, null], [2014, 734, null, 1055, null], [2015, 758, null, 1069, null],
+  [2016, 755, 653, 1029, 859], [2017, 794, 716, 1069, 894], [2018, 828, 720, 1121, 933],
+  [2019, 857, 752, 1163, 981], [2020, 897, 781, 1223, 1011], [2021, 946, 813, 1274, 1065],
+  [2022, 1016, 877, 1380, 1161], [2023, 1148, 1005, 1584, 1334], [2024, 1318, 1156, 1821, 1559],
+  [2025, 1449, 1280, 2016, 1749], [2026, 1555, 1345, 2184, 1850]
 ];
+// Zadnji redak je zadnji objavljeni mjesec, ne godišnji prosjek ni prosinac -
+// ne ulazi u izračun rasta (usporedivao bi godišnji prosjek/prosinac s jednim
+// mjesecom). Isti obrazac kao HPI_PUNE (nekretnine, e445976).
+const PLACE_GOD_NEPUNA = 2026;
+const PLACE_PUNE = PLACE_GOD.filter((r) => r[0] !== PLACE_GOD_NEPUNA);
 
 // Struktura potrošačke košarice: 13 skupina po ECOICOP, ver. 2.
 // SVE VRIJEDNOSTI SU OBJAVLJENE, NIŠTA SE NE IZVODI UNATRAG.
@@ -8638,6 +8650,9 @@ class Component extends DCLogic {
     const plGodOd = Math.max(PL_PRVA, Math.min(PL_ZADNJA, Math.round(this.num(s.plOd, PL_PRVA))));
     const plGodDo = Math.max(plGodOd, Math.min(PL_ZADNJA, Math.round(this.num(s.plDo, PL_ZADNJA))));
     const PLACE_SEL = PLACE_GOD.filter((r) => r[0] >= plGodOd && r[0] <= plGodDo);
+    // Za izracun rasta: isti raspon bez nepunog zadnjeg retka (lipanj) - vidi
+    // PLACE_GOD_NEPUNA. Graf/tooltip/"Zadnji..." i dalje koriste PLACE_SEL.
+    const PLACE_SEL_PUNE = PLACE_SEL.filter((r) => r[0] !== PLACE_GOD_NEPUNA);
     const plVrh = Math.max.apply(null, PLACE_SEL.map((r) => (jeNeto ? r[1] : r[3])));
     const plOsMax = Math.ceil(plVrh / 100) * 100;
     const plGridLines = [1, 0.5].map((f) => ({ top: (100 - f * 100).toFixed(1) + '%', val: eur(plOsMax * f, 0) }));
@@ -8645,18 +8660,31 @@ class Component extends DCLogic {
     const plChart = PLACE_SEL.map((r, ix) => {
       const pr = jeNeto ? r[1] : r[3], me = jeNeto ? r[2] : r[4];
       const imaM = me != null;
+      // Zadnji redak (lipanj) - prosjek i medijan su ISTI mjesec, bez oznaka.
+      // Ostale godine - prosjek je godisnji, medijan prosinacki, moraju to reci.
+      const jeNepuna = r[0] === PLACE_GOD_NEPUNA;
       return {
         hP: (pr / plOsMax * 100).toFixed(1) + '%', hM: imaM ? (me / plOsMax * 100).toFixed(1) + '%' : '0%',
         imaM: imaM, nemaM: !imaM,
         label: osLbl(ix, plN, r[0], ix === plN - 1, ZADNJE_PLACE), align: osAlign(ix, plN),
-        tip: (ix === plN - 1 ? ZADNJE_PLACE : r[0] + '.') + ', prosjek ' + eur(pr, 0) + (imaM ? ', medijan ' + eur(me, 0) : ', medijan nije objavljen'),
+        tip: jeNepuna
+          ? ZADNJE_PLACE + ', prosjek ' + eur(pr, 0) + (imaM ? ', medijan ' + eur(me, 0) : ', medijan nije objavljen')
+          : r[0] + '., prosjek (godišnji) ' + eur(pr, 0) + (imaM ? ', medijan (prosinac) ' + eur(me, 0) : ', medijan nije objavljen'),
         op: s.placeHover < 0 || s.placeHover === ix ? '1' : '.45',
         enter: () => this.setState({ placeHover: ix }), leave: () => this.setState({ placeHover: -1 })
       };
     });
     const plAkt = s.placeHover >= 0 && s.placeHover < plN ? PLACE_SEL[s.placeHover] : null;
     const plPrvi = PLACE_SEL[0], plZadnji = PLACE_SEL[plN - 1];
-    const plRast = ((jeNeto ? plZadnji[1] / plPrvi[1] : plZadnji[3] / plPrvi[3]) - 1) * 100;
+    // Rast prosjeka: NIKAD ne usporeduje godisnji prosjek sa zadnjim (nepunim)
+    // mjesecom - koristi PLACE_SEL_PUNE, ne PLACE_SEL. Ako odabrani raspon
+    // ukljucuje 2026., izracun staje na zadnjoj punoj godini; "Zadnji prosjek"
+    // (plZadnji, gore) i dalje pokazuje stvarno odabranu godinu.
+    const plPrviPune = PLACE_SEL_PUNE[0] || null;
+    const plZadnjiPune = PLACE_SEL_PUNE.length ? PLACE_SEL_PUNE[PLACE_SEL_PUNE.length - 1] : null;
+    const plRast = (plPrviPune && plZadnjiPune)
+      ? ((jeNeto ? plZadnjiPune[1] / plPrviPune[1] : plZadnjiPune[3] / plPrviPune[3]) - 1) * 100
+      : null;
     // Medijan se mjeri od prve godine u kojoj je objavljen, ne od početka serije.
     const plPrviMed = PLACE_SEL.filter((r) => r[2] != null)[0] || PLACE_SEL[0];
     // Medijan postoji tek od 2016. (vidi PLACE_GOD) - kad klizac "Do" povuce
@@ -8667,8 +8695,17 @@ class Component extends DCLogic {
     const plZadnjiMed = jeNeto ? plZadnji[2] : plZadnji[4];
     const plPrviMedVal = jeNeto ? plPrviMed[2] : plPrviMed[4];
     const plImaMedijan = plZadnjiMed != null && plPrviMedVal != null;
-    const plRastMed = plImaMedijan ? ((jeNeto ? plZadnji[2] / plPrviMed[2] : plZadnji[4] / plPrviMed[4]) - 1) * 100 : null;
     const plJaz = plImaMedijan ? (jeNeto ? plZadnji[1] - plZadnji[2] : plZadnji[3] - plZadnji[4]) : null;
+    // Rast medijana: isti razlog kao plRast, PLUS medijan nosi PROSINACKE
+    // vrijednosti (2016.-2025.) dok je zadnji redak lipanj - bez ovoga bi rast
+    // usporedio prosinac s lipnjem, dvije razlicite mjere u istoj brojci.
+    // Racuna se iskljucivo unutar PLACE_SEL_PUNE.
+    const plPrviMedPune = PLACE_SEL_PUNE.filter((r) => r[2] != null)[0] || null;
+    const plZadnjiMedPune = [...PLACE_SEL_PUNE].reverse().find((r) => r[2] != null) || null;
+    const plImaMedijanRast = !!(plPrviMedPune && plZadnjiMedPune);
+    const plRastMed = plImaMedijanRast
+      ? ((jeNeto ? plZadnjiMedPune[2] / plPrviMedPune[2] : plZadnjiMedPune[4] / plPrviMedPune[4]) - 1) * 100
+      : null;
 
     // ── KAMATNE STOPE (HNB, mjesecne serije) ─────────────────
     const KS_PRVA = KS_OD[0], KS_ZADNJA_G = KS_OD[0] + Math.floor((KS_OD[1] - 1 + KS_MJ - 1) / 12);
@@ -10142,21 +10179,29 @@ class Component extends DCLogic {
         chart: plChart, gridLines: plGridLines, naslov: jeNeto ? 'Neto plaća po godinama' : 'Bruto plaća po godinama',
         hoverAktivan: !!plAkt,
         hoverTxt: plAkt
-          ? (s.placeHover === plN - 1 ? ZADNJE_PLACE : plAkt[0] + '.') + ', prosjek ' + eur(jeNeto ? plAkt[1] : plAkt[3], 0)
-            + ((jeNeto ? plAkt[2] : plAkt[4]) != null ? ' · medijan ' + eur(jeNeto ? plAkt[2] : plAkt[4], 0) : ' · medijan nije objavljen')
+          ? (s.placeHover === plN - 1
+              ? ZADNJE_PLACE + ', prosjek ' + eur(jeNeto ? plAkt[1] : plAkt[3], 0)
+                + ((jeNeto ? plAkt[2] : plAkt[4]) != null ? ' · medijan ' + eur(jeNeto ? plAkt[2] : plAkt[4], 0) : ' · medijan nije objavljen')
+              : plAkt[0] + '., prosjek (godišnji) ' + eur(jeNeto ? plAkt[1] : plAkt[3], 0)
+                + ((jeNeto ? plAkt[2] : plAkt[4]) != null ? ' · medijan (prosinac) ' + eur(jeNeto ? plAkt[2] : plAkt[4], 0) : ' · medijan nije objavljen'))
           : '',
         prvaMedijan: PLACE_GOD.filter((r) => r[2] != null)[0][0] + '.',
+        zadnjeMjesec: ZADNJE_PLACE,
         od: plGodOd + '.', do: plGodDo + '.', odNum: plGodOd, doNum: plGodDo,
         minGod: PL_PRVA, maxGod: PL_ZADNJA,
         hoverLeft: (((s.placeHover + 0.5) / (plN || 1)) * 100).toFixed(3) + '%',
         hoverTransform: (() => { const p = ((s.placeHover + 0.5) / (plN || 1)) * 100; return p < 18 ? 'translateX(0)' : (p > 82 ? 'translateX(-100%)' : 'translateX(-50%)'); })(),
         razdoblje: plPrvi[0] + '. – ' + plZadnji[0] + '.',
-        rast: pct(plRast, 1), rastMedijan: plImaMedijan ? pct(plRastMed, 1) : '–',
-        rastOd: plPrvi[0] + '.', rastMedijanOd: plPrviMed[0] + '.',
+        rast: plRast != null ? pct(plRast, 1) : '–', rastMedijan: plImaMedijanRast ? pct(plRastMed, 1) : '–',
+        rastOd: plPrviPune ? plPrviPune[0] + '.' : '–', rastDo: plZadnjiPune ? plZadnjiPune[0] + '.' : '–',
+        rastMedijanOd: plPrviMedPune ? 'prosinac ' + plPrviMedPune[0] + '.' : '–',
+        rastMedijanDo: plZadnjiMedPune ? 'prosinac ' + plZadnjiMedPune[0] + '.' : '–',
         imaMedijan: plImaMedijan, nemaMedijan: !plImaMedijan,
         jaz: eur(plJaz, 2), jazPct: pct(plJaz / (jeNeto ? plZadnji[1] : plZadnji[3]) * 100, 1),
         zadnjaProsjek: eur(jeNeto ? plZadnji[1] : plZadnji[3], 2),
-        zadnjaMedijan: plZadnjiMed == null ? '–' : eur(plZadnjiMed, 2)
+        zadnjaProsjekTip: plZadnji[0] === PLACE_GOD_NEPUNA ? ZADNJE_PLACE : plZadnji[0] + '., godišnji prosjek',
+        zadnjaMedijan: plZadnjiMed == null ? '–' : eur(plZadnjiMed, 2),
+        zadnjaMedijanTip: plZadnjiMed == null ? '' : (plZadnji[0] === PLACE_GOD_NEPUNA ? ZADNJE_PLACE : plZadnji[0] + '., prosinac')
       },
       pokOd: String(godOd), pokDo: String(godDo), pokOdNum: godOd, pokDoNum: godDo,
       pov: {

@@ -944,14 +944,6 @@ obrada. Testirati na pravom uređaju.
 - [ ] **Rate limit s dijeljenim stanjem.** In-memory `Map` ne preživljava
       hladne startove. Provjeriti ima li Vercel Hobby platformski rate limit —
       to bi bilo rješenje bez koda i bez novog izvršitelja obrade.
-- [ ] **Provjeriti cijeli PLACE_GOD niz protiv izvornih DZS priopćenja.**
-      Uočeno 8.9.2026: 2011. odstupa 7 €, 2012. odstupa 8 €, 2013. odstupa
-      5 € od objavljenih vrijednosti preračunatih po fiksnom tečaju
-      (7,53450 kn/€). Uzorak nije čist jednogodišnji pomak, pa može biti
-      metodološki prekid ili izveden niz. Blog članak "Živimo li bolje nego
-      2013." navodi 728 € za 2012., što je bliže izvoru (727 €) od
-      konstante (719 €).
-      PLACE_GOD je izvor za graf i sve izvedene brojke na /pokazatelji/place.
 - [ ] **Prava 404 stranica.** Soft-404 na dvosegmentnim rutama vraća 200 s
       djelomičnim sadržajem — loše za korisnika i za indeksiranje. Vidi §5.
 - [ ] **Neovisno otvaranje FAQ-a po grupi.** `faqSveOpen` je jedna dijeljena

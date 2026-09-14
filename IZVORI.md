@@ -63,6 +63,42 @@ Zadnja potpuna provjera: 21. 8. 2026. (inflacija ažurirana 19. 8. 2026. na srpa
   https://mrosp.gov.hr/vijesti/minimalna-placa-za-2026-godinu-1-050-eura-bruto/13826
   Mijenja se jednom godišnje, uredbom u listopadu za sljedeću godinu.
 - Napomena: od siječnja 2026. podaci se iskazuju prema NKD-u 2025.
+- **`PLACE_GOD` (godišnji niz 2010.-2026., graf na `/pokazatelji/place`)
+  zamijenjen stvarnim DZS vrijednostima 14.9.2026., nakon što je nalaz
+  8.9.2026. pokazao da je bio dijelom izveden, ne prepisan.**
+  Prosjek (neto i bruto) je **godišnji prosjek**, iz DZS-ovih godišnjih
+  priopćenja: Narodne novine za 2010.-2022. (kune, preračunato po fiksnom
+  tečaju 7,53450 kn/€), izravno u eurima za 2023.-2025. Provjereno za svih
+  16 godina, primarni izvor za svaku.
+  Medijan (neto i bruto, 2016.-2025.) je **prosinačka** vrijednost te godine,
+  ne godišnji prosjek — **DZS medijalnu plaću ne objavljuje kao godišnji
+  prosjek, samo mjesečno.** Provjereno u svih 7 godišnjih priopćenja
+  2016.-2022. (nijedno je ne spominje) i u godišnjim objavama 2023.-2025.
+  (isto). Medijan je zato uzet iz DZS-ovih PROSINAČKIH mjesečnih objava,
+  svih 10 godina, primarni izvor za svaku (arhiva `web.dzs.hr` za
+  2016.-2022., `podaci.dzs.hr`/`dzs.gov.hr` izravno u eurima za
+  2023.-2025.). Ovo je sad i eksplicitno označeno na portalu (graf, tooltip,
+  kartice, FAQ), gdje je prije bilo predstavljeno kao da je iste vrste kao
+  prosjek.
+  Zadnji redak (2026.) ostaje zadnji objavljeni mjesec (lipanj), nedirano —
+  već potvrđeno u ovom fileu iznad.
+  **Prijašnje vrijednosti bile su dijelom izvedene, ne prepisane:** omjer
+  neto/bruto (prosjek) bio je 0,7120-0,7126 kroz svih 17 godina niza — dok
+  stvaran DZS omjer u istim tim godinama varira 0,696-0,736 (dvije porezne
+  reforme). Isti potpis kod bruto medijana (omjer 0,716-0,717 naspram
+  stvarnog 0,849-0,857). Zaključak: bruto stupac (prosjek i medijan) nije bio
+  neovisno preuzet od DZS-a nego računat kao `neto × ~1,404`. Neto stupac je
+  bio jednom prepisan pa otad zastario bez ponovne provjere — 2010. je
+  gotovo točno pogodio izvor, ali odstupanje raste kroz godine i posebno
+  ubrzava 2022.-2025. (2024. odstupao 53 €, 2025. čak 99 €).
+  Uveden `PLACE_GOD_NEPUNA`/`PLACE_PUNE` (isti obrazac kao `HPI_GOD_NEPUNA`/
+  `HPI_PUNE` kod nekretnina): zadnji redak ne ulazi u izračun "Rast
+  prosjeka"/"Rast medijana", jer bi usporedio godišnji prosjek (ili
+  prosinac) s jednim mjesecom. Rast prosjeka sad ide 2010.-2025.: **104,4 %**
+  (bilo 119,3 %, staro poklapanje bilo je slučajno, ne metodom — oba kraja
+  starog niza bila su gotovo točna pa je greška u sredini niza bila
+  nevidljiva u ovom izračunu). Rast medijana ide prosinac 2016.-prosinac
+  2025.: **96,0 %** (bilo 100,4 %, i miješalo je prosinac s lipnjem).
 - **ODLUKA (19.8.2026): tablica SEKTORI (plaće po djelatnostima) uklonjena je
   u cijelosti.** Od 21 vrijednosti samo 2 su bile objavljene (dva ekstrema iz
   DZS vijesti), 1 je bila u izravnoj suprotnosti s izvorom (farmaceutska
