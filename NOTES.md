@@ -388,6 +388,17 @@ Zadnje ažuriranje: 3. 9. 2026., 14:43
 - **`overflow: clip` reže obje osi.** Kad se štiti samo vodoravno širenje,
   koristi `overflow-x: clip`. Shorthand je 20.8. odsjekao tooltip na desktopu
   (`d506ea7` → `72ed82f`).
+- **--soft je #696972 u svijetloj temi** (4,94:1 na --sec, 5,43:1 na --bg).
+  Prijašnji #71717A davao je 4,40:1 na --sec, ispod AA praga za sitan tekst.
+  Tamna tema (#A1A1AA) nije mijenjana — 7,76:1 ima rezervu, a tamnjenje bi
+  hijerarhiju spustilo ispod korisne razine.
+- **Boja pomoćnog teksta postoji na TRI mjesta**, bez zajedničkog izvora:
+  CSS varijabla `--soft`, JS konstanta `SOFT` (7942, boji neaktivne tabove i
+  čipove kroz `seg()`), i PDF predložak (oko 4334–4468, deset literala).
+  Sva tri su 8.9.2026. postavljena na `#696972` za svijetlu temu. Pri svakoj
+  budućoj promjeni provjeri sva tri — nema mehanizma koji ih drži usklađenima.
+  Boje grafova koje koriste istu nijansu (8877, 9372, 9488) NISU pomoćni tekst
+  i namjerno se ne mijenjaju.
 
 ### Sadržaj
 - Kontakt uklonjen iz mobilnog izbornika, radi simetrije s desktopom. Forma
@@ -967,8 +978,7 @@ obrada. Testirati na pravom uređaju.
       svakoj ruti, što Google tretira kao obmanjujuće strukturirane podatke —
       kazna gasi rich results za cijelu domenu, ne samo za pogođenu stranicu.
       Uz to datePublished traži parser za hrvatski datum, koji ne postoji.
-- [ ] **Kontrast `--soft` u svijetloj temi** — `#71717A` na `--sec` daje 4,40:1,
-      ispod AA praga. Predloženo `#52525B`. Tamna tema nema problem.
+- [x] Kontrast `--soft` u svijetloj temi — riješeno, `#696972` (vidi §3).
 
 ### Sporedno
 - Domena `onovcu.hr` istječe **13. 11. 2026.** (registrar: Hrvatski Telekom /

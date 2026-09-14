@@ -55,8 +55,8 @@
   body { background: #FFF; color: #09090B; font-family: "Saira", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
   /* Iste varijable i na :root: ako klasa na korijenskom elementu iz bilo kojeg
      razloga izostane (Safari, offline paket), boje i dalje postoje. */
-  :root, html, body { --bg:#FFFFFF; --sec:#F4F4F5; --card:#FFFFFF; --field:#FFFFFF; --ink:#09090B; --soft:#71717A; --line:#E4E4E7; --line2:#D4D4D8; --acc:#DC2626; --tint:#FEF2F2; --inv:#09090B; --invInk:#FAFAFA; --invSoft:#A1A1AA; --invLine:#27272A; --sh:0 1px 2px rgba(9,9,11,.04),0 8px 30px rgba(9,9,11,.06); --shUp:0 2px 6px rgba(9,9,11,.06),0 18px 50px rgba(9,9,11,.10); color-scheme: light; }
-  .on-root { --bg:#FFFFFF; --sec:#F4F4F5; --card:#FFFFFF; --field:#FFFFFF; --ink:#09090B; --soft:#71717A; --line:#E4E4E7; --line2:#D4D4D8; --acc:#DC2626; --tint:#FEF2F2; --inv:#09090B; --invInk:#FAFAFA; --invSoft:#A1A1AA; --invLine:#27272A; --sh:0 1px 2px rgba(9,9,11,.04),0 8px 30px rgba(9,9,11,.06); --shUp:0 2px 6px rgba(9,9,11,.06),0 18px 50px rgba(9,9,11,.10); color-scheme: light; }
+  :root, html, body { --bg:#FFFFFF; --sec:#F4F4F5; --card:#FFFFFF; --field:#FFFFFF; --ink:#09090B; --soft:#696972; --line:#E4E4E7; --line2:#D4D4D8; --acc:#DC2626; --tint:#FEF2F2; --inv:#09090B; --invInk:#FAFAFA; --invSoft:#A1A1AA; --invLine:#27272A; --sh:0 1px 2px rgba(9,9,11,.04),0 8px 30px rgba(9,9,11,.06); --shUp:0 2px 6px rgba(9,9,11,.06),0 18px 50px rgba(9,9,11,.10); color-scheme: light; }
+  .on-root { --bg:#FFFFFF; --sec:#F4F4F5; --card:#FFFFFF; --field:#FFFFFF; --ink:#09090B; --soft:#696972; --line:#E4E4E7; --line2:#D4D4D8; --acc:#DC2626; --tint:#FEF2F2; --inv:#09090B; --invInk:#FAFAFA; --invSoft:#A1A1AA; --invLine:#27272A; --sh:0 1px 2px rgba(9,9,11,.04),0 8px 30px rgba(9,9,11,.06); --shUp:0 2px 6px rgba(9,9,11,.06),0 18px 50px rgba(9,9,11,.10); color-scheme: light; }
   .on-root.on-dark { --bg:#09090B; --sec:#18181B; --card:#18181B; --field:#09090B; --ink:#FAFAFA; --soft:#A1A1AA; --line:#27272A; --line2:#3F3F46; --acc:#EF4444; --tint:#2A1517; --inv:#18181B; --invInk:#FAFAFA; --invSoft:#A1A1AA; --invLine:#3F3F46; --sh:0 1px 2px rgba(0,0,0,.5),0 8px 30px rgba(0,0,0,.4); --shUp:0 2px 6px rgba(0,0,0,.6),0 18px 50px rgba(0,0,0,.55); color-scheme: dark; }
   /* Tema PRIJE prvog rendera: postavlja se na <html> inline skriptom u <head>
      (localStorage ili prefers-color-scheme), prije nego support.js uopce
@@ -4331,20 +4331,20 @@
             <img src="/assets/logotype-on-light.png" alt="O novcu" style="height:42px;width:auto;display:block">
             <div style="text-align:right">
               <div style="font-weight:700;font-size:19px;letter-spacing:-.03em">{{ pdf.naslov }}</div>
-              <div style="font-weight:400;font-size:11px;color:#71717A;margin-top:4px">Izrađeno {{ pdf.kad }}</div>
-              <div style="font-weight:400;font-size:11px;color:#71717A">onovcu.hr · kalkulatori</div>
+              <div style="font-weight:400;font-size:11px;color:#696972;margin-top:4px">Izrađeno {{ pdf.kad }}</div>
+              <div style="font-weight:400;font-size:11px;color:#696972">onovcu.hr · kalkulatori</div>
             </div>
           </div>
 
           <div class="on-pdf-block" style="margin-top:20px;padding:20px 22px;background:#FEF2F2;border:1px solid #DC2626;border-radius:12px">
             <div style="display:flex;gap:24px;flex-wrap:wrap">
               <div style="flex:1.2;min-width:170px">
-                <div style="font-weight:400;font-size:11px;color:#71717A;margin-bottom:5px">{{ pdf.rataLabel }}</div>
+                <div style="font-weight:400;font-size:11px;color:#696972;margin-bottom:5px">{{ pdf.rataLabel }}</div>
                 <div style="font-weight:700;font-size:{{ pdf.rataSize }};letter-spacing:-.04em;line-height:1;color:#DC2626;white-space:nowrap">{{ pdf.rata }}</div>
               </div>
               <sc-for list="{{ pdf.male }}" as="m" hint-placeholder-count="3">
                 <div style="flex:1;min-width:118px">
-                  <div style="font-weight:400;font-size:11px;color:#71717A;margin-bottom:5px">{{ m.l }}</div>
+                  <div style="font-weight:400;font-size:11px;color:#696972;margin-bottom:5px">{{ m.l }}</div>
                   <div style="font-weight:700;font-size:19px;letter-spacing:-.03em;white-space:nowrap">{{ m.v }}</div>
                 </div>
               </sc-for>
@@ -4386,8 +4386,8 @@
           <div class="on-pdf-block" style="margin-top:24px">
             <div style="font-weight:600;font-size:10.5px;letter-spacing:.08em;color:#DC2626;padding-bottom:7px;border-bottom:1px solid #E4E4E7">{{ pdf.usporedba.naslov }}</div>
             <div style="font-weight:400;font-size:12px;line-height:1.5;margin-top:10px">{{ pdf.usporedba.recenica }}</div>
-            <div style="font-weight:400;font-size:10.5px;color:#71717A;margin-top:8px">{{ pdf.usporedba.pretpostavke }}</div>
-            <div style="display:flex;gap:10px;padding:8px 0;margin-top:10px;border-bottom:1px solid #09090B;font-weight:600;font-size:10.5px;color:#71717A;letter-spacing:.02em">
+            <div style="font-weight:400;font-size:10.5px;color:#696972;margin-top:8px">{{ pdf.usporedba.pretpostavke }}</div>
+            <div style="display:flex;gap:10px;padding:8px 0;margin-top:10px;border-bottom:1px solid #09090B;font-weight:600;font-size:10.5px;color:#696972;letter-spacing:.02em">
               <span style="flex:1.5">{{ pdf.usporedba.c0 }}</span>
               <span style="flex:1;text-align:right">{{ pdf.usporedba.c1 }}</span>
               <span style="flex:1;text-align:right">{{ pdf.usporedba.c2 }}</span>
@@ -4414,7 +4414,7 @@
                 </div>
               </sc-for>
               <sc-if value="{{ sek.imaNota }}">
-                <div style="font-weight:400;font-size:10.5px;color:#71717A;margin-top:8px;line-height:1.5">{{ sek.nota }}</div>
+                <div style="font-weight:400;font-size:10.5px;color:#696972;margin-top:8px;line-height:1.5">{{ sek.nota }}</div>
               </sc-if>
             </div>
           </sc-for>
@@ -4422,7 +4422,7 @@
           <sc-if value="{{ pdf.imaTabela }}">
           <div style="margin-top:24px">
             <div class="on-pdf-block" style="font-weight:600;font-size:10.5px;letter-spacing:.08em;color:#DC2626;padding-bottom:7px;border-bottom:1px solid #E4E4E7">{{ pdf.tabela.naslov }}</div>
-            <div class="on-pdf-block" style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid #09090B;font-weight:600;font-size:10.5px;color:#71717A;letter-spacing:.02em">
+            <div class="on-pdf-block" style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid #09090B;font-weight:600;font-size:10.5px;color:#696972;letter-spacing:.02em">
               <span style="flex:1.3">{{ pdf.tabela.c0 }}</span>
               <span style="flex:1;text-align:right">{{ pdf.tabela.c1 }}</span>
               <span style="flex:1;text-align:right">{{ pdf.tabela.c2 }}</span>
@@ -4438,7 +4438,7 @@
                 <span style="flex:1.05;text-align:right;font-weight:600;white-space:nowrap">{{ t.e }}</span>
               </div>
             </sc-for>
-            <div style="font-weight:400;font-size:10.5px;color:#71717A;margin-top:8px;line-height:1.5">{{ pdf.tabela.nota }}</div>
+            <div style="font-weight:400;font-size:10.5px;color:#696972;margin-top:8px;line-height:1.5">{{ pdf.tabela.nota }}</div>
           </div>
           </sc-if>
 
@@ -4465,7 +4465,7 @@
             <strong style="color:#09090B;font-weight:600">Napomena.</strong> Izračun je informativan i ne predstavlja financijski, investicijski ni porezni savjet. Ne uključuje naknade banke (obrada kredita, procjena nekretnine, javnobilježnički trošak, police osiguranja) niti efektivnu kamatnu stopu pa je stvarni trošak kredita viši od prikazanog. Stope označene kao pretpostavka nisu objavljeni podaci nego vrijednosti koje si sam unio. Prije potpisa usporedi izračun s ponudom banke i s otplatnim planom koji ti banka izdaje.
           </div>
 
-          <div style="margin-top:20px;padding-top:12px;border-top:2px solid #09090B;display:flex;justify-content:space-between;gap:16px;font-weight:400;font-size:10px;color:#71717A">
+          <div style="margin-top:20px;padding-top:12px;border-top:2px solid #09090B;display:flex;justify-content:space-between;gap:16px;font-weight:400;font-size:10px;color:#696972">
             <span>O novcu · onovcu.hr</span>
             <span>{{ pdf.kad }}</span>
           </div>
@@ -7939,7 +7939,7 @@ class Component extends DCLogic {
     const ACC = s.dark ? '#EF4444' : '#DC2626';
     const INK = s.dark ? '#FAFAFA' : '#09090B';
     const CARD = s.dark ? '#18181B' : '#FFFFFF';
-    const SOFT = s.dark ? '#A1A1AA' : '#71717A';
+    const SOFT = s.dark ? '#A1A1AA' : '#696972';
     const LINE = s.dark ? '#27272A' : '#E4E4E7';
     const navC = (t) => (s.tab === t ? ACC : INK);
     const seg = (a) => ({ c: a ? '#FFF' : SOFT, act: a ? '1' : '0', bg: a ? ACC : 'transparent', sh: a ? '0 1px 6px rgba(220,38,38,.35)' : 'none' });
