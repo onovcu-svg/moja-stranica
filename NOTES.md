@@ -933,11 +933,6 @@ obrada. Testirati na pravom uređaju.
       Trenutno se članci i videi dodaju ručno u `index.html`.
 - [ ] Živi podaci HNB/DZS — scraping ruta + cache
 - [ ] PDF u prilogu maila — odgođeno, HTML u tijelu ostaje
-- [ ] **`HPI_GOD` niz na novu baznu godinu.** DZS je 2.7.2026. promijenio
-      baznu godinu s 2015 = 100 na 2025 = 100 i revidirao cijeli niz
-      2002.–2025. Postojeći niz (raspon 66–239) je stara baza. Namjerno
-      odgođeno — za graf trenda baza je nebitna dok su sve točke na istoj.
-      Linkovi i obrazloženje u `IZVORI.md`.
 - [ ] **`on.goPlaca` i sedam srodnih handlera** — funkcionalni skokovi na drugi
       kalkulator, nikad zakačeni na element. `goHome` i `goHub` istog obrasca
       jesu spojeni. Ako se prikazuju, traži dizajnersku odluku gdje i kako.
