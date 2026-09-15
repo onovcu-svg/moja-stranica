@@ -975,6 +975,21 @@ obrada. Testirati na pravom uređaju.
       kazna gasi rich results za cijelu domenu, ne samo za pogođenu stranicu.
       Uz to datePublished traži parser za hrvatski datum, koji ne postoji.
 - [x] Kontrast `--soft` u svijetloj temi — riješeno, `#696972` (vidi §3).
+- [ ] **Trošak ulaganja u kalkulatoru ulaganja.** Godišnja naknada za
+      upravljanje kao postotak imovine, s prikazom usporedbe: koliko bi bilo
+      bez naknade, koliko s njom, i koliko je naknada odnijela. Poanta je
+      pokazati da 1 % godišnje kroz 30 godina pojede puno više od 1 %.
+      Odlučeno: samo godišnja naknada, ne ulazna. Prikaz mora biti usporedni,
+      ne samo umanjena vrijednost.
+      Otvoreno: ide li u sva tri moda (rast, cilj, renta) ili samo u rast. Kod
+      cilja naknada znači veću potrebnu uplatu, kod rente kraće trajanje.
+- [ ] **Kalkulator raspodjele odbitka za djecu između roditelja.** Zaseban
+      kalkulator, ne proširenje postojećeg — necijeli broj djece je godišnja
+      kategorija, a kalkulator plaće je mjesečni obračun.
+      Prije izrade razriješiti: računa li se po mjesecima ili po udjelu, i koje
+      se dijete dijeli — koeficijenti se razlikuju po redoslijedu (0,5 za prvo,
+      0,7 za drugo, 1,0 za treće), pa "2,2 djeteta" nema jednoznačno značenje
+      bez te informacije.
 
 ### Sporedno
 - Domena `onovcu.hr` istječe **13. 11. 2026.** (registrar: Hrvatski Telekom /
