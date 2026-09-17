@@ -7,7 +7,7 @@ odakle. Prije svake izmjene brojke: otvori izvor, prepiši, zapiši razdoblje.
 **Pravilo: isključivo primarni izvor (DZS, HNB, HZMO, HANFA, APN, NN).
 Nikad medijski portal, nikad agregator, nikad drugi kalkulator.**
 
-Zadnja potpuna provjera: 21. 8. 2026. (inflacija ažurirana 19. 8. 2026. na srpanj)
+Zadnja potpuna provjera: 21. 8. 2026. (inflacija ažurirana 17. 9. 2026. na kolovoz)
 
 ---
 
@@ -15,14 +15,27 @@ Zadnja potpuna provjera: 21. 8. 2026. (inflacija ažurirana 19. 8. 2026. na srpa
 
 - Izvor: DZS, priopćenja "Indeksi potrošačkih cijena"
 - Pregled: https://podaci.dzs.hr/hr/podaci/cijene/
-- Zadnje korišteno: srpanj 2026. — CIJ-2026-1-1/7, https://podaci.dzs.hr/2026/hr/121443
-  (prethodno lipanj 2026. — https://podaci.dzs.hr/2026/hr/121577)
+- Zadnje korišteno: kolovoz 2026. — CIJ-2026-1-1/8, https://podaci.dzs.hr/2026/hr/121029
+  (prethodno srpanj 2026. — https://podaci.dzs.hr/2026/hr/121443)
 - Ritam: prva procjena ~1. u mjesecu, KONAČNI podaci ~15.
 - **Koristiti konačne, ne prvu procjenu.** Šifra `1-1` = mjesečna (konačna)
   serija; `1-2` je prva procjena.
 - Provjereno 19.8.2026: godišnje 3,9 %, mjesečno −0,2 % — poklapa se s kodom.
   Portal je prije ove provjere bio jednu objavu u zaostatku (imao je lipanj
   4,5 % / −0,4 % dok je srpanj već bio objavljen 14.8.2026.).
+- Provjereno 17.9.2026: godišnje 4,2 %, mjesečno +0,4 % — konačni podaci,
+  objavljeno 15.9.2026. (CIJ-2026-1-1/8, ne prva procjena — provjerena šifra
+  publikacije i stvarni datum objave u sirovom HTML-u DZS-ove stranice, ne
+  medijski prepis). Svih 13 stopa po skupinama potvrđeno riječ-po-riječ iz
+  priopćenja (T1): Prijevoz +13,5 %, Stanovanje +10,8 %, Restorani +6,1 %,
+  Zdravstvo +5,1 %, Alkoholna pića i duhan +3,9 %, Osiguranje i financijske
+  usluge +3,6 %, Osobna njega i ostalo +2,8 %, Informacije i komunikacije
+  +2,7 %, Rekreacija +2,4 %, Pokućstvo −0,3 %, Hrana −0,6 %, Usluge
+  obrazovanja −2,0 %, Odjeća i obuća −5,1 %. Ponderi identični srpanjskima
+  (potvrđeno usporedbom T1 oba mjeseca, red po red) — DZS ih revidira samo
+  jednom godišnje, u siječnju. Zbroj doprinosa (Σw·r/100) = 4,09 %, poklapa se
+  sa zbrojem DZS-ovih objavljenih doprinosa po skupinama (4,08 pp) naspram
+  naslovne stope 4,2 % — isto očekivano odstupanje kao svaki mjesec.
 - **HICP (harmonizirani indeks) NIJE CPI** — u istom priopćenju, u tablici T3,
   stoji i harmonizirana stopa (za srpanj 2026: 3,6 % godišnje, +0,6 %
   mjesečno). Lako se zamijeni s CPI-jem jer su brojevi blizu i u istom
