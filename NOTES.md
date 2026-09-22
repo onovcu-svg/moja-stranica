@@ -825,6 +825,10 @@ Development okruženje je zaključano na Hobby planu — ne treba.
   razdoblja: HANFA (2./3. stup), HZMO (1. stup) i plaću koju HZMO koristi za
   udjele. Nekretnine su za isti problem dobile poseban label („Indeks cijena:
   ..."), mirovine nisu. Otvoreno.
+- **Razdvojeni banner je NORMALNO stanje, ne iznimka.** HZMO i HANFA imaju
+  različite kalendare objava, pa se razdoblja razilaze svaki put kad jedan
+  objavi prije drugog. Banner tada pokazuje oba datuma. To ne treba
+  provjeravati ni komentirati pri svakom ažuriranju.
 - **Nizovi `KS_PREKORACENJE`, `KS_KARTICE`, `KS_OSTALE`, `KS_EKSOSTALE`,
   `KS_IZNOSREVOLVING` nikad se ne indeksiraju** — mrtvi, ali se **ipak
   ažuriraju** svaki mjesec jer su nizovi koji rastu; preskakanje bi ostavilo
