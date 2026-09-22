@@ -5595,7 +5595,7 @@ const OBJAVE = [
 // Fallback / zadnje poznate vrijednosti. Zamjenjuju se podacima s API-ja u loadMarket().
 const TRZISTE = [
   { id: 'inflacija', label: 'Godišnja inflacija (CPI)', kratko: 'CPI, Hrvatska', izvor: 'DZS', datum: 'kolovoz 2026.', val: 4.2, prev: 3.9, dec: 1 },
-  { id: 'placaProsjek', label: 'Prosječna neto plaća', kratko: 'DZS, mjesečno', izvor: 'DZS', datum: 'lipanj 2026.', val: 1555, prev: 1552, fmt: 'eur', dec: 2 },
+  { id: 'placaProsjek', label: 'Prosječna neto plaća', kratko: 'DZS, mjesečno', izvor: 'DZS', datum: 'srpanj 2026.', val: 1540, prev: 1555, fmt: 'eur', dec: 2 },
   { id: 'mirovina', label: 'Prosječna starosna mirovina', kratko: 'HZMO, bez međunarodnih ugovora', izvor: 'HZMO', datum: 'srpanj 2026.', val: 722.01, prev: 721.73, fmt: 'eur', dec: 2 },
   { id: 'stambeni', label: 'Stambeni kredit', kratko: 'novi poslovi, prosjek', izvor: 'HNB', datum: 'srpanj 2026.', val: 2.91, prev: 2.90 },
   { id: 'hpi', label: 'Rast cijena nekretnina', kratko: 'indeks cijena, godišnje', izvor: 'DZS', datum: 'prvo tromjesečje 2026.', val: 14.3, prev: 10.2, per: 'od prošlog tromjesečja', dec: 1 }
@@ -5803,7 +5803,7 @@ const POK_KAT = {
     stat: [
       { val: '{PL_PROSJEK}', label: 'Prosječna neto plaća', sub: 'mjesečno · {RAZD_PLACE}', d: 0 },
       { val: '{PL_MEDIJAN}', label: 'Medijalna neto plaća', sub: 'mjesečno · {RAZD_PLACE} · polovica zaposlenih zarađuje manje', d: 5 },
-      { val: '2.184,00 €', label: 'Prosječna bruto plaća', sub: 'Bruto 1, mjesečno', d: -2 },
+      { val: '2.164,00 €', label: 'Prosječna bruto plaća', sub: 'Bruto 1, mjesečno', d: -2 },
       { val: '{MIN_PLACA}', label: 'Minimalna bruto plaća', sub: 'zakonski minimum za ' + MIN_PLACA_GODINA + '.', d: 0 }
     ]
   },
@@ -6158,7 +6158,7 @@ const CPI_PRVA = 1999;
 // Za koje razdoblje vrijedi zadnja (nepotpuna) godina u serijama.
 const ZADNJE_RAZDOBLJE = 'kolovoz 2026.';
 // Plaće kasne mjesec dana za inflacijom (DZS ih objavljuje sredinom idućeg mjeseca).
-const ZADNJE_PLACE = 'lipanj 2026.';
+const ZADNJE_PLACE = 'srpanj 2026.';
 // HNB i HANFA objavljuju sa svojim zaostatkom pa svaki izvor ima svoj datum.
 // ZADNJE_HANFA je premještena prije STUP2 (kao ZADNJE_HZMO prije STUP1) da je
 // STUP3.razdoblje može čitati kao konstantu, ne kao zaseban literal.
@@ -6171,7 +6171,7 @@ const ZADNJE_HNB = 'srpanj 2026.';
 // mjesečno, nikad kao godišnji prosjek (provjereno u svih 7 godišnjih
 // priopćenja 2016.-2022. - nijedno je ne spominje). Ranije godine (do 2015.)
 // imaju null jer medijan tada još nije postojao.
-// Zadnja godina (2026.) je zadnji objavljeni MJESEC (lipanj), ne godišnji
+// Zadnja godina (2026.) je zadnji objavljeni MJESEC (srpanj), ne godišnji
 // prosjek ni prosinac - vidi PLACE_GOD_NEPUNA/PLACE_PUNE niže.
 // [godina, neto prosjek, neto medijan (prosinac), bruto prosjek, bruto medijan (prosinac)]
 const PLACE_GOD = [
@@ -6180,7 +6180,7 @@ const PLACE_GOD = [
   [2016, 755, 653, 1029, 859], [2017, 794, 716, 1069, 894], [2018, 828, 720, 1121, 933],
   [2019, 857, 752, 1163, 981], [2020, 897, 781, 1223, 1011], [2021, 946, 813, 1274, 1065],
   [2022, 1016, 877, 1380, 1161], [2023, 1148, 1005, 1584, 1334], [2024, 1318, 1156, 1821, 1559],
-  [2025, 1449, 1280, 2016, 1749], [2026, 1555, 1345, 2184, 1850]
+  [2025, 1449, 1280, 2016, 1749], [2026, 1540, 1346, 2164, 1853]
 ];
 // Zadnji redak je zadnji objavljeni mjesec, ne godišnji prosjek ni prosinac -
 // ne ulazi u izračun rasta (usporedivao bi godišnji prosjek/prosinac s jednim
