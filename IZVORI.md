@@ -7,7 +7,8 @@ odakle. Prije svake izmjene brojke: otvori izvor, prepiši, zapiši razdoblje.
 **Pravilo: isključivo primarni izvor (DZS, HNB, HZMO, HANFA, APN, NN).
 Nikad medijski portal, nikad agregator, nikad drugi kalkulator.**
 
-Zadnja potpuna provjera: 21. 8. 2026. (inflacija ažurirana 17. 9. 2026. na kolovoz)
+Zadnja potpuna provjera: 21. 8. 2026. (inflacija ažurirana 17. 9. 2026. na kolovoz;
+mirovinski fondovi i plaće ažurirani 23. 9. 2026.)
 
 ---
 
@@ -66,12 +67,19 @@ Zadnja potpuna provjera: 21. 8. 2026. (inflacija ažurirana 17. 9. 2026. na kolo
 
 - Izvor: DZS, priopćenja "Prosječne mjesečne neto i bruto plaće"
 - Pregled: https://podaci.dzs.hr/hr/podaci/trziste-rada/
-- Zadnje korišteno: lipanj 2026. — RAD-2026-1-1/6, https://podaci.dzs.hr/2026/hr/121493
-  (prethodno svibanj 2026. — https://podaci.dzs.hr/2026/hr/121467)
+- Zadnje korišteno: srpanj 2026. — RAD-2026-1-1/7, https://podaci.dzs.hr/2026/hr/121009
+  (prethodno lipanj 2026. — https://podaci.dzs.hr/2026/hr/121493)
 - Ritam: mjesečno, s ~2 mjeseca zaostatka (zato ZADNJE_PLACE kasni za CPI-om)
 - Provjereno 18.8.2026: neto 1.552 €, bruto 2.178 €, medijalna neto 1.324 € — poklapa se.
 - Provjereno 21.8.2026: neto 1.555 €, bruto 2.184 €, medijalna neto 1.345 €,
   medijalna bruto 1.850 € — poklapa se.
+- Provjereno 23.9.2026 (izvorni HTML priopćenja, ne medijski prepis): neto
+  1.540 €, bruto 2.164 €, medijalna neto 1.346 €, medijalna bruto 1.853 € —
+  poklapa se doslovno. Priopćenje eksplicitno navodi da je prosječna neto
+  plaća nominalno pala 1,0 % naspram lipnja (medijalna porasla 0,1 %) —
+  uobičajeno za srpanj jer lipanj nosi regres. `STUP1.prosjecnaPlaca` (HZMO,
+  1. stup) NIJE dirana — HZMO za srpanj još uvijek računa s lipanjskom plaćom
+  (1.555 €), vidi odjeljak "Mirovine (1. stup)".
 - Minimalna bruto plaća: Uredba Vlade RH, NN 132/2025 → 1.050,00 € za 2026.
   https://mrosp.gov.hr/vijesti/minimalna-placa-za-2026-godinu-1-050-eura-bruto/13826
   Mijenja se jednom godišnje, uredbom u listopadu za sljedeću godinu.
@@ -228,12 +236,25 @@ Zadnja potpuna provjera: 21. 8. 2026. (inflacija ažurirana 17. 9. 2026. na kolo
 - Izvor: HANFA, mjesečno izvješće
 - Pregled svih mjesečnih izvješća: https://www.hanfa.hr/statistika/mjesecna-izvjesca/
 - RSS (globalan, sve HANFA vijesti, ne samo statistika): https://hanfa.hr/rss
-- Zadnje korišteno: srpanj 2026. — https://hanfa.hr/vijesti/mjesecno-izvjesce-za-srpanj-2026
+- Zadnje korišteno: kolovoz 2026. — https://hanfa.hr/vijesti/mjesecno-izvjesce-za-kolovoz-2026
+  (prethodno srpanj 2026. — https://hanfa.hr/vijesti/mjesecno-izvjesce-za-srpanj-2026)
 - Ritam: mjesečno
 - Provjereno 18.8.2026: kategorija B 73,73 % (A 23,16 %, C 3,11 %),
   neto imovina OMF-ova 28,7 mlrd € — poklapa se.
 - Provjereno 21.8.2026: kategorija B 73,51 % (A 23,45 %, C 3,04 %),
   neto imovina OMF-ova 28,8 mlrd € — poklapa se.
+- Provjereno 23.9.2026 (izvorni tekst objave, ne xlsx — brojevi koje objava
+  navodi u prozi provjereni izravno): OMF ukupno 2.423.613 članova (A 23,78 %,
+  B 73,23 %, C 2,99 %), neto imovina OMF-ova 29,1 mlrd € — poklapa se doslovno.
+  Nominalni prinosi Mireksa na godišnjoj razini (12 mj.) 19,11 % (A) / 10,40 %
+  (B) / 1,21 % (C) — poklapa se doslovno. DMF: 463.428 članova ODMF, 51.936
+  ZDMF, neto imovina DMF-ova 1,8 mlrd € — poklapa se. Objava ne navodi ytd,
+  10-godišnji prosjek ni raščlambu članova/imovine po kategoriji broj-po-broj
+  (to je u xlsx prilogu, tablice 1.1/1.2/1.8/1.9) — te brojke potvrđene samo
+  interno: zbroj tablice 1.2 (dobne skupine ≤18-50,54) daje točno navedeni
+  `STUP2_B_ISPOD55`, a zbroj članova/imovine po kategorijama A+B+C daje točno
+  ukupne brojke koje objava navodi. Naziv datoteke potvrđen prema
+  AZURIRANJE.md obrascem (mjesec+1): mi-09_26.xlsx za kolovoz.
 
 ## Nekretnine — indeks cijena
 
