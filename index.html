@@ -5689,41 +5689,41 @@ const MIROVINE_FIN = [
   [2028, 11.0, 6.8, 'projekcija']
 ];
 
-// 2. stup: HANFA, mjesečno izvješće (srpanj 2026.) + zakonska ograničenja.
+// 2. stup: HANFA, mjesečno izvješće (kolovoz 2026.) + zakonska ograničenja.
 // Izvor: HANFA, mjesečno izvješće (xlsx), vidi PODACI-KALKULATORI.md za mapu listova.
 // prinos12 = zadnjih 12 mjeseci, ytd = od početka godine, prinos10 = prosječni
-// godišnji u zadnjih 10 godina. Prve dvije su iz srpnja 2026.; desetogodišnji
+// godišnji u zadnjih 10 godina. Prve dvije su iz kolovoza 2026.; desetogodišnji
 // prosjek je okvirna vrijednost dok se ne poveže s listom 6.
-// ── SVE BROJKE ISPOD SU IZ HANFA-INA MJESEČNOG IZVJEŠĆA mi-08_26.xlsx ────
-// (podaci za srpanj 2026.). Mapa listova je u PODACI-KALKULATORI.md.
+// ── SVE BROJKE ISPOD SU IZ HANFA-INA MJESEČNOG IZVJEŠĆA mi-09_26.xlsx ────
+// (podaci za kolovoz 2026.). Mapa listova je u PODACI-KALKULATORI.md.
 // Tablica 1.1 članstvo · 1.2 članovi po dobi · 1.8 neto imovina ·
 // 1.9 MIREX prinosi.
-// Zadnje objavljeno mjesečno izvješće HANFA-e (mi-08_26.xlsx = podaci za
-// srpanj) — premješteno ovamo (bilo uz ZADNJE_HNB) da je STUP3.razdoblje
+// Zadnje objavljeno mjesečno izvješće HANFA-e (mi-09_26.xlsx = podaci za
+// kolovoz) — premješteno ovamo (bilo uz ZADNJE_HNB) da je STUP3.razdoblje
 // može čitati kao konstantu, isti obrazac kao ZADNJE_HZMO prije STUP1.
-const ZADNJE_HANFA = 'srpanj 2026.';
+const ZADNJE_HANFA = 'kolovoz 2026.';
 const STUP2 = [
-  { k: 'A', clanova: 567105, imovinaMil: 1821.6, prinos12: 18.13, ytd: 12.71, prinos10: 9.10,
+  { k: 'A', clanova: 576370, imovinaMil: 1891.1, prinos12: 19.11, ytd: 14.04, prinos10: 9.12,
     limit: 'najviše 70 % u dionice' },
-  { k: 'B', clanova: 1777582, imovinaMil: 25494.0, prinos12: 9.64, ytd: 6.34, prinos10: 5.53,
+  { k: 'B', clanova: 1774857, imovinaMil: 25788.0, prinos12: 10.40, ytd: 7.27, prinos10: 5.53,
     limit: 'najviše 40 % u dionice' },
-  { k: 'C', clanova: 73584, imovinaMil: 1481.1, prinos12: 1.24, ytd: 0.62, prinos10: 2.48,
+  { k: 'C', clanova: 72386, imovinaMil: 1463.2, prinos12: 1.21, ytd: 0.70, prinos10: 2.39,
     limit: 'najviše 10 % u dionice, najmanje 60 % u obveznice' }
 ];
-const STUP2_UK = 2418271;          // Tablica 1.1, kraj srpnja 2026.
+const STUP2_UK = 2423613;          // Tablica 1.1, kraj kolovoza 2026.
 // Tablica 1.2: zbroj članova kategorije B u dobnim skupinama ispod 55 godina
-// (≤18 255 · 19-24 6.081 · 25-29 132.343 · 30-34 216.982 · 35-39 262.970 ·
-//  40-44 298.043 · 45-49 297.812 · 50-54 256.279)
-const STUP2_B_ISPOD55 = 1470765;
+// (≤18 270 · 19-24 5.868 · 25-29 129.111 · 30-34 215.878 · 35-39 262.228 ·
+//  40-44 297.474 · 45-49 298.022 · 50-54 256.689)
+const STUP2_B_ISPOD55 = 1465540;
 
-// 3. stup: HANFA (srpanj 2026.) + Zakon o dobrovoljnim mirovinskim fondovima.
-// HANFA mi-08_26.xlsx, srpanj 2026.: tablice 1.11 i 1.18 (članstvo),
+// 3. stup: HANFA (kolovoz 2026.) + Zakon o dobrovoljnim mirovinskim fondovima.
+// HANFA mi-09_26.xlsx, kolovoz 2026.: tablice 1.11 i 1.18 (članstvo),
 // 1.15 i 1.22 (neto imovina otvorenih i zatvorenih dobrovoljnih fondova).
 const STUP3 = {
-  otvoreni: 461932, zatvoreni: 51950,
-  clanovi: 461932 + 51950,
-  imovinaOtvoreni: 1503.30, imovinaZatvoreni: 305.49, // mil €
-  imovina: (1503.30 + 305.49) / 1000,
+  otvoreni: 463428, zatvoreni: 51936,
+  clanovi: 463428 + 51936,
+  imovinaOtvoreni: 1520.15, imovinaZatvoreni: 307.54, // mil €
+  imovina: (1520.15 + 307.54) / 1000,
   poticaj: 15, poticajMax: 99.54,
   razdoblje: ZADNJE_HANFA
 };
