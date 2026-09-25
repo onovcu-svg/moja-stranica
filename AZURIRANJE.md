@@ -285,6 +285,8 @@ Mijenja se `MIN_PLACA` i `MIN_PLACA_GODINA`.
    `{ d: 'GGGG-MM-DD', etf: [uplata, stanje], sp: [...], bet: [...], luc: [...] }`
 2. **`UPLATE`** — novi unos po portfelju, **s točnim datumom uplate**
 3. **`POSTOVI`** — komentar pod istim ključem kao datum retka
+4. **`PROJ_STANJE`** — datum u banneru "Stanje na dan". Nema automatsku vezu
+   sa zadnjim retkom, mijenja se ručno.
 
 ### Zamke
 
@@ -296,6 +298,9 @@ Mijenja se `MIN_PLACA` i `MIN_PLACA_GODINA`.
 > brojci, nešto ne štima s unosom.
 
 > **Nema `ZADNJE_*` konstante.** Sve čita zadnji redak.
+
+> **`PROJ_STANJE` se lako promaši.** Banner bi tada pokazivao stari datum uz
+> nove brojke. Nema mehanizma koji to hvata.
 
 ---
 
