@@ -3155,7 +3155,7 @@
           <div style="container-type:inline-size;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:clamp(20px,2.4vw,24px)">
             <div style="white-space:nowrap;font-weight:700;font-size:clamp(19px,8.8cqi,30px);letter-spacing:-.04em;line-height:1">{{ s1.mirovina40 }}</div>
             <div style="font-weight:500;font-size:14px;margin-top:12px;line-height:1.3">Uz 40 i više godina staža</div>
-            <div style="font-weight:300;font-size:12.5px;color:var(--soft);margin-top:4px;line-height:1.4">{{ s1.pokrivenost40 }} plaće za {{ s1.placaMjesec }} · iznos za {{ s1.mirovina40Mjesec }}</div>
+            <div style="font-weight:300;font-size:12.5px;color:var(--soft);margin-top:4px;line-height:1.4">bez međunarodnih ugovora · {{ s1.pokrivenost40 }} plaće za {{ s1.placaMjesec }} · iznos za {{ s1.mirovina40Mjesec }}</div>
           </div>
           <div style="container-type:inline-size;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:clamp(20px,2.4vw,24px)">
             <div style="white-space:nowrap;font-weight:700;font-size:clamp(19px,8.8cqi,30px);letter-spacing:-.04em;line-height:1;color:var(--acc)">{{ s1.rashodiGod }}</div>
@@ -5631,7 +5631,7 @@ const OBJAVE = [
 const TRZISTE = [
   { id: 'inflacija', label: 'Godišnja inflacija (CPI)', kratko: 'CPI, Hrvatska', izvor: 'DZS', datum: 'kolovoz 2026.', val: 4.2, prev: 3.9, dec: 1 },
   { id: 'placaProsjek', label: 'Prosječna neto plaća', kratko: 'DZS, mjesečno', izvor: 'DZS', datum: 'srpanj 2026.', val: 1540, prev: 1555, fmt: 'eur', dec: 2 },
-  { id: 'mirovina', label: 'Prosječna starosna mirovina', kratko: 'HZMO, bez međunarodnih ugovora', izvor: 'HZMO', datum: 'srpanj 2026.', val: 722.01, prev: 721.73, fmt: 'eur', dec: 2 },
+  { id: 'mirovina', label: 'Prosječna starosna mirovina', kratko: 'HZMO, bez međunarodnih ugovora', izvor: 'HZMO', datum: 'kolovoz 2026.', val: 755.65, prev: 722.01, fmt: 'eur', dec: 2 },
   { id: 'stambeni', label: 'Stambeni kredit', kratko: 'novi poslovi, prosjek', izvor: 'HNB', datum: 'srpanj 2026.', val: 2.91, prev: 2.90 },
   { id: 'hpi', label: 'Rast cijena nekretnina', kratko: 'indeks cijena, godišnje', izvor: 'DZS', datum: 'prvo tromjesečje 2026.', val: 14.3, prev: 10.2, per: 'od prošlog tromjesečja', dec: 1 }
 ];
@@ -5663,47 +5663,43 @@ const GRADOVI_POP = [
 ];
 
 // ── MIROVINSKI SUSTAV ─────────────────────────────────────────
-// 1. stup: HZMO, aktualna statistika (lipanj 2026., isplata u srpnju).
+// 1. stup: HZMO, aktualna statistika (kolovoz 2026., isplata u rujnu).
 // HZMO (1. stup) je institucija ODVOJENA od HANFA-e (2./3. stup, ZADNJE_HANFA)
 // - vlastiti kalendar objave, ne isti izvor. NE spajati s ZADNJE_HANFA iako
 // danas nose istu vrijednost - to je slucajnost dvaju trenutno usklađenih
 // ciklusa, ne strukturno jamstvo. Vidi IZVORI.md, odjeljak "Mirovine (1. stup)".
-const ZADNJE_HZMO = 'srpanj 2026.';
+const ZADNJE_HZMO = 'kolovoz 2026.';
 const STUP1 = {
-  osiguranici: 1802261,
-  umirovljenici: 1234791,
+  osiguranici: 1797071,
+  umirovljenici: 1234959,
   omjer: 1.46,                 // osiguranika po jednom umirovljeniku
   // VAŽNO: HZMO objavljuje "statistika za mjesec X, isplata u mjesecu X+1".
   // Ovdje se svugdje koristi mjesec NA KOJI SE PODATAK ODNOSI, ne mjesec isplate.
-  prosjecnaMirovina: 722.01,   // ukupna starosna, bez međunarodnih ugovora, srpanj 2026.
-  mirovina40: 879.69,          // 40+ godina staža, ZOMO, srpanj 2026. objava
-  mirovina40Bez: 1030.72,      // 40+ staža, bez međunarodnih ugovora, svibanj 2026.
-  // PROVJERENO 1.9.2026 (izvorni HTML, ne sažetak): objava za srpanj 2026. NE
-  // navodi zaseban mjesec uz samu brojku 879,69 € - jedini mjesec u toj
-  // rečenici ("za lipanj 2026.") odnosi se na plaću u omjeru, ne na mirovinu.
-  // Raniji komentar ovdje tvrdio je da ova brojka "kasni mjesec za glavnom
-  // brojkom ISTE HZMO objave" - to je bila naša interpretacija bez oslonca u
-  // izvoru. Dok izvor ne kaže drugačije, izjednačeno sa ZADNJE_HZMO kao i
-  // ostatak stranice. Ako se ikad pokaže da HZMO ovu brojku stvarno objavljuje
-  // s drugim razdobljem, vratiti zaseban literal (vidi IZVORI.md).
+  prosjecnaMirovina: 755.65,   // ukupna starosna, bez međunarodnih ugovora, kolovoz 2026.
+  // 40+ staža: red "Prosječna starosna mirovina prema ZOMO-u s mirovinskim
+  // stažem od 40 i više godina", dio "bez međunarodnih ugovora" (isti obuhvat
+  // kao prosjecnaMirovina). Mjera zamijenjena 3.10.2026., prijašnja vrijednost
+  // (879,69 €) ne postoji ni u jednom HZMO PDF-u pa joj se obuhvat ne zna.
+  // Serija (osnovni-podatci-2026-N-HR.pdf) i povijest vidi IZVORI.md.
+  mirovina40: 1075.72,
   mirovina40Mjesec: ZADNJE_HZMO,
-  prosjecnaPlaca: 1555,        // DZS, lipanj 2026. (isti izvor kao tab Rad & plaće)
+  prosjecnaPlaca: 1540,        // DZS, srpanj 2026. (isti izvor kao tab Rad & plaće)
   stopaDoprinosa: 15,          // I. stup, % bruto plaće
-  prosjecnaBruto: 2184,
+  prosjecnaBruto: 2164,
   // HZMO doslovno objavljuje ova dva udjela u istom priopćenju (ne računamo
   // mi iz mirovina/plaća) - vidi IZVORI.md, "Mirovine (1. stup)".
   // "...njen udio u prosječnoj netoplaći zaposlenih u pravnim osobama u
-  // Republici Hrvatskoj za lipanj 2026. (1555 eura) iznosi 46,43%."
-  // "...udio u prosječnoj netoplaći ... iznosi 56,57%" (za mirovina40=879,69).
-  udioPlace: 46.43,      // objavljeni udio prosječne starosne mirovine u plaći
-  udio40Place: 56.57,    // objavljeni udio mirovine za 40+ godina staža u plaći
+  // Republici Hrvatskoj za srpanj 2026. (1540 eura) iznosi 49,07%."
+  // "...udio u prosječnoj netoplaći ... iznosi 69,85%" (za mirovina40=1.075,72).
+  udioPlace: 49.07,      // objavljeni udio prosječne starosne mirovine u plaći
+  udio40Place: 69.85,    // objavljeni udio mirovine za 40+ godina staža u plaći
   // Razdoblje plaće koje HZMO koristi za oba udjela iznad. NIJE ZADNJE_PLACE
   // (DZS razdoblje) - HZMO redovito kasni mjesec za DZS-om. Provjeriti ovo
   // polje pri svakoj HZMO objavi, ne pretpostaviti da se poklapa s DZS-om.
   // Neovisno o mirovina40Mjesec (od 1.9.2026 = ZADNJE_HZMO, vidi gore): ovo
   // je DZS-ov kalendar na koji se HZMO poziva u svom izračunu, dva različita
   // izvora koja se danas slučajno poklapaju, ne strukturno jamstvo.
-  placaMjesec: 'lipanj 2026.',
+  placaMjesec: 'srpanj 2026.',
   // Prije su ovdje bila dva polja (razdoblje + mirovinaMjesec) s uvijek istom
   // vrijednošću - spojeno u jedno jer nijedno mjesto u predlošku ne očekuje
   // da se razlikuju (provjereno: svaki ima točno jednog čitatelja u templateu).
@@ -9787,7 +9783,6 @@ class Component extends DCLogic {
           umirovljenici: nf(0).format(d.umirovljenici),
           mirovina: eur(d.prosjecnaMirovina), mirovina40Mjesec: d.mirovina40Mjesec,
           mirovina40: eur(d.mirovina40),
-          mirovina40Bez: eur(d.mirovina40Bez),
           placa: eur(d.prosjecnaPlaca, 2),
           // NIJE ZADNJE_PLACE (DZS razdoblje) - vlastito STUP1.placaMjesec,
           // HZMO redovito kasni mjesec za DZS-om. Vidi komentar uz STUP1.
