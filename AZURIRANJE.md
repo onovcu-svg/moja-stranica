@@ -340,6 +340,39 @@ Na kraju ažuriraj datum provjere u IZVORI.md.
 1. **Kartica, sažetak i ticker** moraju pokazivati identičnu brojku
 2. **Banner s razdobljem** gore
 3. **FAQ odgovori** te kategorije
+4. **`node scripts/check-strelice.js`** — mora vratiti „STRELICE OK". Ako javi
+   karticu, nedostaje joj prethodna vrijednost (npr. `TRZISTE` stavka bez
+   `prev`, ili niz s praznim zadnjim mjesecom). Nije u `buildCommandu`, pa
+   deploy neće stati umjesto tebe — pokreni je sam.
+
+### Strelice na karticama pokazatelja
+
+Strelica (▲ ▼ →) na karticama `/pokazatelji/*` **izvodi se iz podataka**, ne
+upisuje se. Polje `smjer` uz karticu u `POK_KAT` kaže odakle: `tz` (`TRZISTE`,
+val naspram prev), `ks` (zadnja dva mjeseca niza), `kum` (kumulativna
+inflacija) ili `znak` (vrijednost je sama promjena). Zato je pri svakom
+ažuriranju bitno da `TRZISTE.prev` bude stara `val`, a ne ostane star.
+
+**Kartica bez `smjer` nema strelicu, i to je namjerno.** Bez prethodne
+vrijednosti ne znamo je li se išta promijenilo, a „→" bi tvrdilo „bez
+promjene". Strelica koja laže gora je od izostanka. Staro ručno polje `d`
+(zapisano 17.8., nikad ažurirano) pokazivalo je krivi smjer na šest kartica.
+Ne vraćaj ručno upisan smjer.
+
+Danas bez izvora, dakle bez strelice, su ove kartice:
+
+| Kategorija | Kartica |
+|---|---|
+| Plaće | Medijalna neto plaća |
+| Plaće | Prosječna bruto plaća |
+| Plaće | Minimalna bruto plaća (mijenja se jednom godišnje) |
+| Mirovine | Zaposlenih po umirovljeniku |
+| Mirovine | Mirovina u odnosu na plaću |
+| Mirovine | Članova u kategoriji B |
+
+Kad se počne čuvati prethodna vrijednost neke od njih, doda se `smjer` uz
+karticu i strelica se vraća bez ikakvog dodatnog ručnog posla. Skripta
+provjerava samo kartice koje `smjer` imaju — za ovih šest šuti.
 
 ---
 
