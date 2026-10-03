@@ -5143,6 +5143,33 @@ const MODULI = [
 // Puni tekstovi blogova, po slugu. Zadnji odjeljak svakog teksta ("Pogledaj ... u videu")
 // izdvojen je u ctaNaslov / ctaUvod / ctaTocke i prikazuje se kao poziv na video.
 const BLOG_TEKST = {
+  'povisica-svima-20-posto': {
+    ctaNaslov: 'Što ćeš dobiti u videu',
+    ctaUvod: 'U videu prolazim cijeli eksperiment mjesec po mjesec.',
+    ctaZakljucak: 'Na kraju pokazujem što bi morala napraviti središnja banka, a to nije ugodan izbor. Pogledaj video do kraja i javi mi u komentarima slažeš li se.',
+    ctaTocke: ['Formula koja objašnjava zašto cijene u takvoj situaciji moraju rasti', 'Brojka o maržama hrvatskih poduzetnika', 'Kompletna lista pobjednika i gubitnika', 'Pet načina na koje plaće u Hrvatskoj mogu rasti dugoročno'],
+    blocks: [
+      { t: 'p', x: 'Da svima u Hrvatskoj plaća preko noći poraste 20 posto, a ništa drugo u gospodarstvu se ne promijeni, cijene bi relativno brzo pojele cijelu povišicu. Da, na papiru bi zarađivao više, ali bi za taj novac mogao kupiti otprilike isto kao danas. Još i gore, dio ljudi bi bio u lošijoj situaciji nego danas. Realne plaće dugoročno rastu samo kad raste produktivnost, dakle kad za isti sat rada nastane više proizvoda ili usluga ili su vrjednije.' },
+      { t: 'p', x: 'Većina je barem jednom pomislila: zašto država jednostavno ne naredi veće plaće? Pitanje nije glupo i ima smisla testirati ideju. Zato sam u videu napravio misaoni eksperiment u kojem baš svi dobiju 20 posto više i pratio što se događa nakon toga.' },
+      { t: 'p', x: 'Ovdje ćeš pronaći logiku iza odgovora. Scenarij, brojke i najzanimljivije posljedice ostavljam za video.' },
+      { t: 'h', x: 'Zašto bi cijene narasle ako nitko nije digao cijene?' },
+      { t: 'p', x: 'Zamisli da svi odjednom imaju 20 posto više novca za trošenje. Što radiš s njim? Malo se opustiš: češće naručuješ hranu, kupiš ono što si odgađao, kreneš planirati veće stvari poput recimo nove kuhinje.' },
+      { t: 'p', x: 'Problem je što količina kuhinja, frizerskih termina i obrtnika u državi ostaje ista. Kad je više novca, a jednaka količina robe i usluga, netko će ponuditi više da bude prvi u redu. Cijene rastu zbog pritiska potražnje.' },
+      { t: 'p', x: 'To je prva sila. Druga je ona koju vide poduzetnici: i njima su radnici i dobavljači odjednom 20 posto skuplji. Netko će reći neka se odreknu dijela dobiti, ali u videu pokazujem brojku o prosječnoj marži hrvatskih tvrtki koja objašnjava zašto to za većinu nije opcija.' },
+      { t: 'h', x: 'Što znači da je nominalna plaća porasla, a realna nije?' },
+      { t: 'p', x: 'Nominalna plaća je iznos koji vidiš na računu. Realna plaća je ono što za taj iznos stvarno možeš kupiti.' },
+      { t: 'p', x: 'U našem eksperimentu nominalna plaća skače 20 posto, ali kad frizer, gorivo, kava i majstor poskupe za sličan postotak, realna plaća ostaje na istom mjestu. Brojke su veće, ali rezultat je isti.' },
+      { t: 'p', x: 'I tu kreće ono što ekonomisti zovu spirala plaća i cijena. Ljudi vide poskupljenja, traže nove povišice, a te povišice ponovno guraju cijene. Utrka u kojoj na kraju nitko ne dobiva.' },
+      { t: 'h', x: 'Tko bi u takvom scenariju stvarno izgubio, a tko dobio?' },
+      { t: 'p', x: '"Svi na nuli" nije točan opis rezultata.' },
+      { t: 'p', x: 'Postoje tri skupine ljudi koje bi prošle osjetno gore od ostalih. S druge strane, postoje dvije skupine kojima bi ovakva inflacija zapravo odgovarala, a jedna od njih uključuje ljude s kreditima.' },
+      { t: 'p', x: 'Tko su točno, i što bi na kraju morala napraviti središnja banka, a to nije ugodan izbor, vidjet ćeš u videu.' },
+      { t: 'h', x: 'Je li povišica od 20 posto uopće moguća?' },
+      { t: 'p', x: 'Je. Ali ne tako da netko jednostavno donese odluku.' },
+      { t: 'p', x: 'Zdrav rast plaća ima jedan temelj: produktivnost. Ili radnik u istom vremenu napravi više ili napravi nešto vrjednije. Tek tada poslodavac može dati veću plaću bez dizanja cijena, a to vrijedi i za privatni i za javni sektor, iako se u javnom to teže mjeri.' },
+      { t: 'p', x: 'U videu to pokazujem na dva konkretna primjera istog obrtnika, u jednom ulaže u stroj, u drugom u znanje, i u oba dolazi do iste povišice za svog radnika, ali na zdravi način.' }
+    ]
+  },
   'najam-ili-kupnja-stana': {
     ctaNaslov: 'Što ćeš dobiti u videu',
     ctaUvod: 'U videu prolazim kroz cijeli izračun koji ti u 60 sekundi kaže gdje stojiš.',
@@ -5463,6 +5490,10 @@ const BLOG_TEKST = {
 // this.blogVeza(): 'calc:<tab>' otvara kalkulator, 'calc:kamata:<gMode>' njegov
 // nacin rada, 'pok:<kategorija>' otvara pokazatelje.
 const BLOG_VEZE = {
+  'povisica-svima-20-posto': [
+    { a: 'pok:place', tip: 'Pokazatelj', n: 'Rad i plaće', o: 'Koliko su plaće u Hrvatskoj stvarno narasle kroz godine, neto i bruto, prosjek i medijan.' },
+    { a: 'pok:inflacija', tip: 'Pokazatelj', n: 'Inflacija', o: 'Koliko su cijene rasle i koje su skupine najviše poskupjele, uz zadnju objavljenu godišnju stopu.' }
+  ],
   'najam-ili-kupnja-stana': [
     { a: 'calc:kredit', tip: 'Kalkulator', n: 'Izračun kredita', o: 'Izračunaj mjesečnu ratu i ukupnu kamatu za stan koji razmatraš kupiti, pa usporedi s najmom koji plaćaš danas.' }
   ],
@@ -5526,6 +5557,10 @@ const BLOG_VEZE = {
 };
 
 const OBJAVE = [
+  { yt: 'f3I92x4XF1w', kat: 'Gospodarstvo', datum: '2. listopada 2026.', slug: 'povisica-svima-20-posto',
+    naslov: 'Što bi se dogodilo da svima u Hrvatskoj plaća poraste 20 posto?',
+    opis: 'Da svima u Hrvatskoj plaća preko noći poraste 20 posto, a ništa drugo u gospodarstvu se ne promijeni, cijene bi relativno brzo pojele cijelu povišicu.',
+    istaknuto: 'Realne plaće rastu samo kad raste produktivnost, ne kad netko naredi povišicu.' },
   { yt: 'E2RtbGMyh1I', kat: 'Nekretnine', datum: '11. rujna 2026.', slug: 'najam-ili-kupnja-stana',
     naslov: 'Najam ili kupnja stana: zašto ti kalkulator ne može dati odgovor',
     opis: 'Postoji jednostavna formula koja ti kaže je li u tvom kvartu matematika na strani najma ili kupnje. Problem je što ta brojka rijetko presuđuje.',
@@ -6391,6 +6426,7 @@ const META_POK = {
 
 const META_BLOG_INDEX = { title: 'Blog i video sadržaj o osobnim financijama' + SUFIKS, desc: 'Članci i video sadržaj o plaćama, kreditima, ulaganju, mirovinama i financijskim navikama u Hrvatskoj, napisani jasno i bez financijskog žargona.' };
 const META_BLOG_DESC = {
+  'povisica-svima-20-posto': 'Zašto povišica od 20 posto svima ne bi značila veći standard: kako cijene pojedu povećanje, tko gubi, tko dobiva i što podiže realne plaće.',
   'najam-ili-kupnja-stana': 'Najam ili kupnja stana u Hrvatskoj: zašto izbor, dužina boravka i stanje tržišta najma odlučuju više od same brojke.',
   'gdje-odlazi-tvoja-placa': 'Objašnjenje obračuna plaće u Hrvatskoj: koji doprinosi i porezi stoje između bruto iznosa u ugovoru i neto iznosa koji sjedne na račun.',
   'hrvatski-investicijski-racun-2027': 'Objašnjenje hrvatskog investicijskog računa koji od 2027. omogućuje ulaganje u dionice i ETF-ove bez poreza na zaradu, uz uvjet o domaćem tržištu.',
@@ -8389,7 +8425,7 @@ class Component extends DCLogic {
     const imaVrste = new Set(OBJAVE.map(vrstaOd)).size > 1;
     const uVrsti = OBJAVE.filter((o) => s.vrstaF === 'Sve' || vrstaOd(o) === s.vrstaF);
     // Prikazuju se samo kategorije koje unutar odabrane vrste imaju barem jednu objavu.
-    const REDOSLIJED = ['Investiranje', 'Krediti', 'Mirovina', 'Nekretnine', 'Kartice', 'Štednja', 'Navike', 'Plaća'];
+    const REDOSLIJED = ['Investiranje', 'Krediti', 'Mirovina', 'Nekretnine', 'Kartice', 'Štednja', 'Navike', 'Plaća', 'Gospodarstvo'];
     const prisutne = uVrsti.map((o) => o.kat);
     const kats = ['Sve'].concat(REDOSLIJED.filter((k) => prisutne.indexOf(k) >= 0))
       .concat(prisutne.filter((k, i) => prisutne.indexOf(k) === i && REDOSLIJED.indexOf(k) < 0));
