@@ -147,8 +147,13 @@ broj osiguranika i korisnika · omjer · mirovina uz 40+ staža ·
 ### Zamke
 
 > **NAJOPASNIJI IZVOR.** HZMO na istoj stranici objavljuje više brojki koje se
-> zovu „prosječna mirovina". U susjednom retku stoji ona za 40+ godina staža
-> (oko 880 €) — **to nije brojka za glavnu karticu.** Pročitaj cijelu rečenicu.
+> zovu „prosječna mirovina" (ukupna starosna, 40+ godina staža, sveukupno s
+> DVO/ZOHBDR/HVO, s međunarodnim ugovorima). Glavna kartica (oko 756 €) i
+> kartica 40+ staža (oko 1.076 €) koriste ISTI obuhvat — ZOMO, **bez
+> međunarodnih ugovora**. Pročitaj naslov dijela tablice, ne samo broj. Ako
+> HZMO promijeni oznaku retka, to je odluka koju treba zapisati u `IZVORI.md`
+> (mjera za 40+ promijenjena je 3.10.2026., tiho). Prošle mjesece provjeri u
+> arhivi PDF-ova, adresa u `IZVORI.md`.
 
 > **Udjeli u plaći se PREUZIMAJU, ne računaju.** HZMO ih objavljuje doslovno,
 > s izričito navedenim razdobljem plaće. Portal ih ne izvodi — upisuju se kao
