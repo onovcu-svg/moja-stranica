@@ -833,8 +833,9 @@ Development okruženje je zaključano na Hobby planu — ne treba.
   `KS_IZNOSREVOLVING` nikad se ne indeksiraju** — mrtvi, ali se **ipak
   ažuriraju** svaki mjesec jer su nizovi koji rastu; preskakanje bi ostavilo
   rupu ako se ikad počnu prikazivati.
-- **Mrtva polja u `STUP1`:** `prosjecnaBruto`, `mirovina40Bez`. Ažuriraju se
-  radi točnosti izvora, ne prikazuju se.
+- **Mrtvo polje u `STUP1`:** `prosjecnaBruto`. Ažurira se radi točnosti izvora,
+  ne prikazuje se. (`mirovina40Bez` obrisano 3.10.2026. — duplikat nove mjere
+  za 40+ staža, vidi `IZVORI.md`.)
 
 ### iOS-specifično — ne može se reproducirati u Chromeu
 Auto-zoom na inpute, ponašanje visual viewporta pri tipkovnici, `height:100%`
