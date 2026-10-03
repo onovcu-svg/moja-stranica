@@ -186,8 +186,8 @@ mirovinski fondovi i plaće ažurirani 23. 9. 2026.)
 - Izvor: HZMO, "Aktualna statistika za <mjesec> — isplata u <mjesec+1>"
 - Pregled: https://www.mirovinsko.hr/hr/statistika/860
 - Pregled osnovnih podataka: https://www.mirovinsko.hr/hr/statistika/3757
-- Zadnje korišteno: srpanj 2026. (isplata u kolovozu)
-  https://www.mirovinsko.hr/hr/aktualna-statistika-za-srpanj-2026-isplata-u-kolovozu-2026/148
+- Zadnje korišteno: kolovoz 2026. (isplata u rujnu)
+  https://www.mirovinsko.hr/hr/aktualna-statistika-za-kolovoz-2026-isplata-u-rujnu-2026/148
   (napomena 1.9.2026: stara URL adresa za lipanj sad preusmjerava/prikazuje isti,
   najnoviji sadržaj — HZMO očito ne drži zasebne arhivirane stranice po mjesecu,
   nego prepisuje istu adresu. Nema načina provjeriti prošlu objavu preko URL-a.)
@@ -195,9 +195,11 @@ mirovinski fondovi i plaće ažurirani 23. 9. 2026.)
 - Provjereno 18.8.2026: 721,73 € i 46,50 % i 1:1,46 — poklapa se u decimalu.
 - **Definicija koju portal prikazuje, ne mijenjati bez odluke:**
   prosječna UKUPNA starosna mirovina, ZOMO, BEZ međunarodnih ugovora
-  (srpanj 2026: 531.375 korisnika). HZMO objavljuje i druge brojke za
-  "prosječnu mirovinu" (npr. 879,69 € za 40+ godina staža) — nisu istog obuhvata.
-- Udio u plaći se računa prema neto plaći za lipanj 2026. (1.555 €), dakle
+  (kolovoz 2026: 531.809 korisnika). HZMO objavljuje i druge brojke za
+  "prosječnu mirovinu" (sveukupno s DVO/ZOHBDR/HVO, s međunarodnim ugovorima)
+  — nisu istog obuhvata. Kartica za 40+ godina staža koristi ISTI obuhvat
+  (vidi ODLUKU 3.10.2026. niže).
+- Udio u plaći se računa prema neto plaći za srpanj 2026. (1.540 €), dakle
   mirovina i plaća NISU iz istog mjeseca. Tako to radi i HZMO.
 - **Udjeli mirovine u plaći (46,50 % i 56,65 %) se PREUZIMAJU od HZMO-a, ne
   računaju iz `prosjecnaMirovina`/`prosjecnaPlaca`.** HZMO ih objavljuje
@@ -211,6 +213,34 @@ mirovinski fondovi i plaće ažurirani 23. 9. 2026.)
   poklapa se doslovno s izvorom.
 - Provjereno 1.9.2026: 722,01 € i 46,43 % i 1:1,46 — poklapa se u decimalu.
   879,69 € (40+ godina staža) i 56,57 % — poklapa se doslovno s izvorom.
+- Provjereno 3.10.2026. (statistika za kolovoz 2026., izvorni HTML i PDF):
+  755,65 € (531.809 korisnika), 49,07 % i 1 : 1,46; 1.075,72 € (40+ godina
+  staža, 103.042 korisnika) i 69,85 %; plaća na koju se HZMO poziva je za
+  srpanj 2026. (1.540 €); osiguranici 1.797.071, korisnici mirovina 1.234.959.
+- **ODLUKA (3.10.2026): mjera za 40+ godina staža promijenjena.** Prijašnja
+  vrijednost (879,69 €) ne postoji ni u jednom HZMO PDF-u koji je otvoren
+  (siječanj, lipanj, srpanj i kolovoz 2026.) — nije utvrđeno što je bila.
+  Nova mjera: red "Prosječna starosna mirovina prema ZOMO-u s mirovinskim
+  stažem od 40 i više godina", iz dijela "bez međunarodnih ugovora" — isti
+  obuhvat kao glavna kartica. Kartica sad izričito navodi "bez međunarodnih
+  ugovora". Polje `STUP1.mirovina40Bez` (1.030,72 €, svibanj) obrisano kao
+  duplikat: bila je ista serija kao nova mjera.
+- **Arhiva HZMO statistike:** `https://www.mirovinsko.hr/UserDocsImages/statistika/Osnovni-podatci-2026/osnovni-podatci-2026-N-HR.pdf`,
+  gdje je N mjesec ISPLATE (ne mjesec na koji se podatak odnosi). Stranica
+  statistike prikazuje samo tekući mjesec, ali PDF-ovi ostaju dostupni. Red za
+  40+ staža, potvrđeno: prosinac 2025. 1.005,68 € · svibanj 2026. 1.030,72 € ·
+  srpanj 2026. 1.029,44 € · kolovoz 2026. 1.075,72 €.
+- **Usklađivanje mirovina:** AVM od 1.7.2026. iznosi 15,64 €, usklađivanje
+  5,40 % (prethodno 14,84 €, 2,68 %). Odluka 26. sjednice Upravnog vijeća HZMO-a,
+  26.8.2026. (Vlada RH: https://vlada.gov.hr/aktualna-vrijednost-mirovine-od-1-srpnja-2026-povecana-za-5-40-posto/47190).
+  Povećane mirovine isplaćene su u rujnu s mirovinom za kolovoz, uz razliku
+  za srpanj — kolovoška statistika je prva s povećanjem.
+- Kolovoz naspram srpnja: prosječni iznosi u 136 usporedivih redaka tablica
+  (najmanje 200 korisnika po retku) porasli su 4,2–5,8 %, medijan 4,67 %
+  (glavna brojka +4,66 %, 40+ staža +4,50 %). Rast je sustavan, ne posljedica
+  strukture korisnika. Zašto nije punih 5,40 % nije utvrđeno. Nisu uključeni
+  retci s manje od 200 korisnika i 19 redaka tablice po stažu koji su u
+  srpanjskom PDF-u HZMO-a pokvareni (npr. "19105,00" i udio "1228,62%").
 - **`ZADNJE_HZMO` i `ZADNJE_HANFA` su ODVOJENE konstante i moraju ostati
   odvojene.** HZMO (1. stup, ovaj odjeljak) i HANFA (2./3. stup, odjeljak
   ispod) su različite institucije s vlastitim kalendarima objave. Da danas
