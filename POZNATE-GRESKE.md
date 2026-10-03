@@ -14,10 +14,10 @@ Stavke koje su u međuvremenu riješene **nisu** ovdje.
 
 ## Ne radi
 
-**Filter „Blog" na `/blog` daje praznu stranicu.**
-Dva od tri filtera su neispravna. Traka se danas ne prikazuje jer nema objava
-tipa blog, ali čim prva stigne, filter puca.
-*Rješivo odmah.*
+**Kartica tekstualnog članka tražila bi neispravnu sličicu.**
+Objava bez `yt` polja generira adresu s `undefined` u putanji. Danas se ne
+vidi jer su sve objave video.
+*Rješivo odmah — treba fallback slika za članke bez videa.*
 
 **Banner „Iz refinanciranja" i njegova dva gumba nikad se ne vide.**
 Uvjet za prikaz nikad nije zadovoljen.
@@ -228,7 +228,8 @@ pod-scenariji kreditnog kalkulatora. Vrijedi preispitati.
 
 Ako se vraćaš nakon pauze i ne znaš odakle:
 
-1. **Filter „Blog"** — puca čim objaviš prvi tekstualni članak
+1. **Sličica bez fallbacka** — kartica tekstualnog članka tražila bi adresu s
+   `undefined` čim objaviš prvi tekst bez videa
 2. **`{PL_*}` tokeni na `/cesta-pitanja`** — prikazuju krivu brojku ovisno o
    tome što je korisnik radio drugdje
 3. **Rate limit off-by-one** — jedna linija
