@@ -194,10 +194,22 @@ for (const slug of blogDesc.keys()) {
   }
 }
 
+// Blog izvori: svaki `u:` u nizu `izvori` unutar BLOG_TEKST-a mora biti https://
+// poveznica (polje je neobavezno, pa nula izvora nije greska). Isti uvjet vrijedi i
+// u rendereru, ali ovdje pada build umjesto da poveznica tiho nestane.
+const blokTekst = isjecak(indexHtml, 'const BLOG_TEKST = {', 'const BLOG_VEZE = {', 'index.html BLOG_TEKST');
+let brojIzvora = 0;
+for (const m of blokTekst.matchAll(/izvori:\s*\[([\s\S]*?)\n\s*\]/g)) {
+  for (const u of m[1].matchAll(/\bu:\s*'([^']*)'/g)) {
+    brojIzvora++;
+    if (!/^https:\/\/[^\s']+$/.test(u[1])) problemi.push(`blog izvor "${u[1]}": URL mora poceti s https://`);
+  }
+}
+
 // ── Izvjestaj ────────────────────────────────────────────────────────────
 
 if (problemi.length === 0) {
-  console.log(`USKLADENO - ${sveRute.size} ruta usporedeno (index.html <-> middleware.js), ${blogDesc.size} blog slugova provjereno u sitemap.xml.`);
+  console.log(`USKLADENO - ${sveRute.size} ruta usporedeno (index.html <-> middleware.js), ${blogDesc.size} blog slugova provjereno u sitemap.xml, ${brojIzvora} blog izvora (https).`);
   process.exit(0);
 } else {
   console.error(`RAZILAZENJE - ${problemi.length} problema:\n`);
