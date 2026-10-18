@@ -1014,10 +1014,11 @@
             <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px">
               <label style="font-weight:500;font-size:12.5px;color:var(--soft)">Rok otplate</label>
               <div style="position:relative;flex-shrink:0">
-                <input data-fs="sm" type="text" inputmode="decimal" aria-label="Rok otplate" value="{{ inp.kGodine }}" sc-camel-on-change="{{ on.kGodine }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:112px;border:1px solid {{ bd.kGodine }};border-radius:9px;padding:9px 48px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.kGodine }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
-                <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">god.</span>
+                <input data-fs="sm" type="text" inputmode="decimal" aria-label="{{ jed.kGodine.aria }}" value="{{ inp.kGodine }}" sc-camel-on-change="{{ on.kGodine }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:112px;border:1px solid {{ bd.kGodine }};border-radius:9px;padding:9px 48px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.kGodine }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">{{ jed.kGodine.txt }}</span>
               </div>
             </div>
+<div style="display:flex;gap:7px;margin-top:2px;justify-content:flex-end"><button sc-camel-on-click="{{ on.kGodineJedGod }}" aria-pressed="{{ jed.kGodine.god.pressed }}" style="background:{{ jed.kGodine.god.bg }};color:{{ jed.kGodine.god.c }};border:1px solid {{ jed.kGodine.god.bd }};border-radius:980px;padding:8px 14px;cursor:pointer;font-weight:500;font-size:13px;transition:all .2s">god.</button><button sc-camel-on-click="{{ on.kGodineJedMj }}" aria-pressed="{{ jed.kGodine.mj.pressed }}" style="background:{{ jed.kGodine.mj.bg }};color:{{ jed.kGodine.mj.c }};border:1px solid {{ jed.kGodine.mj.bd }};border-radius:980px;padding:8px 14px;cursor:pointer;font-weight:500;font-size:13px;transition:all .2s">mj.</button></div>
           </div>
         </div>
         <sc-if value="{{ jeKomb }}">
@@ -1417,9 +1418,10 @@
             <div>
               <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:8px">Ugovoreni rok</label>
               <div style="position:relative">
-                <input type="text" inputmode="decimal" aria-label="Ugovoreni rok" value="{{ inp.rGodine }}" sc-camel-on-change="{{ on.rGodine }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.rGodine }};border-radius:10px;padding:12px 46px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.rGodine }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
-                <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">god.</span>
+                <input type="text" inputmode="decimal" aria-label="{{ jed.rGodine.aria }}" value="{{ inp.rGodine }}" sc-camel-on-change="{{ on.rGodine }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.rGodine }};border-radius:10px;padding:12px 46px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.rGodine }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">{{ jed.rGodine.txt }}</span>
               </div>
+<div style="display:flex;gap:7px;margin-top:8px"><button sc-camel-on-click="{{ on.rGodineJedGod }}" aria-pressed="{{ jed.rGodine.god.pressed }}" style="background:{{ jed.rGodine.god.bg }};color:{{ jed.rGodine.god.c }};border:1px solid {{ jed.rGodine.god.bd }};border-radius:980px;padding:8px 14px;cursor:pointer;font-weight:500;font-size:13px;transition:all .2s">god.</button><button sc-camel-on-click="{{ on.rGodineJedMj }}" aria-pressed="{{ jed.rGodine.mj.pressed }}" style="background:{{ jed.rGodine.mj.bg }};color:{{ jed.rGodine.mj.c }};border:1px solid {{ jed.rGodine.mj.bd }};border-radius:980px;padding:8px 14px;cursor:pointer;font-weight:500;font-size:13px;transition:all .2s">mj.</button></div>
             </div>
             <div>
               <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px"><label style="font-weight:500;font-size:12.5px;color:var(--soft)">Otplaćeno anuiteta</label><button sc-camel-on-click="{{ pj.otplaceno.toggle }}" title="Objašnjenje pojma" sc-camel-tab-index="-1" style="width:17px;height:17px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:none;border:1px solid var(--line2);border-radius:50%;cursor:pointer;font-weight:700;font-size:10.5px;line-height:1;color:var(--soft);padding:0;transition:border-color .2s,color .2s" style-hover="border-color:var(--acc);color:var(--acc)">i</button></div>
@@ -1461,10 +1463,11 @@
               <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
                 <label style="font-weight:500;font-size:12.5px;color:var(--soft)">Rok otplate novog kredita</label>
                 <div style="position:relative;flex-shrink:0">
-                  <input data-fs="sm" type="text" inputmode="numeric" aria-label="Rok otplate novog kredita" value="{{ inp.rSlobodno }}" sc-camel-on-change="{{ on.rSlobodno }}" sc-camel-on-focus="{{ on.rSlobodnoFocus }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:112px;border:1px solid {{ bd.rSlobodno }};border-radius:9px;padding:9px 48px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.rSlobodno }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
-                  <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">god.</span>
+                  <input data-fs="sm" type="text" inputmode="numeric" aria-label="{{ jed.rSlobodno.aria }}" value="{{ inp.rSlobodno }}" sc-camel-on-change="{{ on.rSlobodno }}" sc-camel-on-focus="{{ on.rSlobodnoFocus }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:112px;border:1px solid {{ bd.rSlobodno }};border-radius:9px;padding:9px 48px 9px 10px;font-weight:600;font-size:15px;background:{{ bgF.rSlobodno }};outline:none;text-align:right;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                  <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">{{ jed.rSlobodno.txt }}</span>
                 </div>
               </div>
+<div style="display:flex;gap:7px;margin-top:2px;justify-content:flex-end"><button sc-camel-on-click="{{ on.rSlobodnoJedGod }}" aria-pressed="{{ jed.rSlobodno.god.pressed }}" style="background:{{ jed.rSlobodno.god.bg }};color:{{ jed.rSlobodno.god.c }};border:1px solid {{ jed.rSlobodno.god.bd }};border-radius:980px;padding:8px 14px;cursor:pointer;font-weight:500;font-size:13px;transition:all .2s">god.</button><button sc-camel-on-click="{{ on.rSlobodnoJedMj }}" aria-pressed="{{ jed.rSlobodno.mj.pressed }}" style="background:{{ jed.rSlobodno.mj.bg }};color:{{ jed.rSlobodno.mj.c }};border:1px solid {{ jed.rSlobodno.mj.bd }};border-radius:980px;padding:8px 14px;cursor:pointer;font-weight:500;font-size:13px;transition:all .2s">mj.</button></div>
             </div>
             </sc-if>
           </div>
@@ -1562,9 +1565,10 @@
             <div>
               <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:8px">Ugovoreni rok</label>
               <div style="position:relative">
-                <input type="text" inputmode="decimal" aria-label="Ugovoreni rok" value="{{ inp.zGodine }}" sc-camel-on-change="{{ on.zGodine }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.zGodine }};border-radius:10px;padding:12px 52px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.zGodine }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
-                <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">god.</span>
+                <input type="text" inputmode="decimal" aria-label="{{ jed.zGodine.aria }}" value="{{ inp.zGodine }}" sc-camel-on-change="{{ on.zGodine }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.zGodine }};border-radius:10px;padding:12px 52px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.zGodine }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">{{ jed.zGodine.txt }}</span>
               </div>
+<div style="display:flex;gap:7px;margin-top:8px"><button sc-camel-on-click="{{ on.zGodineJedGod }}" aria-pressed="{{ jed.zGodine.god.pressed }}" style="background:{{ jed.zGodine.god.bg }};color:{{ jed.zGodine.god.c }};border:1px solid {{ jed.zGodine.god.bd }};border-radius:980px;padding:8px 14px;cursor:pointer;font-weight:500;font-size:13px;transition:all .2s">god.</button><button sc-camel-on-click="{{ on.zGodineJedMj }}" aria-pressed="{{ jed.zGodine.mj.pressed }}" style="background:{{ jed.zGodine.mj.bg }};color:{{ jed.zGodine.mj.c }};border:1px solid {{ jed.zGodine.mj.bd }};border-radius:980px;padding:8px 14px;cursor:pointer;font-weight:500;font-size:13px;transition:all .2s">mj.</button></div>
             </div>
             <div>
               <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:8px">Preostalo anuiteta</label>
@@ -1696,16 +1700,18 @@
             <div>
               <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:8px">Duži rok</label>
               <div style="position:relative">
-                <input type="text" inputmode="decimal" aria-label="Duži rok (godine)" value="{{ oMaxTxt }}" sc-camel-on-change="{{ on.oMax }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.oMax }};border-radius:10px;padding:12px 46px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.oMax }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
-                <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">god.</span>
+                <input type="text" inputmode="decimal" aria-label="{{ jed.oMax.aria }}" value="{{ oMaxTxt }}" sc-camel-on-change="{{ on.oMax }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.oMax }};border-radius:10px;padding:12px 46px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.oMax }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">{{ jed.oMax.txt }}</span>
               </div>
+<div style="display:flex;gap:7px;margin-top:8px"><button sc-camel-on-click="{{ on.oMaxJedGod }}" aria-pressed="{{ jed.oMax.god.pressed }}" style="background:{{ jed.oMax.god.bg }};color:{{ jed.oMax.god.c }};border:1px solid {{ jed.oMax.god.bd }};border-radius:980px;padding:8px 14px;cursor:pointer;font-weight:500;font-size:13px;transition:all .2s">god.</button><button sc-camel-on-click="{{ on.oMaxJedMj }}" aria-pressed="{{ jed.oMax.mj.pressed }}" style="background:{{ jed.oMax.mj.bg }};color:{{ jed.oMax.mj.c }};border:1px solid {{ jed.oMax.mj.bd }};border-radius:980px;padding:8px 14px;cursor:pointer;font-weight:500;font-size:13px;transition:all .2s">mj.</button></div>
             </div>
             <div>
               <label style="display:block;font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:8px">Kraći rok</label>
               <div style="position:relative">
-                <input type="text" inputmode="decimal" aria-label="Kraći rok (godine)" value="{{ oMinTxt }}" sc-camel-on-change="{{ on.oMin }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.oMin }};border-radius:10px;padding:12px 46px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.oMin }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
-                <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">god.</span>
+                <input type="text" inputmode="decimal" aria-label="{{ jed.oMin.aria }}" value="{{ oMinTxt }}" sc-camel-on-change="{{ on.oMin }}" sc-camel-on-blur="{{ on.blurNum }}" style="width:100%;border:1px solid {{ bd.oMin }};border-radius:10px;padding:12px 46px 12px 12px;font-weight:600;font-size:17px;background:{{ bgF.oMin }};outline:none;transition:border-color .2s" style-focus="border-color:var(--acc)">
+                <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-weight:500;font-size:13px;color:var(--soft);pointer-events:none">{{ jed.oMin.txt }}</span>
               </div>
+<div style="display:flex;gap:7px;margin-top:8px"><button sc-camel-on-click="{{ on.oMinJedGod }}" aria-pressed="{{ jed.oMin.god.pressed }}" style="background:{{ jed.oMin.god.bg }};color:{{ jed.oMin.god.c }};border:1px solid {{ jed.oMin.god.bd }};border-radius:980px;padding:8px 14px;cursor:pointer;font-weight:500;font-size:13px;transition:all .2s">god.</button><button sc-camel-on-click="{{ on.oMinJedMj }}" aria-pressed="{{ jed.oMin.mj.pressed }}" style="background:{{ jed.oMin.mj.bg }};color:{{ jed.oMin.mj.c }};border:1px solid {{ jed.oMin.mj.bd }};border-radius:980px;padding:8px 14px;cursor:pointer;font-weight:500;font-size:13px;transition:all .2s">mj.</button></div>
             </div>
           </div>
           <sc-if value="{{ o.ispravljeno }}">
@@ -5110,13 +5116,25 @@ const nadjiGrad = (upit) => {
 // Bruto do 700 € → umanjenje 300 €; 700–1.300 € → linearno pada do 0.
 // Iznose provjeriti za 2026. (mogu se indeksirati).
 const UM = { do: 700, gore: 1300, max: 300 };
-const NUM_DEC = { iznos: 2, kIznos: 2, kStopa: 2, kGodine: 0, kExtra: 2, sPocetni: 2, sMjesecno: 2, sRast: 2, sStopa: 2, sGodine: 0, sInflacija: 2, iIznos: 2, iStopa: 2, iGodine: 0, invUzdrzBroj: 0, bonusIznos: 2, oInfStopa: 2, gradNiza: 2, gradVisa: 2, rIznos: 2, rStopa: 2, rGodine: 0, rOtplaceno: 0, rNova: 2, rSlobodno: 0, oIznos: 2, oStopa: 2, oMax: 0, oMin: 0, oDodatna: 2, oPrinos: 2, sIsplata: 2, sIsplataRast: 2, sIsplGodine: 0, sIsplPrinos: 2, pvIznos: 2, pvGodina: 0, zIznos: 2, zStopa: 2, zGodine: 0, zPreostalo: 0, dIznos: 2, dPrinos: 2, dIsplata: 2, dRast: 2, dGodine: 0, gCilj: 2, gGodine: 0, gPocetni: 2, gPrinos: 2, gUplata: 2, djeca: 0, uzdrzavani: 0, kExtraMj: 0, kExtraStart: 0, rSlobodno: 0, kInfStopa: 2, gInflacija: 2, kFiks: 0, kMarza: 2, kEuribor: 2 };
+const NUM_DEC = { iznos: 2, kIznos: 2, kStopa: 2, kGodine: 2, kExtra: 2, sPocetni: 2, sMjesecno: 2, sRast: 2, sStopa: 2, sGodine: 0, sInflacija: 2, iIznos: 2, iStopa: 2, iGodine: 0, invUzdrzBroj: 0, bonusIznos: 2, oInfStopa: 2, gradNiza: 2, gradVisa: 2, rIznos: 2, rStopa: 2, rGodine: 2, rOtplaceno: 0, rNova: 2, rSlobodno: 2, oIznos: 2, oStopa: 2, oMax: 2, oMin: 2, oDodatna: 2, oPrinos: 2, sIsplata: 2, sIsplataRast: 2, sIsplGodine: 0, sIsplPrinos: 2, pvIznos: 2, pvGodina: 0, zIznos: 2, zStopa: 2, zGodine: 2, zPreostalo: 0, dIznos: 2, dPrinos: 2, dIsplata: 2, dRast: 2, dGodine: 0, gCilj: 2, gGodine: 0, gPocetni: 2, gPrinos: 2, gUplata: 2, djeca: 0, uzdrzavani: 0, kExtraMj: 0, kExtraStart: 0, kInfStopa: 2, gInflacija: 2, kFiks: 2, kMarza: 2, kEuribor: 2 };
 // Točka je decimalni znak SAMO kad nema zareza, ima točno jednu točku i iza nje
 // jednu ili dvije znamenke ("3.5", "1500.50", ".5"). Sve ostalo je kao i prije:
 // točke su tisućice ("1.000", "12.345", "1.234.567"), zarez je decimala. Prije
 // ovoga "3.5" je postajalo 35, a "1500.50" 150050. Isti parser čita i izlazne
 // stringove iz eur()/pct() (uvijek zarez ili grupe od tri znamenke), pa se na
 // njih pravilo nikad ne odnosi.
+// Polja roka s prekidačem god./mj.: ključ polja -> [ključ jedinice u stanju, naziv za
+// aria-label]. Jedinica je 'god' (zadano) ili 'mj'. Vrijednost u polju ostaje onakva
+// kakvu je korisnik upisao; u mjesece se pretvara tek u rokMj(). Fiksni period
+// kombinirane stope (kFiks) NAMJERNO nije ovdje: ostaje samo u godinama.
+const ROK_POLJA = {
+  kGodine: ['kGodineJed', 'Rok otplate'],
+  rGodine: ['rGodineJed', 'Ugovoreni rok'],
+  rSlobodno: ['rSlobodnoJed', 'Rok otplate novog kredita'],
+  oMax: ['oMaxJed', 'Duži rok'],
+  oMin: ['oMinJed', 'Kraći rok'],
+  zGodine: ['zGodineJed', 'Ugovoreni rok']
+};
 const parseHR = (t) => {
   const s = String(t).replace(/\s/g, '');
   if (s.indexOf(',') === -1 && s.indexOf('.') !== -1 && s.indexOf('.') === s.lastIndexOf('.')) {
@@ -5129,10 +5147,10 @@ const parseHR = (t) => {
 // smislenoj vrijednosti. Isti objekt koristi i tipka "Očisti polja".
 const RESET = {
   placa: { iznos: null, djeca: 0, uzdrzavani: 0, mladi: 'ne', grad: 'Zagreb', smjer: 'bruto', gradNiza: 20, gradVisa: 30, inv: false, invTip: 'dio', invUzdrz: false, invUzdrzTip: 'dio', invUzdrzBroj: 1, bonusIznos: null, bonusNeoporezivo: true },
-  kredit: { kIznos: null, kStopa: null, kGodine: null, kMod: 'fiks', kFiks: null, kMarza: null, kEuribor: null, kTip: 'anuitet', kUsporedi: false, kAll: false, kExtraOpen: false, kExtra: 0, kExtraStart: 12, kExtraFreq: 'godisnje', kEfekt: 'skrati', kSlobodno: [{ mj: 12, iznos: 2000 }], ikOpen: false, ikIsplata: '2026-09-15', ikPrvi: '2026-11-01', kInfOpen: false, kInfStopa: 2.5, kIzvor: '' },
-  refi: { rIznos: null, rStopa: null, rGodine: null, rOtplaceno: null, rNova: null, rSlobodno: 20, rSlobOpen: false },
-  opcije: { oIznos: null, oStopa: null, oMax: null, oMin: null, oInvestOpen: false, oInvestiraj: true, oDodatna: null, oPrinos: 7, oInfOpen: false, oInfStopa: 2.5 },
-  zatvoriti: { zIznos: null, zStopa: null, zGodine: null, zPreostalo: null },
+  kredit: { kIznos: null, kStopa: null, kGodine: null, kGodineJed: 'god', kMod: 'fiks', kFiks: null, kMarza: null, kEuribor: null, kTip: 'anuitet', kUsporedi: false, kAll: false, kExtraOpen: false, kExtra: 0, kExtraStart: 12, kExtraFreq: 'godisnje', kEfekt: 'skrati', kSlobodno: [{ mj: 12, iznos: 2000 }], ikOpen: false, ikIsplata: '2026-09-15', ikPrvi: '2026-11-01', kInfOpen: false, kInfStopa: 2.5, kIzvor: '' },
+  refi: { rIznos: null, rStopa: null, rGodine: null, rGodineJed: 'god', rOtplaceno: null, rNova: null, rSlobodno: 20, rSlobodnoJed: 'god', rSlobOpen: false },
+  opcije: { oIznos: null, oStopa: null, oMax: null, oMaxJed: 'god', oMin: null, oMinJed: 'god', oInvestOpen: false, oInvestiraj: true, oDodatna: null, oPrinos: 7, oInfOpen: false, oInfStopa: 2.5 },
+  zatvoriti: { zIznos: null, zStopa: null, zGodine: null, zGodineJed: 'god', zPreostalo: null },
   rast: { sPocetni: null, sMjesecno: null, sFreq: 'mjesecno', sStopa: null, sGodine: null, sRast: null, sDodatno: false, sInflOn: false, sInflacija: 2.5, sLifecycle: false, sIsplata: 1500, sIsplataRast: 2, sIsplGodine: 25, sIsplPrinos: null },
   cilj: { gCilj: null, gGodine: null, gPocetni: null, gPrinos: null, gUplata: null, gRjesenje: 'uplata', gDodatno: false, gInflOn: false, gInflacija: 2.5 },
   renta: { dIznos: null, dPrinos: null, dIsplata: null, dRast: 2, dRastOpen: false, dRjesenje: 'isplata', dGodine: null },
@@ -6515,7 +6533,7 @@ class Component extends DCLogic {
     gradNiza: 20, gradVisa: 30, editKey: '', editTxt: '',
     kTip: 'anuitet', kMod: 'fiks', kExtra: 0, kExtraMj: 12, kAll: false,
     kUsporedi: false, kInfOpen: false, kInfStopa: 2.5, kIzvor: '', pojamOpen: '',
-    rSlobOpen: false, rSlobodno: 20, dRastOpen: false, dRast: 2, dRjesenje: 'isplata', dGodine: null,
+    rSlobOpen: false, rSlobodno: 20, kGodineJed: 'god', rGodineJed: 'god', rSlobodnoJed: 'god', oMaxJed: 'god', oMinJed: 'god', zGodineJed: 'god', dRastOpen: false, dRast: 2, dRjesenje: 'isplata', dGodine: null,
     // mailNews defaultno false: GDPR - privola za newsletter mora biti eksplicitna, nikad podrazumijevana.
     mailOpen: false, mailAdr: '', mailNews: false, mailHp: '', mailErr: '', mailSent: false, mailBurst: false, mailSlanje: false, mailSentNaslov: '',
     ikOpen: false, ikIsplata: '2026-09-15', ikPrvi: '2026-11-01',
@@ -6916,6 +6934,27 @@ class Component extends DCLogic {
   }
 
   num(v, fb) { const n = parseFloat(v); return isFinite(n) ? n : fb; }
+  // Rok iz polja s prekidačem god./mj. u MJESECIMA, zaokruženo i NESTEGNUTO (granice
+  // stavlja pozivatelj). Prazno polje = fbGod godina, kao i prije prekidača.
+  rokMj(k, fbGod) {
+    const v = this.num(this.state[k], null);
+    if (v === null) return Math.round(fbGod * 12);
+    return Math.round(this.state[ROK_POLJA[k][0]] === 'mj' ? v : v * 12);
+  }
+  // Prikaz roka koji je kalkulator stvarno koristio (npr. nakon ispravka "kraći < duži")
+  // u jedinici koju je korisnik odabrao: mjeseci bez decimala, godine do dvije decimale.
+  rokPrikaz(k, mj) {
+    return this.state[ROK_POLJA[k][0]] === 'mj' ? this.fmtIn(mj, 0) : this.fmtIn(mj / 12, 2);
+  }
+  // Prebacivanje jedinice: vrijednost se pretvara točno (godine × 12 u mjesece; mjeseci
+  // ÷ 12 u godine, bez zaokruživanja), prazno polje ostaje prazno.
+  rokJed(k, nova) {
+    const uk = ROK_POLJA[k][0];
+    if (this.state[uk] === nova) return;
+    const v = this.state[k];
+    const ima = v !== null && v !== undefined && v !== '' && isFinite(v);
+    this.setState({ [uk]: nova, [k]: ima ? (nova === 'mj' ? Math.round(v * 12) : v / 12) : v, editKey: '', editTxt: '' });
+  }
   blogVeza(a) {
     return () => {
       const d = a.split(':');
@@ -7599,10 +7638,10 @@ class Component extends DCLogic {
         param: [
           R('Iznos postojećeg kredita', eur(n('rIznos'), 2)),
           R('Postojeća kamatna stopa', pct(n('rStopa'), 2)),
-          R('Ugovoreni rok', Math.round(n('rGodine', 1)) + ' god.'),
+          R('Ugovoreni rok', r.ugRok),
           R('Već otplaćeno anuiteta', Math.round(n('rOtplaceno')) + ' mj.'),
           R('Nova kamatna stopa', pct(n('rNova'), 2)),
-          s.rSlobOpen ? R('Vlastiti rok u trećem scenariju', Math.round(n('rSlobodno', 1)) + ' god.') : null
+          s.rSlobOpen ? R('Vlastiti rok u trećem scenariju', r.slobRok) : null
         ].filter(Boolean),
         rez: [
           R('Sadašnji anuitet', r.anuitet), R('Ukupna kamata postojećeg kredita', r.ukKamata),
@@ -7778,7 +7817,7 @@ class Component extends DCLogic {
         param: [
           R('Iznos kredita', eur(n('zIznos'), 2)),
           R('Kamatna stopa', pct(n('zStopa'), 2)),
-          R('Ugovoreni rok', Math.round(n('zGodine', 1)) + ' god.'),
+          R('Ugovoreni rok', z.ugRok),
           R('Preostalo anuiteta', Math.round(n('zPreostalo')) + ' mj.')
         ],
         rez: [
@@ -8043,7 +8082,7 @@ class Component extends DCLogic {
     }
 
     // ── KREDIT ───────────────────────────────────────────────
-    const months = Math.max(12, Math.min(360, Math.round(this.num(s.kGodine, 1) * 12)));
+    const months = Math.max(1, Math.min(360, this.rokMj('kGodine', 1)));
     const kAmt = Math.max(0, this.num(s.kIznos, 0));
     const kRate = Math.max(0, this.num(s.kStopa, 0));
     const extras = this.buildExtras(months);
@@ -8200,7 +8239,7 @@ class Component extends DCLogic {
         ? 'Anuiteti su ukupno jeftiniji za ' + eur(Math.abs(dTot), 2) + ', ali na početku plaćaš ' + eur(Math.abs(dPrva), 2) + ' više mjesečno.'
         : 'Anuiteti su jeftiniji i ukupno (za ' + eur(Math.abs(dTot), 2) + ') i mjesečno na početku (za ' + eur(Math.abs(dPrva), 2) + ').';
     }
-    const uspPretpostavke = 'Iznos: ' + eur(kAmt, 2) + ' · Stopa: ' + pct(kRate, 2) + ' · Rok: ' + Math.round(months / 12) + ' god.'
+    const uspPretpostavke = 'Iznos: ' + eur(kAmt, 2) + ' · Stopa: ' + pct(kRate, 2) + ' · Rok: ' + (months % 12 === 0 ? months / 12 + ' god.' : trajanjeTxt(months))
       + (s.kInfOpen ? ' · Inflacija: ' + pct(Math.max(0, this.num(s.kInfStopa, 0)), 2) + ' (pretpostavka)' : '');
     const uspRedovi = [
       { a: 'Prva mjesečna obveza', b: eur(A.prva, 2), c: eur(R.prva, 2), d: uspZnak(dPrva) },
@@ -8524,7 +8563,7 @@ class Component extends DCLogic {
     // ── ZATVORITI ILI NE (gdje si u otplati) ─────────────────
     const zP = Math.max(0, this.num(s.zIznos, 0));
     const zR = Math.max(0, this.num(s.zStopa, 0));
-    const zUk = Math.max(12, Math.round(Math.max(1, this.num(s.zGodine, 1)) * 12));
+    const zUk = Math.max(1, this.rokMj('zGodine', 1));
     const zOst = Math.max(0, Math.min(zUk, Math.round(this.num(s.zPreostalo, 0))));
     const zPlaceno = zUk - zOst;
     const zi = zR / 100 / 12;
@@ -8562,10 +8601,9 @@ class Component extends DCLogic {
     // ── REFINANCIRANJE ───────────────────────────────────────
     const anu = (P, god, mj) => { const i = god / 100 / 12; return i === 0 ? P / mj : P * i / (1 - Math.pow(1 + i, -mj)); };
     const rP = Math.max(0, this.num(s.rIznos, 0));
-    const rG = Math.max(1, Math.min(30, this.num(s.rGodine, 1)));
     const rStara = Math.max(0, this.num(s.rStopa, 0));
     const rNovaS = Math.max(0, this.num(s.rNova, 0));
-    const rMj = Math.round(rG * 12);
+    const rMj = Math.max(1, Math.min(360, this.rokMj('rGodine', 1)));
     const rOtp = Math.max(0, Math.min(rMj - 1, Math.round(this.num(s.rOtplaceno, 0))));
     const rAnu = anu(rP, rStara, rMj);
     const rUkKam = rAnu * rMj - rP;
@@ -8583,8 +8621,7 @@ class Component extends DCLogic {
     const rokTxt = (mj) => { const g = Math.floor(mj / 12), m = mj % 12; return (g ? g + ' god.' : '') + (g && m ? ' ' : '') + (m ? m + ' mj.' : '') + ' (' + mj + ' mj.)'; };
     const s2Isti = s2Mj >= s1Mj;
     // scenarij 3: slobodan unos
-    const s3G = Math.max(1, Math.min(30, Math.round(this.num(s.rSlobodno, 1))));
-    const s3Mj = s3G * 12;
+    const s3Mj = Math.max(1, Math.min(360, this.rokMj('rSlobodno', 1)));
     const scen = [s1Mj, s2Mj, s3Mj].map((mj, ix) => {
       const a = anu(rBal, rNovaS, mj);
       const kam = a * mj - rBal;
@@ -8633,11 +8670,11 @@ class Component extends DCLogic {
           kTip: 'anuitet', kUsporedi: false, kExtraOpen: false, ikOpen: false,
           kIznos: Math.round(rBal * 100) / 100,
           kStopa: rNovaS,
-          kGodine: Math.round(scenMj[ix] / 12),
+          kGodine: scenMj[ix] % 12 === 0 ? scenMj[ix] / 12 : scenMj[ix], kGodineJed: scenMj[ix] % 12 === 0 ? 'god' : 'mj',
           editKey: '', editTxt: '',
         }, () => {
           this._syncUrl();
-          this.setState({ kIzvor: 'Parametri su preneseni iz refinanciranja, scenarij „' + x.naslov.toLowerCase() + '”: preostala glavnica ' + eur(rBal, 2) + ', nova stopa ' + pct(rNovaS, 2) + ', rok ' + Math.round(scenMj[ix] / 12) + ' godina.' });
+          this.setState({ kIzvor: 'Parametri su preneseni iz refinanciranja, scenarij „' + x.naslov.toLowerCase() + '”: preostala glavnica ' + eur(rBal, 2) + ', nova stopa ' + pct(rNovaS, 2) + ', rok ' + (scenMj[ix] % 12 === 0 ? scenMj[ix] / 12 + ' godina.' : trajanjeTxt(scenMj[ix])) });
         });
         if (typeof window !== 'undefined') { window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; }
         this.resetHScroll();
@@ -8647,9 +8684,9 @@ class Component extends DCLogic {
     // ── KRAĆI ILI DUŽI ROK + INVESTIRANJE RAZLIKE ────────────
     const oP = Math.max(0, this.num(s.oIznos, 0));
     const oR = Math.max(0, this.num(s.oStopa, 0));
-    const oMaxG = Math.max(2, Math.min(30, Math.round(this.num(s.oMax, 30))));
-    const oMinG = Math.max(1, Math.min(oMaxG - 1, Math.round(this.num(s.oMin, 20))));
-    const oMaxM = oMaxG * 12, oMinM = oMinG * 12;
+    const oMaxRawM = this.rokMj('oMax', 30), oMinRawM = this.rokMj('oMin', 20);
+    const oMaxM = Math.max(2, Math.min(360, oMaxRawM));
+    const oMinM = Math.max(1, Math.min(oMaxM - 1, oMinRawM));
     const aDugi = anu(oP, oR, oMaxM), aKratki = anu(oP, oR, oMinM);
     const razlikaAnu = aKratki - aDugi;
     const oDod = Math.max(0, this.num(s.oDodatna, 0));
@@ -9179,7 +9216,7 @@ class Component extends DCLogic {
       { l: 'Iznos kredita', v: eur(kAmt, 2) },
       { l: 'Vrsta kamatne stope', v: jeKomb ? 'Kombinirana: fiksna pa varijabilna' : 'Fiksna kroz cijeli rok' },
       { l: jeKomb ? 'Fiksna kamatna stopa' : 'Kamatna stopa', v: pct(kRate, 2) },
-      { l: 'Ugovoreni rok otplate', v: Math.round(months / 12) + ' god. (' + months + ' mjeseci)' },
+      { l: 'Ugovoreni rok otplate', v: months % 12 === 0 ? months / 12 + ' god. (' + months + ' mjeseci)' : trajanjeTxt(months) },
       { l: 'Model otplate', v: jeAnu ? 'Anuiteti, jednaka mjesečna obveza' : 'Rate, jednaka mjesečna glavnica' }
     ];
     if (jeKomb) {
@@ -9318,7 +9355,8 @@ class Component extends DCLogic {
 
     // Upozorenja na neuobičajene unose: ne blokiraju izračun, samo traže provjeru.
     const _tk = s.calcTab === 'kamata' ? s.gMode : s.calcTab;
-    const _v = (k) => (this.prazno(k) ? null : this.num(s[k], 0));
+    // Za polja roka _v uvijek vraća GODINE, bez obzira na odabranu jedinicu.
+    const _v = (k) => (this.prazno(k) ? null : this.num(s[k], 0) / (ROK_POLJA[k] && s[ROK_POLJA[k][0]] === 'mj' ? 12 : 1));
     const UPZ = [];
     const warn = (c, t) => { if (c) UPZ.push({ t: t }); };
     const grupa = (kljucevi, prag, poruka) => (kljucevi || []).forEach((k) => {
@@ -9331,7 +9369,14 @@ class Component extends DCLogic {
       (x) => 'Prinos od ' + pct(x, 2) + ' godišnje je vrlo optimističan. Dugoročni prosjek globalnog indeksnog portfelja je oko 7 %.');
     grupa(({ inflacija: ['iStopa'], rast: s.sInflOn ? ['sInflacija'] : [], cilj: s.gInflOn ? ['gInflacija'] : [], kredit: s.kInfOpen ? ['kInfStopa'] : [], opcije: s.oInfOpen ? ['oInfStopa'] : [] })[_tk], 12,
       (x) => 'Inflacija od ' + pct(x, 1) + ' godišnje je iznimno visoka. Zadnja objavljena godišnja stopa u Hrvatskoj je oko ' + pct(tz('inflacija'), 1) + '.');
-    grupa(({ kredit: ['kGodine'], refi: ['rGodine'], zatvoriti: ['zGodine'], opcije: ['oMax'] })[_tk], 40,
+    // Kredit, refinanciranje i kraći/duži rok računaju najviše s 360 mjeseci i tiho steže
+    // veći unos - korisnik mora vidjeti što se dogodilo i s čime je izračunato.
+    (({ kredit: [['kGodine', 'Rok otplate']], refi: [['rGodine', 'Ugovoreni rok']].concat(s.rSlobOpen ? [['rSlobodno', 'Rok otplate novog kredita']] : []), opcije: [['oMax', 'Duži rok']] })[_tk] || []).forEach(([k, naziv]) => {
+      const rawMj = this.rokMj(k, 1);
+      warn(!this.prazno(k) && rawMj > 360, naziv + ' od ' + trajanjeTxt(rawMj) + ' prelazi najveći mogući. Izračunato s ' + trajanjeTxt(360));
+    });
+    // Zatvoriti nema gornju granicu pa ostaje informativno upozorenje.
+    grupa(({ zatvoriti: ['zGodine'] })[_tk], 40,
       () => 'Rok otplate duži od 40 godina banke u pravilu ne odobravaju.');
     grupa(({ rast: ['sGodine'], cilj: ['gGodine'], inflacija: ['iGodine'] })[_tk], 60,
       () => 'Razdoblje duže od 60 godina teško je smisleno planirati.');
@@ -9431,7 +9476,7 @@ class Component extends DCLogic {
 
       iznos: s.iznos, grad: s.grad, mladi: s.mladi, djeca: s.djeca, uzdrzavani: s.uzdrzavani, gradPopis: Object.keys(GRADOVI), gradNijePrepoznat: !nadjiGrad(s.grad),
       inp: Object.keys(NUM_DEC).reduce((acc, k) => {
-        acc[k] = s.editKey === k ? s.editTxt : this.fmtIn(s[k], NUM_DEC[k]);
+        acc[k] = s.editKey === k ? s.editTxt : this.fmtIn(s[k], ROK_POLJA[k] && s[ROK_POLJA[k][0]] === 'mj' ? 0 : NUM_DEC[k]);
         return acc;
       }, {}),
       // Obrub i pozadina polja: prazno polje je blago osjenčano da se vidi što treba popuniti.
@@ -9669,6 +9714,14 @@ class Component extends DCLogic {
         prvaSaIk: eur((jeAnu ? A.prva : R.prva) + ikIznos, 2)
       },
       kExtraOpen: s.kExtraOpen, kExtraZatvoren: !s.kExtraOpen,
+      jed: Object.keys(ROK_POLJA).reduce((acc, k) => {
+        const mj = s[ROK_POLJA[k][0]] === 'mj';
+        acc[k] = {
+          txt: mj ? 'mj.' : 'god.', aria: ROK_POLJA[k][1] + (mj ? ' (mjeseci)' : ' (godine)'),
+          god: Object.assign(chip(!mj), { pressed: String(!mj) }), mj: Object.assign(chip(mj), { pressed: String(mj) })
+        };
+        return acc;
+      }, {}),
       kFreq: {
         mjesecno: chip(s.kExtraFreq === 'mjesecno'), kvartalno: chip(s.kExtraFreq === 'kvartalno'),
         polugodisnje: chip(s.kExtraFreq === 'polugodisnje'), godisnje: chip(s.kExtraFreq === 'godisnje'),
@@ -10041,6 +10094,7 @@ class Component extends DCLogic {
       z: {
         dug: eur(zDug, 2), kamOst: eur(zKamOst, 2), glPlac: eur(zGlPlac, 2), kamPlac: eur(zKamPlac, 2),
         anuitet: eur(zAnu), uplaceno: eur(zUplaceno, 2), kamUk: eur(zKamUk, 2),
+        ugRok: zUk % 12 === 0 ? zUk / 12 + ' god.' : trajanjeTxt(zUk),
         placenoMj: zPlaceno + ' od ' + zUk + ' anuiteta',
         pctVrijeme: pct(zPctVrijeme, 0), pctGl: pct(zPctGl, 1), pctKam: pct(zPctKam, 1),
         wVrijeme: zPctVrijeme.toFixed(1) + '%', wGl: zPctGl.toFixed(1) + '%', wKam: zPctKam.toFixed(1) + '%',
@@ -10058,20 +10112,21 @@ class Component extends DCLogic {
       r: {
         anuitet: eur(rAnu), ukKamata: eur(rUkKam, 2), preostalaGl: eur(rBal, 2),
         placenaGl: eur(rPlacGl, 2), placenaKam: eur(rPlacKam, 2), preostalaKam: eur(rPreostKam, 2),
+        ugRok: rMj % 12 === 0 ? rMj / 12 + ' god.' : trajanjeTxt(rMj), slobRok: s3Mj % 12 === 0 ? s3Mj / 12 + ' god.' : trajanjeTxt(s3Mj),
         ostMj: rOstMj + ' mj. (' + nf(1).format(rOstMj / 12) + ' god.)', ostMjKratko: nf(1).format(rOstMj / 12) + ' god.', novaStopa: pct(rNovaS, 2),
         scen: scenOut
       },
       rSlobodno: s.rSlobodno,
       o: {
         dugiAnu: eur(aDugi), kratkiAnu: eur(aKratki), razlika: eur(razlikaAnu),
-        dugiRok: oMaxG + ' god.', kratkiRok: oMinG + ' god.',
+        dugiRok: trajanjeTxt(oMaxM), kratkiRok: trajanjeTxt(oMinM),
         dugiKam: eur(aDugi * oMaxM - oP, 2), kratkiKam: eur(aKratki * oMinM - oP, 2),
         dugiUk: eur(aDugi * oMaxM, 2), kratkiUk: eur(aKratki * oMinM, 2),
         dugiMin: eur(aDugi / 0.45), kratkiMin: eur(aKratki / 0.45),
         infOpen: s.oInfOpen, infZatvoren: !s.oInfOpen, infStopa: s.oInfStopa,
         dugiUkReal: eur(oDugiUkReal, 2), kratkiUkReal: eur(oKratkiUkReal, 2),
-        ispravljeno: Math.round(this.num(s.oMin, 20)) >= Math.round(this.num(s.oMax, 30)),
-        ispravljenoTxt: 'Kraći rok mora biti manji od dužeg pa je ispravljen na ' + oMinG + ' god.',
+        ispravljeno: oMinRawM >= oMaxRawM,
+        ispravljenoTxt: 'Kraći rok mora biti manji od dužeg pa je ispravljen na ' + trajanjeTxt(oMinM),
         mjInv: eur(mjInv), inv20: eur(inv20, 2), inv30: eur(inv30, 2),
         imaTocku: prviM > 0, tockaM: prviM + '. mjesec (' + nf(1).format(prviM / 12) + ' god.)',
         // Goli brojevi (ne formatirani tekst) - buildPdf() prima samo ovaj,
@@ -10084,8 +10139,8 @@ class Component extends DCLogic {
         chart: _ho.items, hoverAktivan: _ho.hoverAktivan, hoverLeft: _ho.hoverLeft, hoverTxt: _ho.hoverTxt, hoverTransform: _ho.hoverTransform, invBolje: mjInv > 0
       },
       oInvestiraj: s.oInvestiraj, oInvChip: chip(s.oInvestiraj), oNeChip: chip(!s.oInvestiraj),
-      oMaxTxt: s.editKey === 'oMax' ? s.editTxt : (s.oMax == null ? '' : this.fmtIn(oMaxG, 0)),
-      oMinTxt: s.editKey === 'oMin' ? s.editTxt : (s.oMin == null ? '' : this.fmtIn(oMinG, 0)),
+      oMaxTxt: s.editKey === 'oMax' ? s.editTxt : (s.oMax == null ? '' : this.rokPrikaz('oMax', oMaxM)),
+      oMinTxt: s.editKey === 'oMin' ? s.editTxt : (s.oMin == null ? '' : this.rokPrikaz('oMin', oMinM)),
 
       cBluf: (() => {
         const jeK = s.calcTab === 'kredit' && s.kMod === 'komb';
@@ -10495,6 +10550,7 @@ class Component extends DCLogic {
         djecaFocus: this.focusClear('djeca', 0), uzdrzavaniFocus: this.focusClear('uzdrzavani', 0),
         gradNiza: this.setNumT('gradNiza', 20), gradVisa: this.setNumT('gradVisa', 30),
         blurNum: () => this.setState({ editKey: '', editTxt: '' }),
+        ...Object.keys(ROK_POLJA).reduce((acc, k) => { acc[ROK_POLJA[k][0] + 'God'] = () => this.rokJed(k, 'god'); acc[ROK_POLJA[k][0] + 'Mj'] = () => this.rokJed(k, 'mj'); return acc; }, {}),
         rIznos: this.setNumT('rIznos', 0), rStopa: this.setNumT('rStopa', 0), rGodine: this.setNumT('rGodine', 1),
         rOtplaceno: this.setNumT('rOtplaceno', 0), rNova: this.setNumT('rNova', 0), rSlobodno: this.setNumT('rSlobodno', 1),
         rSlobodnoFocus: this.focusClear('rSlobodno', 20),
@@ -10572,7 +10628,7 @@ class Component extends DCLogic {
           'Otplatni plan kredita',
           (this.state.kTip === 'anuitet' ? A : R).rows,
           [['Iznos kredita', nf(2).format(kAmt) + ' EUR'], ['Kamatna stopa', nf(2).format(kRate) + ' %'],
-           ['Rok otplate', Math.round(months / 12) + ' godina (' + months + ' mjeseci)'],
+           ['Rok otplate', months % 12 === 0 ? months / 12 + ' godina (' + months + ' mjeseci)' : trajanjeTxt(months) + ' (' + months + ' mjeseci)'],
            ['Model otplate', this.state.kTip === 'anuitet' ? 'Anuiteti' : 'Rate'],
            ['Vrsta kamatne stope', jeKomb ? 'Kombinirana' : 'Fiksna'],
            ['Fiksni period', jeKomb ? Math.round(kFiksM / 12) + ' godina (' + kFiksM + ' mjeseci)' : '–'],

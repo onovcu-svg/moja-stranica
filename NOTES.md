@@ -4,7 +4,7 @@ Radni dnevnik projekta. Odluke, ograničenja i otvorene stavke.
 **Claude Code: pročitaj ovaj file prije svakog većeg zadatka i ažuriraj ga kad
 se donese nova odluka ili zatvori stavka.**
 
-Zadnje ažuriranje: 3. 9. 2026., 14:43
+Zadnje ažuriranje: 19. 10. 2026.
 
 ---
 
@@ -400,12 +400,47 @@ Zadnje ažuriranje: 3. 9. 2026., 14:43
   Boje grafova koje koriste istu nijansu (8877, 9372, 9488) NISU pomoćni tekst
   i namjerno se ne mijenjaju.
 - **Točka je decimalni znak kad nema zareza, ima točno jednu točku i iza nje
-  jednu ili dvije znamenke.** Inače je razdjelnik tisućica. Prije 23.10.2026.
+  jednu ili dvije znamenke.** Inače je razdjelnik tisućica. Prije 19.10.2026.
   `parseHR` je micao sve točke, pa je "3.5" postajalo 35 a "1500.50" postajalo
   150.050 — tiho, bez upozorenja, u svih 62 putanje unosa.
   Posljedica koju treba znati: pri uređivanju formatiranog iznosa, brisanje
   zadnje znamenke ("150.000" → "150.00") čita se kao 150, ne kao 15.000.
   Vidljivo je odmah u polju.
+- **Rok se unosi u godinama ILI mjesecima (prekidač god. | mj. uz polje).**
+  Šest polja: `kGodine` (kredit), `rGodine` i `rSlobodno` (refinanciranje),
+  `oMax` i `oMin` (kraći ili duži rok), `zGodine` (zatvoriti ili ne); svako ima
+  vlastiti ključ jedinice (`ROK_POLJA`, `kGodineJed` …). Fiksni period
+  kombinirane stope (`kFiks`) NAMJERNO ostaje samo u godinama, bez prekidača —
+  banke ga tako navode. U izračun ulazi samo `rokMj()` (zaokruženi broj
+  mjeseci); polje čuva ono što je korisnik upisao. Pretvorba pri prebacivanju
+  jedinice je točna u oba smjera (god × 12; mj ÷ 12 bez zaokruživanja, prikaz
+  na dvije decimale: 82 mj = 6,83 god).
+  **Rezultati se NE prilagođavaju odabranoj jedinici** — svugdje ostaje
+  "X g. Y mj." Parametri u PDF-u i mailu za cijele godine ostaju bajt-identičan
+  stari tekst ("7 god. (84 mjeseci)"), "X g. Y mj." samo kad rok nije cijela
+  godina; oba oblika već prolaze `report.js`, koji nije mijenjan.
+  Granice: 1 mjesec do 360 mjeseci (kredit, refinanciranje, kraći/duži: duži
+  ≥ 2 mj., kraći ≥ 1 mj. i manji od dužeg). Zatvoriti nema gornju granicu
+  (izmjereno 35 godina: račun je ispravan). Kraći/duži rok prikazuje se kao
+  "30 g. 0 mj." (bilo "30 god.").
+  Vidljive promjene ponašanja:
+  1. Polje roka u kreditu za unos 7,5 prikazivalo je "8", a račun je koristio
+     90 mjeseci. Prikaz je sad "7,5".
+  2. Kraći/duži rok i treći scenarij refinanciranja prihvaćaju decimale
+     umjesto tihog zaokruživanja na cijele godine.
+  3. Donja granica roka je 1 mjesec (bilo 12 mjeseci u kreditu i zatvoriti,
+     1 godina u refinanciranju, 1–2 godine u kraćem/duljem roku).
+  4. Ispravak "kraći rok mora biti manji od dužeg" ide na duži minus 1 MJESEC
+     (bilo minus 1 godina): duži 10 g., kraći 12 g. → kraći "9 g. 11 mj."
+     (bilo "9 god.").
+  5. "Prenesi u kredit" iz refinanciranja prenosi točne mjesece (bilo
+     zaokruženo na cijele godine).
+  6. Polje fiksnog perioda (`kFiks`) prikazivalo je "3" za unos 2,5, a račun je
+     koristio 2,5 godine. Prikaz je sad "2,5" (`NUM_DEC.kFiks` na 2).
+  Kredit, refinanciranje i kraći/duži rok računaju najviše s 360 mjeseci. Unos
+  iznad toga se i dalje steže, ali uz upozorenje: "Rok otplate od 35 g. 0 mj.
+  prelazi najveći mogući. Izračunato s 30 g. 0 mj." (stari tekst "duži od 40
+  godina" ostao je samo za zatvoriti, koji nema gornju granicu).
 
 ### Sadržaj
 - Kontakt uklonjen iz mobilnog izbornika, radi simetrije s desktopom. Forma
