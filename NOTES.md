@@ -399,6 +399,13 @@ Zadnje ažuriranje: 3. 9. 2026., 14:43
   budućoj promjeni provjeri sva tri — nema mehanizma koji ih drži usklađenima.
   Boje grafova koje koriste istu nijansu (8877, 9372, 9488) NISU pomoćni tekst
   i namjerno se ne mijenjaju.
+- **Točka je decimalni znak kad nema zareza, ima točno jednu točku i iza nje
+  jednu ili dvije znamenke.** Inače je razdjelnik tisućica. Prije 23.10.2026.
+  `parseHR` je micao sve točke, pa je "3.5" postajalo 35 a "1500.50" postajalo
+  150.050 — tiho, bez upozorenja, u svih 62 putanje unosa.
+  Posljedica koju treba znati: pri uređivanju formatiranog iznosa, brisanje
+  zadnje znamenke ("150.000" → "150.00") čita se kao 150, ne kao 15.000.
+  Vidljivo je odmah u polju.
 
 ### Sadržaj
 - Kontakt uklonjen iz mobilnog izbornika, radi simetrije s desktopom. Forma
