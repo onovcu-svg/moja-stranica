@@ -5111,7 +5111,20 @@ const nadjiGrad = (upit) => {
 // Iznose provjeriti za 2026. (mogu se indeksirati).
 const UM = { do: 700, gore: 1300, max: 300 };
 const NUM_DEC = { iznos: 2, kIznos: 2, kStopa: 2, kGodine: 0, kExtra: 2, sPocetni: 2, sMjesecno: 2, sRast: 2, sStopa: 2, sGodine: 0, sInflacija: 2, iIznos: 2, iStopa: 2, iGodine: 0, invUzdrzBroj: 0, bonusIznos: 2, oInfStopa: 2, gradNiza: 2, gradVisa: 2, rIznos: 2, rStopa: 2, rGodine: 0, rOtplaceno: 0, rNova: 2, rSlobodno: 0, oIznos: 2, oStopa: 2, oMax: 0, oMin: 0, oDodatna: 2, oPrinos: 2, sIsplata: 2, sIsplataRast: 2, sIsplGodine: 0, sIsplPrinos: 2, pvIznos: 2, pvGodina: 0, zIznos: 2, zStopa: 2, zGodine: 0, zPreostalo: 0, dIznos: 2, dPrinos: 2, dIsplata: 2, dRast: 2, dGodine: 0, gCilj: 2, gGodine: 0, gPocetni: 2, gPrinos: 2, gUplata: 2, djeca: 0, uzdrzavani: 0, kExtraMj: 0, kExtraStart: 0, rSlobodno: 0, kInfStopa: 2, gInflacija: 2, kFiks: 0, kMarza: 2, kEuribor: 2 };
-const parseHR = (t) => { const n = parseFloat(String(t).replace(/\s/g, '').replace(/\./g, '').replace(',', '.')); return n; };
+// Točka je decimalni znak SAMO kad nema zareza, ima točno jednu točku i iza nje
+// jednu ili dvije znamenke ("3.5", "1500.50", ".5"). Sve ostalo je kao i prije:
+// točke su tisućice ("1.000", "12.345", "1.234.567"), zarez je decimala. Prije
+// ovoga "3.5" je postajalo 35, a "1500.50" 150050. Isti parser čita i izlazne
+// stringove iz eur()/pct() (uvijek zarez ili grupe od tri znamenke), pa se na
+// njih pravilo nikad ne odnosi.
+const parseHR = (t) => {
+  const s = String(t).replace(/\s/g, '');
+  if (s.indexOf(',') === -1 && s.indexOf('.') !== -1 && s.indexOf('.') === s.lastIndexOf('.')) {
+    const m = /^(-?)(\d*)\.(\d{1,2})(?!\d)/.exec(s);
+    if (m) return parseFloat(m[1] + (m[2] || '0') + '.' + m[3]);
+  }
+  return parseFloat(s.replace(/\./g, '').replace(',', '.'));
+};
 // Polazno stanje svakog kalkulatora: glavna polja prazna, opcijska na
 // smislenoj vrijednosti. Isti objekt koristi i tipka "Očisti polja".
 const RESET = {
