@@ -442,6 +442,16 @@ Zadnje ažuriranje: 19. 10. 2026.
   prelazi najveći mogući. Izračunato s 30 g. 0 mj." (stari tekst "duži od 40
   godina" ostao je samo za zatvoriti, koji nema gornju granicu).
 
+- **Blog članak može imati blok „Izvori" (`izvori` u `BLOG_TEKST`).** Poveznice u
+  samom tekstu NISU podržane: `x` se ispisuje kao običan tekst (`{{ b.x }}`), pa
+  se HTML escapira i prikazuje doslovno — izmjereno, `<a>` ostaje tekst. Dodavanje
+  poveznica u tekst tražilo bi vlastiti mini-jezik i izmjenu prikaza svih članaka,
+  pa je odabran zaseban blok nakon teksta: `[{ n, u, d }]`, `u` mora počinjati s
+  `https://` (provjerava `check-meta-sync.js`, renderer inače ne ispisuje
+  poveznicu), uz napomenu „Izvori su na engleskom jeziku". Prvi članak s izvorima:
+  `sto-najbogatiji-rade-drugacije`. **`llms.txt` ne prima pojedinačne blog
+  članke** (vidi gore, „Nova ruta ili blog članak").
+
 ### Sadržaj
 - Kontakt uklonjen iz mobilnog izbornika, radi simetrije s desktopom. Forma
   dostupna preko footera, "O meni", FAQ CTA-a i politike privatnosti.

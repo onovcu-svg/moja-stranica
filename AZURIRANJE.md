@@ -411,16 +411,35 @@ Sve su se već dogodile na ovom portalu.
 
 ---
 
-# Nova ruta ili blog članak — četiri mjesta
+# Nova ruta ili blog članak — četiri mjesta za rutu, tri za članak
 
+**Nova ruta (kalkulator, pokazatelj, glavna statična ruta): četiri mjesta**
 1. `META_*` tablica u `index.html`
 2. Mirror u `middleware.js`
 3. `sitemap.xml`
-4. `llms.txt`
+4. `llms.txt` — **ne** za `refi`, `opcije` i `zatvoriti`, iz istog razloga kao
+   sitemap (pod-scenariji kreditnog kalkulatora)
+
+**Blog članak: tri mjesta** (uz sam sadržaj članka)
+1. `index.html`: `OBJAVE` (naslov), `META_BLOG_DESC` (opis), uz sadržaj u
+   `BLOG_TEKST` i `BLOG_VEZE`. Sve ide na VRH, najnovije prvo.
+2. Mirror `META_BLOG` u `middleware.js`
+3. `sitemap.xml`
+
+> **`llms.txt` NE prima pojedinačne blog članke**, samo ulaz `/blog`. Pri
+> objavi članka `llms.txt` se ne dira (NOTES §3). Ako ga netko doda „da bude
+> potpuno", to je odstupanje od pravila, ne propust.
+
+Članak koji navodi izvore dobiva neobavezno polje `izvori` uz `ctaNaslov` u
+svom zapisu u `BLOG_TEKST`: `izvori: [{ n: 'naziv', u: 'https://…', d: 'sitna
+oznaka, npr. datum' }]`. Prikazuje se kao blok „Izvori" nakon teksta, uz
+napomenu da su izvori na engleskom. `u` mora počinjati s `https://` — inače
+`check-meta-sync.js` padne, a renderer poveznicu ne ispisuje.
 
 Zatim **`node scripts/check-meta-sync.js`** — mora vratiti „USKLAĐENO".
 Skripta je i Vercelov `buildCommand`, pa razilaženje blokira deploy.
-`llms.txt` nije pokriven skriptom — provjeri ga sam.
+`llms.txt` nije pokriven skriptom — provjeri ga sam (samo za rute, ne za
+blog članke).
 
 Ako mijenjaš **FAQ tekst**, pokreni i `node scripts/gen-faq-jsonld.js`, pa
 `check-faq-jsonld-sync.js`.
