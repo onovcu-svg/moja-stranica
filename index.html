@@ -5186,6 +5186,34 @@ const MODULI = [
 // Puni tekstovi blogova, po slugu. Zadnji odjeljak svakog teksta ("Pogledaj ... u videu")
 // izdvojen je u ctaNaslov / ctaUvod / ctaTocke i prikazuje se kao poziv na video.
 const BLOG_TEKST = {
+  'sto-najbogatiji-rade-drugacije': {
+    ctaNaslov: 'Što ćeš dobiti u videu',
+    ctaUvod: 'Sve četiri lekcije najbogatijih koje svatko može primijeniti pronađi u videu. Uz to, saznat ćeš:',
+    ctaZakljucak: 'Pogledaj video do kraja i javi mi u komentarima koju ćeš od četiri lekcije primijeniti prvu.',
+    ctaTocke: ['Koji konkretan korak uz svaku lekciju možeš napraviti već sutra i s koliko malo novca možeš početi ulagati', 'Zašto vrijeme radi za bogate i kako se tvoj ulog sa svakom godinom oplođuje sve brže', 'Lekciju o kojoj nitko ne voli pričati, a često je ne rješavaju ni imućne obitelji', 'Gdje se nalaziš na svjetskoj ljestvici bogatstva', 'Podatak o Hrvatskoj koji me iskreno šokirao'],
+    izvori: [
+      { n: 'UBS Global Wealth Report 2026', u: 'https://www.ubs.com/global/en/wealthmanagement/insights/global-wealth-report.html' },
+      { n: 'Allianz Global Wealth Report 2026', u: 'https://www.allianz-trade.com/en_global/news-insights/economic-insights/Allianz_Global_Wealth_Report_2026.html' },
+      { n: 'BCG Global Wealth Report 2026', u: 'https://www.bcg.com/publications/2026/global-wealth-growth-in-an-era-of-reordering', d: '27. svibnja 2026.' },
+      { n: 'ECB Blog', u: 'https://www.ecb.europa.eu/press/blog/date/2026/html/ecb.blog20260915~dacebb4a6f.en.html', d: '15. rujna 2026.' }
+    ],
+    blocks: [
+      { t: 'p', x: 'Najbogatiji se od ostalih ne razlikuju toliko po tome koliko štede, nego po tome gdje im novac završi. Većinu svježe štednje usmjeravaju na tržište kapitala (dionice, obveznice i fondove), drže više imovine koju mogu brzo pretvoriti u novac i ulažu na jako dugi rok. Dobra vijest je da sve njihove navike možeš i ti početi primjenjivati odmah.' },
+      { t: 'p', x: 'Prošao sam kroz tri najveća svjetska izvještaja o bogatstvu za 2026. (UBS, BCG i Allianz) i svježe istraživanje Europske središnje banke. Iz njih sam izvukao četiri lekcije. Ovdje ti otkrivam zašto su važne, a u videu kako ih primijeniti.' },
+      { t: 'h', x: 'Je li štednja dovoljna da se obogatiš?' },
+      { t: 'p', x: 'Nije. I to najbolje pokazuje usporedba Europe i Amerike.' },
+      { t: 'p', x: 'Europljani u prosjeku štede više od Amerikanaca. Pa ipak, američka financijska imovina u zadnjih deset godina rasla je gotovo duplo brže od europske. Oni koji su štedjeli manje završili su s više.' },
+      { t: 'p', x: 'Ili kako to Allianz dobro kaže: europskim kućanstvima ne fali štednje, fali im da tu štednju pretvore u bogatstvo. Drugim riječima, problem nije koliko štediš, nego gdje.' },
+      { t: 'h', x: 'Zašto Europljani (i Hrvati) drže novac u banci?' },
+      { t: 'p', x: 'Ovo je prva i najvažnija lekcija. Europa je tradicionalno okrenuta bankama: plaća, štednja, kredit, mirovina i osiguranje, sve ide kroz banku. U Americi je banka uglavnom mjesto gdje sjedne plaća, a štednja odlazi u fondove i dionice.' },
+      { t: 'p', x: 'ECB je istraživao zašto Europljani izbjegavaju tržište i sveo razloge na tri stvari: strah od gubitka, osjećaj da o tome ne znamo dovoljno i nepovjerenje u tržište. Zanimljivo je da nije stvar samo u novcu. Ni najbogatiji Europljani ne ulažu ni približno kao najbogatiji Amerikanci.' },
+      { t: 'p', x: 'Hrvati su tu školski primjer. Na računima i štednji držimo više od 40 milijardi eura. Banke nisu loše mjesto za novac, ali njihov posao je primati depozite i davati kredite. Ako želiš da novac stvarno raste, prilike su na tržištu.' },
+      { t: 'h', x: 'Je li stan dovoljno ulaganje?' },
+      { t: 'p', x: 'U Hrvatskoj je stan omiljena investicija i rast cijena je mnoge obogatio. Ali tu dolazi druga lekcija: bogati drže puno više imovine koju mogu brzo pretvoriti u novac.' },
+      { t: 'p', x: 'Zamisli da imaš stan vrijedan 300.000 eura, a hitno ti treba 20.000. Ne možeš prodati kupaonicu. A i da prodaješ cijeli stan, novac ti neće sjesti na račun za dan, dva.' },
+      { t: 'p', x: 'Po podacima ECB-a, Hrvatska je po udjelu financijske imovine zadnja u eurozoni. Koliko točno zaostajemo za Amerikom i Njemačkom pokazujem u videu, i ta brojka je stvarno šokantna.' }
+    ]
+  },
   'povisica-svima-20-posto': {
     ctaNaslov: 'Što ćeš dobiti u videu',
     ctaUvod: 'U videu prolazim cijeli eksperiment mjesec po mjesec.',
@@ -5533,6 +5561,10 @@ const BLOG_TEKST = {
 // this.blogVeza(): 'calc:<tab>' otvara kalkulator, 'calc:kamata:<gMode>' njegov
 // nacin rada, 'pok:<kategorija>' otvara pokazatelje.
 const BLOG_VEZE = {
+  'sto-najbogatiji-rade-drugacije': [
+    { a: 'calc:kamata:rast', tip: 'Kalkulator', n: 'Rezultat ulaganja', o: 'Upiši koliko možeš ulagati mjesečno i vidi kako se ulog povećava kroz godine uz odabrani prinos.' },
+    { a: 'pok:mirovine', tip: 'Pokazatelj', n: 'Mirovinski sustav', o: 'Koliko članova imaju drugi i treći stup i kako se mirovinski fondovi razlikuju po prinosu.' }
+  ],
   'povisica-svima-20-posto': [
     { a: 'pok:place', tip: 'Pokazatelj', n: 'Rad i plaće', o: 'Koliko su plaće u Hrvatskoj stvarno narasle kroz godine, neto i bruto, prosjek i medijan.' },
     { a: 'pok:inflacija', tip: 'Pokazatelj', n: 'Inflacija', o: 'Koliko su cijene rasle i koje su skupine najviše poskupjele, uz zadnju objavljenu godišnju stopu.' }
@@ -5600,6 +5632,10 @@ const BLOG_VEZE = {
 };
 
 const OBJAVE = [
+  { yt: 'KKnpx3zM0v0', kat: 'Investiranje', datum: '17. listopada 2026.', slug: 'sto-najbogatiji-rade-drugacije',
+    naslov: 'Što najbogatiji rade s novcem drugačije? 4 lekcije koje možeš primijeniti od sutra',
+    opis: 'Najbogatiji se od ostalih ne razlikuju toliko po tome koliko štede, nego po tome gdje im novac završi.',
+    istaknuto: 'Problem nije koliko štediš, nego gdje.' },
   { yt: 'f3I92x4XF1w', kat: 'Gospodarstvo', datum: '2. listopada 2026.', slug: 'povisica-svima-20-posto',
     naslov: 'Što bi se dogodilo da svima u Hrvatskoj plaća poraste 20 posto?',
     opis: 'Da svima u Hrvatskoj plaća preko noći poraste 20 posto, a ništa drugo u gospodarstvu se ne promijeni, cijene bi relativno brzo pojele cijelu povišicu.',
@@ -6477,6 +6513,7 @@ const META_POK = {
 
 const META_BLOG_INDEX = { title: 'Blog i video sadržaj o osobnim financijama' + SUFIKS, desc: 'Članci i video sadržaj o plaćama, kreditima, ulaganju, mirovinama i financijskim navikama u Hrvatskoj, napisani jasno i bez financijskog žargona.' };
 const META_BLOG_DESC = {
+  'sto-najbogatiji-rade-drugacije': 'Najbogatiji ne štede nužno više od ostalih, nego drugačije raspoređuju novac. Četiri lekcije iz izvještaja UBS-a, BCG-a, Allianza i ECB-a.',
   'povisica-svima-20-posto': 'Zašto povišica od 20 posto svima ne bi značila veći standard: kako cijene pojedu povećanje, tko gubi, tko dobiva i što podiže realne plaće.',
   'najam-ili-kupnja-stana': 'Najam ili kupnja stana u Hrvatskoj: zašto izbor, dužina boravka i stanje tržišta najma odlučuju više od same brojke.',
   'gdje-odlazi-tvoja-placa': 'Objašnjenje obračuna plaće u Hrvatskoj: koji doprinosi i porezi stoje između bruto iznosa u ugovoru i neto iznosa koji sjedne na račun.',
