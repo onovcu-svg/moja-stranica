@@ -16,8 +16,9 @@ mirovinski fondovi i plaće ažurirani 23. 9. 2026.)
 
 - Izvor: DZS, priopćenja "Indeksi potrošačkih cijena"
 - Pregled: https://podaci.dzs.hr/hr/podaci/cijene/
-- Zadnje korišteno: kolovoz 2026. — CIJ-2026-1-1/8, https://podaci.dzs.hr/2026/hr/121029
-  (prethodno srpanj 2026. — https://podaci.dzs.hr/2026/hr/121443)
+- Zadnje korišteno: rujan 2026. — CIJ-2026-1-1/9, https://podaci.dzs.hr/2026/hr/121033
+  (prethodno kolovoz 2026. — CIJ-2026-1-1/8, https://podaci.dzs.hr/2026/hr/121029;
+  srpanj 2026. — https://podaci.dzs.hr/2026/hr/121443)
 - Ritam: prva procjena ~1. u mjesecu, KONAČNI podaci ~15.
 - **Koristiti konačne, ne prvu procjenu.** Šifra `1-1` = mjesečna (konačna)
   serija; `1-2` je prva procjena.
@@ -37,6 +38,32 @@ mirovinski fondovi i plaće ažurirani 23. 9. 2026.)
   jednom godišnje, u siječnju. Zbroj doprinosa (Σw·r/100) = 4,09 %, poklapa se
   sa zbrojem DZS-ovih objavljenih doprinosa po skupinama (4,08 pp) naspram
   naslovne stope 4,2 % — isto očekivano odstupanje kao svaki mjesec.
+- Provjereno 19.10.2026: godišnje 4,7 %, mjesečno +0,9 % — objavljeno
+  15.10.2026. (CIJ-2026-1-1/9, https://podaci.dzs.hr/2026/hr/121033). Pročitano iz
+  sirovog HTML-a stranice priopćenja (tablica 1), ne iz sažetka ni medijskog
+  prepisa. **Status podatka:** prva procjena za rujan je CIJ-2026-1-2/9
+  (2.10.2026., u popisu objava označena "prva procjena"); 15.10. objavljen je
+  CIJ-2026-1-1/9 bez te oznake. Stranica priopćenja NE sadrži riječ "konačni",
+  pa se status zaključuje iz šifre (1-1) i iz popisa objava, gdje se samo 1-2
+  označava "prva procjena". U popisu DZS-a nema "druge procjene" (mediji su pisali
+  o "drugoj procjeni"; DZS tako ništa ne označava).
+  Svih 13 stopa (CPI, ECOICOP ver. 2, IX. 2026. / IX. 2025.): Prijevoz +16,0 %,
+  Stanovanje, voda, električna energija, plin i ostala goriva +11,7 %, Restorani
+  i usluge smještaja +6,5 %, Rekreacija, sport i kultura +5,0 %, Zdravstvo
+  +4,6 %, Alkoholna pića i duhan +3,5 %, Usluge osiguranja i financijske usluge
+  +3,5 %, Osobna njega, socijalna zaštita i razna roba i usluge +3,5 %, Usluge
+  obrazovanja +2,9 %, Informacije i komunikacije +2,6 %, Hrana i bezalkoholna
+  pića −0,5 %, Pokućstvo −0,6 %, Odjeća i obuća −6,6 %. Tri stope koje su stigle
+  iz medija (Prijevoz, Stanovanje, Hrana) poklapaju se s tablicom. Ponderi
+  identični kolovoškima, red po red (svih 13 i ukupno 1 000,00). Zbroj
+  doprinosa (Σw·r/100) = 4,62 %, zbroj DZS-ovih objavljenih doprinosa 4,64 pp,
+  naslovna stopa 4,7 % — isto očekivano odstupanje (−0,08 odnosno −0,06 pp).
+  HICP za rujan: 4,3 % godišnje, 0,0 % mjesečno (NE koristi se).
+- **Brojke izvedene iz CPI-ja i upisane RUČNO** (ne preko tokena) mijenjaju se
+  zajedno s njim: `FAQ` niz (4,7 %, 10.000,00 € → 6.317,32 €; JSON-LD se zatim
+  regenerira `node scripts/gen-faq-jsonld.js`) te `CALC_META.inflacija.faq`
+  (realni prinos oročenja približno −3,4 % = 1,0115 / 1,047 − 1; "10.000 / 1,047^10
+  ≈ 6.317,32 €"). Samo stopa u tim tekstovima dolazi tokenom `{CPI}`.
 - **HICP (harmonizirani indeks) NIJE CPI** — u istom priopćenju, u tablici T3,
   stoji i harmonizirana stopa (za srpanj 2026: 3,6 % godišnje, +0,6 %
   mjesečno). Lako se zamijeni s CPI-jem jer su brojevi blizu i u istom
