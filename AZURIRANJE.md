@@ -52,6 +52,13 @@ priopćenja (list T1).
 > **Zbroj doprinosa NIJE jednak naslovnoj stopi** i to nije greška — CPI se
 > agregira preko indeksa. DZS ima isto odstupanje.
 
+> **Tokeni nisu dovoljni — provjeri i izvedene brojke u prozi.** Stopa je
+> vezana na `{CPI}`, ali iznosi izvedeni iz nje upisani su ručno: „10.000 € kroz
+> 10 godina", realni prinos oročenja, i eksponent u formuli. Ako se promijeni
+> samo stopa, u tekstu ostaje nova stopa uz stare izvedenice.
+> Mjesta: `FAQ` niz (naslovnica i `/cesta-pitanja`), `CALC_META.inflacija.faq`.
+> Nakon izmjene pokreni `gen-faq-jsonld.js`, jer isti tekst ide i u JSON-LD.
+
 > **Jednom godišnje provjeri i prošlogodišnju stopu** protiv konačne objave.
 > CPI za 2025. bio je upisan kao 3,6 %, a DZS objavljuje 3,7 % — greška je
 > stajala mjesecima i ulazila u kumulativnu inflaciju.
