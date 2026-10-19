@@ -1971,7 +1971,7 @@
             <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:16px">
               <div style="min-width:0">
                 <div style="font-weight:600;font-size:14.5px;letter-spacing:-.02em;margin-bottom:4px">Faza isplate</div>
-                <div style="font-weight:300;font-size:12.5px;color:var(--soft);line-height:1.5">Uplate teku {{ s.fazaUplate }}, isplate {{ s.fazaIsplate }}. Ukupno razdoblje staje na 50 godina.</div>
+                <div style="font-weight:300;font-size:12.5px;color:var(--soft);line-height:1.5">Uplate teku {{ s.fazaUplate }}, isplate {{ s.fazaIsplate }}. Ukupno razdoblje staje na {{ s.ukupnoMax }} godina.</div>
               </div>
               <button sc-camel-on-click="{{ on.toggleLife }}" title="Ukloni" sc-camel-tab-index="-1" style="background:none;border:none;padding:4px;cursor:pointer;font-size:18px;line-height:1;color:var(--soft);flex-shrink:0" style-hover="color:var(--acc)">×</button>
             </div>
@@ -2061,7 +2061,7 @@
               </div>
             </sc-for>
           </div>
-          <div style="display:flex;justify-content:space-between;margin-top:10px;font-weight:300;font-size:12px;color:var(--soft)"><span>1. godina</span><span>{{ s.zadnjaOs }}</span></div>
+          <div style="display:flex;justify-content:space-between;margin-top:10px;font-weight:300;font-size:12px;color:var(--soft)"><span>1. godina</span><span>{{ s.grupaTxt }}</span><span>{{ s.zadnjaOs }}</span></div>
           <div style="display:flex;gap:16px;margin-top:14px;font-weight:300;font-size:12.5px;color:var(--soft)">
             <span style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;background:var(--soft);border-radius:50%"></span>Uplaćeno</span>
             <span style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;background:var(--acc);border-radius:50%"></span>Zarada</span>
@@ -8429,9 +8429,13 @@ class Component extends DCLogic {
     const mjTxt = (m) => Math.floor(m / 12) + ' g. ' + (m % 12) + ' mj.';
 
     // ── SLOŽENA KAMATA + LIFECYCLE ───────────────────────────
-    const HARD_STOP = 50; // godina ukupno (uplate + isplate)
+    const HARD_STOP = 70; // godina ukupno (uplate + isplate); graf iznad 50 godina na uskom ekranu grupira stupce
     const sr = Math.max(0, this.num(s.sStopa, 0)) / 100 / 12;
-    const sy = Math.max(1, Math.min(HARD_STOP, Math.round(this.num(s.sGodine, 1))));
+    // Uz fazu isplate najveća uplata je HARD_STOP - 1, da ostane barem jedna godina isplate
+    // (inače bi zbroj prešao granicu); bez faze isplate uplata smije do HARD_STOP.
+    const syMax = s.sLifecycle ? HARD_STOP - 1 : HARD_STOP;
+    const syRaw = Math.round(this.num(s.sGodine, 1));
+    const sy = Math.max(1, Math.min(syMax, syRaw));
     const grow = Math.max(0, this.num(s.sRast, 0)) / 100;
     const infl = s.sInflOn ? Math.max(0, this.num(s.sInflacija, 0)) / 100 : 0;
     let bal = Math.max(0, this.num(s.sPocetni, 0));
@@ -8447,9 +8451,10 @@ class Component extends DCLogic {
       raw.push({ y: y, val: bal, dep: dep, uplata: uplata, faza: 'uplata' });
     }
     const konacnoAkum = bal, depAkum = dep;
-    // Faza isplate ima vlastito trajanje; ukupno (uplate + isplate) staje na 50 godina.
+    // Faza isplate ima vlastito trajanje; ukupno (uplate + isplate) staje na HARD_STOP godina.
     const isplGodMax = Math.max(1, HARD_STOP - sy);
-    const isplGod = Math.max(1, Math.min(isplGodMax, Math.round(this.num(s.sIsplGodine, 25))));
+    const isplGodRaw = Math.round(this.num(s.sIsplGodine, 25));
+    const isplGod = Math.max(1, Math.min(isplGodMax, isplGodRaw));
     // Prinos u fazi isplate: nasljeđuje prinos iz faze ulaganja dok ga korisnik ne promijeni.
     const isplStopa = s.sIsplPrinos == null ? Math.max(0, this.num(s.sStopa, 0)) : Math.max(0, this.num(s.sIsplPrinos, 0));
     const isplSr = isplStopa / 100 / 12;
@@ -8486,7 +8491,16 @@ class Component extends DCLogic {
       odrziva = lo;
     }
     const maxV = Math.max.apply(null, raw.map((r) => r.val)) || 1;
-    const sChart = raw.map((r) => {
+    // Na uskom ekranu (!wide) graf s više od 50 godina crta jedan stupac na dvije godine
+    // (vrijednost na kraju para; neparna zadnja godina ostaje sama), da stupci ne postanu
+    // tanji od oko 4 px. Širi ekran uvijek crta stupac po godini (najviše HARD_STOP).
+    const grup = !s.wide && raw.length > 50 ? 2 : 1;
+    const rawG = [];
+    for (let i = 0; i < raw.length; i += grup) {
+      const e = raw[Math.min(i + grup - 1, raw.length - 1)];
+      rawG.push({ y: e.y, y0: raw[i].y, val: e.val, dep: e.dep, uplata: e.uplata, faza: e.faza });
+    }
+    const sChart = rawG.map((r) => {
       const realno = r.val / Math.pow(1 + infl, r.y);
       const base = Math.min(r.dep, r.val);
       return {
@@ -8494,7 +8508,7 @@ class Component extends DCLogic {
         hGain: (Math.max(0, r.val - r.dep) / maxV * 100).toFixed(2) + '%',
         hReal: (realno / maxV * 100).toFixed(2) + '%',
         bojaBase: SOFT,
-        tip: r.y + '. godina — ukupno: ' + eur(r.val, 0) + ' · uplaćeno: ' + eur(r.dep, 0) + ' · zarada: ' + eur(Math.max(0, r.val - r.dep), 0) + (infl > 0 ? ' · realno ' + eur(realno, 0) : '') + (r.faza === 'isplata' ? ' (faza isplate)' : '')
+        tip: (r.y0 !== r.y ? r.y0 + '.–' + r.y : r.y) + '. godina — ukupno: ' + eur(r.val, 0) + ' · uplaćeno: ' + eur(r.dep, 0) + ' · zarada: ' + eur(Math.max(0, r.val - r.dep), 0) + (infl > 0 ? ' · realno ' + eur(realno, 0) : '') + (r.faza === 'isplata' ? ' (faza isplate)' : '')
       };
     });
 
@@ -9436,8 +9450,14 @@ class Component extends DCLogic {
     // Zatvoriti nema gornju granicu pa ostaje informativno upozorenje.
     grupa(({ zatvoriti: ['zGodine'] })[_tk], 40,
       () => 'Rok otplate duži od 40 godina banke u pravilu ne odobravaju.');
-    grupa(({ rast: ['sGodine'], cilj: ['gGodine'], inflacija: ['iGodine'] })[_tk], 60,
+    grupa(({ cilj: ['gGodine'], inflacija: ['iGodine'] })[_tk], 60,
       () => 'Razdoblje duže od 60 godina teško je smisleno planirati.');
+    // Ulaganje (rast) računa najviše s HARD_STOP godina ukupno i steže veći unos - korisnik
+    // mora vidjeti što se dogodilo i s čime je izračunato.
+    warn(_tk === 'rast' && !this.prazno('sGodine') && syRaw > syMax,
+      'Uplata od ' + syRaw + ' god. prelazi najveću moguću' + (s.sLifecycle ? ' uz fazu isplate' : '') + '. Izračunato s ' + syMax + ' god.');
+    warn(_tk === 'rast' && s.sLifecycle && isplGodRaw > isplGodMax,
+      'Isplata od ' + isplGodRaw + ' god. prelazi najveću moguću za uplatu od ' + sy + ' god. Izračunato s ' + isplGodMax + ' god.');
     warn(_tk === 'placa' && _v('iznos') !== null && _v('iznos') > 20000, 'Iznos plaće je neuobičajeno visok. Provjeri jesi li slučajno dodao nulu.');
     warn(_tk === 'placa' && _v('iznos') !== null && _v('iznos') > 0 && _v('iznos') < 300, 'Iznos je vrlo nizak za mjesečnu plaću. Provjeri unosiš li mjesečni iznos.');
     warn(_tk === 'kredit' && _v('kIznos') !== null && _v('kIznos') > 1000000, 'Iznos kredita je neuobičajeno visok. Provjeri broj.');
@@ -9831,7 +9851,7 @@ class Component extends DCLogic {
         // lifecycle
         // Os pokriva cijelo trajanje na grafu, dakle i fazu isplate ako je uključena.
       zadnjaOs: (s.sLifecycle ? sy + isplGod : sy) + '. godina',
-      isplGod: isplGod, isplGodTxt: isplGod + ' god.',
+      isplGod: isplGod, isplGodTxt: isplGod + ' god.', ukupnoMax: HARD_STOP, grupaTxt: grup > 1 ? '1 stupac = 2 godine' : '',
         fazaUplate: '1.–' + sy + '. godina', fazaIsplate: (sy + 1) + '.–' + (sy + isplGod) + '. godina',
         trajanje: iscrpljeno ? Math.floor(trajanjeMj / 12) + ' g. ' + (trajanjeMj % 12) + ' mj.' : isplGod + ' g. 0 mj.',
         trajanjeDo: iscrpljeno

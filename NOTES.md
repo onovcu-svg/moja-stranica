@@ -452,6 +452,27 @@ Zadnje ažuriranje: 19. 10. 2026.
   `sto-najbogatiji-rade-drugacije`. **`llms.txt` ne prima pojedinačne blog
   članke** (vidi gore, „Nova ruta ili blog članak").
 
+- **Ulaganje (mod "rast"): ukupno razdoblje (uplate + isplata) staje na 70 godina
+  (`HARD_STOP`, bilo 50).** Stara granica nije imala objašnjenje u kodu, a 40 godina
+  uplate dopuštalo je samo 10 godina isplate, dok je realan scenarij 40 + 25–30.
+  Podignuta na 70 nakon provjere da formule ne pucaju (s inflacijom i bez, do 70+1)
+  i da PDF ostaje isti (nema tablice po godinama, samo tekstualni redovi). Uz fazu
+  isplate najveća uplata je 69 (ostaje barem jedna godina isplate), bez faze isplate 70;
+  najveća isplata je 70 minus uplata. Prije je uplata od 50 davala fazu isplate
+  "51.–51. godina", dakle ukupno 51 — ispravljeno.
+  Veći unos se i dalje steže, ali uz upozorenje: "Uplata od 75 god. prelazi najveću
+  moguću. Izračunato s 70 god." (uz fazu isplate "…prelazi najveću moguću uz fazu
+  isplate. Izračunato s 69 god.") i "Isplata od 25 god. prelazi najveću moguću za
+  uplatu od 40 god. Izračunato s 30 god." Upozorenje "duže od 60 godina" ostalo je
+  samo za kalkulatore cilja i inflacije, koji ne stežu na 50/70.
+  **Graf:** na ekranu užem od 860 px (`!wide`) i uz više od 50 godina jedan stupac
+  predstavlja dvije godine (vrijednost na kraju para, zadnja neparna godina ostaje
+  sama), uz oznaku "1 stupac = 2 godine" na osi; na širem ekranu uvijek stupac po
+  godina. Razlog: na 430 px 70 stupaca po godina imalo bi 2,1 px (100 bi imalo
+  0,6 px), a agregirano 7,3 px. Prag je vezan uz širinu ekrana, ne uz broj godina,
+  da široki ekran ne gubi detalj. Statična rečenica u kartici "Faza isplate" čita
+  granicu iz konstante.
+
 ### Sadržaj
 - Kontakt uklonjen iz mobilnog izbornika, radi simetrije s desktopom. Forma
   dostupna preko footera, "O meni", FAQ CTA-a i politike privatnosti.
