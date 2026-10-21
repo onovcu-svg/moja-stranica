@@ -8,7 +8,7 @@ odakle. Prije svake izmjene brojke: otvori izvor, prepiši, zapiši razdoblje.
 Nikad medijski portal, nikad agregator, nikad drugi kalkulator.**
 
 Zadnja potpuna provjera: 21. 8. 2026. (inflacija ažurirana 19. 10. 2026. na rujan;
-mirovinski fondovi i plaće ažurirani 21. 10. 2026.)
+mirovinski fondovi, plaće i HZMO ažurirani 21. 10. 2026.)
 
 ---
 
@@ -224,8 +224,9 @@ mirovinski fondovi i plaće ažurirani 21. 10. 2026.)
 - Izvor: HZMO, "Aktualna statistika za <mjesec> — isplata u <mjesec+1>"
 - Pregled: https://www.mirovinsko.hr/hr/statistika/860
 - Pregled osnovnih podataka: https://www.mirovinsko.hr/hr/statistika/3757
-- Zadnje korišteno: kolovoz 2026. (isplata u rujnu)
-  https://www.mirovinsko.hr/hr/aktualna-statistika-za-kolovoz-2026-isplata-u-rujnu-2026/148
+- Zadnje korišteno: rujan 2026. (isplata u listopadu)
+  https://www.mirovinsko.hr/hr/aktualna-statistika-za-rujan-2026-isplata-u-listopadu-2026/148
+  (prethodno kolovoz 2026. — isti oblik adrese, s nazivom mjeseca)
   (napomena 1.9.2026: stara URL adresa za lipanj sad preusmjerava/prikazuje isti,
   najnoviji sadržaj — HZMO očito ne drži zasebne arhivirane stranice po mjesecu,
   nego prepisuje istu adresu. Nema načina provjeriti prošlu objavu preko URL-a.)
@@ -233,12 +234,13 @@ mirovinski fondovi i plaće ažurirani 21. 10. 2026.)
 - Provjereno 18.8.2026: 721,73 € i 46,50 % i 1:1,46 — poklapa se u decimalu.
 - **Definicija koju portal prikazuje, ne mijenjati bez odluke:**
   prosječna UKUPNA starosna mirovina, ZOMO, BEZ međunarodnih ugovora
-  (kolovoz 2026: 531.809 korisnika). HZMO objavljuje i druge brojke za
+  (rujan 2026: 533.246 korisnika). HZMO objavljuje i druge brojke za
   "prosječnu mirovinu" (sveukupno s DVO/ZOHBDR/HVO, s međunarodnim ugovorima)
   — nisu istog obuhvata. Kartica za 40+ godina staža koristi ISTI obuhvat
   (vidi ODLUKU 3.10.2026. niže).
-- Udio u plaći se računa prema neto plaći za srpanj 2026. (1.540 €), dakle
-  mirovina i plaća NISU iz istog mjeseca. Tako to radi i HZMO.
+- Udio u plaći se računa prema neto plaći koju HZMO sam navodi u objavi. Za
+  rujansku statistiku to je kolovoz 2026. (1.543 €), dakle mirovina i plaća
+  NISU iz istog mjeseca. Tako to radi i HZMO.
 - **Udjeli mirovine u plaći (46,50 % i 56,65 %) se PREUZIMAJU od HZMO-a, ne
   računaju iz `prosjecnaMirovina`/`prosjecnaPlaca`.** HZMO ih objavljuje
   doslovno, s izričito navedenim razdobljem plaće koje koristi u tom
@@ -255,6 +257,26 @@ mirovinski fondovi i plaće ažurirani 21. 10. 2026.)
   755,65 € (531.809 korisnika), 49,07 % i 1 : 1,46; 1.075,72 € (40+ godina
   staža, 103.042 korisnika) i 69,85 %; plaća na koju se HZMO poziva je za
   srpanj 2026. (1.540 €); osiguranici 1.797.071, korisnici mirovina 1.234.959.
+- Provjereno 21.10.2026. (statistika za rujan 2026., izvorna HTML stranica
+  HZMO-a; PDF `osnovni-podatci-2026-10-HR.pdf` dostupan, ali nije otvoren):
+  osiguranici 1.786.655 (948.667 muškaraca, 837.988 žena), korisnici mirovina
+  1.236.132, odnos 1 : 1,45; prosječna ukupna starosna netomirovina (ZOMO,
+  bez međunarodnih ugovora) 759,89 € za 533.246 korisnika, udio u plaći 49,25 %;
+  mirovina za 40+ godina staža 1.082,54 €, udio 70,16 %; HZMO oba udjela
+  računa s plaćom za **kolovoz 2026. (1.543 €)**. Udjeli su preuzeti doslovno iz
+  objave, ne računati. Poklapa se doslovno sa zadanim brojkama.
+  **Omjer se promijenio prvi put otkad se bilježi u ovom fileu (od 18.8.2026.):
+  1 : 1,46 → 1 : 1,45** (osiguranici −10.416, umirovljenici +1.173; 1.786.655 /
+  1.236.132 = 1,4454). **Prvi put se razdoblje plaće koje HZMO koristi poklapa
+  s `ZADNJE_PLACE` (DZS)** — `STUP1.placaMjesec` i `ZADNJE_PLACE` sad su oba
+  kolovoz, no ostaju zasebna polja. Prijašnja napomena iz DZS-ovog zapisa od
+  21.10.2026. (HZMO još računa sa srpanjskom plaćom) time je zastarjela.
+  `STUP1.prosjecnaPlaca` ažurirana na 1.543 €, a `STUP1.prosjecnaBruto` na
+  2.180 € (DZS kolovoz) radi dosljednosti; to polje ne čita nijedno mjesto u
+  kodu.
+  Omjer 1,46 bio je upisan i kao literal na dva mjesta u `POK_KAT.mirovine`
+  (rečenica u `bluf` i kartica "Zaposlenih po umirovljeniku") — oba
+  prepisana na 1,45.
 - **ODLUKA (3.10.2026): mjera za 40+ godina staža promijenjena.** Prijašnja
   vrijednost (879,69 €) ne postoji ni u jednom HZMO PDF-u koji je otvoren
   (siječanj, lipanj, srpanj i kolovoz 2026.) — nije utvrđeno što je bila.
@@ -267,7 +289,8 @@ mirovinski fondovi i plaće ažurirani 21. 10. 2026.)
   gdje je N mjesec ISPLATE (ne mjesec na koji se podatak odnosi). Stranica
   statistike prikazuje samo tekući mjesec, ali PDF-ovi ostaju dostupni. Red za
   40+ staža, potvrđeno: prosinac 2025. 1.005,68 € · svibanj 2026. 1.030,72 € ·
-  srpanj 2026. 1.029,44 € · kolovoz 2026. 1.075,72 €.
+  srpanj 2026. 1.029,44 € · kolovoz 2026. 1.075,72 € · rujan 2026. 1.082,54 €
+  (zadnja vrijednost iz HTML stranice, PDF za listopad nije otvoren).
 - **Usklađivanje mirovina:** AVM od 1.7.2026. iznosi 15,64 €, usklađivanje
   5,40 % (prethodno 14,84 €, 2,68 %). Odluka 26. sjednice Upravnog vijeća HZMO-a,
   26.8.2026. (Vlada RH: https://vlada.gov.hr/aktualna-vrijednost-mirovine-od-1-srpnja-2026-povecana-za-5-40-posto/47190).
