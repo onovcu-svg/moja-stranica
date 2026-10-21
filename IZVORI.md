@@ -7,8 +7,8 @@ odakle. Prije svake izmjene brojke: otvori izvor, prepiši, zapiši razdoblje.
 **Pravilo: isključivo primarni izvor (DZS, HNB, HZMO, HANFA, APN, NN).
 Nikad medijski portal, nikad agregator, nikad drugi kalkulator.**
 
-Zadnja potpuna provjera: 21. 8. 2026. (inflacija ažurirana 17. 9. 2026. na kolovoz;
-mirovinski fondovi i plaće ažurirani 23. 9. 2026.)
+Zadnja potpuna provjera: 21. 8. 2026. (inflacija ažurirana 19. 10. 2026. na rujan;
+mirovinski fondovi i plaće ažurirani 21. 10. 2026.)
 
 ---
 
@@ -94,8 +94,8 @@ mirovinski fondovi i plaće ažurirani 23. 9. 2026.)
 
 - Izvor: DZS, priopćenja "Prosječne mjesečne neto i bruto plaće"
 - Pregled: https://podaci.dzs.hr/hr/podaci/trziste-rada/
-- Zadnje korišteno: srpanj 2026. — RAD-2026-1-1/7, https://podaci.dzs.hr/2026/hr/121009
-  (prethodno lipanj 2026. — https://podaci.dzs.hr/2026/hr/121493)
+- Zadnje korišteno: kolovoz 2026. — RAD-2026-1-1/8, https://podaci.dzs.hr/2026/hr/121041
+  (prethodno srpanj 2026. — https://podaci.dzs.hr/2026/hr/121009)
 - Ritam: mjesečno, s ~2 mjeseca zaostatka (zato ZADNJE_PLACE kasni za CPI-om)
 - Provjereno 18.8.2026: neto 1.552 €, bruto 2.178 €, medijalna neto 1.324 € — poklapa se.
 - Provjereno 21.8.2026: neto 1.555 €, bruto 2.184 €, medijalna neto 1.345 €,
@@ -107,6 +107,17 @@ mirovinski fondovi i plaće ažurirani 23. 9. 2026.)
   uobičajeno za srpanj jer lipanj nosi regres. `STUP1.prosjecnaPlaca` (HZMO,
   1. stup) NIJE dirana — HZMO za srpanj još uvijek računa s lipanjskom plaćom
   (1.555 €), vidi odjeljak "Mirovine (1. stup)".
+- Provjereno 21.10.2026 (izvorni HTML priopćenja RAD-2026-1-1/8 od 21.10.2026.,
+  ne medijski prepis): neto 1.543 €, bruto 2.180 €, medijalna neto 1.336 €,
+  medijalna bruto 1.850 € — poklapa se doslovno (medijalna bruto nije bila u
+  zadanim brojkama, uzeta iz tablice 2 priopćenja). Priopćenje navodi prosječnu
+  neto nominalno +0,2 % naspram srpnja (realno −0,2 %), bruto +0,7 %,
+  medijalnu neto −0,7 %, medijalnu bruto −0,2 %: **prosjek raste, medijan
+  pada**, razlika prosjek−medijan (neto) sad 207 € (bila 194 €), bruto 330 €
+  (bila 311 €). `PLACE_GOD` zadnji redak PREPISAN (ne dodan) na
+  `[2026, 1543, 1336, 2180, 1850]`. `STUP1.prosjecnaPlaca`/`prosjecnaBruto`
+  (HZMO) NISU dirani — HZMO još nije objavio rujansku statistiku, a
+  kolovoška (`STUP1`) računa sa srpanjskom plaćom (1.540 €).
 - Minimalna bruto plaća: Uredba Vlade RH, NN 132/2025 → 1.050,00 € za 2026.
   https://mrosp.gov.hr/vijesti/minimalna-placa-za-2026-godinu-1-050-eura-bruto/13826
   Mijenja se jednom godišnje, uredbom u listopadu za sljedeću godinu.
@@ -293,8 +304,8 @@ mirovinski fondovi i plaće ažurirani 23. 9. 2026.)
 - Izvor: HANFA, mjesečno izvješće
 - Pregled svih mjesečnih izvješća: https://www.hanfa.hr/statistika/mjesecna-izvjesca/
 - RSS (globalan, sve HANFA vijesti, ne samo statistika): https://hanfa.hr/rss
-- Zadnje korišteno: kolovoz 2026. — https://hanfa.hr/vijesti/mjesecno-izvjesce-za-kolovoz-2026
-  (prethodno srpanj 2026. — https://hanfa.hr/vijesti/mjesecno-izvjesce-za-srpanj-2026)
+- Zadnje korišteno: rujan 2026. — https://hanfa.hr/vijesti/mjesecno-izvjesce-za-rujan-2026
+  (prethodno kolovoz 2026. — https://hanfa.hr/vijesti/mjesecno-izvjesce-za-kolovoz-2026)
 - Ritam: mjesečno
 - Provjereno 18.8.2026: kategorija B 73,73 % (A 23,16 %, C 3,11 %),
   neto imovina OMF-ova 28,7 mlrd € — poklapa se.
@@ -312,6 +323,18 @@ mirovinski fondovi i plaće ažurirani 23. 9. 2026.)
   `STUP2_B_ISPOD55`, a zbroj članova/imovine po kategorijama A+B+C daje točno
   ukupne brojke koje objava navodi. Naziv datoteke potvrđen prema
   AZURIRANJE.md obrascem (mjesec+1): mi-09_26.xlsx za kolovoz.
+- Provjereno 21.10.2026 (izvorni tekst objave od 21.10.2026. + xlsx
+  `mi-10_26.xlsx`, tablice 1.1, 1.2, 1.8, 1.9, 1.11, 1.15, 1.18, 1.22): OMF
+  ukupno 2.429.496 članova (A 585.490 = 24,10 %, B 1.772.952 = 72,98 %,
+  C 71.054 = 2,92 %), neto imovina A 1.917,9 / B 25.642,2 / C 1.424,7 mil €
+  (zbroj 29,0 mlrd €). MIREX 12 mj. / od početka godine / 10 god.: A 15,23 /
+  12,56 / 8,67 %, B 8,00 / 6,41 / 5,26 %, C 0,32 / **−0,02** / 2,20 % —
+  poklapa se doslovno. Mjesečni MIREX prinosi (A −1,30 %, B −0,80 %,
+  C −0,72 %) portal ne prikazuje. `STUP2_B_ISPOD55` = 1.460.186 (zbroj
+  tablice 1.2, B, dobi ≤18 do 50-54). DMF: 465.630 ODMF + 51.931 ZDMF =
+  517.561 članova; neto imovina 1.512,59 mil € (ODMF) + 305,69 mil € (ZDMF)
+  = 1,82 mlrd €. Prvi put da je neka vrijednost u `STUP2` negativna (C,
+  `ytd` −0,02 %): prikazuje se s predznakom, bez boje i strelice.
 
 ## Nekretnine — indeks cijena
 
