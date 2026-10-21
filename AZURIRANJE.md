@@ -173,12 +173,27 @@ broj osiguranika i korisnika · omjer · mirovina uz 40+ staža ·
 > **`ZADNJE_HZMO` i `ZADNJE_HANFA` moraju ostati ODVOJENE.** Različite
 > institucije, vlastiti kalendari. To što se često poklapaju je slučajnost.
 
-> `omjer` je **literal**, ne izračun — HZMO ga sam objavljuje kao „1 : 1,46".
+> **Omjer postoji na TRI mjesta, sva tri su literali** (HZMO ga sam objavljuje,
+> npr. „1 : 1,45"; portal ga ne računa): `STUP1.omjer` (1.45) te dva zasebna
+> literala u `POK_KAT.mirovine` — rečenica u `bluf` („dolazi 1,45 zaposlenih") i
+> kartica „Zaposlenih po umirovljeniku" (`val: '1 : 1,45'`). Ažuriranje samo
+> `STUP1.omjer` ostavlja Sažetak sa starim omjerom (ostalo se izvodi iz njega:
+> tab „1. stup", figura i „djelomična figura"). Nakon izmjene traži stari omjer:
+> `grep -n -E "1,4[0-9] zaposlenih|1 : 1,4" index.html`.
+
+> **Banner „Zadnje ažuriranje" na `/pokazatelji/mirovine` uspoređuje samo
+> `ZADNJE_HZMO` i `ZADNJE_HANFA`** (`pokDatum`): isti mjesec → jedan datum
+> („HZMO · HANFA: rujan 2026."), različiti → oba („kolovoz 2026. / rujan
+> 2026."). Plaća (`STUP1.placaMjesec`) u njemu NE sudjeluje; razdoblje plaće
+> vidi se samo u podnaslovima kartica („naspram plaće od … · HZMO, kolovoz
+> 2026."). Poklapanje `placaMjesec` sa `ZADNJE_PLACE` ne mijenja banner.
 
 ### Što se mijenja
 `TRZISTE` stavka `mirovina` · `STUP1` (osiguranici, umirovljenici, omjer,
-mirovina, mirovina40, **prosjecnaPlaca**, **placaMjesec**, **udioPlace**,
-**udio40Place**) · `ZADNJE_HZMO` · `MIROVINE_FIN` (godišnje)
+mirovina, mirovina40, **prosjecnaPlaca**, **prosjecnaBruto** (dosljednost,
+nitko ga ne čita), **placaMjesec**, **udioPlace**, **udio40Place**) ·
+`POK_KAT.mirovine` (**dva literala omjera**, vidi gore) · `ZADNJE_HZMO` ·
+`MIROVINE_FIN` (godišnje)
 
 `mirovina40Mjesec` čita `ZADNJE_HZMO` — ne dira se.
 
