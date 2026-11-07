@@ -5188,6 +5188,30 @@ const MODULI = [
 // Puni tekstovi blogova, po slugu. Zadnji odjeljak svakog teksta ("Pogledaj ... u videu")
 // izdvojen je u ctaNaslov / ctaUvod / ctaTocke i prikazuje se kao poziv na video.
 const BLOG_TEKST = {
+  'novi-zakon-potrosacki-krediti-2026': {
+    ctaNaslov: 'Što ćeš dobiti u videu',
+    ctaUvod: 'U videu prolazim četiri promjene koje ćeš stvarno osjetiti u novčaniku i rastavljam četiri mita koja su se ljetos proširila.',
+    ctaZakljucak: 'Pogledaj video do kraja i javi mi u komentarima koji te je od četiri mita najviše iznenadio. Ako si i ti ljetos povjerovao u neki, nisi jedini.',
+    ctaTocke: ['Padaju li kamate 20. studenoga', 'Je li kredit stvarno teže dobiti', 'Mijenja li se kupnja karticom na rate', 'Nestaju li unaprijed odobreni krediti', 'Koja su pravila samo prepisana iz starog zakona i od kada zapravo vrijede'],
+    izvori: [
+      { n: 'Zakon o potrošačkim kreditima, NN 86/2026', u: 'https://narodne-novine.nn.hr/clanci/sluzbeni/2026_08_86_1071.html', d: 'objavljen 7. kolovoza 2026.', l: 'hr' }
+    ],
+    blocks: [
+      { t: 'p', x: 'Novi Zakon o potrošačkim kreditima (NN 86/2026) vrijedi od 20. studenoga 2026. i to uglavnom za nove ugovore. Stvarnih novosti je malo: rate kod trgovca i operatera dulje od 50 dana postaju kredit, svaki oglas za kredit mora upozoriti da zaduživanje nije besplatno, a FINA besplatno savjetuje ljude s dugovima. Kamatne granice, naknada za prijevremenu otplatu i 14 dana za odustanak ostaju isti kao i dosad.' },
+      { t: 'p', x: 'Pročitao sam svih 56 stranica novog zakona i usporedio ih sa starim. Tresla se brda, rodio se miš.' },
+      { t: 'h', x: 'Zašto su se ljetos svi uplašili novog zakona o kreditima?' },
+      { t: 'p', x: 'Naslovi su bili dramatični: kraj kupnje na rate, teže do kredita, veliki zaokret u bankama. Kad uzmeš stari i novi zakon i staviš ih jedan pored drugog, slika je puno mirnija.' },
+      { t: 'p', x: 'Dobar dio onoga što se predstavljalo kao novost vrijedi godinama. Neka pravila postoje od 2010., neka od 2013., a neka su uvedena tek početkom 2024. Novi zakon ih je samo prepisao. Ni kamate neće pasti 20. studenoga, jer su granice iste kao i dosad.' },
+      { t: 'h', x: 'Što se mijenja kod kupnje na rate?' },
+      { t: 'p', x: 'Ovdje je najveća stvarna promjena. Ako trgovac ili teleoperater sam financira rate i odgoda plaćanja traje dulje od 50 dana (kod velikih online trgovaca 14 dana), to postaje potrošački kredit, čak i kad nema kamate. Trgovac tada treba odobrenje HNB-a i mora procijeniti možeš li plaćati.' },
+      { t: 'p', x: 'Dvije stvari koje naslovi nisu spomenuli. Glavnina tih obveza počinje 1. lipnja 2027., pa mobitel na rate za ovaj Božić uzimaš kao i dosad. A kupnja na rate karticom se zasad ne mijenja, jer kredit i dalje daje banka.' },
+      { t: 'h', x: 'Hoće li rata za mobitel smanjiti moj kredit u banci?' },
+      { t: 'p', x: 'Na papiru da, jer će od lipnja 2027. ta rata biti obveza po ugovoru o kreditu. U praksi banka za nju zasad nema kako saznati, jer operateri nisu dio kreditnog registra kojim se banke služe. Zato ljetna tvrdnja da ćeš zbog mobitela dobiti manji kredit trenutno nema mehanizam. Pratit ću hoće li se to promijeniti.' },
+      { t: 'h', x: 'Koja nova prava dobivaš kao potrošač?' },
+      { t: 'p', x: 'Nekoliko novosti je stvarno korisno. Svaki oglas za kredit mora doslovno sadržavati rečenicu “Oprez! Zaduživanje nije besplatno.” Banka ti ne smije sama uključiti ni povećati minus, a nema više unaprijed označenih kvačica u aplikacijama i obrascima. Ako te za kredit odbije algoritam, imaš pravo da odluku pregleda čovjek. Za gotovinski kredit banka više ne smije uvjetovati kredit prebacivanjem plaće: smije ti ponuditi nižu kamatu ako plaću prebaciš kod nje, ali kredit ti mora odobriti i bez toga, po višoj kamati. Od 20. studenoga FINA u svojim poslovnicama besplatno pomaže svima koji imaju problema s dugovima.' },
+      { t: 'p', x: 'Ima toga još, od police osiguranja uz kredit do pravila za jamce, a dio toga ne vrijedi odmah nego tek 2027. i 2028.' }
+    ]
+  },
   'sto-najbogatiji-rade-drugacije': {
     ctaNaslov: 'Što ćeš dobiti u videu',
     ctaUvod: 'Sve četiri lekcije najbogatijih koje svatko može primijeniti pronađi u videu. Uz to, saznat ćeš:',
@@ -5563,6 +5587,10 @@ const BLOG_TEKST = {
 // this.blogVeza(): 'calc:<tab>' otvara kalkulator, 'calc:kamata:<gMode>' njegov
 // nacin rada, 'pok:<kategorija>' otvara pokazatelje.
 const BLOG_VEZE = {
+  'novi-zakon-potrosacki-krediti-2026': [
+    { a: 'calc:kredit', tip: 'Kalkulator', n: 'Izračun kredita', o: 'Upiši iznos, kamatu i rok i vidi koliko stvarno plaćaš prije nego potpišeš ugovor.' },
+    { a: 'pok:krediti', tip: 'Pokazatelj', n: 'Kamatne stope', o: 'Prosječne kamatne stope i EKS po vrstama kredita, mjesečno, da znaš što je na tržištu uobičajeno.' }
+  ],
   'sto-najbogatiji-rade-drugacije': [
     { a: 'calc:kamata:rast', tip: 'Kalkulator', n: 'Rezultat ulaganja', o: 'Upiši koliko možeš ulagati mjesečno i vidi kako se ulog povećava kroz godine uz odabrani prinos.' },
     { a: 'pok:mirovine', tip: 'Pokazatelj', n: 'Mirovinski sustav', o: 'Koliko članova imaju drugi i treći stup i kako se mirovinski fondovi razlikuju po prinosu.' }
@@ -5634,6 +5662,10 @@ const BLOG_VEZE = {
 };
 
 const OBJAVE = [
+  { yt: 'FPv727O76Lg', kat: 'Krediti', datum: '7. studenoga 2026.', slug: 'novi-zakon-potrosacki-krediti-2026',
+    naslov: 'Novi zakon o potrošačkim kreditima 2026: što se stvarno mijenja',
+    opis: 'Novi Zakon o potrošačkim kreditima vrijedi od 20. studenoga 2026. i to uglavnom za nove ugovore. Stvarnih novosti je manje nego što su naslovi sugerirali.',
+    istaknuto: 'Tresla su se brda, rodio se miš: kamate ne padaju 20. studenoga, a dio onoga što se prodavalo kao novost vrijedi godinama.' },
   { yt: 'KKnpx3zM0v0', kat: 'Investiranje', datum: '17. listopada 2026.', slug: 'sto-najbogatiji-rade-drugacije',
     naslov: 'Što najbogatiji rade s novcem drugačije? 4 lekcije koje možeš primijeniti od sutra',
     opis: 'Najbogatiji se od ostalih ne razlikuju toliko po tome koliko štede, nego po tome gdje im novac završi.',
@@ -6517,6 +6549,7 @@ const META_POK = {
 
 const META_BLOG_INDEX = { title: 'Blog i video sadržaj o osobnim financijama' + SUFIKS, desc: 'Članci i video sadržaj o plaćama, kreditima, ulaganju, mirovinama i financijskim navikama u Hrvatskoj, napisani jasno i bez financijskog žargona.' };
 const META_BLOG_DESC = {
+  'novi-zakon-potrosacki-krediti-2026': 'Novi Zakon o potrošačkim kreditima od 20. studenoga 2026.: što se stvarno mijenja za rate, oglase i prava potrošača, a što ostaje isto.',
   'sto-najbogatiji-rade-drugacije': 'Najbogatiji ne štede nužno više od ostalih, nego drugačije raspoređuju novac. Četiri lekcije iz izvještaja UBS-a, BCG-a, Allianza i ECB-a.',
   'povisica-svima-20-posto': 'Zašto povišica od 20 posto svima ne bi značila veći standard: kako cijene pojedu povećanje, tko gubi, tko dobiva i što podiže realne plaće.',
   'najam-ili-kupnja-stana': 'Najam ili kupnja stana u Hrvatskoj: zašto izbor, dužina boravka i stanje tržišta najma odlučuju više od same brojke.',
@@ -9545,8 +9578,8 @@ class Component extends DCLogic {
       tema: { suradnja: chip(s.c.tema === 'suradnja'), radionica: chip(s.c.tema === 'radionica'), sponzorstvo: chip(s.c.tema === 'sponzorstvo'), mediji: chip(s.c.tema === 'mediji'), pitanje: chip(s.c.tema === 'pitanje') },
       isDark: s.dark, isLight: !s.dark,
       ytSubs: nf(0).format(s.ytShown || 0),
-      // NAPOMENA: hero <img> na početnoj ima ovaj thumb hardkodiran u templateu
-      // (izbjegava unresolved-src flash) — ako se OBJAVE[0] promijeni, ažuriraj i tamo.
+      // Hero na početnoj (naslov, opis, thumb, poveznica) čita OBJAVE[0]; nema
+      // ručno upisane kopije koju treba ažurirati (fix f2d77f4).
       najVideo: Object.assign({}, OBJAVE[0], { thumb: 'https://i.ytimg.com/vi/' + OBJAVE[0].yt + '/hqdefault.jpg', href: 'https://youtu.be/' + OBJAVE[0].yt }),
       otvoriNajVideo: () => { this.setState({ tab: 'blog', blogOpen: OBJAVE[0].slug }, () => this._syncUrl()); if (typeof window !== 'undefined') { window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; } },
       socialRef: this._socialRef, ytInfoOpen: s.ytInfoOpen,

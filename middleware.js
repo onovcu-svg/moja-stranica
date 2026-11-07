@@ -61,6 +61,7 @@ const META_BLOG_INDEX = { title: 'Blog i video sadržaj o osobnim financijama' +
 // u jedan zapis po slugu, jer ovdje nema zasebnog OBJAVE izvora - vidi
 // napomenu o mirroru na vrhu datoteke.
 const META_BLOG = {
+  'novi-zakon-potrosacki-krediti-2026': { title: 'Novi zakon o potrošačkim kreditima 2026: što se stvarno mijenja' + SUFIKS, desc: 'Novi Zakon o potrošačkim kreditima od 20. studenoga 2026.: što se stvarno mijenja za rate, oglase i prava potrošača, a što ostaje isto.' },
   'sto-najbogatiji-rade-drugacije': { title: 'Što najbogatiji rade s novcem drugačije? 4 lekcije koje možeš primijeniti od sutra' + SUFIKS, desc: 'Najbogatiji ne štede nužno više od ostalih, nego drugačije raspoređuju novac. Četiri lekcije iz izvještaja UBS-a, BCG-a, Allianza i ECB-a.' },
   'povisica-svima-20-posto': { title: 'Što bi se dogodilo da svima u Hrvatskoj plaća poraste 20 posto?' + SUFIKS, desc: 'Zašto povišica od 20 posto svima ne bi značila veći standard: kako cijene pojedu povećanje, tko gubi, tko dobiva i što podiže realne plaće.' },
   'najam-ili-kupnja-stana': { title: 'Najam ili kupnja stana: zašto ti kalkulator ne može dati odgovor' + SUFIKS, desc: 'Najam ili kupnja stana u Hrvatskoj: zašto izbor, dužina boravka i stanje tržišta najma odlučuju više od same brojke.' },
