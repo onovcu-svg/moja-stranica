@@ -448,7 +448,10 @@ Zadnje ažuriranje: 19. 10. 2026.
   poveznica u tekst tražilo bi vlastiti mini-jezik i izmjenu prikaza svih članaka,
   pa je odabran zaseban blok nakon teksta: `[{ n, u, d }]`, `u` mora počinjati s
   `https://` (provjerava `check-meta-sync.js`, renderer inače ne ispisuje
-  poveznicu), uz napomenu „Izvori su na engleskom jeziku". Prvi članak s izvorima:
+  poveznicu). Napomena o jeziku se računa iz oznake `l` po izvoru (`l: 'hr'` =
+  hrvatski; bez oznake = engleski, pa stariji članci ostaju isti): svi hrvatski
+  → nema napomene, nijedan → „Izvori su na engleskom jeziku", mješovito →
+  „Dio izvora je na engleskom jeziku". Prvi članak s izvorima:
   `sto-najbogatiji-rade-drugacije`. **`llms.txt` ne prima pojedinačne blog
   članke** (vidi gore, „Nova ruta ili blog članak").
 

@@ -2904,8 +2904,10 @@
 
           <sc-if value="{{ clanak.imaIzvore }}">
             <div style="margin-top:clamp(32px,4.5vh,44px);padding-top:clamp(20px,3vh,28px);border-top:1px solid var(--line)">
-              <div style="font-weight:600;font-size:17px;letter-spacing:-.025em;margin-bottom:4px">Izvori</div>
-              <div style="font-weight:300;font-size:13px;color:var(--soft);line-height:1.5;margin-bottom:14px;text-wrap:pretty">Izvori su na engleskom jeziku.</div>
+              <div style="font-weight:600;font-size:17px;letter-spacing:-.025em;margin-bottom:{{ clanak.izvoriNaslovMb }}">Izvori</div>
+              <sc-if value="{{ clanak.imaIzvoriNapomenu }}">
+              <div style="font-weight:300;font-size:13px;color:var(--soft);line-height:1.5;margin-bottom:14px;text-wrap:pretty">{{ clanak.izvoriNapomena }}</div>
+              </sc-if>
               <div style="display:grid;gap:10px">
                 <sc-for list="{{ clanak.izvori }}" as="iz" hint-placeholder-count="3">
                   <div style="font-weight:300;font-size:14.5px;line-height:1.5;text-wrap:pretty"><a href="{{ iz.u }}" target="_blank" rel="noopener" style="color:var(--acc);font-weight:500;text-decoration:none" style-hover="text-decoration:underline">{{ iz.n }}</a> <span style="color:var(--soft)">{{ iz.d }}</span></div>
@@ -8562,15 +8564,21 @@ class Component extends DCLogic {
     const cMeta = OBJAVE.filter((o) => o.slug === cSlug)[0] || null;
     const cTekst = cSlug ? BLOG_TEKST[cSlug] : null;
     const cRijeci = cTekst ? cTekst.blocks.reduce((a, b) => a + b.x.split(/\s+/).length, 0) : 0;
-    // Neobavezno polje izvori u BLOG_TEKST: [{ n, u, d }] (naziv, https URL, sitna oznaka).
+    // Neobavezno polje izvori u BLOG_TEKST: [{ n, u, d, l }] (naziv, https URL, sitna oznaka,
+    // jezik). l: 'hr' = izvor je na hrvatskom; bez l izvor se smatra engleskim, pa
+    // članci napisani prije ove oznake ostaju netaknuti.
     // URL koji ne počinje s https:// nikad se ne ispisuje kao poveznica (a build ga ionako
     // odbija, vidi check-meta-sync.js); tiha greška mora ostaviti trag u konzoli.
     const cIzvori = (cTekst && cTekst.izvori ? cTekst.izvori : []).filter((iz) => {
       const ok = typeof iz.u === 'string' && iz.u.indexOf('https://') === 0;
       if (!ok) console.error('Blog izvor odbijen, URL mora počinjati s https://: ' + cSlug + ' / ' + iz.n);
       return ok;
-    }).map((iz) => ({ n: iz.n, u: iz.u, d: iz.d ? '· ' + iz.d : '' }));
-    const clanak = !cMeta || !cTekst ? { naslov: '', blocks: [], ctaTocke: [], slicni: [], hero: [], veze: [], izvori: [], imaIzvore: false } : {
+    }).map((iz) => ({ n: iz.n, u: iz.u, d: iz.d ? '· ' + iz.d : '', en: iz.l !== 'hr' }));
+    // Napomena o jeziku se računa iz izvora, ne piše ručno: svi hrvatski → nema
+    // napomene, nijedan → "na engleskom", mješovito → "dio izvora".
+    const cIzvoriEn = cIzvori.filter((iz) => iz.en).length;
+    const cIzvoriNapomena = cIzvoriEn === 0 ? '' : (cIzvoriEn === cIzvori.length ? 'Izvori su na engleskom jeziku.' : 'Dio izvora je na engleskom jeziku.');
+    const clanak = !cMeta || !cTekst ? { naslov: '', blocks: [], ctaTocke: [], slicni: [], hero: [], veze: [], izvori: [], imaIzvore: false, izvoriNapomena: '', imaIzvoriNapomenu: false, izvoriNaslovMb: '14px' } : {
       naslov: cMeta.naslov, kat: cMeta.kat, datum: cMeta.datum, istaknuto: cMeta.istaknuto,
       vrstaLabel: (cMeta.vrsta === 'blog' || !cMeta.yt) ? 'Blog' : 'Video',
       imaCta: !!(cTekst.ctaNaslov && cMeta.yt && cMeta.vrsta !== 'blog'),
@@ -8596,6 +8604,10 @@ class Component extends DCLogic {
       ctaNaslov: cTekst.ctaNaslov, ctaUvod: cTekst.ctaUvod, ctaZakljucak: cTekst.ctaZakljucak, imaZakljucak: !!cTekst.ctaZakljucak,
       ctaTocke: cTekst.ctaTocke.map((x) => ({ x: x })),
       izvori: cIzvori, imaIzvore: cIzvori.length > 0,
+      izvoriNapomena: cIzvoriNapomena, imaIzvoriNapomenu: cIzvoriNapomena !== '',
+      // Razmak ispod naslova "Izvori": 4px kad je napomena pod njim (ona nosi
+      // vlastitih 14px ispod), 14px kad napomene nema.
+      izvoriNaslovMb: cIzvoriNapomena ? '4px' : '14px',
       slicni: OBJAVE.filter((o) => o.slug !== cSlug && o.kat === cMeta.kat).concat(OBJAVE.filter((o) => o.slug !== cSlug && o.kat !== cMeta.kat)).slice(0, 3).map((o) => ({
         naslov: o.naslov, kat: o.kat, datum: o.datum,
         thumb: 'https://i.ytimg.com/vi/' + o.yt + '/hqdefault.jpg',

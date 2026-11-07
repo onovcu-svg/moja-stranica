@@ -454,9 +454,12 @@ Sve su se već dogodile na ovom portalu.
 
 Članak koji navodi izvore dobiva neobavezno polje `izvori` uz `ctaNaslov` u
 svom zapisu u `BLOG_TEKST`: `izvori: [{ n: 'naziv', u: 'https://…', d: 'sitna
-oznaka, npr. datum' }]`. Prikazuje se kao blok „Izvori" nakon teksta, uz
-napomenu da su izvori na engleskom. `u` mora počinjati s `https://` — inače
-`check-meta-sync.js` padne, a renderer poveznicu ne ispisuje.
+oznaka, npr. datum', l: 'hr' }]`. Prikazuje se kao blok „Izvori" nakon teksta.
+`u` mora počinjati s `https://` — inače `check-meta-sync.js` padne, a renderer
+poveznicu ne ispisuje. `l: 'hr'` označava izvor na hrvatskom; **bez `l` izvor
+se smatra engleskim.** Napomena o jeziku se računa: svi izvori hrvatski → nema
+napomene, nijedan → „Izvori su na engleskom jeziku.", mješovito → „Dio izvora
+je na engleskom jeziku."
 
 Zatim **`node scripts/check-meta-sync.js`** — mora vratiti „USKLAĐENO".
 Skripta je i Vercelov `buildCommand`, pa razilaženje blokira deploy.
