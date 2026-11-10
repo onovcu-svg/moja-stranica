@@ -4297,20 +4297,20 @@
         <div>
           <div style="font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:14px">Portal</div>
           <div style="display:grid;gap:10px;justify-items:start">
-            <button sc-camel-on-click="{{ on.tabCalc }}" style="background:none;border:none;padding:0;cursor:pointer;font-weight:400;font-size:14.5px;color:var(--ink);transition:color .2s" style-hover="color:var(--acc)">Kalkulatori</button>
-            <button sc-camel-on-click="{{ on.tabPok }}" style="background:none;border:none;padding:0;cursor:pointer;font-weight:400;font-size:14.5px;color:var(--ink);transition:color .2s" style-hover="color:var(--acc)">Pokazatelji</button>
-            <button sc-camel-on-click="{{ on.tabBlog }}" style="background:none;border:none;padding:0;cursor:pointer;font-weight:400;font-size:14.5px;color:var(--ink);transition:color .2s" style-hover="color:var(--acc)">Blog &amp; Video</button>
-            <button sc-camel-on-click="{{ on.tabProj }}" style="background:none;border:none;padding:0;cursor:pointer;font-weight:400;font-size:14.5px;color:var(--ink);transition:color .2s" style-hover="color:var(--acc)">Projekti</button>
-            <button sc-camel-on-click="{{ on.tabB2b }}" style="background:none;border:none;padding:0;cursor:pointer;font-weight:400;font-size:14.5px;color:var(--ink);transition:color .2s" style-hover="color:var(--acc)">Edukacija</button>
+            <a href="/kalkulatori/hub" sc-camel-on-click="{{ on.lnkCalc }}" style="background:none;border:none;padding:0;cursor:pointer;font-weight:400;font-size:14.5px;color:var(--ink);transition:color .2s" style-hover="color:var(--acc)">Kalkulatori</a>
+            <a href="/pokazatelji/inflacija" sc-camel-on-click="{{ on.lnkPok }}" style="background:none;border:none;padding:0;cursor:pointer;font-weight:400;font-size:14.5px;color:var(--ink);transition:color .2s" style-hover="color:var(--acc)">Pokazatelji</a>
+            <a href="/blog" sc-camel-on-click="{{ on.lnkBlog }}" style="background:none;border:none;padding:0;cursor:pointer;font-weight:400;font-size:14.5px;color:var(--ink);transition:color .2s" style-hover="color:var(--acc)">Blog &amp; Video</a>
+            <a href="/projekti" sc-camel-on-click="{{ on.lnkProj }}" style="background:none;border:none;padding:0;cursor:pointer;font-weight:400;font-size:14.5px;color:var(--ink);transition:color .2s" style-hover="color:var(--acc)">Projekti</a>
+            <a href="/edukacija" sc-camel-on-click="{{ on.lnkB2b }}" style="background:none;border:none;padding:0;cursor:pointer;font-weight:400;font-size:14.5px;color:var(--ink);transition:color .2s" style-hover="color:var(--acc)">Edukacija</a>
           </div>
         </div>
         <div>
           <div style="font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:14px">Ostalo</div>
           <div style="display:grid;gap:10px;justify-items:start">
-            <button sc-camel-on-click="{{ on.tabAutor }}" style="background:none;border:none;padding:0;cursor:pointer;font-weight:400;font-size:14.5px;color:var(--ink);transition:color .2s" style-hover="color:var(--acc)">O meni</button>
-            <button sc-camel-on-click="{{ on.tabFaq }}" style="background:none;border:none;padding:0;cursor:pointer;font-weight:400;font-size:14.5px;color:var(--ink);transition:color .2s" style-hover="color:var(--acc)">Česta pitanja</button>
-            <button sc-camel-on-click="{{ on.tabKontakt }}" style="background:none;border:none;padding:0;cursor:pointer;font-weight:400;font-size:14.5px;color:var(--ink);transition:color .2s" style-hover="color:var(--acc)">Kontakt</button>
-            <button sc-camel-on-click="{{ on.tabPriv }}" style="background:none;border:none;padding:0;cursor:pointer;font-weight:400;font-size:14.5px;color:var(--ink);transition:color .2s" style-hover="color:var(--acc)">Politika privatnosti</button>
+            <a href="/o-meni" sc-camel-on-click="{{ on.lnkAutor }}" style="background:none;border:none;padding:0;cursor:pointer;font-weight:400;font-size:14.5px;color:var(--ink);transition:color .2s" style-hover="color:var(--acc)">O meni</a>
+            <a href="/cesta-pitanja" sc-camel-on-click="{{ on.lnkFaq }}" style="background:none;border:none;padding:0;cursor:pointer;font-weight:400;font-size:14.5px;color:var(--ink);transition:color .2s" style-hover="color:var(--acc)">Česta pitanja</a>
+            <a href="/kontakt" sc-camel-on-click="{{ on.lnkKontakt }}" style="background:none;border:none;padding:0;cursor:pointer;font-weight:400;font-size:14.5px;color:var(--ink);transition:color .2s" style-hover="color:var(--acc)">Kontakt</a>
+            <a href="/politika-privatnosti" sc-camel-on-click="{{ on.lnkPriv }}" style="background:none;border:none;padding:0;cursor:pointer;font-weight:400;font-size:14.5px;color:var(--ink);transition:color .2s" style-hover="color:var(--acc)">Politika privatnosti</a>
           </div>
         </div>
       </div>
@@ -6916,7 +6916,7 @@ class Component extends DCLogic {
         // /kalkulatori/placa pa "Svi kalkulatori", "Plaća" ostaje bijela na
         // crvenom iako joj je data-seg-active="0").
         if (ind) ind.style.width = '0px';
-        el.querySelectorAll('button').forEach((b) => { b.style.color = 'var(--soft)'; });
+        el.querySelectorAll('button, a').forEach((b) => { b.style.color = 'var(--soft)'; });
         continue;
       }
       if (!ind) continue;
@@ -7108,7 +7108,18 @@ class Component extends DCLogic {
       el.scrollLeft = Math.max(0, Math.min(target, max));
     });
   }
-  go(tab) { return () => { this.setState({ tab: tab, menuOpen: false, blogOpen: null }, () => this._syncUrl()); if (typeof window !== 'undefined') { window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; } this.resetHScroll(); }; }
+  go(tab, patch) { return () => { this.setState(Object.assign({ tab: tab, menuOpen: false, blogOpen: null }, patch), () => this._syncUrl()); if (typeof window !== 'undefined') { window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; } this.resetHScroll(); }; }
+  // Poveznica koja je ujedno SPA navigacija: <a href="..."> + ovaj handler.
+  // Cmd/Ctrl/Shift/Alt-klik (novi tab, novi prozor, preuzimanje) ide pregledniku
+  // netaknut; srednja tipka šalje auxclick pa uopće ne stiže ovamo. Plain klik
+  // dobiva preventDefault (inače bi href pokrenuo puni page-load) i zove fn.
+  lnk(fn) {
+    return (e) => {
+      if (e && (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey)) return;
+      if (e && e.preventDefault) e.preventDefault();
+      fn();
+    };
+  }
   _pathFor(s) {
     if (s.tab === 'calc') return '/kalkulatori/' + (s.calcTab || 'placa');
     if (s.tab === 'pok') return '/pokazatelji' + (s.pokKat ? '/' + s.pokKat : '');
@@ -10656,6 +10667,11 @@ class Component extends DCLogic {
         }),
         toggleMenu: () => this.setState((st) => ({ menuOpen: !st.menuOpen })),
         tabFaq: this.go('faq'), tabPriv: this.go('priv'),
+        // Handleri za <a href> poveznice (vidi lnk()). "Kalkulatori" i "Pokazatelji"
+        // vode na kanonski hub/inflaciju, ne na zadnje otvoreni kalkulator/kategoriju.
+        lnkCalc: this.lnk(this.go('calc', { calcTab: 'hub' })), lnkPok: this.lnk(this.go('pok', { pokKat: 'inflacija' })),
+        lnkBlog: this.lnk(this.go('blog')), lnkProj: this.lnk(this.go('proj')), lnkB2b: this.lnk(this.go('b2b')),
+        lnkAutor: this.lnk(this.go('autor')), lnkFaq: this.lnk(this.go('faq')), lnkKontakt: this.lnk(this.go('kontakt')), lnkPriv: this.lnk(this.go('priv')),
         stop: (e) => { if (e && e.stopPropagation) e.stopPropagation(); },
         blogNatrag: () => { this.setState({ blogOpen: null }, () => this._syncUrl()); if (typeof window !== 'undefined') { window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; } }, tabPok: this.go('pok'), tabProj: this.go('proj'), tabAutor: this.go('autor'),
         goPlaca: this.goCalc('placa'), goKredit: this.goCalc('kredit'), goKamata: this.goCalc('kamata'), goInflacija: this.goCalc('inflacija'),
