@@ -200,21 +200,21 @@
   <!-- HEADER -->
   <header style="position:sticky;top:0;z-index:80;background:var(--bg);border-bottom:1px solid var(--line);transition:background .35s ease">
     <div style="max-width:1180px;margin:0 auto;padding:0 clamp(18px,4vw,36px);height:60px;display:flex;align-items:center;justify-content:space-between;gap:20px">
-      <div sc-camel-on-click="{{ on.goHome }}" style="display:flex;align-items:center;gap:9px;cursor:pointer;flex-shrink:0">
+      <a href="/" sc-camel-on-click="{{ on.lnkHome }}" style="display:flex;align-items:center;gap:9px;cursor:pointer;flex-shrink:0;color:inherit">
         <sc-if value="{{ isLight }}" hint-placeholder-val="{{ true }}"><img src="/assets/mark-on-light.png" alt="O novcu" style="height:32px;width:auto;display:block"></sc-if>
         <sc-if value="{{ isDark }}"><img src="/assets/mark-on-dark.png" alt="O novcu" style="height:32px;width:auto;display:block"></sc-if>
         <span style="font-weight:700;font-size:20px;letter-spacing:-.035em">O novcu</span>
-      </div>
+      </a>
 
       <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
       <nav style="display:flex;align-items:center;gap:clamp(10px,1.8vw,22px)">
-        <button sc-camel-on-click="{{ on.tabHome }}" style="background:none;border:none;padding:6px 0;cursor:pointer;font-weight:500;font-size:14px;color:{{ nav.home }};transition:color .2s;white-space:nowrap" style-hover="color:var(--acc)">Početna</button>
-        <button sc-camel-on-click="{{ on.tabCalc }}" style="background:none;border:none;padding:6px 0;cursor:pointer;font-weight:500;font-size:14px;color:{{ nav.calc }};transition:color .2s;white-space:nowrap" style-hover="color:var(--acc)">Kalkulatori</button>
-        <button sc-camel-on-click="{{ on.tabPok }}" style="background:none;border:none;padding:6px 0;cursor:pointer;font-weight:500;font-size:14px;color:{{ nav.pok }};transition:color .2s;white-space:nowrap" style-hover="color:var(--acc)">Pokazatelji</button>
-        <button sc-camel-on-click="{{ on.tabBlog }}" style="background:none;border:none;padding:6px 0;cursor:pointer;font-weight:500;font-size:14px;color:{{ nav.blog }};transition:color .2s;white-space:nowrap" style-hover="color:var(--acc)">Blog &amp; Video</button>
-        <button sc-camel-on-click="{{ on.tabProj }}" style="background:none;border:none;padding:6px 0;cursor:pointer;font-weight:500;font-size:14px;color:{{ nav.proj }};transition:color .2s;white-space:nowrap" style-hover="color:var(--acc)">Projekti</button>
-        <button sc-camel-on-click="{{ on.tabB2b }}" style="background:none;border:none;padding:6px 0;cursor:pointer;font-weight:500;font-size:14px;color:{{ nav.b2b }};transition:color .2s;white-space:nowrap" style-hover="color:var(--acc)">Edukacija</button>
-        <button sc-camel-on-click="{{ on.tabAutor }}" style="background:none;border:none;padding:6px 0;cursor:pointer;font-weight:500;font-size:14px;color:{{ nav.autor }};transition:color .2s;white-space:nowrap" style-hover="color:var(--acc)">O meni</button>
+        <a href="/" sc-camel-on-click="{{ on.lnkHome }}" style="background:none;border:none;padding:6px 0;cursor:pointer;font-weight:500;font-size:14px;color:{{ nav.home }};transition:color .2s;white-space:nowrap" style-hover="color:var(--acc)">Početna</a>
+        <a href="/kalkulatori/hub" sc-camel-on-click="{{ on.lnkCalc }}" style="background:none;border:none;padding:6px 0;cursor:pointer;font-weight:500;font-size:14px;color:{{ nav.calc }};transition:color .2s;white-space:nowrap" style-hover="color:var(--acc)">Kalkulatori</a>
+        <a href="/pokazatelji/inflacija" sc-camel-on-click="{{ on.lnkPok }}" style="background:none;border:none;padding:6px 0;cursor:pointer;font-weight:500;font-size:14px;color:{{ nav.pok }};transition:color .2s;white-space:nowrap" style-hover="color:var(--acc)">Pokazatelji</a>
+        <a href="/blog" sc-camel-on-click="{{ on.lnkBlog }}" style="background:none;border:none;padding:6px 0;cursor:pointer;font-weight:500;font-size:14px;color:{{ nav.blog }};transition:color .2s;white-space:nowrap" style-hover="color:var(--acc)">Blog &amp; Video</a>
+        <a href="/projekti" sc-camel-on-click="{{ on.lnkProj }}" style="background:none;border:none;padding:6px 0;cursor:pointer;font-weight:500;font-size:14px;color:{{ nav.proj }};transition:color .2s;white-space:nowrap" style-hover="color:var(--acc)">Projekti</a>
+        <a href="/edukacija" sc-camel-on-click="{{ on.lnkB2b }}" style="background:none;border:none;padding:6px 0;cursor:pointer;font-weight:500;font-size:14px;color:{{ nav.b2b }};transition:color .2s;white-space:nowrap" style-hover="color:var(--acc)">Edukacija</a>
+        <a href="/o-meni" sc-camel-on-click="{{ on.lnkAutor }}" style="background:none;border:none;padding:6px 0;cursor:pointer;font-weight:500;font-size:14px;color:{{ nav.autor }};transition:color .2s;white-space:nowrap" style-hover="color:var(--acc)">O meni</a>
       </nav>
       </sc-if>
 
@@ -255,13 +255,13 @@
     <sc-if value="{{ menuOpen }}">
     <div style="border-top:1px solid var(--line);background:var(--bg);padding:8px clamp(18px,4vw,36px) 22px;animation:onSheet .25s ease both">
       <div style="display:grid;gap:0;max-width:1180px;margin:0 auto">
-        <button sc-camel-on-click="{{ on.tabHome }}" style="background:none;border:none;border-bottom:1px solid var(--line);padding:15px 2px;text-align:left;cursor:pointer;font-weight:600;font-size:18px;letter-spacing:-.02em;color:{{ nav.home }}">Početna</button>
-        <button sc-camel-on-click="{{ on.tabCalc }}" style="background:none;border:none;border-bottom:1px solid var(--line);padding:15px 2px;text-align:left;cursor:pointer;font-weight:600;font-size:18px;letter-spacing:-.02em;color:{{ nav.calc }}">Kalkulatori</button>
-        <button sc-camel-on-click="{{ on.tabPok }}" style="background:none;border:none;border-bottom:1px solid var(--line);padding:15px 2px;text-align:left;cursor:pointer;font-weight:600;font-size:18px;letter-spacing:-.02em;color:{{ nav.pok }}">Pokazatelji</button>
-        <button sc-camel-on-click="{{ on.tabBlog }}" style="background:none;border:none;border-bottom:1px solid var(--line);padding:15px 2px;text-align:left;cursor:pointer;font-weight:600;font-size:18px;letter-spacing:-.02em;color:{{ nav.blog }}">Blog &amp; Video</button>
-        <button sc-camel-on-click="{{ on.tabProj }}" style="background:none;border:none;border-bottom:1px solid var(--line);padding:15px 2px;text-align:left;cursor:pointer;font-weight:600;font-size:18px;letter-spacing:-.02em;color:{{ nav.proj }}">Projekti</button>
-        <button sc-camel-on-click="{{ on.tabB2b }}" style="background:none;border:none;border-bottom:1px solid var(--line);padding:15px 2px;text-align:left;cursor:pointer;font-weight:600;font-size:18px;letter-spacing:-.02em;color:{{ nav.b2b }}">Edukacija</button>
-        <button sc-camel-on-click="{{ on.tabAutor }}" style="background:none;border:none;padding:15px 2px;text-align:left;cursor:pointer;font-weight:600;font-size:18px;letter-spacing:-.02em;color:{{ nav.autor }}">O meni</button>
+        <a href="/" sc-camel-on-click="{{ on.lnkHome }}" style="background:none;border:none;border-bottom:1px solid var(--line);padding:15px 2px;text-align:left;cursor:pointer;font-weight:600;font-size:18px;letter-spacing:-.02em;color:{{ nav.home }}">Početna</a>
+        <a href="/kalkulatori/hub" sc-camel-on-click="{{ on.lnkCalc }}" style="background:none;border:none;border-bottom:1px solid var(--line);padding:15px 2px;text-align:left;cursor:pointer;font-weight:600;font-size:18px;letter-spacing:-.02em;color:{{ nav.calc }}">Kalkulatori</a>
+        <a href="/pokazatelji/inflacija" sc-camel-on-click="{{ on.lnkPok }}" style="background:none;border:none;border-bottom:1px solid var(--line);padding:15px 2px;text-align:left;cursor:pointer;font-weight:600;font-size:18px;letter-spacing:-.02em;color:{{ nav.pok }}">Pokazatelji</a>
+        <a href="/blog" sc-camel-on-click="{{ on.lnkBlog }}" style="background:none;border:none;border-bottom:1px solid var(--line);padding:15px 2px;text-align:left;cursor:pointer;font-weight:600;font-size:18px;letter-spacing:-.02em;color:{{ nav.blog }}">Blog &amp; Video</a>
+        <a href="/projekti" sc-camel-on-click="{{ on.lnkProj }}" style="background:none;border:none;border-bottom:1px solid var(--line);padding:15px 2px;text-align:left;cursor:pointer;font-weight:600;font-size:18px;letter-spacing:-.02em;color:{{ nav.proj }}">Projekti</a>
+        <a href="/edukacija" sc-camel-on-click="{{ on.lnkB2b }}" style="background:none;border:none;border-bottom:1px solid var(--line);padding:15px 2px;text-align:left;cursor:pointer;font-weight:600;font-size:18px;letter-spacing:-.02em;color:{{ nav.b2b }}">Edukacija</a>
+        <a href="/o-meni" sc-camel-on-click="{{ on.lnkAutor }}" style="background:none;border:none;padding:15px 2px;text-align:left;cursor:pointer;font-weight:600;font-size:18px;letter-spacing:-.02em;color:{{ nav.autor }}">O meni</a>
       </div>
     </div>
     </sc-if>
@@ -10650,7 +10650,7 @@ class Component extends DCLogic {
       ...Object.keys(NUM_DEC).reduce((acc, k) => { acc[k] = this.num(s[k], 0); return acc; }, {}),
 
       on: {
-        goHome: this.go('home'), tabHome: this.go('home'), tabCalc: this.go('calc'), tabB2b: this.go('b2b'),
+        tabCalc: this.go('calc'), tabB2b: this.go('b2b'),
         tabBlog: this.go('blog'), tabKontakt: this.go('kontakt'),
         toggleYtInfo: () => this.setState((st) => ({ ytInfoOpen: !st.ytInfoOpen })),
         // Perzistencija je best-effort: setItem moze baciti u privatnom tabu
@@ -10669,7 +10669,7 @@ class Component extends DCLogic {
         tabFaq: this.go('faq'), tabPriv: this.go('priv'),
         // Handleri za <a href> poveznice (vidi lnk()). "Kalkulatori" i "Pokazatelji"
         // vode na kanonski hub/inflaciju, ne na zadnje otvoreni kalkulator/kategoriju.
-        lnkCalc: this.lnk(this.go('calc', { calcTab: 'hub' })), lnkPok: this.lnk(this.go('pok', { pokKat: 'inflacija' })),
+        lnkHome: this.lnk(this.go('home')), lnkCalc: this.lnk(this.go('calc', { calcTab: 'hub' })), lnkPok: this.lnk(this.go('pok', { pokKat: 'inflacija' })),
         lnkBlog: this.lnk(this.go('blog')), lnkProj: this.lnk(this.go('proj')), lnkB2b: this.lnk(this.go('b2b')),
         lnkAutor: this.lnk(this.go('autor')), lnkFaq: this.lnk(this.go('faq')), lnkKontakt: this.lnk(this.go('kontakt')), lnkPriv: this.lnk(this.go('priv')),
         stop: (e) => { if (e && e.stopPropagation) e.stopPropagation(); },
