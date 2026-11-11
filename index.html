@@ -275,8 +275,8 @@
       <p style="font-weight:400;font-size:clamp(17px,2.1vw,22px);line-height:1.5;letter-spacing:-.015em;color:var(--ink);max-width:46ch;margin:0 auto 14px;text-wrap:pretty"><strong style="font-weight:600">„O novcu” je hrvatski portal za financijsku pismenost.</strong> Besplatni kalkulatori, najvažniji domaći pokazatelji i edukativni sadržaji, prilagođeni hrvatskom kontekstu.</p>
       <p style="font-weight:300;font-size:clamp(15px,1.7vw,17.5px);line-height:1.55;color:var(--soft);max-width:52ch;margin:0 auto clamp(26px,4vh,36px);text-wrap:pretty">Cilj mi je pomoći ti izbjeći financijske greške koje te mogu skupo koštati.</p>
       <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-        <button sc-camel-on-click="{{ on.tabCalc }}" style="background:var(--acc);color:#FFF;border:none;border-radius:980px;padding:18px 36px;cursor:pointer;font-weight:600;font-size:clamp(16px,1.8vw,18.5px);letter-spacing:-.015em;box-shadow:0 8px 30px rgba(220,38,38,.28);transition:opacity .2s,transform .2s" style-hover="opacity:.9;transform:scale(1.04)">Isprobaj kalkulatore →</button>
-        <button sc-camel-on-click="{{ on.tabB2b }}" style="background:transparent;color:var(--ink);border:1px solid var(--line2);border-radius:980px;padding:18px 32px;cursor:pointer;font-weight:600;font-size:clamp(16px,1.8vw,18.5px);letter-spacing:-.015em;transition:all .2s" style-hover="border-color:var(--ink);transform:scale(1.03)">Edukacije za tvrtke</button>
+        <a href="/kalkulatori/hub" sc-camel-on-click="{{ on.lnkCalc }}" style="background:var(--acc);color:#FFF;border:none;border-radius:980px;padding:18px 36px;cursor:pointer;font-weight:600;font-size:clamp(16px,1.8vw,18.5px);letter-spacing:-.015em;box-shadow:0 8px 30px rgba(220,38,38,.28);transition:opacity .2s,transform .2s" style-hover="opacity:.9;transform:scale(1.04)">Isprobaj kalkulatore →</a>
+        <a href="/edukacija" sc-camel-on-click="{{ on.lnkB2b }}" style="background:transparent;color:var(--ink);border:1px solid var(--line2);border-radius:980px;padding:18px 32px;cursor:pointer;font-weight:600;font-size:clamp(16px,1.8vw,18.5px);letter-spacing:-.015em;transition:all .2s" style-hover="border-color:var(--ink);transform:scale(1.03)">Edukacije za tvrtke</a>
       </div>
       <div style="font-weight:300;font-size:13.5px;color:var(--soft);margin-top:16px;margin-bottom:clamp(26px,4vh,38px)">Jednostavni kalkulatori sa svim informacijama · rade u pregledniku · bez registracije</div>
 
@@ -360,19 +360,19 @@
         <h2 style="font-weight:700;font-size:clamp(28px,4.4vw,50px);line-height:1.06;letter-spacing:-.035em;margin:0 auto;max-width:24ch;text-wrap:balance">{{ najVideo.naslov }}</h2>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(24px,3.4vw,44px);align-items:center">
-        <div sc-camel-on-click="{{ otvoriNajVideo }}" style="position:relative;aspect-ratio:16/9;border-radius:clamp(14px,1.8vw,20px);overflow:hidden;background:#09090B;box-shadow:var(--shUp);cursor:pointer">
+        <a href="{{ najVideo.clanakHref }}" sc-camel-on-click="{{ otvoriNajVideo }}" style="position:relative;aspect-ratio:16/9;border-radius:clamp(14px,1.8vw,20px);overflow:hidden;background:#09090B;box-shadow:var(--shUp);cursor:pointer;color:inherit">
 <img src="{{ najVideo.thumb }}" alt="{{ najVideo.naslov }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
           <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none">
             <div style="width:74px;height:74px;border-radius:50%;background:rgba(255,255,255,.18);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.32);display:flex;align-items:center;justify-content:center">
               <div style="width:0;height:0;border-left:20px solid #FFF;border-top:12px solid transparent;border-bottom:12px solid transparent;margin-left:6px"></div>
             </div>
           </div>
-        </div>
+        </a>
         <div>
           <p style="font-weight:300;font-size:clamp(16.5px,1.6vw,19px);line-height:1.6;letter-spacing:-.01em;color:var(--soft);margin:0 0 26px;text-wrap:pretty">{{ najVideo.opis }}</p>
           <div style="display:flex;gap:10px;flex-wrap:wrap">
             <a href="{{ najVideo.href }}" target="_blank" rel="noopener" style="background:var(--ink);color:var(--bg);border-radius:980px;padding:13px 24px;font-weight:600;font-size:14.5px;display:inline-block;transition:opacity .2s,transform .2s" style-hover="opacity:.85;transform:scale(1.03);color:var(--bg)">Gledaj na YouTubeu</a>
-            <button sc-camel-on-click="{{ on.tabBlog }}" style="background:transparent;border:1px solid var(--line2);color:var(--ink);border-radius:980px;padding:13px 24px;cursor:pointer;font-weight:600;font-size:14.5px;transition:all .2s" style-hover="border-color:var(--ink)">Svi videi i članci</button>
+            <a href="/blog" sc-camel-on-click="{{ on.lnkBlog }}" style="background:transparent;border:1px solid var(--line2);color:var(--ink);border-radius:980px;padding:13px 24px;cursor:pointer;font-weight:600;font-size:14.5px;transition:all .2s" style-hover="border-color:var(--ink)">Svi videi i članci</a>
           </div>
         </div>
       </div>
@@ -452,7 +452,7 @@
           </div>
           <div style="display:flex;gap:10px;flex-wrap:wrap">
             <a href="https://www.linkedin.com/in/marko-bogdan-866b3877/" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:8px;background:var(--ink);color:var(--bg);border-radius:980px;padding:11px 20px;font-weight:600;font-size:13.5px;transition:opacity .2s,transform .2s" style-hover="opacity:.85;transform:scale(1.03);color:var(--bg)"><svg width="15" height="15" sc-camel-view-box="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM2.4 21h5.2V9H2.4v12zM9.8 9h5v1.6h.1c.7-1.2 2.2-2 4-2 3.3 0 4.6 2 4.6 5.4V21h-5.2v-6.1c0-1.5-.5-2.5-1.9-2.5-1.1 0-1.8.7-2.1 1.5-.1.3-.1.6-.1 1V21H9.8V9z"></path></svg>LinkedIn profil</a>
-            <button sc-camel-on-click="{{ on.tabAutor }}" style="background:transparent;border:1px solid var(--line2);color:var(--ink);border-radius:980px;padding:11px 20px;cursor:pointer;font-weight:600;font-size:13.5px;transition:all .2s" style-hover="border-color:var(--ink)">Cijela biografija i mediji →</button>
+            <a href="/o-meni" sc-camel-on-click="{{ on.lnkAutor }}" style="background:transparent;border:1px solid var(--line2);color:var(--ink);border-radius:980px;padding:11px 20px;cursor:pointer;font-weight:600;font-size:13.5px;transition:all .2s" style-hover="border-color:var(--ink)">Cijela biografija i mediji →</a>
           </div>
         </div>
       </div>
@@ -480,7 +480,7 @@
           <div style="font-weight:600;font-size:13px;letter-spacing:.04em;color:var(--acc);margin-bottom:14px">Često postavljana pitanja</div>
           <h2 style="font-weight:700;font-size:clamp(28px,3.8vw,44px);line-height:1.06;letter-spacing:-.035em;margin:0 0 16px;text-wrap:balance">Kratki odgovori na najčešća pitanja.</h2>
           <p style="font-weight:300;font-size:clamp(15px,1.6vw,17.5px);line-height:1.6;color:var(--soft);margin:0 0 22px;max-width:34ch;text-wrap:pretty">Ako ne nađeš odgovor, pošalji pitanje. Najbolja pitanja postaju video.</p>
-          <button sc-camel-on-click="{{ on.tabFaq }}" style="background:transparent;border:1px solid var(--line2);color:var(--ink);border-radius:980px;padding:12px 22px;cursor:pointer;font-weight:600;font-size:14px;transition:all .2s" style-hover="border-color:var(--ink)">Sva pitanja i odgovori →</button>
+          <a href="/cesta-pitanja" sc-camel-on-click="{{ on.lnkFaq }}" style="background:transparent;border:1px solid var(--line2);color:var(--ink);border-radius:980px;padding:12px 22px;cursor:pointer;font-weight:600;font-size:14px;transition:all .2s;display:inline-block" style-hover="border-color:var(--ink)">Sva pitanja i odgovori →</a>
         </div>
         <div>
           <sc-for list="{{ faq }}" as="q" hint-placeholder-count="4">
@@ -511,7 +511,7 @@
 
       <sc-if value="{{ nijeHub }}">
       <div style="display:flex;justify-content:center;margin-bottom:14px">
-        <button sc-camel-on-click="{{ on.goHub }}" style="display:flex;align-items:center;gap:7px;background:none;border:none;padding:6px 2px;cursor:pointer;font-weight:600;font-size:13px;color:var(--soft);transition:color .2s" style-hover="color:var(--acc)">← Svi kalkulatori</button>
+        <a href="/kalkulatori/hub" sc-camel-on-click="{{ on.lnkHub }}" style="display:flex;align-items:center;gap:7px;background:none;border:none;padding:6px 2px;cursor:pointer;font-weight:600;font-size:13px;color:var(--soft);transition:color .2s" style-hover="color:var(--acc)">← Svi kalkulatori</a>
       </div>
       </sc-if>
 
@@ -2576,7 +2576,7 @@
             <div style="font-weight:600;font-size:13px;letter-spacing:.04em;color:var(--acc);margin-bottom:12px">Pitanja i odgovori</div>
             <h2 style="font-weight:700;font-size:clamp(24px,3.2vw,36px);line-height:1.08;letter-spacing:-.035em;margin:0 0 14px;text-wrap:balance">Najčešća pitanja o ovom izračunu.</h2>
             <p style="font-weight:300;font-size:14.5px;line-height:1.6;color:var(--soft);margin:0 0 20px;max-width:32ch;text-wrap:pretty">Pitanja se mijenjaju s odabranim kalkulatorom.</p>
-            <button sc-camel-on-click="{{ on.tabFaq }}" style="background:transparent;border:1px solid var(--line2);color:var(--ink);border-radius:980px;padding:12px 22px;cursor:pointer;font-weight:600;font-size:14px;transition:all .2s" style-hover="border-color:var(--ink)">Sva pitanja i odgovori →</button>
+            <a href="/cesta-pitanja" sc-camel-on-click="{{ on.lnkFaq }}" style="background:transparent;border:1px solid var(--line2);color:var(--ink);border-radius:980px;padding:12px 22px;cursor:pointer;font-weight:600;font-size:14px;transition:all .2s;display:inline-block" style-hover="border-color:var(--ink)">Sva pitanja i odgovori →</a>
           </div>
           <div>
             <sc-for list="{{ calcFaq }}" as="q" hint-placeholder-count="3">
@@ -2779,7 +2779,7 @@
           <div style="font-weight:700;font-size:clamp(24px,3vw,34px);letter-spacing:-.035em;line-height:1.1;margin-bottom:8px">Marko Bogdan</div>
           <div style="font-weight:400;font-size:15px;color:var(--soft);margin-bottom:16px">Stručnjak za financijsku edukaciju · 18+ godina iskustva</div>
           <p style="font-weight:300;font-size:15.5px;line-height:1.62;color:var(--soft);margin:0 0 18px;max-width:46ch;text-wrap:pretty">Voditelj kanala „Podcast O novcu”, najvećeg domaćeg kanala posvećenog isključivo osobnim financijama. Growth Strategist u Genius by InterCapital i partner u InterCapitalu, magistar ekonomije Ekonomskog fakulteta u Zagrebu, s položenim HANFA-inim ispitom za investicijskog savjetnika.</p>
-          <button sc-camel-on-click="{{ on.tabAutor }}" style="background:transparent;border:1px solid var(--line2);color:var(--ink);border-radius:980px;padding:12px 22px;cursor:pointer;font-weight:600;font-size:14.5px;transition:all .2s" style-hover="border-color:var(--ink)">Cijela biografija →</button>
+          <a href="/o-meni" sc-camel-on-click="{{ on.lnkAutor }}" style="background:transparent;border:1px solid var(--line2);color:var(--ink);border-radius:980px;padding:12px 22px;cursor:pointer;font-weight:600;font-size:14.5px;transition:all .2s;display:inline-block" style-hover="border-color:var(--ink)">Cijela biografija →</a>
         </div>
         <div style="display:grid;gap:10px">
           <div style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px"><div style="font-weight:500;font-size:12.5px;color:var(--soft);margin-bottom:5px">E-mail</div><a href="mailto:kontakt@onovcu.hr" style="font-weight:600;font-size:17px;letter-spacing:-.02em;color:var(--ink)">kontakt@onovcu.hr</a></div>
@@ -2867,10 +2867,10 @@
   <sc-if value="{{ isClanak }}">
   <main>
     <article style="max-width:1180px;margin:0 auto;padding:clamp(28px,4vh,44px) clamp(18px,4vw,36px) clamp(56px,9vh,100px);animation:onFade .5s ease both">
-      <button sc-camel-on-click="{{ on.blogNatrag }}" style="display:inline-flex;align-items:center;gap:8px;background:none;border:none;padding:0;cursor:pointer;font-weight:500;font-size:14px;color:var(--soft);margin-bottom:clamp(22px,3vh,32px);transition:color .2s" style-hover="color:var(--acc)">
+      <a href="/blog" sc-camel-on-click="{{ on.blogNatrag }}" style="display:inline-flex;align-items:center;gap:8px;background:none;border:none;padding:0;cursor:pointer;font-weight:500;font-size:14px;color:var(--soft);margin-bottom:clamp(22px,3vh,32px);transition:color .2s" style-hover="color:var(--acc)">
         <svg width="15" height="15" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"></path><path d="m12 19-7-7 7-7"></path></svg>
         Svi blogovi i videi
-      </button>
+      </a>
       <div style="max-width:720px;margin:0 auto">
         <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px">
           <span style="background:var(--acc);color:#FFF;font-weight:600;font-size:11px;letter-spacing:.05em;padding:5px 11px;border-radius:980px">{{ clanak.kat }}</span>
@@ -2881,13 +2881,13 @@
         </div>
         <h1 style="font-weight:700;font-size:clamp(28px,4.2vw,46px);line-height:1.06;letter-spacing:-.04em;margin:0 0 18px;text-wrap:balance">{{ clanak.naslov }}</h1>
         <p style="font-weight:400;font-size:clamp(16px,1.9vw,19px);line-height:1.55;color:var(--soft);margin:0 0 clamp(20px,3vh,28px);text-wrap:pretty">{{ clanak.istaknuto }}</p>
-        <button sc-camel-on-click="{{ on.tabAutor }}" style="display:inline-flex;align-items:center;gap:10px;background:none;border:none;padding:0;cursor:pointer;margin-bottom:clamp(24px,3.5vh,34px)" style-hover="opacity:.8">
+        <a href="/o-meni" sc-camel-on-click="{{ on.lnkAutor }}" style="display:inline-flex;align-items:center;gap:10px;background:none;border:none;padding:0;cursor:pointer;margin-bottom:clamp(24px,3.5vh,34px);color:inherit" style-hover="opacity:.8">
           <span style="width:36px;height:36px;border-radius:50%;overflow:hidden;background:var(--sec);flex-shrink:0;display:block"><img src="data:image/webp;base64,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" alt="Marko Bogdan" style="width:100%;height:100%;object-fit:cover;display:block"></span>
           <span style="text-align:left">
             <span style="display:block;font-weight:600;font-size:14px;color:var(--ink);letter-spacing:-.01em">Marko Bogdan</span>
             <span style="display:block;font-weight:300;font-size:12.5px;color:var(--soft)">Stručnjak za financijsku edukaciju</span>
           </span>
-        </button>
+        </a>
       </div>
       <div style="display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(28px,4vw,48px);align-items:start;justify-items:center" style-hover="">
         <div style="max-width:720px;width:100%">
@@ -2934,12 +2934,12 @@
           </sc-if>
 
           <sc-if value="{{ clanak.imaProjLink }}">
-          <button sc-camel-on-click="{{ clanak.projLink.go }}" style="display:block;width:100%;text-align:left;background:var(--tint);border:1px solid var(--line);border-radius:14px;padding:16px 18px;cursor:pointer;font:inherit;color:inherit;margin-top:clamp(26px,4vh,38px);transition:border-color .2s,transform .2s" style-hover="border-color:var(--acc);transform:translateY(-2px)">
+          <a href="{{ clanak.projLink.href }}" sc-camel-on-click="{{ clanak.projLink.go }}" style="display:block;width:100%;text-align:left;background:var(--tint);border:1px solid var(--line);border-radius:14px;padding:16px 18px;cursor:pointer;font:inherit;color:inherit;margin-top:clamp(26px,4vh,38px);transition:border-color .2s,transform .2s" style-hover="border-color:var(--acc);transform:translateY(-2px)">
             <div style="font-weight:500;font-size:11px;letter-spacing:.05em;color:var(--acc);margin-bottom:7px">{{ clanak.projLink.tip }}</div>
             <div style="font-weight:600;font-size:15.5px;letter-spacing:-.02em;margin-bottom:5px">{{ clanak.projLink.n }}</div>
             <div style="font-weight:300;font-size:13px;line-height:1.5;color:var(--soft);text-wrap:pretty">{{ clanak.projLink.o }}</div>
             <div style="font-weight:600;font-size:13px;color:var(--ink);margin-top:11px">Otvori →</div>
-          </button>
+          </a>
           </sc-if>
           <sc-if value="{{ clanak.imaVeze }}">
             <div style="margin-top:clamp(32px,4.5vh,44px);padding-top:clamp(24px,3.5vh,32px);border-top:1px solid var(--line)">
@@ -2947,12 +2947,22 @@
               <div style="font-weight:300;font-size:13.5px;color:var(--soft);line-height:1.5;margin-bottom:16px;text-wrap:pretty">Alati portala vezani uz ovu temu. Sve računa u tvom pregledniku, ništa se ne sprema.</div>
               <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px">
                 <sc-for list="{{ clanak.veze }}" as="v" hint-placeholder-count="2">
-                  <button sc-camel-on-click="{{ v.go }}" style="text-align:left;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;cursor:pointer;font:inherit;color:inherit;transition:border-color .2s,transform .2s" style-hover="border-color:var(--acc);transform:translateY(-2px)">
-                    <div style="font-weight:500;font-size:11px;letter-spacing:.05em;color:var(--acc);margin-bottom:7px">{{ v.tip }}</div>
-                    <div style="font-weight:600;font-size:15.5px;letter-spacing:-.02em;margin-bottom:5px">{{ v.n }}</div>
-                    <div style="font-weight:300;font-size:13px;line-height:1.5;color:var(--soft);text-wrap:pretty">{{ v.o }}</div>
-                    <div style="font-weight:600;font-size:13px;color:var(--ink);margin-top:11px">Otvori →</div>
-                  </button>
+                  <sc-if value="{{ v.jeLink }}">
+                    <a href="{{ v.href }}" sc-camel-on-click="{{ v.go }}" style="text-align:left;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;cursor:pointer;font:inherit;color:inherit;transition:border-color .2s,transform .2s" style-hover="border-color:var(--acc);transform:translateY(-2px)">
+                      <div style="font-weight:500;font-size:11px;letter-spacing:.05em;color:var(--acc);margin-bottom:7px">{{ v.tip }}</div>
+                      <div style="font-weight:600;font-size:15.5px;letter-spacing:-.02em;margin-bottom:5px">{{ v.n }}</div>
+                      <div style="font-weight:300;font-size:13px;line-height:1.5;color:var(--soft);text-wrap:pretty">{{ v.o }}</div>
+                      <div style="font-weight:600;font-size:13px;color:var(--ink);margin-top:11px">Otvori →</div>
+                    </a>
+                  </sc-if>
+                  <sc-if value="{{ v.nijeLink }}">
+                    <button sc-camel-on-click="{{ v.go }}" style="text-align:left;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;cursor:pointer;font:inherit;color:inherit;transition:border-color .2s,transform .2s" style-hover="border-color:var(--acc);transform:translateY(-2px)">
+                      <div style="font-weight:500;font-size:11px;letter-spacing:.05em;color:var(--acc);margin-bottom:7px">{{ v.tip }}</div>
+                      <div style="font-weight:600;font-size:15.5px;letter-spacing:-.02em;margin-bottom:5px">{{ v.n }}</div>
+                      <div style="font-weight:300;font-size:13px;line-height:1.5;color:var(--soft);text-wrap:pretty">{{ v.o }}</div>
+                      <div style="font-weight:600;font-size:13px;color:var(--ink);margin-top:11px">Otvori →</div>
+                    </button>
+                  </sc-if>
                 </sc-for>
               </div>
             </div>
@@ -2984,7 +2994,7 @@
             <div style="font-weight:600;font-size:17px;letter-spacing:-.025em;margin-bottom:16px">Pročitaj i ovo</div>
             <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px">
               <sc-for list="{{ clanak.slicni }}" as="sl" hint-placeholder-count="3">
-                <div sc-camel-on-click="{{ sl.otvori }}" style="cursor:pointer;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:transform .25s ease,border-color .25s" style-hover="transform:translateY(-3px);border-color:var(--line2)">
+                <a href="{{ sl.href }}" sc-camel-on-click="{{ sl.otvori }}" style="cursor:pointer;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:transform .25s ease,border-color .25s;color:inherit" style-hover="transform:translateY(-3px);border-color:var(--line2)">
                   <div style="aspect-ratio:16/9;background:var(--sec)">
                     <img src="{{ sl.thumb }}" alt="{{ sl.naslov }}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block">
                   </div>
@@ -2992,7 +3002,7 @@
                     <div style="font-weight:500;font-size:11px;letter-spacing:.04em;color:var(--acc);margin-bottom:6px">{{ sl.kat }}</div>
                     <div style="font-weight:500;font-size:14px;line-height:1.3;letter-spacing:-.02em;text-wrap:pretty">{{ sl.naslov }}</div>
                   </div>
-                </div>
+                </a>
               </sc-for>
             </div>
           </div>
@@ -3809,7 +3819,7 @@
           <div style="font-weight:600;font-size:13px;letter-spacing:.04em;color:var(--acc);margin-bottom:14px">Pitanja i odgovori</div>
           <h2 style="font-weight:700;font-size:clamp(28px,3.8vw,44px);line-height:1.06;letter-spacing:-.035em;margin:0 0 16px;text-wrap:balance">Što ove brojke znače u praksi.</h2>
           <p style="font-weight:300;font-size:clamp(15px,1.6vw,17.5px);line-height:1.6;color:var(--soft);margin:0 0 22px;max-width:34ch;text-wrap:pretty">Vidiš brojke, ali kako ih protumačiti?</p>
-          <button sc-camel-on-click="{{ on.tabFaq }}" style="background:transparent;border:1px solid var(--line2);color:var(--ink);border-radius:980px;padding:12px 22px;cursor:pointer;font-weight:600;font-size:14px;transition:all .2s" style-hover="border-color:var(--ink)">Sva pitanja i odgovori →</button>
+          <a href="/cesta-pitanja" sc-camel-on-click="{{ on.lnkFaq }}" style="background:transparent;border:1px solid var(--line2);color:var(--ink);border-radius:980px;padding:12px 22px;cursor:pointer;font-weight:600;font-size:14px;transition:all .2s;display:inline-block" style-hover="border-color:var(--ink)">Sva pitanja i odgovori →</a>
         </div>
         <div>
           <sc-for list="{{ pokFaq }}" as="q" hint-placeholder-count="4">
@@ -4033,7 +4043,7 @@
           <p style="font-weight:500;font-size:clamp(16.5px,1.8vw,20px);line-height:1.45;letter-spacing:-.02em;margin:0;text-wrap:pretty">O novcu pričam isključivo u hrvatskom kontekstu: naši porezi, naše banke, naše plaće i naši propisi.</p>
         </blockquote>
         <div style="display:flex;gap:10px;flex-wrap:wrap">
-          <button sc-camel-on-click="{{ on.tabCalc }}" style="background:var(--acc);color:#FFF;border:none;border-radius:980px;padding:14px 26px;cursor:pointer;font-weight:600;font-size:15px;box-shadow:0 6px 22px rgba(220,38,38,.24);transition:opacity .2s,transform .2s" style-hover="opacity:.9;transform:scale(1.03)">Isprobaj kalkulatore</button>
+          <a href="/kalkulatori/hub" sc-camel-on-click="{{ on.lnkCalc }}" style="background:var(--acc);color:#FFF;border:none;border-radius:980px;padding:14px 26px;cursor:pointer;font-weight:600;font-size:15px;box-shadow:0 6px 22px rgba(220,38,38,.24);transition:opacity .2s,transform .2s" style-hover="opacity:.9;transform:scale(1.03)">Isprobaj kalkulatore</a>
           <a href="https://www.linkedin.com/in/marko-bogdan-866b3877/" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:8px;background:transparent;border:1px solid var(--line2);color:var(--ink);border-radius:980px;padding:14px 24px;font-weight:600;font-size:15px;transition:all .2s" style-hover="border-color:var(--ink);color:var(--ink)"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM2.4 21h5.2V9H2.4v12zM9.8 9h5v1.6h.1c.7-1.2 2.2-2 4-2 3.3 0 4.6 2 4.6 5.4V21h-5.2v-6.1c0-1.5-.5-2.5-1.9-2.5-1.1 0-1.8.7-2.1 1.5-.1.3-.1.6-.1 1V21H9.8V9z"></path></svg>LinkedIn</a>
         </div>
       </div>
@@ -4211,7 +4221,7 @@
       <div style="margin-top:clamp(28px,4vh,40px);background:var(--tint);border:1px solid var(--line);border-radius:16px;padding:20px 22px">
         <div style="font-weight:600;font-size:14.5px;margin-bottom:6px">Nešto nije jasno?</div>
         <p style="font-weight:300;font-size:14px;line-height:1.6;color:var(--soft);margin:0 0 14px">Piši na <a href="mailto:kontakt@onovcu.hr" style="color:var(--acc)">kontakt@onovcu.hr</a> i odgovaramo u roku od nekoliko dana. Zahtjev za brisanje podataka rješavamo odmah.</p>
-        <button sc-camel-on-click="{{ on.tabKontakt }}" style="background:var(--acc);color:#FFF;border:none;border-radius:980px;padding:11px 22px;cursor:pointer;font-weight:600;font-size:14px">Kontaktiraj nas →</button>
+        <a href="/kontakt" sc-camel-on-click="{{ on.lnkKontakt }}" style="background:var(--acc);color:#FFF;border:none;border-radius:980px;padding:11px 22px;cursor:pointer;font-weight:600;font-size:14px;display:inline-block">Kontaktiraj nas →</a>
       </div>
     </section>
   </main>
@@ -4250,7 +4260,7 @@
       <div style="background:var(--sec);border-radius:20px;padding:clamp(24px,3vw,32px);text-align:center">
         <div style="font-weight:600;font-size:clamp(19px,2.2vw,24px);letter-spacing:-.03em;margin-bottom:10px">Nema tvog pitanja?</div>
         <p style="font-weight:300;font-size:15px;line-height:1.6;color:var(--soft);margin:0 auto 22px;max-width:40ch;text-wrap:pretty">Pošalji ga. Najbolja pitanja postaju video ili novi kalkulator.</p>
-        <button sc-camel-on-click="{{ on.tabKontakt }}" style="background:var(--acc);color:#FFF;border:none;border-radius:980px;padding:14px 28px;cursor:pointer;font-weight:600;font-size:15px;box-shadow:0 6px 22px rgba(220,38,38,.24);transition:opacity .2s,transform .2s" style-hover="opacity:.9;transform:scale(1.03)">Pošalji pitanje</button>
+        <a href="/kontakt" sc-camel-on-click="{{ on.lnkKontakt }}" style="background:var(--acc);color:#FFF;border:none;border-radius:980px;padding:14px 28px;cursor:pointer;font-weight:600;font-size:15px;box-shadow:0 6px 22px rgba(220,38,38,.24);transition:opacity .2s,transform .2s;display:inline-block" style-hover="opacity:.9;transform:scale(1.03)">Pošalji pitanje</a>
       </div>
     </section>
   </main>
@@ -7060,6 +7070,15 @@ class Component extends DCLogic {
     const ima = v !== null && v !== undefined && v !== '' && isFinite(v);
     this.setState({ [uk]: nova, [k]: ima ? (nova === 'mj' ? Math.round(v * 12) : v / 12) : v, editKey: '', editTxt: '' });
   }
+  // Pomak stanja kojim blogVeza(a) dolazi do cilja (za href poveznice, vidi hrefFor).
+  // Načini ulaganja (calc:kamata:cilj|renta) nemaju vlastitu adresu pa ostaju gumbi.
+  blogVezaPatch(a) {
+    const d = a.split(':');
+    if (d[0] === 'pok') return { tab: 'pok', pokKat: d[1] };
+    if (d[0] === 'proj') return { tab: 'proj' };
+    return { tab: 'calc', calcTab: d[1] };
+  }
+  blogVezaJeLink(a) { const d = a.split(':'); return !(d[0] === 'calc' && d[1] === 'kamata' && d[2] && d[2] !== 'rast'); }
   blogVeza(a) {
     return () => {
       const d = a.split(':');
@@ -8656,9 +8675,9 @@ class Component extends DCLogic {
       blocks: cTekst.blocks.map((b, i) => ({
         x: b.x, isH: b.t === 'h', isP: b.t === 'p', isLi: b.t === 'li', key: i
       })),
-      veze: (BLOG_VEZE[cSlug] || []).filter((v) => v.a !== 'proj').map((v) => ({ tip: v.tip, n: v.n, o: v.o, go: this.blogVeza(v.a) })),
+      veze: (BLOG_VEZE[cSlug] || []).filter((v) => v.a !== 'proj').map((v) => { const jeLink = this.blogVezaJeLink(v.a); return { tip: v.tip, n: v.n, o: v.o, jeLink: jeLink, nijeLink: !jeLink, href: jeLink ? this.hrefFor(this.blogVezaPatch(v.a)) : '', go: jeLink ? this.lnk(this.blogVeza(v.a)) : this.blogVeza(v.a) }; }),
       imaVeze: (BLOG_VEZE[cSlug] || []).filter((v) => v.a !== 'proj').length > 0,
-      projLink: (() => { const p = (BLOG_VEZE[cSlug] || []).find((v) => v.a === 'proj'); return p ? { tip: p.tip, n: p.n, o: p.o, go: this.blogVeza(p.a) } : null; })(),
+      projLink: (() => { const p = (BLOG_VEZE[cSlug] || []).find((v) => v.a === 'proj'); return p ? { tip: p.tip, n: p.n, o: p.o, href: this.hrefFor(this.blogVezaPatch(p.a)), go: this.lnk(this.blogVeza(p.a)) } : null; })(),
       imaProjLink: (BLOG_VEZE[cSlug] || []).some((v) => v.a === 'proj'),
       disclaimerRano: cSlug === '50-eura-mjesecno-u-etf'
         ? 'Dugogodišnji sam zaposlenik InterCapitala i trenutačno Growth Strategist u Geniusu. Ova objava i projekt nisu plaćeni oglas ni suradnja. Od aktivacije putem promo koda nemam nikakvu naknadu, on služi za nagrađivanje gledatelja i praćenje uspješnosti pojedinog videa.'
@@ -8678,7 +8697,8 @@ class Component extends DCLogic {
       slicni: OBJAVE.filter((o) => o.slug !== cSlug && o.kat === cMeta.kat).concat(OBJAVE.filter((o) => o.slug !== cSlug && o.kat !== cMeta.kat)).slice(0, 3).map((o) => ({
         naslov: o.naslov, kat: o.kat, datum: o.datum,
         thumb: 'https://i.ytimg.com/vi/' + o.yt + '/hqdefault.jpg',
-        otvori: () => { this.setState({ blogOpen: o.slug }, () => this._syncUrl()); if (typeof window !== 'undefined') { window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; } }
+        href: '/blog/' + o.slug,
+        otvori: this.lnk(() => { this.setState({ blogOpen: o.slug }, () => this._syncUrl()); if (typeof window !== 'undefined') { window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; } }),
       }))
     };
 
@@ -9615,8 +9635,8 @@ class Component extends DCLogic {
       ytSubs: nf(0).format(s.ytShown || 0),
       // Hero na početnoj (naslov, opis, thumb, poveznica) čita OBJAVE[0]; nema
       // ručno upisane kopije koju treba ažurirati (fix f2d77f4).
-      najVideo: Object.assign({}, OBJAVE[0], { thumb: 'https://i.ytimg.com/vi/' + OBJAVE[0].yt + '/hqdefault.jpg', href: 'https://youtu.be/' + OBJAVE[0].yt }),
-      otvoriNajVideo: () => { this.setState({ tab: 'blog', blogOpen: OBJAVE[0].slug }, () => this._syncUrl()); if (typeof window !== 'undefined') { window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; } },
+      najVideo: Object.assign({}, OBJAVE[0], { thumb: 'https://i.ytimg.com/vi/' + OBJAVE[0].yt + '/hqdefault.jpg', href: 'https://youtu.be/' + OBJAVE[0].yt, clanakHref: '/blog/' + OBJAVE[0].slug }),
+      otvoriNajVideo: this.lnk(() => { this.setState({ tab: 'blog', blogOpen: OBJAVE[0].slug }, () => this._syncUrl()); if (typeof window !== 'undefined') { window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; } }),
       socialRef: this._socialRef, ytInfoOpen: s.ytInfoOpen,
       ytUtrka: (() => {
         const t = this.ytTarget();
@@ -10622,7 +10642,6 @@ class Component extends DCLogic {
           // clanakHref: koristi POSTOJECI o.slug - pravi href za overlay <a>
           // na kartici, da Cmd/middle-click i "kopiraj adresu" rade.
           clanakHref: '/blog/' + o.slug,
-          otvori: otvoriClanak,
           // otvoriLink: isti otvoriClanak, ali s preventDefault - overlay je
           // pravi <a href>, pa bez ovoga klik prvo pokrene puni page-load
           // prema href-u prije nego SPA navigacija stigne preuzeti klik.
@@ -10631,11 +10650,7 @@ class Component extends DCLogic {
           // funkciju linka. Srednji klik ionako ne okida "click" nego
           // "auxclick" (nije ovdje ni prijavljen), pa ga ovaj uvjet ne mora
           // posebno hvatati.
-          otvoriLink: (e) => {
-            if (e && (e.metaKey || e.ctrlKey || e.shiftKey)) return;
-            if (e && e.preventDefault) e.preventDefault();
-            otvoriClanak();
-          }
+          otvoriLink: this.lnk(otvoriClanak)
         });
       }),
       clanak: clanak,
@@ -10688,8 +10703,6 @@ class Component extends DCLogic {
       ...Object.keys(NUM_DEC).reduce((acc, k) => { acc[k] = this.num(s[k], 0); return acc; }, {}),
 
       on: {
-        tabCalc: this.go('calc'), tabB2b: this.go('b2b'),
-        tabBlog: this.go('blog'), tabKontakt: this.go('kontakt'),
         toggleYtInfo: () => this.setState((st) => ({ ytInfoOpen: !st.ytInfoOpen })),
         // Perzistencija je best-effort: setItem moze baciti u privatnom tabu
         // (Safari) ili kad je localStorage pun/blokiran politikom preglednika
@@ -10704,19 +10717,19 @@ class Component extends DCLogic {
           return { dark: next };
         }),
         toggleMenu: () => this.setState((st) => ({ menuOpen: !st.menuOpen })),
-        tabFaq: this.go('faq'), tabPriv: this.go('priv'),
+        tabPriv: this.go('priv'),
         // Handleri za <a href> poveznice (vidi lnk()). "Kalkulatori" i "Pokazatelji"
         // vode na kanonski hub/inflaciju, ne na zadnje otvoreni kalkulator/kategoriju.
-        lnkHome: this.lnk(this.go('home')), lnkCalc: this.lnk(this.go('calc', { calcTab: 'hub' })), lnkPok: this.lnk(this.go('pok', { pokKat: 'inflacija' })),
+        lnkHome: this.lnk(this.go('home')), lnkHub: this.lnk(this.goCalc('hub')), lnkCalc: this.lnk(this.go('calc', { calcTab: 'hub' })), lnkPok: this.lnk(this.go('pok', { pokKat: 'inflacija' })),
         lnkBlog: this.lnk(this.go('blog')), lnkProj: this.lnk(this.go('proj')), lnkB2b: this.lnk(this.go('b2b')),
         lnkAutor: this.lnk(this.go('autor')), lnkFaq: this.lnk(this.go('faq')), lnkKontakt: this.lnk(this.go('kontakt')), lnkPriv: this.lnk(this.go('priv')),
         stop: (e) => { if (e && e.stopPropagation) e.stopPropagation(); },
-        blogNatrag: () => { this.setState({ blogOpen: null }, () => this._syncUrl()); if (typeof window !== 'undefined') { window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; } }, tabPok: this.go('pok'), tabProj: this.go('proj'), tabAutor: this.go('autor'),
+        blogNatrag: this.lnk(() => { this.setState({ blogOpen: null }, () => this._syncUrl()); if (typeof window !== 'undefined') { window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; } }),
         goPlaca: this.goCalc('placa'), goKredit: this.goCalc('kredit'), goKamata: this.goCalc('kamata'), goInflacija: this.goCalc('inflacija'),
         goPovijest: this.goCalc('povijest'),
         pvIznos: this.setNumT('pvIznos', 0), pvGodina: this.setNumT('pvGodina', 2015),
         pvGodinaSelect: (e) => this.setState({ pvGodina: parseInt(e.target.value, 10) }),
-        goRefi: this.goCalc('refi'), goOpcije: this.goCalc('opcije'), goHub: this.goCalc('hub'), goZatvoriti: this.goCalc('zatvoriti'),
+        goRefi: this.goCalc('refi'), goOpcije: this.goCalc('opcije'), goZatvoriti: this.goCalc('zatvoriti'),
         zIznos: this.setNumT('zIznos', 0), zStopa: this.setNumT('zStopa', 0), zGodine: this.setNumT('zGodine', 1), zPreostalo: this.setNumT('zPreostalo', 0),
         zIznosS: this.setN('zIznos', 0), zStopaS: this.setN('zStopa', 0), zGodineS: this.setN('zGodine', 1), zPreostaloS: this.setN('zPreostalo', 0),
         smjerBruto: () => this.setState({ smjer: 'bruto' }), smjerNeto: () => this.setState({ smjer: 'neto' }), smjerBonus: () => this.setState({ smjer: 'bonus' }),
