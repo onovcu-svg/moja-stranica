@@ -32,6 +32,17 @@ Klik ne mijenja ništa.
 
 ## Prikazuje krivo
 
+**`proj.videoGo`: `href` vodi na YouTube, a klik na interni članak.**
+Kartica "Pogledaj zadnji video o ovom projektu" na `/projekti` ima
+`href="https://youtu.be/FPCtRmeMZ8s"`, ali `videoGo` bezuvjetno radi
+`preventDefault()` i otvara `/blog/50-eura-mjesecno-u-etf`. Posljedice:
+"kopiraj adresu" i desni klik daju YouTube, a Cmd-klik ne otvara novi tab
+nego isti interni članak u istom tabu. Pronađeno pri pretvorbi navigacije u
+poveznice (nije dirano, jer to nije navigacija nego odluka što kartica
+treba voditi).
+*Rješivo odmah: `href` na `/blog/50-eura-mjesecno-u-etf` i handler kroz
+`lnk()`.*
+
 **`{PL_MEDIJAN}`, `{PL_PROSJEK}` i `{PL_RAZLIKA}` čitaju korisnikov odabir
 raspona, ne zadnji objavljeni podatak.**
 Curi na `/cesta-pitanja` — ako korisnik pomakne klizač na Pokazateljima, FAQ
@@ -106,10 +117,31 @@ otvoreni mail relay.*
 sadržajem. Tražilice to tretiraju kao soft-404.
 *Djelomično rješivo odmah, potpuno čeka SSR.*
 
-**Gotovo nema internih `<a href>`.** Blog kartice su dobile prave poveznice,
-ali zaglavlje, podnožje, mobilni izbornik i kartice na hubu i dalje su
-`<button>` s JavaScriptom. Tražilica ne može slijediti navigaciju.
-*Čeka migraciju.*
+**Navigacija je na `<a href>`, uz namjerne iznimke (stanje 11. 11. 2026.).**
+Pretvoreno (commiti `5fbb8ac`–`539471e`): zaglavlje (7 stavki i logo),
+mobilni izbornik (7), podnožje (9), 7 od 10 kartica na hubu kalkulatora,
+pregled kalkulatora na početnoj (3), obitelji i podizbornik kalkulatora,
+čipovi kategorija pokazatelja (5), ticker, kartice na `/blog` (uz ispravak
+Alt-klika), hero sličica, "Pročitaj i ovo", blog veze i veza na projekt,
+"Svi blogovi i videi", "← Svi kalkulatori", 12 CTA-ova i pet linkova na
+privatnost usred rečenice. Cmd-klik, srednja tipka, desni klik i "kopiraj
+adresu" rade; plain klik i dalje ide kroz SPA (`lnk()`, NOTES.md §3).
+Namjerno ostaje `<button>`:
+- **načini ulaganja (rast, cilj, renta)** — 3 kartice na hubu, 3 stavke
+  podizbornika i blog veze `calc:kamata:cilj|renta`. `gMode` nije u URL-u pa bi
+  poveznica uvijek otvorila zadani način; dok načini nemaju vlastitu adresu,
+  gumb je iskreniji od poveznice koja ne vodi gdje piše.
+- **state-gumbi** — čipovi 1./2./3. stup i kategorije A/B/C, neto/bruto,
+  vrste kredita, portfelji i razdoblja projekta, filteri bloga, točke
+  tickera, sortiranja, svi `toggle*` i harmonike FAQ-a. Ne mijenjaju adresu,
+  pa nisu navigacija.
+- **`prenesi` (refinanciranje → kredit)** — prenosi unesene podatke kroz
+  state, adresa ih ne može nositi.
+Ostatak: izračunate adrese (kartice, čipovi, ticker, veze) postoje tek nakon
+izvršavanja JavaScripta; sirovi HTML ima samo literalne `href`-ove
+(zaglavlje, podnožje, CTA, linkovi na privatnost). Dio AI crawlera bez JS-a
+ih zato ne vidi.
+*Riješeno; ostatak čeka SSR.*
 
 **`BlogPosting` shema po članku ne postoji.** U statičkom `<head>` bila bi
 prisutna na svakoj ruti, što Google tretira kao obmanjujuće strukturirane

@@ -4,7 +4,7 @@ Radni dnevnik projekta. Odluke, ograničenja i otvorene stavke.
 **Claude Code: pročitaj ovaj file prije svakog većeg zadatka i ažuriraj ga kad
 se donese nova odluka ili zatvori stavka.**
 
-Zadnje ažuriranje: 19. 10. 2026.
+Zadnje ažuriranje: 11. 11. 2026.
 
 ---
 
@@ -363,9 +363,11 @@ Zadnje ažuriranje: 19. 10. 2026.
   preko cijele površine. **Oba trebaju eksplicitan `z-index`** — unutarnji div
   sa sličicom je `position:relative` i kasnije u DOM-u, pa bez toga prekriva
   overlay (otkriveno `elementFromPoint`-om, ne vidi se iz koda).
-- **`otvoriLink` poziva `preventDefault()` SAMO kad nije pritisnut
-  Cmd/Ctrl/Shift.** Bezuvjetni `preventDefault()` gasi otvaranje u novom tabu —
-  točno funkciju radi koje je stretched-link i uveden.
+- **`otvoriLink` je `lnk(otvoriClanak)`** (vidi niže, "Navigacija je na
+  `<a href>`"): `preventDefault()` samo kad nije pritisnut Cmd/Ctrl/Shift/Alt.
+  Bezuvjetni `preventDefault()` gasi otvaranje u novom tabu — točno funkciju
+  radi koje je stretched-link i uveden. Alt je dodan 11. 11. 2026. (gasio je
+  preuzimanje linka).
 - **`prenesi()` (refi → kredit) postavlja `kIzvor` u callbacku drugog
   `setState`**, ne u prvom. U prvom bi ga `componentDidUpdate` obrisao u istom
   ciklusu (reset lista, promjena `_calcIdent`), pa banner "Iz refinanciranja"
@@ -475,6 +477,47 @@ Zadnje ažuriranje: 19. 10. 2026.
   0,6 px), a agregirano 7,3 px. Prag je vezan uz širinu ekrana, ne uz broj godina,
   da široki ekran ne gubi detalj. Statična rečenica u kartici "Faza isplate" čita
   granicu iz konstante.
+
+- **Navigacija je na `<a href>`, ne na `<button>` (5.–11. 11. 2026., commiti
+  `5fbb8ac`, `e861ddb`, `9fbf1dd`, `71dc8b2`, `539471e`).** Što je pretvoreno i
+  što namjerno ostaje gumb: POZNATE-GRESKE.md, §2. Pravila:
+  - **Omotač `lnk(fn)` i pravilo da se poveznice rade preko njega.** Svaka
+    navigacija koja mijenja adresu je `<a href="…" sc-camel-on-click="{{ … }}">`
+    s handlerom `this.lnk(...)`; nikad `<button>` koji zove `go()` i nikad ručni
+    `preventDefault()` u pojedinom handleru. `lnk` vraća kontrolu pregledniku na
+    Cmd/Ctrl/Shift/Alt (novi tab, prozor, preuzimanje), a plain klik dobiva
+    `preventDefault()` pa `fn()`; srednja tipka šalje `auxclick`, pa ne stiže do
+    handlera. `go(tab, patch)` prima neobavezan `patch` stanja.
+  - **`href` dolazi iz istog izvora istine kao klik.** Statične poveznice
+    (zaglavlje, podnožje, CTA, linkovi na privatnost) imaju **literalan** `href`
+    u predlošku, vidljiv i crawlerima bez JS-a. Izračunate (kartice, čipovi,
+    ticker, veze) koriste `hrefFor(patch)` = `_pathFor` nad stanjem + patch koji
+    klik postavlja. Ticker i `applyStopa` dijele tablicu `TICK_POKAZATELJ`.
+  - **Kanonske adrese: "Kalkulatori" vodi na `/kalkulatori/hub`, "Pokazatelji"
+    na `/pokazatelji/inflacija`** (`on.lnkCalc`, `on.lnkPok`). Prije je klik
+    vodio na zadnje otvoreni kalkulator/kategoriju (`go('calc')` čita
+    `calcTab`/`pokKat` iz stanja): skriveno stanje, a poveznica mora voditi
+    tamo gdje piše. Klik se tako namjerno razilazi od starog ponašanja.
+  - **Regresije koje funkcionalni testovi ne vide, a mjerenje prije/poslije
+    hvata (obje su se dogodile):**
+    1. **`color:inherit` kad element nema inline boju.** Gumb nasljeđuje boju
+       (`button{color:inherit}`), a `<a>` dobiva globalno `a{color:#DC2626}`
+       (`.on-dark a{color:#EF4444}`), pa tekst kartice bez inline `color`
+       postane akcentne boje. Uhvaćeno na hub karticama i pregledu kalkulatora,
+       isto vrijedi za logo, autorski blok, "Pročitaj i ovo" i hero sličicu.
+       Prije pretvorbe provjeri ima li element inline `color`.
+    2. **`display:inline-block` kad roditelj nije flex ili grid.** `<button>` je
+       `inline-block`, `<a>` je `inline`: vertikalni padding prestane gurati
+       okolinu, a raspored se pomakne (11 px kod "Sva pitanja i odgovori →").
+       Isti razlog zadržava `inline-block` na linkovima usred rečenice:
+       `inline` bi ih raspao na dva retka ("Politici / privatnosti"), gumb se
+       prelamao kao cjelina.
+  - **`syncSegs` selektor mora obuhvatiti i `<a>`.** U grani "nijedan čip nije
+    aktivan" čipovi se boje s `querySelectorAll('button, a')`; samo `button`
+    ostavlja čipove-poveznice bijele na srušenom indikatoru (isti rub kao
+    `58a3aa5`). Provjereno: "← Svi kalkulatori" iz kalkulatora, otvaranje i
+    zatvaranje PDF pregleda. Funkcija `scrollActivePokChipsIntoView` ne postoji;
+    sve trake obrađuje `scrollActiveChipsIntoView`.
 
 ### Sadržaj
 - Kontakt uklonjen iz mobilnog izbornika, radi simetrije s desktopom. Forma
@@ -1098,6 +1141,19 @@ neutralne boje, **ne** stil alerta.
 ## 8. Radni proces
 
 - **Nikad ne commitati bez potvrde.** Nikad ne pushati bez izričitog odobrenja.
+- **Mjerenje u pregledniku: baseline PRIJE izmjene, usporedba poslije.** Za
+  izmjene koje ne smiju promijeniti izgled (npr. navigacija na poveznice)
+  snimi računski stil, pravokutnike i položaj kliznih indikatora prije, pa
+  usporedi ista mjerenja poslije; funkcionalni testovi ne hvataju promjenu
+  boje ili pomak od nekoliko piksela.
+- **Skriveno okno preglednika prigušuje timere, pa mjerenje traje bez razloga.**
+  Dok je Browser pane skriven, preglednik usporava `setTimeout` (najmanje oko
+  1 s, nakon nekoliko minuta i do jednom u minuti). Isto mjerenje koje u
+  vidljivom oknu traje desetak minuta može trajati i sat vremena. Prije dugog mjerenja prikaži okno
+  (`show_pane` → `preview`), smanji broj čekanja, a ne oslanjaj se na
+  vremena izmjerena u skrivenom oknu. Bez iscrtanih okvira ne napreduju ni CSS
+  prijelazi, pa `transition:color .2s` može vratiti staru boju: pri mjerenju
+  isključi prijelaze (`*{transition:none !important}`).
 - **Nalaz prvo, izmjena poslije** kod svega što nije trivijalno.
 - **Odvojeni commitovi** za izmjene koje diraju temeljni layout.
 - **Regresijska provjera na desktopu** (1024/1440/1920px) nakon svake layout izmjene.
