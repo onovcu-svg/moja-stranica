@@ -331,7 +331,7 @@
                 <span style="position:absolute;left:50%;top:50%;width:5px;height:5px;border-radius:1px;background:var(--ink);--tx:0px;--ty:32px;--tr:180deg;animation:nlConfetti .7s ease-out .08s forwards"></span>
               </sc-if>
             </span>
-            <span style="font-weight:500;font-size:15px">Prijava zaprimljena. Poslali smo ti mail za potvrdu, provjeri inbox i mapu neželjene pošte.</span>
+            <span style="font-weight:500;font-size:15px">Prijava zaprimljena. Poslao sam ti mail za potvrdu, provjeri inbox i mapu neželjene pošte.</span>
           </div>
         </sc-if>
         <sc-if value="{{ nlOpen }}" hint-placeholder-val="{{ true }}">
@@ -343,7 +343,7 @@
         </div>
         <label style="display:flex;align-items:flex-start;gap:9px;cursor:pointer;max-width:62ch;margin-left:auto">
           <input type="checkbox" checked="{{ nlPrivola }}" sc-camel-on-change="{{ on.nlPrivola }}" style="margin-top:3px;width:15px;height:15px;accent-color:var(--acc);flex-shrink:0">
-          <span style="font-weight:300;font-size:12.5px;color:var(--soft);line-height:1.5">Pristajem primati newsletter portala O novcu na ovu e-mail adresu. Adresu ne dijelimo ni s kim i koristimo je isključivo za slanje newslettera. Privolu možeš povući u svakom trenutku, odjavom u dnu svakog e-maila. Više u <a href="/politika-privatnosti" sc-camel-on-click="{{ on.lnkPriv }}" style="background:none;border:none;padding:0;cursor:pointer;font:inherit;color:var(--acc);text-decoration:underline;display:inline-block">Politici privatnosti</a>.</span>
+          <span style="font-weight:300;font-size:12.5px;color:var(--soft);line-height:1.5">Pristajem primati newsletter portala O novcu na ovu e-mail adresu. Adresu ne dijelim ni s kim i koristim je isključivo za slanje newslettera. Privolu možeš povući u svakom trenutku, odjavom u dnu svakog e-maila. Više u <a href="/politika-privatnosti" sc-camel-on-click="{{ on.lnkPriv }}" style="background:none;border:none;padding:0;cursor:pointer;font:inherit;color:var(--acc);text-decoration:underline;display:inline-block">Politici privatnosti</a>.</span>
         </label>
         <sc-if value="{{ nlErr }}">
           <div style="font-weight:400;font-size:12.5px;color:var(--acc);text-align:right">{{ nlErr }}</div>
@@ -672,7 +672,7 @@
         </div>
         <label style="display:flex;align-items:flex-start;gap:9px;cursor:pointer;margin-top:14px;max-width:70ch">
           <input type="checkbox" checked="{{ mailNews }}" sc-camel-on-change="{{ on.mailNews }}" style="margin-top:3px;width:15px;height:15px;accent-color:var(--acc);flex-shrink:0">
-          <span style="font-weight:300;font-size:12.5px;color:var(--soft);line-height:1.5">Uz izvještaj me prijavi i na newsletter portala O novcu na ovu e-mail adresu. Adresu ne dijelimo ni s kim i koristimo je isključivo za slanje newslettera. Privolu možeš povući u svakom trenutku, odjavom u dnu svakog e-maila.</span>
+          <span style="font-weight:300;font-size:12.5px;color:var(--soft);line-height:1.5">Uz izvještaj me prijavi i na newsletter portala O novcu na ovu e-mail adresu. Adresu ne dijelim ni s kim i koristim je isključivo za slanje newslettera. Privolu možeš povući u svakom trenutku, odjavom u dnu svakog e-maila.</span>
         </label>
         <sc-if value="{{ mailErr }}">
         <div style="font-weight:500;font-size:12.5px;color:var(--acc);margin-top:10px">{{ mailErrTxt }}</div>
@@ -2706,7 +2706,7 @@
             <button sc-camel-on-click="{{ on.b2bSubmit }}" disabled="{{ b2bSlanje }}" style="background:var(--acc);color:#FFF;border:none;border-radius:980px;padding:12px 26px;cursor:pointer;font-weight:600;font-size:14.5px;transition:opacity .2s,transform .2s" style-hover="opacity:.88;transform:scale(1.03)">{{ b2bBtnLabel }}</button>
             <span style="font-weight:300;font-size:13px;color:{{ b2bHintColor }}">{{ b2bHint }}</span>
           </div>
-          <div style="font-weight:300;font-size:12px;color:var(--soft);line-height:1.5;margin-top:14px;max-width:64ch">Podatke iz obrasca koristimo isključivo da bismo odgovorili na tvoj upit. Ne ulaze u newsletter i ne dijele se s trećim stranama. Više u <a href="/politika-privatnosti" sc-camel-on-click="{{ on.lnkPriv }}" style="background:none;border:none;padding:0;cursor:pointer;font:inherit;color:var(--acc);text-decoration:underline;display:inline-block">Politici privatnosti</a>.</div>
+          <div style="font-weight:300;font-size:12px;color:var(--soft);line-height:1.5;margin-top:14px;max-width:64ch">Podatke iz obrasca koristim isključivo da bih odgovorio na tvoj upit. Ne ulaze u newsletter i ne dijele se s trećim stranama. Više u <a href="/politika-privatnosti" sc-camel-on-click="{{ on.lnkPriv }}" style="background:none;border:none;padding:0;cursor:pointer;font:inherit;color:var(--acc);text-decoration:underline;display:inline-block">Politici privatnosti</a>.</div>
         </div>
         </sc-if>
       </div>
@@ -2749,7 +2749,7 @@
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:clamp(12px,1.8vw,16px)">
         <div style="background:var(--card);border:1px solid var(--line);border-radius:18px;padding:clamp(22px,2.6vw,28px)">
           <div style="font-weight:600;font-size:17px;letter-spacing:-.025em;margin-bottom:8px">Mjerljivi ishodi</div>
-          <div style="font-weight:300;font-size:14.5px;line-height:1.55;color:var(--soft);text-wrap:pretty">Anketama prije i poslije edukacije mjerimo zadovoljstvo zaposlenika i promjenu u razini financijske pismenosti.</div>
+          <div style="font-weight:300;font-size:14.5px;line-height:1.55;color:var(--soft);text-wrap:pretty">Anketama prije i poslije edukacije mjerim zadovoljstvo zaposlenika i promjenu u razini financijske pismenosti.</div>
         </div>
         <div style="background:var(--card);border:1px solid var(--line);border-radius:18px;padding:clamp(22px,2.6vw,28px)">
           <div style="font-weight:600;font-size:17px;letter-spacing:-.025em;margin-bottom:8px">Zadovoljstvo zaposlenika</div>
@@ -3078,7 +3078,7 @@
             <button sc-camel-on-click="{{ on.ktSubmit }}" disabled="{{ ktSlanje }}" style="background:var(--acc);color:#FFF;border:none;border-radius:980px;padding:14px 28px;cursor:pointer;font-weight:600;font-size:15px;transition:opacity .2s,transform .2s" style-hover="opacity:.88;transform:scale(1.03)">{{ ktBtnLabel }}</button>
             <span style="font-weight:300;font-size:13px;color:{{ ktHintColor }}">{{ ktHint }}</span>
           </div>
-          <div style="font-weight:300;font-size:12px;color:var(--soft);line-height:1.5;margin-top:14px;max-width:64ch">Podatke iz obrasca koristimo isključivo da bismo odgovorili na tvoj upit. Ne ulaze u newsletter i ne dijele se s trećim stranama. Više u <a href="/politika-privatnosti" sc-camel-on-click="{{ on.lnkPriv }}" style="background:none;border:none;padding:0;cursor:pointer;font:inherit;color:var(--acc);text-decoration:underline;display:inline-block">Politici privatnosti</a>.</div>
+          <div style="font-weight:300;font-size:12px;color:var(--soft);line-height:1.5;margin-top:14px;max-width:64ch">Podatke iz obrasca koristim isključivo da bih odgovorio na tvoj upit. Ne ulaze u newsletter i ne dijele se s trećim stranama. Više u <a href="/politika-privatnosti" sc-camel-on-click="{{ on.lnkPriv }}" style="background:none;border:none;padding:0;cursor:pointer;font:inherit;color:var(--acc);text-decoration:underline;display:inline-block">Politici privatnosti</a>.</div>
         </div>
         </sc-if>
       </div>
@@ -4154,7 +4154,7 @@
             <button sc-camel-on-click="{{ on.ktSubmit }}" disabled="{{ ktSlanje }}" style="background:var(--acc);color:#FFF;border:none;border-radius:980px;padding:14px 28px;cursor:pointer;font-weight:600;font-size:15px;transition:opacity .2s,transform .2s" style-hover="opacity:.88;transform:scale(1.03)">{{ ktBtnLabel }}</button>
             <span style="font-weight:300;font-size:13px;color:{{ ktHintColor }}">{{ ktHint }}</span>
           </div>
-          <div style="font-weight:300;font-size:12px;color:var(--soft);line-height:1.5;margin-top:14px;max-width:64ch">Podatke iz obrasca koristimo isključivo da bismo odgovorili na tvoj upit. Ne ulaze u newsletter i ne dijele se s trećim stranama. Više u <a href="/politika-privatnosti" sc-camel-on-click="{{ on.lnkPriv }}" style="background:none;border:none;padding:0;cursor:pointer;font:inherit;color:var(--acc);text-decoration:underline;display:inline-block">Politici privatnosti</a>.</div>
+          <div style="font-weight:300;font-size:12px;color:var(--soft);line-height:1.5;margin-top:14px;max-width:64ch">Podatke iz obrasca koristim isključivo da bih odgovorio na tvoj upit. Ne ulaze u newsletter i ne dijele se s trećim stranama. Više u <a href="/politika-privatnosti" sc-camel-on-click="{{ on.lnkPriv }}" style="background:none;border:none;padding:0;cursor:pointer;font:inherit;color:var(--acc);text-decoration:underline;display:inline-block">Politici privatnosti</a>.</div>
         </div>
         </sc-if>
       </div>
@@ -4282,7 +4282,7 @@
                 <span style="position:absolute;left:50%;top:50%;width:5px;height:5px;border-radius:1px;background:var(--ink);--tx:0px;--ty:32px;--tr:180deg;animation:nlConfetti .7s ease-out .08s forwards"></span>
               </sc-if>
             </span>
-            <span style="font-weight:500;font-size:15px">Prijava zaprimljena. Poslali smo ti mail za potvrdu, provjeri inbox i mapu neželjene pošte.</span>
+            <span style="font-weight:500;font-size:15px">Prijava zaprimljena. Poslao sam ti mail za potvrdu, provjeri inbox i mapu neželjene pošte.</span>
           </div>
         </sc-if>
         <sc-if value="{{ nlOpen }}" hint-placeholder-val="{{ true }}">
@@ -4294,7 +4294,7 @@
         </div>
         <label style="display:flex;align-items:flex-start;gap:9px;cursor:pointer;max-width:62ch;margin-left:auto">
           <input type="checkbox" checked="{{ nlPrivola }}" sc-camel-on-change="{{ on.nlPrivola }}" style="margin-top:3px;width:15px;height:15px;accent-color:var(--acc);flex-shrink:0">
-          <span style="font-weight:300;font-size:12.5px;color:var(--soft);line-height:1.5">Pristajem primati newsletter portala O novcu na ovu e-mail adresu. Adresu ne dijelimo ni s kim i koristimo je isključivo za slanje newslettera. Privolu možeš povući u svakom trenutku, odjavom u dnu svakog e-maila. Više u <a href="/politika-privatnosti" sc-camel-on-click="{{ on.lnkPriv }}" style="background:none;border:none;padding:0;cursor:pointer;font:inherit;color:var(--acc);text-decoration:underline;display:inline-block">Politici privatnosti</a>.</span>
+          <span style="font-weight:300;font-size:12.5px;color:var(--soft);line-height:1.5">Pristajem primati newsletter portala O novcu na ovu e-mail adresu. Adresu ne dijelim ni s kim i koristim je isključivo za slanje newslettera. Privolu možeš povući u svakom trenutku, odjavom u dnu svakog e-maila. Više u <a href="/politika-privatnosti" sc-camel-on-click="{{ on.lnkPriv }}" style="background:none;border:none;padding:0;cursor:pointer;font:inherit;color:var(--acc);text-decoration:underline;display:inline-block">Politici privatnosti</a>.</span>
         </label>
         <sc-if value="{{ nlErr }}">
           <div style="font-weight:400;font-size:12.5px;color:var(--acc);text-align:right">{{ nlErr }}</div>
@@ -5300,7 +5300,7 @@ const BLOG_TEKST = {
       { t: 'p', x: 'To je prva sila. Druga je ona koju vide poduzetnici: i njima su radnici i dobavljači odjednom 20 posto skuplji. Netko će reći neka se odreknu dijela dobiti, ali u videu pokazujem brojku o prosječnoj marži hrvatskih tvrtki koja objašnjava zašto to za većinu nije opcija.' },
       { t: 'h', x: 'Što znači da je nominalna plaća porasla, a realna nije?' },
       { t: 'p', x: 'Nominalna plaća je iznos koji vidiš na računu. Realna plaća je ono što za taj iznos stvarno možeš kupiti.' },
-      { t: 'p', x: 'U našem eksperimentu nominalna plaća skače 20 posto, ali kad frizer, gorivo, kava i majstor poskupe za sličan postotak, realna plaća ostaje na istom mjestu. Brojke su veće, ali rezultat je isti.' },
+      { t: 'p', x: 'U mom eksperimentu nominalna plaća skače 20 posto, ali kad frizer, gorivo, kava i majstor poskupe za sličan postotak, realna plaća ostaje na istom mjestu. Brojke su veće, ali rezultat je isti.' },
       { t: 'p', x: 'I tu kreće ono što ekonomisti zovu spirala plaća i cijena. Ljudi vide poskupljenja, traže nove povišice, a te povišice ponovno guraju cijene. Utrka u kojoj na kraju nitko ne dobiva.' },
       { t: 'h', x: 'Tko bi u takvom scenariju stvarno izgubio, a tko dobio?' },
       { t: 'p', x: '"Svi na nuli" nije točan opis rezultata.' },
@@ -5402,7 +5402,7 @@ const BLOG_TEKST = {
   },
   'lazi-o-novcu': {
     ctaNaslov: 'Pogledaj svih pet laži u videu',
-    ctaUvod: 'U tekstu smo prošli logiku, ali cijelu priču, s primjerima i izračunima ćeš pronaći u videu:',
+    ctaUvod: 'U tekstu sam prošao logiku, ali cijelu priču, s primjerima i izračunima ćeš pronaći u videu:',
     ctaZakljucak: 'Ako i ti vjeruješ u barem jednu od ovih laži (a vjerojatno vjeruješ), pogledaj video i javi mi u komentaru koja te iznenadila.',
     ctaTocke: ['Zašto 42 milijarde eura na hrvatskim računima svake godine vrijede sve manje.', 'Gdje je točno granica na kojoj novac prestaje kupovati sreću.', 'Kada je dug pametan potez, a kada zamka.'],
     blocks: [
@@ -5557,7 +5557,7 @@ const BLOG_TEKST = {
     ctaTocke: ['Točne anuitete i ukupne kamate za rok od 20 i 30 godina.', 'Kako izgleda ulaganje razlike i koliko ono naraste tijekom 30 godina.', 'Zašto likvidnost često vrijedi više nego nešto manji kredit.'],
     blocks: [
       { t: 'p', x: 'Većina ljudi misli da je najpametnije uzeti stambeni kredit na najkraći mogući rok, da plate manje kamata i brže se riješe duga. Logika je dobra, ali nije jedina ni nužno najbolja. Duži rok s nižom ratom daje ti fleksibilnost, a razliku u anuitetu možeš pametno iskoristiti, čak i uložiti.' },
-      { t: 'p', x: 'Sve gledamo kroz isti primjer: kredit od 200.000 eura uz fiksnu kamatu od 3 posto, otprilike realne parametre u Hrvatskoj danas.' },
+      { t: 'p', x: 'Sve pokazujem na istom primjeru: kredit od 200.000 eura uz fiksnu kamatu od 3 posto, otprilike realne parametre u Hrvatskoj danas.' },
       { t: 'h', x: 'Zašto najkraći rok ima skrivenu cijenu?' },
       { t: 'p', x: 'Kraći rok stvarno znači manje ukupne kamate i brže si bez duga. Ali znači i da banka 20 godina uzima velik dio tvojih mjesečnih primanja, uz manju kupovnu moć i manju fleksibilnost.' },
       { t: 'p', x: 'Najveći problem je što nakon potpisa nema “undo” tipke. Kredit ne možeš tek tako produžiti bez nove procedure, troškova i provjere kreditne sposobnosti. Žrtvuješ dio slobode da bi otplatio brže.' },
@@ -7445,7 +7445,7 @@ class Component extends DCLogic {
     // e93703e) inace vidi punu potvrdu bez ikad poslane poruke. Klijentska
     // provjera ovdje ne odaje detekciju botu, ali covjeku daje izlaz - server
     // je nedirnut, ostaje isti za bota koji ne izvrsava JS.
-    if (this.state.mailHp) return this.setState({ mailErr: 'Izvještaj nije poslan. Pokušaj s drugim preglednikom ili nam piši na kontakt@onovcu.hr.' });
+    if (this.state.mailHp) return this.setState({ mailErr: 'Izvještaj nije poslan. Pokušaj s drugim preglednikom ili mi piši na kontakt@onovcu.hr.' });
     const adr = String(this.state.mailAdr || '').trim();
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(adr)) {
       return this.setState({ mailErr: 'Upiši ispravnu e-mail adresu.' });
@@ -7991,7 +7991,7 @@ class Component extends DCLogic {
         metoda: [
           M_ANU,
           T('Kod anuitetske otplate kamata se obračunava na preostali dug pa je na početku najveći dio anuiteta kamata, a pri kraju glavnica. Zato se udio otplaćene kamate i udio otplaćene glavnice razlikuju.'),
-          T('Iznos za zatvaranje je preostala glavnica; kamatu koja bi tek dospjela ne plaćaš, ali banka može naplatiti naknadu za prijevremenu otplatu koja nije uključena.'),
+          T('Iznos za zatvaranje je preostala glavnica; kamata koja bi tek dospjela ne plaća se, ali banka može naplatiti naknadu za prijevremenu otplatu koja nije uključena.'),
           T('Izračun vrijedi za kredite s anuitetskom otplatom i nepromijenjenom kamatnom stopom.'),
           M_ZAOKR
         ],
@@ -8044,7 +8044,7 @@ class Component extends DCLogic {
         metoda: [
           T('Uplate se obračunavaju mjesečno, a prinos se pripisuje mjesečno po stopi jednakoj godišnjoj podijeljenoj s dvanaest (složeno ukamaćivanje).'),
           T('Godišnji rast uplate povećava mjesečnu uplatu na početku svake nove godine.'),
-          s.sInflOn ? T('Realnu vrijednost dobiješ kad konačni iznos podijeliš s kumulativnom inflacijom tijekom razdoblja. Pokazuje što bi taj iznos vrijedio u današnjim cijenama.') : null,
+          s.sInflOn ? T('Realna vrijednost dobiva se dijeljenjem konačnog iznosa s kumulativnom inflacijom tijekom razdoblja: pokazuje što bi taj iznos vrijedio u današnjim cijenama.') : null,
           M_PRETP,
           T('Izračun ne uključuje naknade.'),
           M_ZAOKR
@@ -10338,7 +10338,7 @@ class Component extends DCLogic {
         infOpen: s.oInfOpen, infZatvoren: !s.oInfOpen, infStopa: s.oInfStopa,
         dugiUkReal: eur(oDugiUkReal, 2), kratkiUkReal: eur(oKratkiUkReal, 2),
         ispravljeno: oMinRawM >= oMaxRawM,
-        ispravljenoTxt: 'Kraći rok mora biti manji od dužeg, pa smo ga ispravili na ' + trajanjeTxt(oMinM),
+        ispravljenoTxt: 'Kraći rok mora biti manji od dužeg, pa je ispravljen na ' + trajanjeTxt(oMinM),
         mjInv: eur(mjInv), inv20: eur(inv20, 2), inv30: eur(inv30, 2),
         imaTocku: prviM > 0, tockaM: prviM + '. mjesec (' + nf(1).format(prviM / 12) + ' god.)',
         // Goli brojevi (ne formatirani tekst) - buildPdf() prima samo ovaj,
@@ -10913,7 +10913,7 @@ class Component extends DCLogic {
         // korisnik s pogodenim honeypotom (isti obrazac kao nlSubmit, e93703e)
         // vidi laznu potvrdu umjesto poruke.
         b2bSubmit: () => {
-          if (this.state.b2bHp) return this.setState({ b2bErr: 'Zahtjev nije poslan. Pokušaj s drugim preglednikom ili nam piši na kontakt@onovcu.hr.' });
+          if (this.state.b2bHp) return this.setState({ b2bErr: 'Zahtjev nije poslan. Pokušaj s drugim preglednikom ili mi piši na kontakt@onovcu.hr.' });
           const f = this.state.f;
           // Trim PRIJE validacije - isti obrazac kao posaljiIzvjestaj (6893).
           // Regex zabranjuje razmake, pa netrimana adresa s vodecim/pratecim
@@ -10959,7 +10959,7 @@ class Component extends DCLogic {
         // pogodenim honeypotom (isti obrazac kao nlSubmit, e93703e) vidi
         // laznu potvrdu umjesto poruke.
         ktSubmit: () => {
-          if (this.state.ktHp) return this.setState({ ktErr: 'Poruka nije poslana. Pokušaj s drugim preglednikom ili nam piši na kontakt@onovcu.hr.' });
+          if (this.state.ktHp) return this.setState({ ktErr: 'Poruka nije poslana. Pokušaj s drugim preglednikom ili mi piši na kontakt@onovcu.hr.' });
           const c = this.state.c;
           // Trim PRIJE validacije - isti obrazac kao posaljiIzvjestaj (6893).
           // Regex zabranjuje razmake, pa netrimana adresa s vodecim/pratecim
@@ -11007,7 +11007,7 @@ class Component extends DCLogic {
         // NE salje, ni ovdje ni na serveru (api/subscribe.js ima svoju,
         // odvojenu provjeru).
         nlSubmit: () => {
-          if (this.state.nlHp) return this.setState({ nlErr: 'Prijava nije uspjela. Pokušaj s drugim preglednikom ili nam piši na kontakt@onovcu.hr.' });
+          if (this.state.nlHp) return this.setState({ nlErr: 'Prijava nije uspjela. Pokušaj s drugim preglednikom ili mi piši na kontakt@onovcu.hr.' });
           // Trim PRIJE validacije - isti obrazac kao posaljiIzvjestaj (6893).
           // Regex zabranjuje razmake, pa netrimana adresa s vodecim/pratecim
           // razmakom (cesto pri kopiranju) izgleda ispravna na ekranu, a padne test.
