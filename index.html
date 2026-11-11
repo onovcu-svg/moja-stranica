@@ -343,7 +343,7 @@
         </div>
         <label style="display:flex;align-items:flex-start;gap:9px;cursor:pointer;max-width:62ch;margin-left:auto">
           <input type="checkbox" checked="{{ nlPrivola }}" sc-camel-on-change="{{ on.nlPrivola }}" style="margin-top:3px;width:15px;height:15px;accent-color:var(--acc);flex-shrink:0">
-          <span style="font-weight:300;font-size:12.5px;color:var(--soft);line-height:1.5">Pristajem primati newsletter portala O novcu na ovu e-mail adresu. Adresu ne dijelimo ni s kim i koristimo je isključivo za slanje newslettera. Privolu možeš povući u svakom trenutku, odjavom u dnu svakog e-maila. Više u <button sc-camel-on-click="{{ on.tabPriv }}" style="background:none;border:none;padding:0;cursor:pointer;font:inherit;color:var(--acc);text-decoration:underline">Politici privatnosti</button>.</span>
+          <span style="font-weight:300;font-size:12.5px;color:var(--soft);line-height:1.5">Pristajem primati newsletter portala O novcu na ovu e-mail adresu. Adresu ne dijelimo ni s kim i koristimo je isključivo za slanje newslettera. Privolu možeš povući u svakom trenutku, odjavom u dnu svakog e-maila. Više u <a href="/politika-privatnosti" sc-camel-on-click="{{ on.lnkPriv }}" style="background:none;border:none;padding:0;cursor:pointer;font:inherit;color:var(--acc);text-decoration:underline;display:inline-block">Politici privatnosti</a>.</span>
         </label>
         <sc-if value="{{ nlErr }}">
           <div style="font-weight:400;font-size:12.5px;color:var(--acc);text-align:right">{{ nlErr }}</div>
@@ -2712,7 +2712,7 @@
             <button sc-camel-on-click="{{ on.b2bSubmit }}" disabled="{{ b2bSlanje }}" style="background:var(--acc);color:#FFF;border:none;border-radius:980px;padding:12px 26px;cursor:pointer;font-weight:600;font-size:14.5px;transition:opacity .2s,transform .2s" style-hover="opacity:.88;transform:scale(1.03)">{{ b2bBtnLabel }}</button>
             <span style="font-weight:300;font-size:13px;color:{{ b2bHintColor }}">{{ b2bHint }}</span>
           </div>
-          <div style="font-weight:300;font-size:12px;color:var(--soft);line-height:1.5;margin-top:14px;max-width:64ch">Podatke iz obrasca koristimo isključivo da bismo odgovorili na tvoj upit. Ne ulaze u newsletter i ne dijele se s trećim stranama. Više u <button sc-camel-on-click="{{ on.tabPriv }}" style="background:none;border:none;padding:0;cursor:pointer;font:inherit;color:var(--acc);text-decoration:underline">Politici privatnosti</button>.</div>
+          <div style="font-weight:300;font-size:12px;color:var(--soft);line-height:1.5;margin-top:14px;max-width:64ch">Podatke iz obrasca koristimo isključivo da bismo odgovorili na tvoj upit. Ne ulaze u newsletter i ne dijele se s trećim stranama. Više u <a href="/politika-privatnosti" sc-camel-on-click="{{ on.lnkPriv }}" style="background:none;border:none;padding:0;cursor:pointer;font:inherit;color:var(--acc);text-decoration:underline;display:inline-block">Politici privatnosti</a>.</div>
         </div>
         </sc-if>
       </div>
@@ -3084,7 +3084,7 @@
             <button sc-camel-on-click="{{ on.ktSubmit }}" disabled="{{ ktSlanje }}" style="background:var(--acc);color:#FFF;border:none;border-radius:980px;padding:14px 28px;cursor:pointer;font-weight:600;font-size:15px;transition:opacity .2s,transform .2s" style-hover="opacity:.88;transform:scale(1.03)">{{ ktBtnLabel }}</button>
             <span style="font-weight:300;font-size:13px;color:{{ ktHintColor }}">{{ ktHint }}</span>
           </div>
-          <div style="font-weight:300;font-size:12px;color:var(--soft);line-height:1.5;margin-top:14px;max-width:64ch">Podatke iz obrasca koristimo isključivo da bismo odgovorili na tvoj upit. Ne ulaze u newsletter i ne dijele se s trećim stranama. Više u <button sc-camel-on-click="{{ on.tabPriv }}" style="background:none;border:none;padding:0;cursor:pointer;font:inherit;color:var(--acc);text-decoration:underline">Politici privatnosti</button>.</div>
+          <div style="font-weight:300;font-size:12px;color:var(--soft);line-height:1.5;margin-top:14px;max-width:64ch">Podatke iz obrasca koristimo isključivo da bismo odgovorili na tvoj upit. Ne ulaze u newsletter i ne dijele se s trećim stranama. Više u <a href="/politika-privatnosti" sc-camel-on-click="{{ on.lnkPriv }}" style="background:none;border:none;padding:0;cursor:pointer;font:inherit;color:var(--acc);text-decoration:underline;display:inline-block">Politici privatnosti</a>.</div>
         </div>
         </sc-if>
       </div>
@@ -4160,7 +4160,7 @@
             <button sc-camel-on-click="{{ on.ktSubmit }}" disabled="{{ ktSlanje }}" style="background:var(--acc);color:#FFF;border:none;border-radius:980px;padding:14px 28px;cursor:pointer;font-weight:600;font-size:15px;transition:opacity .2s,transform .2s" style-hover="opacity:.88;transform:scale(1.03)">{{ ktBtnLabel }}</button>
             <span style="font-weight:300;font-size:13px;color:{{ ktHintColor }}">{{ ktHint }}</span>
           </div>
-          <div style="font-weight:300;font-size:12px;color:var(--soft);line-height:1.5;margin-top:14px;max-width:64ch">Podatke iz obrasca koristimo isključivo da bismo odgovorili na tvoj upit. Ne ulaze u newsletter i ne dijele se s trećim stranama. Više u <button sc-camel-on-click="{{ on.tabPriv }}" style="background:none;border:none;padding:0;cursor:pointer;font:inherit;color:var(--acc);text-decoration:underline">Politici privatnosti</button>.</div>
+          <div style="font-weight:300;font-size:12px;color:var(--soft);line-height:1.5;margin-top:14px;max-width:64ch">Podatke iz obrasca koristimo isključivo da bismo odgovorili na tvoj upit. Ne ulaze u newsletter i ne dijele se s trećim stranama. Više u <a href="/politika-privatnosti" sc-camel-on-click="{{ on.lnkPriv }}" style="background:none;border:none;padding:0;cursor:pointer;font:inherit;color:var(--acc);text-decoration:underline;display:inline-block">Politici privatnosti</a>.</div>
         </div>
         </sc-if>
       </div>
@@ -4300,7 +4300,7 @@
         </div>
         <label style="display:flex;align-items:flex-start;gap:9px;cursor:pointer;max-width:62ch;margin-left:auto">
           <input type="checkbox" checked="{{ nlPrivola }}" sc-camel-on-change="{{ on.nlPrivola }}" style="margin-top:3px;width:15px;height:15px;accent-color:var(--acc);flex-shrink:0">
-          <span style="font-weight:300;font-size:12.5px;color:var(--soft);line-height:1.5">Pristajem primati newsletter portala O novcu na ovu e-mail adresu. Adresu ne dijelimo ni s kim i koristimo je isključivo za slanje newslettera. Privolu možeš povući u svakom trenutku, odjavom u dnu svakog e-maila. Više u <button sc-camel-on-click="{{ on.tabPriv }}" style="background:none;border:none;padding:0;cursor:pointer;font:inherit;color:var(--acc);text-decoration:underline">Politici privatnosti</button>.</span>
+          <span style="font-weight:300;font-size:12.5px;color:var(--soft);line-height:1.5">Pristajem primati newsletter portala O novcu na ovu e-mail adresu. Adresu ne dijelimo ni s kim i koristimo je isključivo za slanje newslettera. Privolu možeš povući u svakom trenutku, odjavom u dnu svakog e-maila. Više u <a href="/politika-privatnosti" sc-camel-on-click="{{ on.lnkPriv }}" style="background:none;border:none;padding:0;cursor:pointer;font:inherit;color:var(--acc);text-decoration:underline;display:inline-block">Politici privatnosti</a>.</span>
         </label>
         <sc-if value="{{ nlErr }}">
           <div style="font-weight:400;font-size:12.5px;color:var(--acc);text-align:right">{{ nlErr }}</div>
@@ -10717,7 +10717,6 @@ class Component extends DCLogic {
           return { dark: next };
         }),
         toggleMenu: () => this.setState((st) => ({ menuOpen: !st.menuOpen })),
-        tabPriv: this.go('priv'),
         // Handleri za <a href> poveznice (vidi lnk()). "Kalkulatori" i "Pokazatelji"
         // vode na kanonski hub/inflaciju, ne na zadnje otvoreni kalkulator/kategoriju.
         lnkHome: this.lnk(this.go('home')), lnkHub: this.lnk(this.goCalc('hub')), lnkCalc: this.lnk(this.go('calc', { calcTab: 'hub' })), lnkPok: this.lnk(this.go('pok', { pokKat: 'inflacija' })),
