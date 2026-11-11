@@ -47,12 +47,12 @@ const META_CALC = {
   zatvoriti: { title: 'Zatvoriti kredit prije roka ili ne' + SUFIKS, desc: 'Izračunaj koliko kamate izbjegavaš prijevremenim zatvaranjem kredita i isplati li ti se to u tvojoj fazi otplate.' },
 };
 
-const META_POK_INDEX = { title: 'Hrvatska u brojkama: plaće, kamate, inflacija' + SUFIKS, desc: 'Pregled ključnih ekonomskih pokazatelja Hrvatske: inflacija, plaće, mirovine, nekretnine i kamatne stope na kredite, iz podataka DZS-a i HNB-a.' };
+const META_POK_INDEX = { title: 'Hrvatska u brojkama: plaće, kamate, inflacija' + SUFIKS, desc: 'Pregled ključnih ekonomskih pokazatelja Hrvatske: inflacija, plaće, mirovine, nekretnine i kamatne stope na kredite. Podaci su iz DZS-a i HNB-a.' };
 const META_POK = {
-  inflacija: { title: 'Inflacija u Hrvatskoj: aktualni podaci' + SUFIKS, desc: 'Godišnja i mjesečna stopa inflacije u Hrvatskoj po indeksu potrošačkih cijena (CPI) Državnog zavoda za statistiku, kroz posljednjih nekoliko godina.' },
-  place: { title: 'Plaće u Hrvatskoj: prosjek i medijan' + SUFIKS, desc: 'Prosječna i medijalna neto i bruto plaća u Hrvatskoj, zakonska minimalna plaća za 2026. i kretanje plaća kroz vrijeme, po podacima DZS-a.' },
+  inflacija: { title: 'Inflacija u Hrvatskoj: aktualni podaci' + SUFIKS, desc: 'Godišnja i mjesečna stopa inflacije u Hrvatskoj po indeksu potrošačkih cijena (CPI) Državnog zavoda za statistiku, tijekom posljednjih nekoliko godina.' },
+  place: { title: 'Plaće u Hrvatskoj: prosjek i medijan' + SUFIKS, desc: 'Prosječna i medijalna neto i bruto plaća u Hrvatskoj, zakonska minimalna plaća za 2026. i kretanje plaća tijekom vremena, po podacima DZS-a.' },
   krediti: { title: 'Kamatne stope na kredite u Hrvatskoj' + SUFIKS, desc: 'Prosječne kamatne stope na nove stambene i gotovinske kredite u Hrvatskoj te ukupan iznos novoodobrenih kredita, po podacima HNB-a svaki mjesec.' },
-  nekretnine: { title: 'Cijene nekretnina u Hrvatskoj' + SUFIKS, desc: 'Koliko rastu cijene nekretnina u Hrvatskoj — indeks cijena stambenih objekata prema DZS-u, kretanje po tipu objekta i aktivnost tržišta.' },
+  nekretnine: { title: 'Cijene nekretnina u Hrvatskoj' + SUFIKS, desc: 'Koliko rastu cijene nekretnina u Hrvatskoj: indeks cijena stambenih objekata prema DZS-u, kretanje po tipu objekta i aktivnost tržišta.' },
   mirovine: { title: 'Mirovinski sustav Hrvatske u brojkama' + SUFIKS, desc: 'Prosječna starosna mirovina, omjer zaposlenih i umirovljenika te raspodjela članova drugog mirovinskog stupa po kategorijama rizika ulaganja.' },
 };
 
@@ -68,7 +68,7 @@ const META_BLOG = {
   'gdje-odlazi-tvoja-placa': { title: 'Sve o tvojoj plaći: gdje odlazi razlika od poslodavca do tebe?' + SUFIKS, desc: 'Objašnjenje obračuna plaće u Hrvatskoj: koji doprinosi i porezi stoje između bruto iznosa u ugovoru i neto iznosa koji sjedne na račun.' },
   'hrvatski-investicijski-racun-2027': { title: 'Hrvatski investicijski račun: kako ćeš od 2027. ulagati bez poreza na zaradu?' + SUFIKS, desc: 'Objašnjenje hrvatskog investicijskog računa koji od 2027. omogućuje ulaganje u dionice i ETF-ove bez poreza na zaradu, uz uvjet o domaćem tržištu.' },
   'fiksna-ili-kombinirana-kamatna-stopa': { title: 'Fiksna ili kombinirana kamatna stopa: gdje je skrivena zamka?' + SUFIKS, desc: 'Razlika između fiksne i kombinirane kamatne stope na stambeni kredit i zašto niža početna rata zapravo znači prijenos rizika s banke na tebe.' },
-  'zasto-kupujes-stvari-koje-ne-trebas': { title: 'Zašto kupuješ stvari koje ti ne trebaju (i kako prestati)' + SUFIKS, desc: 'Tri psihološka mehanizma, dopamin, bol plaćanja i strah od oskudice, kojima marketing danas potiče kupnju stvari koje ti zapravo ne trebaju.' },
+  'zasto-kupujes-stvari-koje-ne-trebas': { title: 'Zašto kupuješ stvari koje ti ne trebaju (i kako prestati)' + SUFIKS, desc: 'Tri psihološka mehanizma: dopamin, bol plaćanja i strah od oskudice. Marketing ih danas koristi da te potakne na kupnju stvari koje ti zapravo ne trebaju.' },
   'stambeni-kredit-rok-otplate': { title: 'Stambeni kredit: zašto najkraći rok nije uvijek najbolji' + SUFIKS, desc: 'Zašto najkraći rok otplate stambenog kredita nosi najnižu kamatu, ali i najmanje financijskog manevarskog prostora ako dođe do neplaniranog troška.' },
   'zasto-cijene-nekretnina-rastu': { title: 'Zašto cijene nekretnina u Hrvatskoj ne prestaju rasti?' + SUFIKS, desc: 'Pet razloga zašto su cijene nekretnina u Hrvatskoj u pet godina porasle skoro 80 posto: ponuda, gradnja, plaće, kamate i kupnja u gotovini.' },
   'lazi-o-novcu': { title: '5 laži o novcu koje te ograničavaju' + SUFIKS, desc: 'Pet uvriježenih uvjerenja o novcu, naslijeđenih od roditelja i iz okoline, koja više nisu točna i danas te stvarno koštaju novca.' },
@@ -85,7 +85,7 @@ const META_BLOG = {
 const META_STATIC = {
   home: { title: 'O novcu: kalkulator plaće, kredita i inflacije (2026.)', desc: 'Hrvatski portal za osobne financije. Besplatni kalkulatori plaće, kredita, ulaganja i inflacije te aktualni pokazatelji HNB-a i DZS-a. Bez registracije.' },
   proj: { title: 'Javni investicijski eksperimenti' + SUFIKS, desc: 'Pratim uživo vlastito ulaganje u ETF-ove kroz nekoliko portfelja, s otvorenim brojkama i rezultatima.' },
-  b2b: { title: 'Financijska edukacija za tvrtke' + SUFIKS, desc: 'Radionice o osobnim financijama za zaposlenike, uživo ili online, prilagođene veličini tvrtke, formatu i temi koju tvrtka sama odabere.' },
+  b2b: { title: 'Financijska edukacija za tvrtke' + SUFIKS, desc: 'Radionice o osobnim financijama za zaposlenike, uživo ili online. Prilagođene su veličini tvrtke, formatu i temi koju tvrtka sama odabere.' },
   autor: { title: 'Marko Bogdan' + SUFIKS, desc: 'Autor portala O novcu piše o plaćama, kreditima i ulaganju u Hrvatskoj, nakon 18 godina u financijskoj industriji.' },
   faq: { title: 'Česta pitanja o novcu' + SUFIKS, desc: 'Odgovori na najčešća pitanja o obračunu plaće, prijevremenoj otplati kredita i utjecaju inflacije na štednju u Hrvatskoj, kratko i jasno.' },
   priv: { title: 'Politika privatnosti' + SUFIKS, desc: 'Koje podatke portal O novcu prikuplja, kako se obrađuju izračuni i mailovi te koja prava imaš kao ispitanik prema europskoj uredbi GDPR.' },
