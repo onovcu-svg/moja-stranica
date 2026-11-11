@@ -66,7 +66,7 @@ const RE_KOMBO = /^[^()]{1,30} \(\d+(,\d+)? %\)$/;
 // ne default "Anuiteti". Decimalni dio je opcionalan na OBJE strane neovisno,
 // da pokrije i sadašnju preciznost (0) i eventualnu buduću promjenu na 2.
 const RE_RASPON = /^-?\d{1,3}(\.\d{3})*(,\d{2})? € → -?\d{1,3}(\.\d{3})*(,\d{2})? €$/;
-// "Kratka oznaka": pokriva vrijednosti poput "Fiksna kroz cijeli rok" i
+// "Kratka oznaka": pokriva vrijednosti poput "Fiksna za cijeli rok" i
 // "Kombinirana: fiksna pa varijabilna". Namjerno bez €, %, / - to pokrivaju
 // obrasci iznad. Strelica je dopuštena i ovdje (isti razlog kao RE_LABELA
 // niže) iako je danas nijedna VRIJEDNOST izvan RE_RASPON ne koristi.
