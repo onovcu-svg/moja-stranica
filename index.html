@@ -2624,7 +2624,7 @@
     <section style="max-width:1180px;margin:0 auto;padding:clamp(44px,7vh,90px) clamp(18px,4vw,36px) clamp(36px,6vh,66px);text-align:center;animation:onFade .5s ease both">
       <div style="font-weight:600;font-size:13px;letter-spacing:.04em;color:var(--acc);margin-bottom:14px">Program edukacije o osobnim financijama za firme</div>
       <h1 style="font-weight:700;font-size:clamp(30px,5.2vw,62px);line-height:1.03;letter-spacing:-.04em;margin:0 auto 20px;max-width:22ch;text-wrap:balance">Kako upravljati novcem, kreditima i ulaganjima.</h1>
-      <p style="font-weight:300;font-size:clamp(16.5px,2vw,21px);line-height:1.5;color:var(--soft);max-width:54ch;margin:0 auto;text-wrap:pretty">Sedam modula, ukupno 7,5 sati: od obračuna plaće i kredita do mirovine, prijevara i prvih koraka u ulaganju. Zaposlenici dobivaju ključne elemente financijske pismenosti, a program se u potpunosti prilagođava organizaciji.</p>
+      <p style="font-weight:300;font-size:clamp(16.5px,2vw,21px);line-height:1.5;color:var(--soft);max-width:54ch;margin:0 auto;text-wrap:pretty">{{ edu.brojModulaRijec }} modula, ukupno {{ edu.ukupnoSati }}: od obračuna plaće i kredita do mirovine, prijevara i prvih koraka u ulaganju. Zaposlenici dobivaju ključne elemente financijske pismenosti, a program se u potpunosti prilagođava organizaciji.</p>
     </section>
 
     <section style="max-width:1180px;margin:0 auto;padding:clamp(44px,7vh,90px) clamp(18px,4vw,36px) clamp(56px,9vh,100px);display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(28px,4vw,56px);align-items:start">
@@ -2715,7 +2715,7 @@
     <section style="background:var(--sec);transition:background .35s ease">
       <div style="max-width:900px;margin:0 auto;padding:clamp(32px,5vh,52px) clamp(18px,4vw,36px)">
         <div style="text-align:center;margin-bottom:22px">
-          <h2 style="font-weight:700;font-size:clamp(24px,3.2vw,36px);line-height:1.1;letter-spacing:-.03em;margin:0 0 8px">Sedam modula programa</h2>
+          <h2 style="font-weight:700;font-size:clamp(24px,3.2vw,36px);line-height:1.1;letter-spacing:-.03em;margin:0 0 8px">{{ edu.brojModulaRijec }} modula programa</h2>
           <p style="font-weight:300;font-size:15px;color:var(--soft);margin:0 auto;max-width:52ch;line-height:1.5">Program se prilagođava: cijeli niz ili samo moduli koji timu trenutno najviše trebaju.</p>
         </div>
         <div style="display:grid;grid-template-columns:24px minmax(150px,180px) 1fr;gap:14px;row-gap:2px">
@@ -2732,11 +2732,11 @@
       <div style="background:var(--acc);color:#FFF;border-radius:20px;padding:clamp(24px,3vw,34px)">
         <div style="font-weight:600;font-size:12px;letter-spacing:.06em;opacity:.85;margin-bottom:14px">OPTIMALNI FORMAT</div>
         <div style="font-weight:700;font-size:clamp(24px,3vw,34px);letter-spacing:-.035em;line-height:1.12;margin-bottom:14px;text-wrap:balance">Cjelovita edukacija u dva termina, uživo.</div>
-        <p style="font-weight:400;font-size:15.5px;line-height:1.6;margin:0 0 22px;opacity:.95;text-wrap:pretty">Sedam modula, ukupno 7,5 sati. Dva termina daju polaznicima vremena da između njih pogledaju vlastite brojke, a uživo format najbolje otvara pitanja o plaći, kreditima i mirovini.</p>
+        <p style="font-weight:400;font-size:15.5px;line-height:1.6;margin:0 0 22px;opacity:.95;text-wrap:pretty">{{ edu.brojModulaRijec }} modula, ukupno {{ edu.ukupnoSati }}. Dva termina daju polaznicima vremena da između njih pogledaju vlastite brojke, a uživo format najbolje otvara pitanja o plaći, kreditima i mirovini.</p>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:14px;border-top:1px solid rgba(255,255,255,.28);padding-top:20px">
-          <div><div style="font-weight:700;font-size:24px;letter-spacing:-.03em;line-height:1">7,5 h</div><div style="font-weight:400;font-size:13px;opacity:.85;margin-top:6px">ukupno trajanje</div></div>
+          <div><div style="font-weight:700;font-size:24px;letter-spacing:-.03em;line-height:1">{{ edu.ukupnoH }}</div><div style="font-weight:400;font-size:13px;opacity:.85;margin-top:6px">ukupno trajanje</div></div>
           <div><div style="font-weight:700;font-size:24px;letter-spacing:-.03em;line-height:1">2</div><div style="font-weight:400;font-size:13px;opacity:.85;margin-top:6px">termina</div></div>
-          <div><div style="font-weight:700;font-size:24px;letter-spacing:-.03em;line-height:1">7</div><div style="font-weight:400;font-size:13px;opacity:.85;margin-top:6px">modula</div></div>
+          <div><div style="font-weight:700;font-size:24px;letter-spacing:-.03em;line-height:1">{{ edu.brojModula }}</div><div style="font-weight:400;font-size:13px;opacity:.85;margin-top:6px">modula</div></div>
         </div>
       </div>
     </section>
@@ -5197,14 +5197,38 @@ const PRAG = 5000, ODB = 600, NEOP_BONUS = 1200;
 
 // Sedam modula programa edukacije osobnih financija; trajanja su iz programa.
 const MODULI = [
-  { no: '01', naslov: 'Plaća i budžetiranje', opis: 'Kako se obračunava plaća, koje porezne olakšice postoje i kako izgraditi sustav upravljanja novcem: od budžetiranja preko zdravih navika do financijske stabilnosti.', trajanje: '90 min', min: 90 },
-  { no: '02', naslov: 'Bankovni računi', opis: 'Što plaćate, a ne morate. Razlike među platnim servisima, kako odabrati pravi račun i što znati o debitnim i kreditnim karticama prije prvog plaćanja.', trajanje: '30 min', min: 30 },
-  { no: '03', naslov: 'Osiguranja', opis: 'Koja su osiguranja obvezna, koja su pametna, a koja vam možda ne trebaju. Pregled vrsta i praktični savjeti, od zdravstvenog do osiguranja imovine.', trajanje: '60 min', min: 60 },
-  { no: '04', naslov: 'Krediti', opis: 'Najveća financijska odluka u životu većine ljudi: kamatne stope, usporedba ponuda banaka, skupe greške i zaštita prava, od stambenog kredita do minusa.', trajanje: '90 min', min: 90 },
-  { no: '05', naslov: 'Mirovinski sustav', opis: 'Možete li utjecati na svoju mirovinu? Kako funkcioniraju tri stupa, zašto je odabir fonda bitan i kako iskoristiti porezne olakšice trećeg stupa.', trajanje: '60 min', min: 60 },
-  { no: '06', naslov: 'Financijske prijevare', opis: 'Kako prepoznati prevaru prije nego bude prekasno: najčešći oblici, znakovi upozorenja i konkretni koraci za zaštitu podataka i novca.', trajanje: '30 min', min: 30 },
-  { no: '07', naslov: 'Štednja i investiranje', opis: 'Zašto štednja na računu nije dovoljna: utjecaj inflacije, prvi koraci u investiranju, fondovi, ETF-ovi, obveznice i porezni tretman ulaganja.', trajanje: '90 min', min: 90 }
+  { no: '01', naslov: 'Plaća i budžetiranje', opis: 'Kako se obračunava plaća, koje porezne olakšice postoje i kako izgraditi sustav upravljanja novcem: od budžetiranja preko zdravih navika do financijske stabilnosti.', min: 90 },
+  { no: '02', naslov: 'Bankovni računi', opis: 'Što plaćate, a ne morate. Razlike među platnim servisima, kako odabrati pravi račun i što znati o debitnim i kreditnim karticama prije prvog plaćanja.', min: 30 },
+  { no: '03', naslov: 'Osiguranja', opis: 'Koja su osiguranja obvezna, koja su pametna, a koja vam možda ne trebaju. Pregled vrsta i praktični savjeti, od zdravstvenog do osiguranja imovine.', min: 60 },
+  { no: '04', naslov: 'Krediti', opis: 'Najveća financijska odluka u životu većine ljudi: kamatne stope, usporedba ponuda banaka, skupe greške i zaštita prava, od stambenog kredita do minusa.', min: 90 },
+  { no: '05', naslov: 'Mirovinski sustav', opis: 'Možete li utjecati na svoju mirovinu? Kako funkcioniraju tri stupa, zašto je odabir fonda bitan i kako iskoristiti porezne olakšice trećeg stupa.', min: 60 },
+  { no: '06', naslov: 'Financijske prijevare', opis: 'Kako prepoznati prevaru prije nego bude prekasno: najčešći oblici, znakovi upozorenja i konkretni koraci za zaštitu podataka i novca.', min: 30 },
+  { no: '07', naslov: 'Štednja i investiranje', opis: 'Zašto štednja na računu nije dovoljna: utjecaj inflacije, prvi koraci u investiranju, fondovi, ETF-ovi, obveznice i porezni tretman ulaganja.', min: 90 }
 ];
+
+// Broj modula i ukupno trajanje programa izvode se iz MODULI (jedan izvor
+// istine); u predlosku se ne pisu rucno. Trajanje pojedinog modula je samo
+// `min`, tekst ("90 min") se izvodi u renderVals().
+const MODUL_RIJEC = { 2: 'Dva', 3: 'Tri', 4: 'Četiri', 5: 'Pet', 6: 'Šest', 7: 'Sedam', 8: 'Osam', 9: 'Devet', 10: 'Deset' };
+// Nominativ, veliko slovo: "Sedam modula" (na pocetku recenice/naslova). Za 11 i
+// vise znamenke; za manje od 2 oblik "modula" ne vrijedi ("jedan modul").
+const modulaRijec = (n) => {
+  if (MODUL_RIJEC[n]) return MODUL_RIJEC[n];
+  if (n < 2) console.error('modulaRijec: broj modula ' + n + ' (oblik "modula" vrijedi od 2)');
+  return String(n);
+};
+const satBroj = (min) => {
+  const h = min / 60;
+  return Number.isInteger(h) ? String(h) : String(Math.round(h * 100) / 100).replace('.', ',');
+};
+// "7,5 sati". Uz decimale ostaje "sati" (govorni oblik, odluka 12. 11. 2026.;
+// pravopisno bi bilo "sata"). Cijeli sati: 1 sat, 2-4 sata, 5+ sati.
+const satiTxt = (min) => {
+  const h = min / 60;
+  if (!Number.isInteger(h)) return satBroj(min) + ' sati';
+  const d = h % 10, dd = h % 100;
+  return h + ' ' + (d === 1 && dd !== 11 ? 'sat' : (d >= 2 && d <= 4 && (dd < 12 || dd > 14)) ? 'sata' : 'sati');
+};
 
 // Puni tekstovi blogova, po slugu. Zadnji odjeljak svakog teksta ("Pogledaj ... u videu")
 // izdvojen je u ctaNaslov / ctaUvod / ctaTocke i prikazuje se kao poziv na video.
@@ -8615,12 +8639,12 @@ class Component extends DCLogic {
     const moduli = MODULI.map((m) => {
       const onSel = s.odabrani.indexOf(m.no) >= 0;
       return {
-        no: m.no, naslov: m.naslov, opis: m.opis, za: m.za, trajanje: m.trajanje,
+        no: m.no, naslov: m.naslov, opis: m.opis, za: m.za, trajanje: m.min + ' min',
         bd: onSel ? ACC : LINE, boxBd: onSel ? ACC : LINE, boxBg: onSel ? ACC : 'transparent', check: onSel ? '✓' : '',
         toggle: () => this.setState((st) => ({ odabrani: onSel ? st.odabrani.filter((x) => x !== m.no) : st.odabrani.concat([m.no]) }))
       };
     });
-    const selMin = MODULI.filter((m) => s.odabrani.indexOf(m.no) >= 0).reduce((a, m) => a + m.min, 0);
+    const eduMin = MODULI.reduce((a, m) => a + m.min, 0);
     // Vrsta objave: 'video' (reklama za YouTube video) ili 'blog' (kratki tekst).
     // Bez polja vrsta objava se smatra videom ako ima yt id.
     const vrstaOd = (o) => (o.vrsta === 'blog' || !o.yt) ? 'Blog' : 'Video';
@@ -10617,6 +10641,7 @@ class Component extends DCLogic {
       trzistePotpis: s.trzisteIzvor + ' · ' + s.trzisteMjesec + (s.trzisteStatus === 'live' ? '' : ' · zadnji poznati podaci'),
 
       moduli: moduli,
+      edu: { brojModula: String(MODULI.length), brojModulaRijec: modulaRijec(MODULI.length), ukupnoH: satBroj(eduMin) + ' h', ukupnoSati: satiTxt(eduMin) },
       imaKats: kats.length > 1, imaVrste: imaVrste, nemaObjava: uVrsti.filter((o) => aktKat === 'Sve' || o.kat === aktKat).length === 0,
       // vrstaF ne mijenja rutu - dosljedno s filteri (kategorija) ispod, koji
       // nikad nije skakao. resetHScroll() takoder uklonjen: data-seg="blogvrsta"
