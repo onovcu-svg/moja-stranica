@@ -233,12 +233,12 @@
     <!-- STICKY TICKER -->
     <div style="border-top:1px solid var(--line);background:var(--sec);transition:background .35s ease">
       <div style="max-width:1180px;margin:0 auto;padding:0 clamp(18px,4vw,36px);height:36px;display:flex;align-items:center;justify-content:space-between;gap:14px;overflow:hidden">
-        <button sc-camel-on-click="{{ tick.apply }}" style="background:none;border:none;padding:0;display:flex;align-items:baseline;gap:9px;cursor:pointer;min-width:0;white-space:nowrap;overflow:hidden;color:var(--ink);opacity:{{ tickOp }};transition:opacity .4s ease">
+        <a href="{{ tick.href }}" sc-camel-on-click="{{ tick.apply }}" style="background:none;border:none;padding:0;display:flex;align-items:baseline;gap:9px;cursor:pointer;min-width:0;white-space:nowrap;overflow:hidden;color:var(--ink);opacity:{{ tickOp }};transition:opacity .4s ease">
           <span style="font-weight:700;font-size:14px;letter-spacing:-.02em;flex-shrink:0">{{ tick.val }}</span>
           <span style="font-weight:400;font-size:12.5px;color:var(--soft);overflow:hidden;text-overflow:ellipsis">{{ tick.label }}</span>
           <span style="font-weight:500;font-size:11.5px;color:{{ tick.deltaColor }};flex-shrink:0">{{ tick.arrow }}</span>
           <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}"><span style="font-weight:400;font-size:11.5px;color:var(--soft);flex-shrink:0">{{ tick.delta }}</span></sc-if>
-        </button>
+        </a>
         <div style="display:flex;align-items:center;gap:12px;flex-shrink:0">
           <div style="display:flex;gap:5px;align-items:center">
             <sc-for list="{{ tickDots }}" as="d" hint-placeholder-count="6">
@@ -295,7 +295,7 @@
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:clamp(14px,2vw,20px)">
         <sc-for list="{{ preview }}" as="pv" hint-placeholder-count="3">
-          <button sc-camel-on-click="{{ pv.go }}" style="background:var(--card);border:1px solid var(--line);border-radius:20px;padding:clamp(22px,2.8vw,28px);cursor:pointer;text-align:left;min-width:0;display:flex;flex-direction:column;gap:10px;transition:border-color .25s,transform .25s,box-shadow .25s" style-hover="border-color:var(--acc);transform:translateY(-3px);box-shadow:var(--shUp)">
+          <a href="{{ pv.href }}" sc-camel-on-click="{{ pv.go }}" style="background:var(--card);border:1px solid var(--line);border-radius:20px;padding:clamp(22px,2.8vw,28px);cursor:pointer;text-align:left;min-width:0;display:flex;flex-direction:column;gap:10px;transition:border-color .25s,transform .25s,box-shadow .25s;color:inherit" style-hover="border-color:var(--acc);transform:translateY(-3px);box-shadow:var(--shUp)">
             <div style="display:flex;align-items:center;gap:10px">
               <span style="font-weight:700;font-size:11.5px;letter-spacing:.06em;color:var(--acc)">{{ pv.no }}</span>
               <span style="font-weight:600;font-size:18px;letter-spacing:-.025em">{{ pv.naslov }}</span>
@@ -305,7 +305,7 @@
               <div style="font-weight:400;font-size:12.5px;color:var(--soft);line-height:1.5">{{ pv.sto }}</div>
             </div>
             <div style="font-weight:600;font-size:13px;color:var(--ink);margin-top:4px">Otvori kalkulator →</div>
-          </button>
+          </a>
         </sc-for>
       </div>
     </section>
@@ -518,7 +518,7 @@
       <div data-seg="calc" style="position:relative;display:inline-flex;padding:4px;background:var(--sec);border-radius:980px;gap:2px;max-width:100%;overflow-x:auto">
         <span data-seg-ind="1" style="position:absolute;top:4px;bottom:4px;left:4px;width:0;background:var(--acc);border-radius:980px;box-shadow:0 1px 6px rgba(220,38,38,.35);transition:left .32s cubic-bezier(.4,0,.2,1),width .32s cubic-bezier(.4,0,.2,1);pointer-events:none"></span>
         <sc-for list="{{ obitelji }}" as="ob" hint-placeholder-count="4">
-          <button sc-camel-on-click="{{ ob.go }}" data-seg-active="{{ ob.act }}" style="position:relative;z-index:1;background:none;color:{{ ob.c }};border:none;border-radius:980px;padding:11px 22px;cursor:pointer;font-weight:600;font-size:14px;white-space:nowrap;transition:color .25s">{{ ob.label }}</button>
+          <a href="{{ ob.href }}" sc-camel-on-click="{{ ob.go }}" data-seg-active="{{ ob.act }}" style="position:relative;z-index:1;background:none;color:{{ ob.c }};border:none;border-radius:980px;padding:11px 22px;cursor:pointer;font-weight:600;font-size:14px;white-space:nowrap;transition:color .25s">{{ ob.label }}</a>
         </sc-for>
       </div>
 
@@ -527,7 +527,12 @@
         <div data-seg="calcsub" style="position:relative;display:inline-flex;padding:3px;background:var(--card);border:1px solid var(--line);border-radius:980px;gap:2px;max-width:100%;overflow-x:auto">
           <span data-seg-ind="1" style="position:absolute;top:3px;bottom:3px;left:3px;width:0;background:var(--acc);border-radius:980px;transition:left .32s cubic-bezier(.4,0,.2,1),width .32s cubic-bezier(.4,0,.2,1);pointer-events:none"></span>
           <sc-for list="{{ podizbornik }}" as="sub" hint-placeholder-count="3">
-            <button sc-camel-on-click="{{ sub.go }}" data-seg-active="{{ sub.act }}" style="position:relative;z-index:1;background:none;color:{{ sub.c }};border:none;border-radius:980px;padding:9px 18px;cursor:pointer;font-weight:600;font-size:13px;white-space:nowrap;transition:color .25s">{{ sub.label }}</button>
+            <sc-if value="{{ sub.jeLink }}">
+              <a href="{{ sub.href }}" sc-camel-on-click="{{ sub.go }}" data-seg-active="{{ sub.act }}" style="position:relative;z-index:1;background:none;color:{{ sub.c }};border:none;border-radius:980px;padding:9px 18px;cursor:pointer;font-weight:600;font-size:13px;white-space:nowrap;transition:color .25s">{{ sub.label }}</a>
+            </sc-if>
+            <sc-if value="{{ sub.nijeLink }}">
+              <button sc-camel-on-click="{{ sub.go }}" data-seg-active="{{ sub.act }}" style="position:relative;z-index:1;background:none;color:{{ sub.c }};border:none;border-radius:980px;padding:9px 18px;cursor:pointer;font-weight:600;font-size:13px;white-space:nowrap;transition:color .25s">{{ sub.label }}</button>
+            </sc-if>
           </sc-for>
         </div>
       </div>
@@ -546,14 +551,26 @@
           </div>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:clamp(12px,1.8vw,16px)">
             <sc-for list="{{ gr.kartice }}" as="ka" hint-placeholder-count="3">
-              <button sc-camel-on-click="{{ ka.go }}" style="background:var(--card);border:1px solid var(--line);border-radius:18px;padding:clamp(20px,2.4vw,26px);cursor:pointer;text-align:left;min-width:0;display:flex;flex-direction:column;gap:9px;transition:border-color .25s,transform .25s,box-shadow .25s" style-hover="border-color:var(--acc);transform:translateY(-3px);box-shadow:var(--shUp)">
-                <span style="font-weight:600;font-size:17px;letter-spacing:-.025em;line-height:1.25">{{ ka.naslov }}</span>
-                <span style="font-weight:300;font-size:13.5px;line-height:1.5;color:var(--soft)">{{ ka.opis }}</span>
-                <span style="margin-top:auto;padding-top:14px;border-top:1px solid var(--line);width:100%;display:block">
-                  <span style="display:block;font-weight:400;font-size:12.5px;line-height:1.5;color:var(--soft)">{{ ka.sto }}</span>
-                </span>
-                <span style="font-weight:600;font-size:12.5px;color:var(--ink)">Otvori →</span>
-              </button>
+              <sc-if value="{{ ka.jeLink }}">
+                <a href="{{ ka.href }}" sc-camel-on-click="{{ ka.go }}" style="background:var(--card);border:1px solid var(--line);border-radius:18px;padding:clamp(20px,2.4vw,26px);cursor:pointer;text-align:left;min-width:0;display:flex;flex-direction:column;gap:9px;transition:border-color .25s,transform .25s,box-shadow .25s;color:inherit" style-hover="border-color:var(--acc);transform:translateY(-3px);box-shadow:var(--shUp)">
+                  <span style="font-weight:600;font-size:17px;letter-spacing:-.025em;line-height:1.25">{{ ka.naslov }}</span>
+                  <span style="font-weight:300;font-size:13.5px;line-height:1.5;color:var(--soft)">{{ ka.opis }}</span>
+                  <span style="margin-top:auto;padding-top:14px;border-top:1px solid var(--line);width:100%;display:block">
+                    <span style="display:block;font-weight:400;font-size:12.5px;line-height:1.5;color:var(--soft)">{{ ka.sto }}</span>
+                  </span>
+                  <span style="font-weight:600;font-size:12.5px;color:var(--ink)">Otvori →</span>
+                </a>
+              </sc-if>
+              <sc-if value="{{ ka.nijeLink }}">
+                <button sc-camel-on-click="{{ ka.go }}" style="background:var(--card);border:1px solid var(--line);border-radius:18px;padding:clamp(20px,2.4vw,26px);cursor:pointer;text-align:left;min-width:0;display:flex;flex-direction:column;gap:9px;transition:border-color .25s,transform .25s,box-shadow .25s" style-hover="border-color:var(--acc);transform:translateY(-3px);box-shadow:var(--shUp)">
+                  <span style="font-weight:600;font-size:17px;letter-spacing:-.025em;line-height:1.25">{{ ka.naslov }}</span>
+                  <span style="font-weight:300;font-size:13.5px;line-height:1.5;color:var(--soft)">{{ ka.opis }}</span>
+                  <span style="margin-top:auto;padding-top:14px;border-top:1px solid var(--line);width:100%;display:block">
+                    <span style="display:block;font-weight:400;font-size:12.5px;line-height:1.5;color:var(--soft)">{{ ka.sto }}</span>
+                  </span>
+                  <span style="font-weight:600;font-size:12.5px;color:var(--ink)">Otvori →</span>
+                </button>
+              </sc-if>
             </sc-for>
           </div>
         </div>
@@ -3087,7 +3104,7 @@
         <div data-seg="pok" style="position:relative;display:inline-flex;padding:4px;background:var(--sec);border-radius:980px;gap:2px;max-width:100%;overflow-x:auto">
           <span data-seg-ind="1" style="position:absolute;top:4px;bottom:4px;left:4px;width:0;background:var(--acc);border-radius:980px;box-shadow:0 1px 6px rgba(220,38,38,.35);transition:left .32s cubic-bezier(.4,0,.2,1),width .32s cubic-bezier(.4,0,.2,1);pointer-events:none"></span>
           <sc-for list="{{ pokChips }}" as="ch" hint-placeholder-count="4">
-            <button sc-camel-on-click="{{ ch.go }}" data-seg-active="{{ ch.act }}" style="position:relative;z-index:1;background:none;color:{{ ch.c }};border:none;border-radius:980px;padding:11px 22px;cursor:pointer;font-weight:600;font-size:14px;white-space:nowrap;transition:color .25s">{{ ch.label }}</button>
+            <a href="{{ ch.href }}" sc-camel-on-click="{{ ch.go }}" data-seg-active="{{ ch.act }}" style="position:relative;z-index:1;background:none;color:{{ ch.c }};border:none;border-radius:980px;padding:11px 22px;cursor:pointer;font-weight:600;font-size:14px;white-space:nowrap;transition:color .25s">{{ ch.label }}</a>
           </sc-for>
         </div>
       </div>
@@ -6609,6 +6626,10 @@ function getMeta(s) {
   return META_STATIC[s.tab] || META_STATIC.home;
 }
 
+// Pokazatelj na koji vodi pojedina stavka tickera (TRZISTE[].id). Jedan izvor za
+// klik (applyStopa) i za href poveznice (tickList), da se ne razilaze.
+const TICK_POKAZATELJ = { placaProsjek: 'place', placaMedijan: 'place', inflacija: 'inflacija', mirovina: 'mirovine', hpi: 'nekretnine', stambeni: 'krediti' };
+
 class Component extends DCLogic {
   _socialRef = React.createRef();
   state = {
@@ -6700,15 +6721,13 @@ class Component extends DCLogic {
   // kalkulator.
   applyStopa(id) {
     return () => {
-      // Sve grane: isti obrazac kao go()/goCalc() - _syncUrl PA scrollTo(0,0) PA
-      // resetHScroll(). Prije je svih 5 imalo _syncUrl, ali nijedna nije vracala
-      // skrol na vrh (NOTES.md §3: svaka navigacija, bez iznimke).
+      const pokKat = TICK_POKAZATELJ[id];
+      if (!pokKat) return;
+      // Isti obrazac kao go()/goCalc() - _syncUrl PA scrollTo(0,0) PA
+      // resetHScroll() (NOTES.md §3: svaka navigacija, bez iznimke).
       const posaljiNaVrh = () => { if (typeof window !== 'undefined') { window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; } this.resetHScroll(); };
-      if (id === 'placaProsjek' || id === 'placaMedijan') { this.setState({ tab: 'pok', pokKat: 'place', menuOpen: false }, () => this._syncUrl()); posaljiNaVrh(); }
-      else if (id === 'inflacija') { this.setState({ tab: 'pok', pokKat: 'inflacija', menuOpen: false }, () => this._syncUrl()); posaljiNaVrh(); }
-      else if (id === 'mirovina') { this.setState({ tab: 'pok', pokKat: 'mirovine', mirStup: '1', menuOpen: false }, () => this._syncUrl()); posaljiNaVrh(); }
-      else if (id === 'hpi') { this.setState({ tab: 'pok', pokKat: 'nekretnine', menuOpen: false }, () => this._syncUrl()); posaljiNaVrh(); }
-      else if (id === 'stambeni') { this.setState({ tab: 'pok', pokKat: 'krediti', menuOpen: false }, () => this._syncUrl()); posaljiNaVrh(); }
+      this.setState(Object.assign({ tab: 'pok', pokKat: pokKat, menuOpen: false }, id === 'mirovina' ? { mirStup: '1' } : null), () => this._syncUrl());
+      posaljiNaVrh();
     };
   }
 
@@ -7120,6 +7139,10 @@ class Component extends DCLogic {
       fn();
     };
   }
+  // href iz istog izvora istine kao klik: _pathFor nad trenutnim stanjem + patch
+  // koji klik postavlja. Za poveznice čiji se cilj računa (kartice, čipovi, ticker);
+  // za statične (zaglavlje, podnožje) href je literal u predlošku.
+  hrefFor(patch) { return this._pathFor(Object.assign({}, this.state, patch)); }
   _pathFor(s) {
     if (s.tab === 'calc') return '/kalkulatori/' + (s.calcTab || 'placa');
     if (s.tab === 'pok') return '/pokazatelji' + (s.pokKat ? '/' + s.pokKat : '');
@@ -9329,7 +9352,8 @@ class Component extends DCLogic {
         arrow: Math.abs(d) < prag ? '→' : (d > 0 ? '▲' : '▼'),
         delta: Math.abs(d) < prag ? 'bez promjene' : (isEur ? eur(Math.abs(d), 0) : nf(2).format(Math.abs(d)) + ' pp') + ' ' + period,
         deltaColor: Math.abs(d) < prag ? SOFT : (d > 0 ? ACC : SOFT),
-        apply: this.applyStopa(x.id)
+        apply: this.lnk(this.applyStopa(x.id)),
+        href: TICK_POKAZATELJ[x.id] ? this.hrefFor({ tab: 'pok', pokKat: TICK_POKAZATELJ[x.id] }) : '/pokazatelji'
       };
     });
 
@@ -10161,41 +10185,48 @@ class Component extends DCLogic {
         { key: 'inflacija', label: 'Inflacija', prvi: 'inflacija' }
       ].map((o) => {
         const a = CALC_OBITELJ[s.calcTab] === o.key;
-        return { label: o.label, c: a ? '#FFF' : SOFT, act: a ? '1' : '0', go: this.goCalc(o.prvi) };
+        return { label: o.label, c: a ? '#FFF' : SOFT, act: a ? '1' : '0', go: this.lnk(this.goCalc(o.prvi)), href: this.hrefFor({ tab: 'calc', calcTab: o.prvi }) };
       }),
       imaPodizbornik: CALC_OBITELJ[s.calcTab] === 'krediti' || CALC_OBITELJ[s.calcTab] === 'ulaganje' || CALC_OBITELJ[s.calcTab] === 'inflacija',
       podizbornik: (CALC_OBITELJ[s.calcTab] === 'inflacija'
         ? [
-            { label: 'Koliko će novac izgubiti', act: s.calcTab === 'inflacija', go: this.goCalc('inflacija') },
-            { label: 'Koliko je već izgubljeno', act: s.calcTab === 'povijest', go: this.goCalc('povijest') }
+            { label: 'Koliko će novac izgubiti', act: s.calcTab === 'inflacija', calc: 'inflacija' },
+            { label: 'Koliko je već izgubljeno', act: s.calcTab === 'povijest', calc: 'povijest' }
           ]
         : CALC_OBITELJ[s.calcTab] === 'krediti'
         ? [
-            { label: 'Izračun kredita', act: s.calcTab === 'kredit', go: this.goCalc('kredit') },
-            { label: 'Refinanciranje kredita', act: s.calcTab === 'refi', go: this.goCalc('refi') },
-            { label: 'Kraći ili duži rok', act: s.calcTab === 'opcije', go: this.goCalc('opcije') },
-            { label: 'Zatvoriti ili ne', act: s.calcTab === 'zatvoriti', go: this.goCalc('zatvoriti') }
+            { label: 'Izračun kredita', act: s.calcTab === 'kredit', calc: 'kredit' },
+            { label: 'Refinanciranje kredita', act: s.calcTab === 'refi', calc: 'refi' },
+            { label: 'Kraći ili duži rok', act: s.calcTab === 'opcije', calc: 'opcije' },
+            { label: 'Zatvoriti ili ne', act: s.calcTab === 'zatvoriti', calc: 'zatvoriti' }
           ]
         : [
             { label: 'Rezultat ulaganja', act: s.gMode === 'rast', go: () => this.setState({ gMode: 'rast' }) },
             { label: 'Kako do cilja', act: s.gMode === 'cilj', go: () => this.setState({ gMode: 'cilj' }) },
             { label: 'Koliko traje ušteđevina', act: s.gMode === 'renta', go: () => this.setState({ gMode: 'renta' }) }
           ]
-      ).map((x) => ({ label: x.label, c: x.act ? '#FFF' : SOFT, act: x.act ? '1' : '0', go: x.go })),
+      ).map((x) => ({
+        // Stavke s calc imaju pravu adresu (<a href>); tri načina ulaganja (gMode)
+        // je nemaju - nisu u URL-u - pa ostaju gumbi.
+        label: x.label, c: x.act ? '#FFF' : SOFT, act: x.act ? '1' : '0',
+        jeLink: !!x.calc, nijeLink: !x.calc,
+        href: x.calc ? this.hrefFor({ tab: 'calc', calcTab: x.calc }) : '',
+        go: x.calc ? this.lnk(this.goCalc(x.calc)) : x.go
+      })),
       hubGrupe: [
         {
           naslov: 'Plaća', opis: 'Što ostane na računu i koliko stvarno košta rad',
           kartice: [
-            { naslov: 'Obračun plaće', opis: 'Bruto 1 → neto, doprinosi, osobni odbitak i trošak poslodavca.', sto: 'Računa u oba smjera i pokazuje kamo ide svaki euro tvoje plaće.', go: this.goCalc('placa') }
+            { naslov: 'Obračun plaće', opis: 'Bruto 1 → neto, doprinosi, osobni odbitak i trošak poslodavca.', sto: 'Računa u oba smjera i pokazuje kamo ide svaki euro tvoje plaće.', calc: 'placa' }
           ]
         },
         {
           naslov: 'Krediti', opis: 'Riješi sve nedoumice prije podizanja, tijekom kredita i kad razmišljaš o otplati ili refinanciranju',
           kartice: [
-            { naslov: 'Izračun kredita', opis: 'Fiksna ili kombinirana stopa, anuiteti i rate, otplatni plan i prijevremena otplata.', sto: 'Računa mjesečni iznos, ukupnu kamatu i učinak dodatnih uplata.', go: this.goCalc('kredit') },
-            { naslov: 'Refinanciranje kredita', opis: 'Koliko novca i vremena možeš uštedjeti refinanciranjem.', sto: 'Usporedba različitih scenarija zamjene kredita i njihov ukupni efekt, s uračunatim troškovima.', go: this.goCalc('refi') },
-            { naslov: 'Kraći ili duži rok', opis: 'Česta nedoumica: otplatiti kredit što brže ili ga uzeti na najduži rok?', sto: 'Usporedba mjesečnog opterećenja i dodatna opcija ulaganja razlike.', go: this.goCalc('opcije') },
-            { naslov: 'Zatvoriti ili ne', opis: 'Gdje si u otplati i koliko kamate izbjegavaš zatvaranjem.', sto: 'Možda ti se više ne isplati zatvoriti kredit.', go: this.goCalc('zatvoriti') }
+            { naslov: 'Izračun kredita', opis: 'Fiksna ili kombinirana stopa, anuiteti i rate, otplatni plan i prijevremena otplata.', sto: 'Računa mjesečni iznos, ukupnu kamatu i učinak dodatnih uplata.', calc: 'kredit' },
+            { naslov: 'Refinanciranje kredita', opis: 'Koliko novca i vremena možeš uštedjeti refinanciranjem.', sto: 'Usporedba različitih scenarija zamjene kredita i njihov ukupni efekt, s uračunatim troškovima.', calc: 'refi' },
+            { naslov: 'Kraći ili duži rok', opis: 'Česta nedoumica: otplatiti kredit što brže ili ga uzeti na najduži rok?', sto: 'Usporedba mjesečnog opterećenja i dodatna opcija ulaganja razlike.', calc: 'opcije' },
+            { naslov: 'Zatvoriti ili ne', opis: 'Gdje si u otplati i koliko kamate izbjegavaš zatvaranjem.', sto: 'Možda ti se više ne isplati zatvoriti kredit.', calc: 'zatvoriti' }
           ]
         },
         {
@@ -10209,11 +10240,18 @@ class Component extends DCLogic {
         {
           naslov: 'Inflacija', opis: 'Cijena čekanja i realna vrijednost novca',
           kartice: [
-            { naslov: 'Koliko će novac izgubiti', opis: 'Koliko će tvoj novac vrijediti za nekoliko godina i kakav je realni prinos.', sto: 'Za zadanu inflaciju i rok, preračunava iznos u današnju kupovnu moć.', go: this.goCalc('inflacija') },
-            { naslov: 'Koliko je već izgubljeno', opis: 'Kupovna moć iznosa iz prošlosti po službenim stopama DZS.', sto: 'Preračunava iznos iz prošlosti u današnju kupovnu moć.', go: this.goCalc('povijest') }
+            { naslov: 'Koliko će novac izgubiti', opis: 'Koliko će tvoj novac vrijediti za nekoliko godina i kakav je realni prinos.', sto: 'Za zadanu inflaciju i rok, preračunava iznos u današnju kupovnu moć.', calc: 'inflacija' },
+            { naslov: 'Koliko je već izgubljeno', opis: 'Kupovna moć iznosa iz prošlosti po službenim stopama DZS.', sto: 'Preračunava iznos iz prošlosti u današnju kupovnu moć.', calc: 'povijest' }
           ]
         }
-      ],
+      ].map((gr) => ({
+        naslov: gr.naslov, opis: gr.opis,
+        // Kartice s calc su prave poveznice; tri kartice ulaganja (gMode nije u
+        // URL-u) ostaju gumbi.
+        kartice: gr.kartice.map((k) => (k.calc
+          ? Object.assign({}, k, { jeLink: true, nijeLink: false, href: this.hrefFor({ tab: 'calc', calcTab: k.calc }), go: this.lnk(this.goCalc(k.calc)) })
+          : Object.assign({}, k, { jeLink: false, nijeLink: true, href: '' })))
+      })),
       isPovijest: s.calcTab === 'povijest',
       pvGodina: s.pvGodina,
       pvGodineOpcije: (() => { const arr = []; for (let y = CPI_ZADNJA - 1; y >= 2000; y--) arr.push(y); return arr; })(),
@@ -10299,7 +10337,7 @@ class Component extends DCLogic {
 
       pokChips: Object.keys(POK_KAT).map((k) => {
         const a = s.pokKat === k, c = seg(a);
-        return { label: POK_KAT[k].naslov, c: c.c, act: c.act, go: () => { this.setState({ pokKat: k }, () => this._syncUrl()); if (typeof window !== 'undefined') { window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; } this.resetHScroll(); } };
+        return { label: POK_KAT[k].naslov, c: c.c, act: c.act, href: this.hrefFor({ tab: 'pok', pokKat: k }), go: this.lnk(() => { this.setState({ pokKat: k }, () => this._syncUrl()); if (typeof window !== 'undefined') { window.scrollTo(0, 0); document.documentElement.scrollTop = 0; document.body.scrollTop = 0; } this.resetHScroll(); }) };
       }),
       pok: {
         naslov: pk.naslov, izvor: pk.izvor, bluf: faqSub(pk.bluf),
@@ -10557,11 +10595,11 @@ class Component extends DCLogic {
       })),
       preview: [
         // Tekstovi su isti kao na stranici Kalkulatori (CALC obitelji ispod).
-        { no: '01', naslov: 'Obračun plaće', opis: 'Bruto 1 → neto, doprinosi, osobni odbitak i trošak poslodavca.', sto: 'Računa u oba smjera i pokazuje kamo ide svaki euro tvoje plaće.', go: this.goCalc('placa') },
-        { no: '02', naslov: 'Izračun kredita', opis: 'Fiksna ili kombinirana stopa, anuiteti i rate, otplatni plan i prijevremena otplata.', sto: 'Računa mjesečni iznos, ukupnu kamatu i učinak dodatnih uplata.', go: this.goCalc('kredit') },
-        { no: '03', naslov: 'Rezultat ulaganja', opis: 'Rast redovne mjesečne uštede kroz godine, uz fazu isplate.', sto: 'Projicira rast mjesečne uštede i koliko dugo izdrži faza isplate.', go: this.goCalc('kamata') },
-        { no: '04', naslov: 'Koliko će novac izgubiti', opis: 'Koliko tvoj novac realno vrijedi za nekoliko godina po današnjim cijenama.', sto: 'Pokazuje koliko kupovne moći iznos izgubi kroz zadani broj godina.', go: this.goCalc('inflacija') }
-      ].slice(0, 3), // početna prikazuje 3 najpopularnija; redoslijed se mijenja iznad
+        { no: '01', naslov: 'Obračun plaće', opis: 'Bruto 1 → neto, doprinosi, osobni odbitak i trošak poslodavca.', sto: 'Računa u oba smjera i pokazuje kamo ide svaki euro tvoje plaće.', calc: 'placa' },
+        { no: '02', naslov: 'Izračun kredita', opis: 'Fiksna ili kombinirana stopa, anuiteti i rate, otplatni plan i prijevremena otplata.', sto: 'Računa mjesečni iznos, ukupnu kamatu i učinak dodatnih uplata.', calc: 'kredit' },
+        { no: '03', naslov: 'Rezultat ulaganja', opis: 'Rast redovne mjesečne uštede kroz godine, uz fazu isplate.', sto: 'Projicira rast mjesečne uštede i koliko dugo izdrži faza isplate.', calc: 'kamata' },
+        { no: '04', naslov: 'Koliko će novac izgubiti', opis: 'Koliko tvoj novac realno vrijedi za nekoliko godina po današnjim cijenama.', sto: 'Pokazuje koliko kupovne moći iznos izgubi kroz zadani broj godina.', calc: 'inflacija' }
+      ].slice(0, 3).map((p) => Object.assign({}, p, { href: this.hrefFor({ tab: 'calc', calcTab: p.calc }), go: this.lnk(this.goCalc(p.calc)) })), // početna prikazuje 3 najpopularnija; redoslijed se mijenja iznad
       trzistePotpis: s.trzisteIzvor + ' · ' + s.trzisteMjesec + (s.trzisteStatus === 'live' ? '' : ' · zadnji poznati podaci'),
 
       moduli: moduli,
