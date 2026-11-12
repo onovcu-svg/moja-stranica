@@ -3087,11 +3087,7 @@
       <div style="text-align:center">
         <h1 style="font-weight:700;font-size:clamp(32px,5.2vw,60px);line-height:1.02;letter-spacing:-.04em;margin:0 auto 18px;max-width:22ch;text-wrap:balance">Hrvatska u brojkama koje te se tiču.</h1>
         <p style="font-weight:400;font-size:clamp(16px,1.9vw,20px);line-height:1.55;color:var(--ink);max-width:56ch;margin:0 auto clamp(22px,3.5vh,32px);text-wrap:pretty">Svi najvažniji pokazatelji za tvoje osobne financije na jednom mjestu. Provjeri stopu inflacije, plaće, kamate, mirovine i cijene nekretnina.</p>
-        <div style="display:inline-flex;gap:clamp(10px,2vw,20px);align-items:center;flex-wrap:wrap;justify-content:center;border:1px solid var(--line);border-radius:980px;padding:9px 18px">
-          <span style="font-weight:400;font-size:12.5px;color:var(--soft)">{{ trzisteLabel }}: <strong style="color:var(--ink);font-weight:500">{{ trzisteMjesec }}</strong></span>
-          <span style="width:1px;height:13px;background:var(--line);display:block"></span>
-          <span style="font-weight:400;font-size:12.5px;color:var(--soft)">Izvori: <strong style="color:var(--ink);font-weight:500">{{ pokIzvori }}</strong></span>
-        </div>
+        <div style="font-weight:400;font-size:12.5px;color:var(--soft)">{{ trzisteLabel }}: <strong style="color:var(--ink);font-weight:500">{{ trzisteMjesec }}</strong></div>
       </div>
     </section>
 
@@ -6006,7 +6002,7 @@ const POK_KAT = {
     ]
   },
   nekretnine: {
-    naslov: 'Nekretnine', izvor: 'DZS i eNekretnine · tržište stambenih nekretnina',
+    naslov: 'Nekretnine', izvor: 'DZS · tržište stambenih nekretnina',
     bluf: 'Cijene stambenih nekretnina u Hrvatskoj u godinu su dana porasle {HPI_RAST}, a od 2015. su se više nego udvostručile.',
     stat: [
       { val: '{HPI_RAST}', label: 'Godišnji rast cijena', sub: 'indeks DZS · {RAZD_NEK}', smjer: { tz: 'hpi' } },
@@ -10452,13 +10448,6 @@ class Component extends DCLogic {
           : ('Zbroj, ' + ksMjLbl(ksIznIdxSaPodatkom[0]) + ' – ' + ksMjLbl(ksIznIdxSaPodatkom[ksIznIdxSaPodatkom.length - 1])),
         iznMjesec: ksMjLbl(ZI)
       },
-      // Zbirna traka izvora: izvedena iz kategorija, da ne moze zaostati za sadrzajem.
-      pokIzvori: (() => {
-        const red = ['HNB', 'DZS', 'HZMO', 'HANFA', 'eNekretnine'];
-        const nadeni = {};
-        Object.keys(POK_KAT).forEach((k) => { red.forEach((n) => { if (POK_KAT[k].izvor.indexOf(n) >= 0) nadeni[n] = true; }); });
-        return red.filter((n) => nadeni[n]).join(' · ');
-      })(),
       nek: {
         od: nkOd + '.', do: nkDo + '.', odNum: nkOd, doNum: nkDo, minGod: NK_PRVA, maxGod: NK_ZADNJA,
         chart: nkChart,
