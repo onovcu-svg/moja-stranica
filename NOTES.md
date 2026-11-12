@@ -4,7 +4,7 @@ Radni dnevnik projekta. Odluke, ograničenja i otvorene stavke.
 **Claude Code: pročitaj ovaj file prije svakog većeg zadatka i ažuriraj ga kad
 se donese nova odluka ili zatvori stavka.**
 
-Zadnje ažuriranje: 11. 11. 2026.
+Zadnje ažuriranje: 12. 11. 2026.
 
 ---
 
@@ -302,6 +302,26 @@ Zadnje ažuriranje: 11. 11. 2026.
   ~113 puta u `index.html` (npr. `style-hover` na linkovima). Element može
   imati i `style` i `style-hover` — to su različita imena atributa, ne
   duplikat. Ne "popravljati" u zaseban CSS.
+- **`style-hover` pravila se omotavaju u `@media (hover: hover)` zakrpom na
+  `insertRule`** (zakrpa je u prvom `<script>` u `<head>` u `index.html`, PRIJE
+  `support.js`; stanje 12. 11. 2026.). Razlog: na dodirnim uređajima (iOS) `:hover`
+  ostaje zalijepljen nakon dodira, pa gumb za temu, FAQ pitanje, info "i" i
+  PDF/mail gumbi ostaju crveni ili povećani kao da su aktivni, a u zaglavlju
+  na iPadu bi uz stranicu koja je stvarno aktivna (`ACC`) bio crven i zadnje
+  dodirnuti link. `support.js` to ne može (vendored, NE DIRATI), a atribut
+  `style-hover` ne prima medija-uvjet; pseudo-ime ide doslovno u selektor, a
+  `@media` u vrijednosti ne prolazi kroz `importantify`. Isto vrijedi za dva
+  statička pravila `a:hover` i `.on-dark a:hover` u `<style>` bloku: ona su
+  omotana izravno u izvoru, jer ne prolaze kroz `support.js`.
+  **Ovisnost, poznata:** zakrpa djeluje samo dok runtime pravila ubacuje kroz
+  `CSSStyleSheet.insertRule` (danas `createPseudoSheet` u `support.js`). Ako se
+  runtime ikad promijeni (npr. `adoptedStyleSheets` ili `textContent`), zakrpa
+  tiho prestaje raditi i hover se vraća na nezaštićen, bez greške u konzoli.
+  Provjera nakon svake zamjene `support.js`: u učitanoj stranici ne smije biti
+  nijedno golo pravilo `.scpN:hover` izvan `@media (hover: hover)`.
+  Uvjet je `hover: hover`, ne `any-hover: hover`: `any-hover` bi vratio
+  zalijepljeni hover na iPadu s mišem. Cijena: iPad s priključenim mišem nema
+  hover ukrase (prihvaćeno, rijetka kombinacija).
 - **`TRZISTE` retci imaju opcionalno polje `dec`** (broj decimala u tickeru),
   isti obrazac kao postojeći `fmt`. `tickList` čita `x.dec ?? 0` za eurske
   stavke i `x.dec ?? 2` za postotke (`9022`) — **zadana vrijednost ovisi o
