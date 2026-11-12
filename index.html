@@ -11,18 +11,21 @@
     if (dark) document.documentElement.classList.add('on-dark');
   } catch (e) {}
 })();
-// :hover samo na uređajima koji stvarno imaju hover. support.js generira pravila
-// iz atributa style-hover kroz insertRule i ne podržava medija-uvjet, pa se ovdje
-// svako takvo pravilo omotava u @media (hover: hover). Mora biti PRIJE support.js.
-// Ovisi o tome da runtime pravila ubacuje kroz insertRule (NOTES.md §3); ako to
-// prestane, zakrpa tiho ne djeluje i hover se vraća na nezaštićen.
+// :hover samo na uređajima koji stvarno imaju hover, :active samo na onima koji ga
+// nemaju. support.js generira pravila iz atributa style-hover i style-active kroz
+// insertRule i ne podržava medija-uvjet, pa se ovdje svako takvo pravilo omotava:
+// :hover u @media (hover: hover), :active u @media (hover: none). Mora biti PRIJE
+// support.js. Ovisi o tome da runtime pravila ubacuje kroz insertRule (NOTES.md §3);
+// ako to prestane, zakrpa tiho ne djeluje i pravila se vraćaju na nezaštićena.
 (function(){
   try {
     var ubaci = CSSStyleSheet.prototype.insertRule;
     CSSStyleSheet.prototype.insertRule = function (pravilo) {
       var arg = Array.prototype.slice.call(arguments);
-      if (typeof pravilo === 'string' && /^\s*\.scp[0-9a-z]+:hover\s*\{/.test(pravilo)) {
-        try { return ubaci.apply(this, ['@media (hover: hover) {' + pravilo + '}'].concat(arg.slice(1))); } catch (e) {}
+      var m = typeof pravilo === 'string' && /^\s*\.scp[0-9a-z]+:(hover|active)\s*\{/.exec(pravilo);
+      if (m) {
+        var uvjet = m[1] === 'hover' ? '(hover: hover)' : '(hover: none)';
+        try { return ubaci.apply(this, ['@media ' + uvjet + ' {' + pravilo + '}'].concat(arg.slice(1))); } catch (e) {}
       }
       return ubaci.apply(this, arg);
     };
@@ -90,6 +93,13 @@
   @media (hover: hover) { a:hover { color: #09090B; } }
   .on-dark a { color: #EF4444; }
   @media (hover: hover) { .on-dark a:hover { color: #FAFAFA; } }
+  /* Pritisak samo tamo gdje hovera nema (dodir). Samo oblikovani elementi (pilule,
+     kružići, kartice), prepoznati po inline border-radius: tekstualni redovi (FAQ,
+     navigacija, podnožje) pri scale(.98) skaču bočno ~4 px. Čipovi (data-seg-active)
+     nemaju vlastitu pozadinu pa ih nema ni ovdje. Vidi NOTES.md §3. */
+  @media (hover: none) {
+    :is(a, button)[style*="border-radius"]:not([data-seg-active]):not(:disabled):active { transform: scale(.98); }
+  }
   input, select, textarea, button { font-family: inherit; color: inherit; }
   input[type="range"] { -webkit-appearance: none; appearance: none; height: 3px; background: var(--line2); border-radius: 3px; outline: none; }
   input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: #FFF; cursor: grab; border: none; box-shadow: 0 1px 4px rgba(0,0,0,.3), 0 0 0 1px rgba(0,0,0,.08); }
@@ -2827,7 +2837,7 @@
       </sc-if>
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:clamp(18px,2.4vw,28px)">
         <sc-for list="{{ objave }}" as="o" hint-placeholder-count="6">
-          <div style="position:relative;display:flex;flex-direction:column;text-align:left;cursor:pointer;background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:transform .25s ease,box-shadow .25s ease,border-color .25s" style-hover="transform:translateY(-4px);box-shadow:var(--shUp);border-color:var(--line2)">
+          <div style="position:relative;display:flex;flex-direction:column;text-align:left;cursor:pointer;background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:transform .25s ease,box-shadow .25s ease,border-color .25s" style-hover="transform:translateY(-4px);box-shadow:var(--shUp);border-color:var(--line2)" style-active="transform:scale(.98)">
             <a href="{{ o.clanakHref }}" sc-camel-on-click="{{ o.otvoriLink }}" aria-label="{{ o.naslov }}" style="position:absolute;inset:0;z-index:1"></a>
             <div style="position:relative;aspect-ratio:16/9;background:var(--sec);overflow:hidden">
               <img src="{{ o.thumb }}" alt="{{ o.naslov }}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block">

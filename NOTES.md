@@ -322,6 +322,34 @@ Zadnje ažuriranje: 12. 11. 2026.
   Uvjet je `hover: hover`, ne `any-hover: hover`: `any-hover` bi vratio
   zalijepljeni hover na iPadu s mišem. Cijena: iPad s priključenim mišem nema
   hover ukrase (prihvaćeno, rijetka kombinacija).
+- **`:active` (pritisak) postoji samo na dodiru** (stanje 12. 11. 2026.): isti
+  mehanizam, ista zakrpa. Zakrpa je proširena na `hover|active`: `style-hover` ide
+  u `@media (hover: hover)`, `style-active` u `@media (hover: none)`. Na desktopu
+  hover već daje povratnu informaciju prije klika, a bez ovog razdvajanja bi
+  hover `!important` (0,2,0) pobjeđivao običan `:active`. Dva izvora pravila:
+  1. **Opće pravilo** u statičkom `<style>` bloku, u `@media (hover: none)`:
+     `:is(a, button)[style*="border-radius"]:not([data-seg-active]):not(:disabled):active { transform: scale(.98) }`.
+     Samo OBLIKOVANI elementi (pilule, kružići, kartice), prepoznati po inline
+     `border-radius`. Tekstualni redovi (FAQ pitanja pune širine, navigacija,
+     podnožje, poveznice u tekstu, logotip) namjerno nisu uključeni: scale(.98) na
+     redu od 394 px pomaknuo bi tekst bočno ~4 px, što je trzaj, ne pritisak.
+     Čipovi i segmentirane trake (`data-seg-active`) isključeni su jer nemaju
+     vlastitu pozadinu (skalirao bi se samo tekst, ~1 px, nevidljivo); njihova
+     povratna informacija je klizni indikator nakon klika.
+  2. **`style-active`** na pojedinom elementu, za ono što opće pravilo ne
+     hvata: danas samo blog kartica (`div` s nevidljivim preklapajućim `<a>` preko
+     cijele kartice). `:active` se prenosi na roditelje, pa pritisak na `<a>`
+     aktivira karticu.
+  **Ovisnost, poznata:** opće pravilo hvata elemente po inline `border-radius`. Ako
+  element izgubi radijus (ili se stil premjesti u klasu), tiho ispadne iz pravila:
+  gubitak učinka, ne kvar. Bazni `transition` namjerno NIJE dodan: pritisak
+  animira samo elemente čiji inline `transition` već sadrži `transform` ili
+  `all` (oko 62 % oblikovanih); ostali (mail, PDF, "Očisti polja", info "i",
+  tickerski redovi) skaču za 2 %, što je prihvaćeno. Zakrpa ostaje fail-safe:
+  ako `insertRule` nestane, `style-active` bi djelovao i na desktopu (jedna
+  kartica); opće pravilo ostaje ispravno jer je statičko.
+  Zalijepljeni hover i stvarni pritisak na iOS-u nije moguće reproducirati u
+  Chromeu; provjerava se na uređaju.
 - **`TRZISTE` retci imaju opcionalno polje `dec`** (broj decimala u tickeru),
   isti obrazac kao postojeći `fmt`. `tickList` čita `x.dec ?? 0` za eurske
   stavke i `x.dec ?? 2` za postotke (`9022`) — **zadana vrijednost ovisi o
