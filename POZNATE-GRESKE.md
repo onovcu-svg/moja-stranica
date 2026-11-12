@@ -74,6 +74,15 @@ nula.**
 Nije utvrđeno je li svjesna odluka.
 *Rješivo odmah.*
 
+**Opis prilagodbe na `/edukacija` je u pasivu** (stanje 12. 11. 2026.).
+Sekcija „Prilagodba vašim potrebama" (`index.html`, odlomak iza naslova
+„Program se slaže oko vas, ne obrnuto.") glasi: „Sadržaj i način održavanja
+mogu se u potpunosti prilagoditi organizacijskim potrebama, od izbora modula do
+rasporeda termina." Pasiv („mogu se prilagoditi") nije uhvaćen u jezičnim
+izmjenama jer nije bio na popisu. Sitnica, ne dira se dok se ne odluči.
+*Rješivo odmah — jedna rečenica, npr. aktiv „Sadržaj i način održavanja
+prilagođavamo…" ili jednina prema odluci o množini.*
+
 ## Rubni slučajevi
 
 **Prethodno odjavljena adresa ne može se ponovno prijaviti, ali dobiva potvrdu
