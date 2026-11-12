@@ -108,6 +108,15 @@ postavi čim se tipkovnica zatvori.
 
 ## Nepotpuno
 
+**Meta opisi navode samo DZS i HNB kao izvore pokazatelja** (stanje 12. 11. 2026.).
+`META_POK_INDEX` (`index.html` i `middleware.js`) kaže „Podaci su iz DZS-a i HNB-a.",
+a opis početne („…aktualni pokazatelji HNB-a i DZS-a") isto tako u `index.html`
+(meta, og i twitter), `middleware.js` i `llms.txt`. Izostavljaju HZMO i HANFA, koji
+hrane mirovine. Nepreciznost, ne greška: ono što tvrde je točno, ali nije potpuno.
+*Vrijedi ispraviti kad se meta bude dirala; mijenja se na svim mjestima zajedno
+(`check-meta-sync.js` hvata razliku između `index.html` i `middleware.js`, ali ne
+`llms.txt`).*
+
 **`sekcije` ne stižu u mail.** Jedanaest potvrđenih slučajeva — detalji
 prijelaza na kombiniranu stopu, prijevremena otplata, interkalarna kamata,
 godišnji iznosi plaće, faza isplate, „gdje si u otplati" i drugo.
@@ -213,8 +222,15 @@ Uspavano jer je `imaGraf: false`.
 - `on.goPlaca` i sedam srodnih handlera — funkcionalni skokovi na drugi
   kalkulator, nikad zakačeni. `goHome` i `goHub` istog obrasca jesu spojeni.
 - oko 40 `*S` slidera, `mirScenView`, `schedule()`
-- `trzistePotpis`, `PORTFELJI.meta[*].start`, `ZIGOVI`, `MODULI[*].trajanje`
+- `PORTFELJI.meta[*].start`, `ZIGOVI`, `MODULI[*].trajanje`
 - `mailEndpoint` prop, `NASTUPI` prazna konstanta, `defaultTab` mrtav enum
+- `trzisteIzvor` i `trzistePotpis` (stanje 12. 11. 2026.) — nijedan predložak ih ne
+  prikazuje; `trzistePotpis` se samo računa u `renderVals`, a `trzisteIzvor`
+  ('HNB · DZS · HANFA') bez HZMO-a je i zastario
+- `loadMarket` i `marketApiUrl` — mehanizam za povlačenje podataka nikad nije
+  spojen (vidi `TRZISTE` iznad)
+- rezervna vrijednost `'HNB · DZS'` u `potpis` pokazatelja na početnoj — nikad se
+  ne aktivira jer svaki pokazatelj u `TRZISTE` ima vlastiti `izvor`
 - rupe u reset listi: `mailSlanje`, `editKey`/`editTxt`, `kamoHover`,
   `placaHover`, `gh`
 - honeypot mrtav `value` binding — zaštita radi, binding je kozmetički mrtav
